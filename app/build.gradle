@@ -36,12 +36,6 @@ android {
     }
 }
 
-repositories {
-    jcenter()
-    maven { url '/home/mahasamatman/SDK/android-sdk-linux/extras/android/m2repository' }
-}
-
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     //Unit testing
