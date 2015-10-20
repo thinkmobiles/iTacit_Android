@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:paddingTop="15dp"
+              android:paddingLeft="15dp">
+
+   <ImageView
+        android:id="@+id/iv_icon_ILN"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+       />
+
+   <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_title_ILN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="10dp"
+            android:text="Care Giving Reminders,"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:lines="2"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/tv_category_ILN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="10dp"
+            android:text="Care Giving"
+            android:textSize="15sp"
+            android:layout_marginBottom="10dp"/>
+
+	     <TextView
+		    android:id="@+id/tv_time_ILN"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="left"
+		    android:layout_marginLeft="10dp"
+		    android:text="12:57 am"
+		    android:textSize="15sp"/>
+
+         <ImageView
+           android:layout_width="match_parent"
+           android:layout_height="2dp"
+           android:layout_marginLeft="10dp"
+           android:background="@color/bg_line"
+           android:layout_marginTop="15dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

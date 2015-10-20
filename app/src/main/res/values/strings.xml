@@ -15,4 +15,5 @@
         completions."
         completions."
     </string>
+    <string name="search_hint">Search contacts &amp; places</string>
 </resources>
