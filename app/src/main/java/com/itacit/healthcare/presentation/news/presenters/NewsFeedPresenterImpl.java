@@ -1,4 +1,4 @@
-package com.itacit.healthcare.presenters;
+package com.itacit.healthcare.presentation.news.presenters;
 
 /**
  * Created by root on 13.10.15.

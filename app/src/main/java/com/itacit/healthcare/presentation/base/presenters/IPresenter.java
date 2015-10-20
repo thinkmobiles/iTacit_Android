@@ -1,6 +1,6 @@
-package com.itacit.healthcare.presenters.base;
+package com.itacit.healthcare.presentation.base.presenters;
 
-import com.itacit.healthcare.views.IView;
+import com.itacit.healthcare.presentation.base.views.IView;
 
 /**
  * Created by root on 13.10.15.

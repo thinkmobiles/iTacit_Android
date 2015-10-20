@@ -1,4 +1,4 @@
-package com.itacit.healthcare.views;
+package com.itacit.healthcare.presentation.base.views;
 
 /**
  * Created by root on 13.10.15.
