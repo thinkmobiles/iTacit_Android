@@ -10,6 +10,7 @@ import com.itacit.healthcare.presentation.news.presenters.NewsFeedPresenterImpl;
 
 import java.util.List;
 
+import butterknife.Bind;
 import rx.Observable;
 import rx.android.widget.WidgetObservable;
 
@@ -18,8 +19,8 @@ import rx.android.widget.WidgetObservable;
  * Created by root on 13.10.15.
  */
 public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implements INewsFeedView {
-
-    EditText mSearchNewsEt;
+    @Bind(R.id.et_search_FN)
+    EditText searchNewsEt;
 
     @Override
     protected int getLayoutRes() {
@@ -43,6 +44,6 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 
     @Override
     public Observable<String> getNewsSearchTextObs() {
-        return WidgetObservable.text(mSearchNewsEt).map(e -> e.text().toString());
+        return WidgetObservable.text(searchNewsEt).map(e -> e.text().toString());
     }
 }

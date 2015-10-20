@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 
 import com.itacit.healthcare.presentation.base.presenters.IPresenter;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by root on 13.10.15.
  */
@@ -19,7 +21,9 @@ public abstract class BaseFragmentView<P extends IPresenter> extends Fragment im
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(getLayoutRes(), container, false);
+        View view = inflater.inflate(getLayoutRes(), container, false);
+        ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
@@ -33,6 +37,7 @@ public abstract class BaseFragmentView<P extends IPresenter> extends Fragment im
     public void onDestroyView() {
         super.onDestroyView();
         mPresenter.detachView();
+        ButterKnife.unbind(this);
     }
 
 
