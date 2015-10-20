@@ -8,5 +8,6 @@ import com.itacit.healthcare.presentation.news.views.INewsFeedView;
  */
 public abstract class NewsFeedPresenter extends BasePresenter<INewsFeedView> {
     public abstract void loadNews();
+    public abstract void searchNews(String searchWord);
 
 }

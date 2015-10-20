@@ -51,7 +51,7 @@ dependencies {
     compile 'com.android.support:support-annotations:23.1.0'
 
     //Reactive extensions
-    compile 'io.reactivex:rxandroid:1.0.1'
+    compile 'io.reactivex:rxandroid:0.25.0'
     compile 'io.reactivex:rxjava:1.0.14'
 
     //Views injection
