@@ -5,51 +5,6 @@
               android:background="@android:color/white"
               android:orientation="vertical">
 
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="65dp">
-
-    <ImageButton
-        android:id="@+id/ib_search_FN"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="7dp"
-        android:layout_marginLeft="7dp"
-        android:layout_marginTop="7dp"
-        android:background="@color/bg_grey"
-        android:src="@android:drawable/ic_menu_search"/>
-
-    <EditText
-        android:id="@+id/et_search_FN"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="7dp"
-        android:layout_marginTop="7dp"
-        android:layout_toLeftOf="@+id/ib_close_FN"
-        android:layout_toRightOf="@+id/ib_search_FN"
-        android:background="@color/bg_grey"
-        android:hint="@string/search_hint"/>
-
-    <ImageButton
-        android:id="@+id/ib_close_FN"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="7dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="7dp"
-        android:background="@color/bg_grey"
-        android:src="@android:drawable/ic_menu_close_clear_cancel"
-        android:visibility="gone"/>
-
-</RelativeLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/bg_line"
-        />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_FN"
