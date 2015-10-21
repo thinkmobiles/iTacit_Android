@@ -18,15 +18,12 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp">
+                android:layout_margin="@dimen/layout_search_margin">
 
                 <ImageButton
                     android:id="@+id/ib_search_FN"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_marginBottom="0dp"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginTop="0dp"
                     android:background="@color/bg_grey"
                     android:layout_centerVertical="true"
                     android:src="@android:drawable/ic_menu_search"/>
@@ -35,9 +32,6 @@
                     android:id="@+id/et_search_FN"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="7dp"
-                    android:layout_marginTop="7dp"
                     android:layout_toLeftOf="@+id/ib_close_FN"
                     android:layout_toRightOf="@+id/ib_search_FN"
                     android:background="@color/bg_grey"
@@ -49,9 +43,6 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_alignParentRight="true"
-                    android:layout_marginBottom="7dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="7dp"
                     android:background="@color/bg_grey"
                     android:layout_centerVertical="true"
                     android:src="@android:drawable/ic_menu_close_clear_cancel"
@@ -64,5 +55,6 @@
 <FrameLayout
     android:id="@+id/fl_content_AM"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    android:layout_height="match_parent"
+    android:visibility="gone"/>
 </LinearLayout>

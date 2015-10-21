@@ -21,32 +21,25 @@
             android:id="@+id/tv_title_ILN"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginLeft="10dp"
             android:text="Care Giving Reminders,"
-            android:textSize="20sp"
-            android:textStyle="bold"
             android:lines="2"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            style="@style/textTitle"/>
 
         <TextView
             android:id="@+id/tv_category_ILN"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginLeft="10dp"
+            style="@style/textCategory"
             android:text="Care Giving"
-            android:textSize="15sp"
             android:layout_marginBottom="10dp"/>
 
 	     <TextView
 		    android:id="@+id/tv_time_ILN"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
-		    android:layout_gravity="left"
-		    android:layout_marginLeft="10dp"
-		    android:text="12:57 am"
-		    android:textSize="15sp"/>
+            android:text="12:57 am"
+            style="@style/textCategory"/>
 
          <ImageView
            android:layout_width="match_parent"
