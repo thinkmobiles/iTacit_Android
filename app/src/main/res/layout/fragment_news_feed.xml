@@ -4,14 +4,52 @@
               android:layout_height="match_parent"
               android:background="@android:color/white"
               android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/layout_search_margin"
+        >
 
+        <ImageButton
+            android:id="@+id/ib_search_FN"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@color/bg_grey"
+            android:layout_centerVertical="true"
+            android:src="@android:drawable/ic_menu_search"/>
+
+        <EditText
+            android:id="@+id/et_search_FN"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_toLeftOf="@+id/ib_close_FN"
+            android:layout_toRightOf="@+id/ib_search_FN"
+            android:background="@color/bg_grey"
+            android:layout_centerVertical="true"
+            android:hint="@string/search_hint"/>
+
+        <ImageButton
+            android:id="@+id/ib_close_FN"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:background="@color/bg_grey"
+            android:layout_centerVertical="true"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:visibility="visible"/>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@drawable/bottom_shadow"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_FN"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
-        android:visibility="gone"
         android:scrollbars="vertical"/>
 
 </LinearLayout>

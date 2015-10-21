@@ -10,10 +10,11 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions.""Contacts permissions are needed for providing email"Contacts permissions are needed for providing email"Contacts permissions are needed for providing email"Contacts permissions are needed for providing email"Contacts permissions are needed for providing email"Contacts permissions are needed for providing email"Contacts permissions are needed for providing email"Contacts permissions are needed for providing email"Contacts permissions are needed for providing email"Contacts permissions are needed for providing email"Contacts permissions are needed for providing email"Contacts permissions are needed for providing email"Contacts permissions are needed for providing email"Contacts permissions are needed for providing email"Contacts permissions are needed for providing email"Contacts permissions are needed for providing email"Contacts permissions are needed for providing email"Contacts permissions are needed for providing email"Contacts permissions are needed for providing email"Contacts permissions are needed for providing email"Contacts permissions are needed for providing email"Contacts permissions are needed for providing email"Contacts permissions are needed for providing email"Contacts permissions are needed for providing email"Contacts permissions are needed for providing email"Contacts permissions are needed for providing email"Contacts permissions are needed for providing email
-        completions."
-        completions."
-    </string>
+
     <string name="search_hint">Search contacts &amp; places</string>
+
+
+    <!-- Titles -->
+    <string name="title_news_feed">News</string>
+
 </resources>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="horizontal"
@@ -21,7 +22,7 @@
             android:id="@+id/tv_title_ILN"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Care Giving Reminders,"
+            tools:text="Care Giving Reminders,"
             android:lines="2"
             android:layout_marginBottom="10dp"
             style="@style/textTitle"/>
@@ -31,14 +32,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/textCategory"
-            android:text="Care Giving"
+            tools:text="Care Giving"
             android:layout_marginBottom="10dp"/>
 
 	     <TextView
 		    android:id="@+id/tv_time_ILN"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
-            android:text="12:57 am"
+            tools:text="12:57 am"
             style="@style/textCategory"/>
 
          <ImageView
