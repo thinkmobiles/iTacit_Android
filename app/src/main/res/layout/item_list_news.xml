@@ -24,7 +24,6 @@
             android:layout_height="wrap_content"
             tools:text="Care Giving Reminders,"
             android:lines="2"
-            android:layout_marginBottom="10dp"
             style="@style/textTitle"/>
 
         <TextView
@@ -42,12 +41,12 @@
             tools:text="12:57 am"
             style="@style/textCategory"/>
 
-         <ImageView
+         <View
            android:layout_width="match_parent"
            android:layout_height="2dp"
            android:layout_marginLeft="10dp"
            android:background="@color/bg_line"
-           android:layout_marginTop="15dp"/>
+           android:layout_marginTop="5dp"/>
 
     </LinearLayout>
 
