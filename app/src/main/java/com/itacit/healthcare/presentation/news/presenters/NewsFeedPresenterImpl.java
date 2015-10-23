@@ -2,6 +2,8 @@ package com.itacit.healthcare.presentation.news.presenters;
 
 import com.itacit.healthcare.data.News;
 import com.itacit.healthcare.domain.interactor.GetNewsInteractor;
+import com.itacit.healthcare.presentation.news.mapper.NewsModelDataMapper;
+import com.itacit.healthcare.presentation.news.models.NewsModel;
 import com.itacit.healthcare.presentation.news.views.INewsFeedView;
 
 import java.util.List;
@@ -13,22 +15,23 @@ import rx.Subscription;
  * Created by root on 13.10.15.
  */
 public class NewsFeedPresenterImpl extends NewsFeedPresenter {
-
     public static final int SEARCH_TEXT_MIN_LENGTH = 3;
     private Subscription mSubscriptionSearchText;
     private GetNewsInteractor mNewsInteractor;
+    private NewsModelDataMapper mDataMapper;
 
-    public NewsFeedPresenterImpl(GetNewsInteractor newsInteractor) {
+    public NewsFeedPresenterImpl(GetNewsInteractor newsInteractor, NewsModelDataMapper newsModelDataMapper) {
         mNewsInteractor = newsInteractor;
+        mDataMapper = newsModelDataMapper;
     }
 
     @Override
     public void attachView(INewsFeedView view) {
         super.attachView(view);
-        if (mSubscriptionSearchText == null) {
+        if (mSubscriptionSearchText == null && getView()!= null) {
             mSubscriptionSearchText = getView().getNewsSearchTextObs()
                     .filter(t -> t.length() > SEARCH_TEXT_MIN_LENGTH)
-                    .subscribe(t -> searchNews(t));
+                    .subscribe(this::searchNews);
         }
     }
 
@@ -39,6 +42,11 @@ public class NewsFeedPresenterImpl extends NewsFeedPresenter {
             mSubscriptionSearchText.unsubscribe();
             mSubscriptionSearchText = null;
         }
+    }
+
+    private void showNewsOnView(List<News> news) {
+        List<NewsModel> newsModels = mDataMapper.transform(news);
+        if(getView() != null) getView().showNews(newsModels);
     }
 
     @Override
@@ -65,7 +73,7 @@ public class NewsFeedPresenterImpl extends NewsFeedPresenter {
 
         @Override
         public void onNext(List<News> newses) {
-
+            showNewsOnView(newses);
         }
     }
 }

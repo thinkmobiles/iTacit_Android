@@ -29,9 +29,10 @@ public class VisibleFilterChip extends ImageSpan implements FilterChip {
     private FilterChip.FilterType mFilterType;
 
 
-    public VisibleFilterChip(final Drawable drawable, FilterChip.FilterType filterType) {
+    public VisibleFilterChip(final Drawable drawable, String displayText, FilterChip.FilterType filterType) {
         super(drawable, DynamicDrawableSpan.ALIGN_BOTTOM);
         mFilterType = filterType;
+        mDisplay = displayText;
     }
 
     @Override

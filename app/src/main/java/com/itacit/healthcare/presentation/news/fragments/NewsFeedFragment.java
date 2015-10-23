@@ -1,23 +1,26 @@
 package com.itacit.healthcare.presentation.news.fragments;
 
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.EditText;
 
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.GetNewsInteractor;
 import com.itacit.healthcare.presentation.base.views.BaseFragmentView;
+import com.itacit.healthcare.presentation.news.mapper.NewsModelDataMapper;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
 import com.itacit.healthcare.presentation.news.presenters.NewsFeedPresenter;
 import com.itacit.healthcare.presentation.news.presenters.NewsFeedPresenterImpl;
 import com.itacit.healthcare.presentation.news.views.INewsFeedView;
+import com.jakewharton.rxbinding.widget.RxTextView;
 
 import java.util.List;
 
 import butterknife.Bind;
 import rx.Observable;
-import rx.android.widget.WidgetObservable;
 
 
 /**
@@ -37,6 +40,12 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mPresenter.loadNews();
+    }
+
+    @Override
     protected void setUpActionBar(ActionBar actionBar) {
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(R.string.title_news_feed);
@@ -53,7 +62,7 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 
     @Override
     protected NewsFeedPresenter createPresenter() {
-        return new NewsFeedPresenterImpl(new GetNewsInteractor());
+        return new NewsFeedPresenterImpl(new GetNewsInteractor(), new NewsModelDataMapper());
     }
 
     @Override
@@ -68,6 +77,6 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 
     @Override
     public Observable<String> getNewsSearchTextObs() {
-        return WidgetObservable.text(searchNewsEt).map(e -> e.text().toString());
+        return RxTextView.textChangeEvents(searchNewsEt).map(e -> e.text().toString());
     }
 }
