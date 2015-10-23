@@ -6,4 +6,5 @@
     <color name="bg_grey">#f3f4f7</color>
     <color name="bg_line">#E1E1E1</color>
     <color name="text_dark_grey">#313131</color>
+    <color name="btn_blue">#02aff1</color>
 </resources>

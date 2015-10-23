@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rl_search_FNSF">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/et_serch_FNSF"
+            android:lines="2"
+            />
+
+        <ImageButton
+                android:id="@+id/ib_close_FN"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:background="@android:color/white"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rl_author_FNSF">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/rl_author_title_FNSF">
+
+	            <ImageView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:id="@+id/iv_icon_author_FNSF"
+		            android:layout_alignParentLeft="true"
+		            android:layout_alignParentStart="true"
+		            android:src="@android:drawable/ic_menu_myplaces"
+		            android:layout_margin="5dp"
+		            android:layout_centerVertical="true"/>
+
+	            <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="@string/author"
+		            android:id="@+id/tv_label_author_FNSF"
+		            android:layout_toRightOf="@+id/iv_icon_author_FNSF"
+		            style="@style/labelFilter"/>
+
+	            <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            tools:text="3"
+		            android:id="@+id/tv_count_author_FNSF"
+		            android:layout_toLeftOf="@+id/iv_expand_author_FNSF"
+		            android:layout_margin="5dp"
+		            android:layout_centerVertical="true"/>
+
+	            <ImageView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:id="@+id/iv_expand_author_FNSF"
+		            android:layout_alignParentEnd="true"
+		            android:layout_alignParentRight="true"
+		            android:src="@android:drawable/arrow_down_float"
+		            android:layout_margin="5dp"
+		            android:layout_centerVertical="true"/>
+            </RelativeLayout>
+
+	        <android.support.v7.widget.RecyclerView
+		        android:id="@+id/recycler_view_authors_FNSF"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:background="@android:color/white"
+		        android:visibility="gone"
+		        android:layout_below="@+id/rl_author_title_FNSF"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rl_category_FNSF">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/rl_category_title_FNSF">
+
+	            <ImageView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:id="@+id/iv_icon_category_FNSF"
+		            android:layout_alignParentLeft="true"
+		            android:layout_alignParentStart="true"
+		            android:src="@android:drawable/ic_menu_gallery"
+		            android:layout_margin="5dp"
+		            android:layout_centerVertical="true"/>
+
+	            <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="@string/category"
+		            android:id="@+id/tv_label_category_FNSF"
+		            android:layout_toRightOf="@+id/iv_icon_category_FNSF"
+		            style="@style/labelFilter"/>
+
+	            <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            tools:text="3"
+		            android:id="@+id/tv_count_category_FNSF"
+		            android:layout_toLeftOf="@+id/iv_expand_category_FNSF"
+		            android:layout_margin="5dp"
+		            android:layout_centerVertical="true"/>
+
+	            <ImageView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:id="@+id/iv_expand_category_FNSF"
+		            android:layout_alignParentEnd="true"
+		            android:layout_alignParentRight="true"
+		            android:src="@android:drawable/arrow_down_float"
+		            android:layout_margin="5dp"
+		            android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
+
+	        <android.support.v7.widget.RecyclerView
+		        android:id="@+id/recycler_view_categories_FNSF"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:background="@android:color/white"
+		        android:layout_below="@+id/rl_category_title_FNSF"
+		        android:visibility="gone"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rl_date_FNSF">
+
+
+	            <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:textAppearance="?android:attr/textAppearanceSmall"
+		            android:text="@string/from"
+		            android:id="@+id/tv_label_from_FNSF"
+		            android:layout_alignParentTop="true"
+		            android:layout_alignParentLeft="true"
+		            android:layout_alignParentStart="true"
+	                android:layout_marginLeft="@dimen/text_margin"/>
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_date"
+                    android:id="@+id/tv_from_FNSF"
+                    android:drawableLeft="@android:drawable/ic_menu_my_calendar"
+                    android:layout_alignStart="@+id/tv_label_from_FNSF"
+                    android:layout_below="@id/tv_label_from_FNSF"
+                    style="@style/tv_date"/>
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_date"
+                    android:drawableLeft="@android:drawable/ic_menu_my_calendar"
+                    android:id="@+id/tv_to_FNSF"
+                    android:layout_marginRight="@dimen/text_margin"
+                    style="@style/tv_date"
+                    android:layout_alignTop="@+id/tv_from_FNSF"
+	                android:layout_alignParentRight="true"/>
+	            <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:textAppearance="?android:attr/textAppearanceSmall"
+		            android:text="@string/to"
+		            android:id="@+id/tv_label_to_FNSF"
+		            android:layout_alignParentTop="true"
+		            android:layout_alignStart="@+id/tv_to_FNSF"/>
+
+
+
+	        <DatePicker
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/datePicker_FNSF"
+                    android:layout_below="@id/tv_from_FNSF"
+                    android:calendarViewShown="false"
+                    android:datePickerMode="spinner"
+                    android:layout_centerHorizontal="true"
+                    android:theme="@style/Base.Theme.AppCompat.Light"/>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rl_done_date_FNSF"
+                android:layout_below="@id/datePicker_FNSF"
+                >
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/done"
+                    android:id="@+id/tv_done_FNSF"
+                    android:drawableLeft="@android:drawable/checkbox_on_background"
+                    android:layout_alignParentLeft="true"
+                    style="@style/tv_date"
+                    android:layout_marginLeft="10dp"/>
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cancel"
+                    android:drawableLeft="@android:drawable/ic_menu_close_clear_cancel"
+                    android:id="@+id/tv_cancel_FNSF"
+                    android:layout_alignParentRight="true"
+                    style="@style/tv_date"
+                    android:layout_marginRight="10dp"
+                    android:layout_alignTop="@+id/tv_done_FNSF"/>
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="@string/search"
+            android:id="@+id/btn_search_FNSF"
+            android:layout_gravity="center_horizontal"
+            android:capitalize="characters"
+            android:background="@drawable/selector_btn_search"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/btn_text_size"/>
+    </LinearLayout>
+</ScrollView>
