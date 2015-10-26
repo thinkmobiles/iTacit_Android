@@ -4,9 +4,10 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <dimen name="layout_search_margin">10dp</dimen>
-    <dimen name="text_margin">10dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
     <dimen name="padding_btn_top">10dp</dimen>
     <dimen name="padding_btn_side">30dp</dimen>
-    <dimen name="corner_radius_btn">25</dimen>
+    <dimen name="corner_radius_btn">25dp</dimen>
     <dimen name="btn_text_size">18sp</dimen>
+    <dimen name="author_img_size">40dp</dimen>
 </resources>

@@ -16,7 +16,7 @@
             android:layout_height="48dp"
             android:background="@color/bg_grey"
             android:layout_centerVertical="true"
-            android:src="@android:drawable/ic_menu_search"/>
+            android:src="@drawable/ic_search"/>
 
         <com.itacit.healthcare.chipsView.ChipsEditText
             android:id="@+id/et_search_FN"
@@ -25,6 +25,7 @@
             android:layout_toLeftOf="@+id/ib_close_FN"
             android:layout_toRightOf="@+id/ib_search_FN"
             android:background="@color/bg_grey"
+            android:textSize="14sp"
             android:layout_centerVertical="true"
             android:hint="@string/search_hint"/>
 
@@ -35,7 +36,7 @@
             android:layout_alignParentRight="true"
             android:background="@color/bg_grey"
             android:layout_centerVertical="true"
-            android:src="@drawable/btn_del"
+            android:src="@drawable/ic_del_search"
             android:visibility="visible"/>
 
     </RelativeLayout>

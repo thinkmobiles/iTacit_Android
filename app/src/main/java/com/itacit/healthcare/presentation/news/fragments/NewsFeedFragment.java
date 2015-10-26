@@ -13,7 +13,6 @@ import com.itacit.healthcare.presentation.base.views.BaseFragmentView;
 import com.itacit.healthcare.presentation.news.mapper.NewsModelDataMapper;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
 import com.itacit.healthcare.presentation.news.presenters.NewsFeedPresenter;
-import com.itacit.healthcare.presentation.news.presenters.NewsFeedPresenterImpl;
 import com.itacit.healthcare.presentation.news.views.INewsFeedView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
@@ -62,7 +61,7 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 
     @Override
     protected NewsFeedPresenter createPresenter() {
-        return new NewsFeedPresenterImpl(new GetNewsInteractor(), new NewsModelDataMapper());
+        return new NewsFeedPresenter(new GetNewsInteractor(), new NewsModelDataMapper());
     }
 
     @Override

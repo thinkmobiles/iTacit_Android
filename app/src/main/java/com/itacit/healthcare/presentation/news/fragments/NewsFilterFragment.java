@@ -2,15 +2,14 @@ package com.itacit.healthcare.presentation.news.fragments;
 
 import android.support.v7.app.ActionBar;
 
-import com.itacit.healthcare.presentation.base.presenters.IPresenter;
 import com.itacit.healthcare.presentation.base.views.BaseFragmentView;
-import com.itacit.healthcare.presentation.news.presenters.NewsSearchFilterPresenter;
-import com.itacit.healthcare.presentation.news.views.INewsSearchFilterView;
+import com.itacit.healthcare.presentation.news.presenters.NewsFilterPresenter;
+import com.itacit.healthcare.presentation.news.views.INewsFilterView;
 
 /**
  * Created by root on 21.10.15.
  */
-public class NewsSearchFilterFragment extends BaseFragmentView<NewsSearchFilterPresenter> implements INewsSearchFilterView{
+public class NewsFilterFragment extends BaseFragmentView<NewsFilterPresenter> implements INewsFilterView {
     @Override
     protected void setUpView() {
 
@@ -27,7 +26,7 @@ public class NewsSearchFilterFragment extends BaseFragmentView<NewsSearchFilterP
     }
 
     @Override
-    protected NewsSearchFilterPresenter createPresenter() {
+    protected NewsFilterPresenter createPresenter() {
         return null;
     }
 }

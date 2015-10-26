@@ -15,9 +15,10 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.EditText;
+import android.widget.MultiAutoCompleteTextView;
 
 import com.itacit.healthcare.R;
+import com.itacit.healthcare.utils.AndroidUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,11 +31,13 @@ import rx.subjects.Subject;
 /**
  * Created by root on 22.10.15.
  */
-public class ChipsEditText extends EditText {
+public class ChipsEditText extends MultiAutoCompleteTextView {
 
     private final Subject<VisibleFilterChip, VisibleFilterChip> mChipRemovedSubject = PublishSubject.create();
-    private int mChipPadding = 5;
+    private int mChipPadding = 12;
+    private final float mChipHeightDp = 32;
 
+    private int mChipsHeightPx;
     public ChipsEditText(Context context) {
         super(context);
     }
@@ -46,6 +49,7 @@ public class ChipsEditText extends EditText {
 
     public ChipsEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mChipsHeightPx = (int) AndroidUtils.convertDpToPixel(mChipHeightDp, getContext());
     }
 
     private static int findText(final Editable text, final int offset) {
@@ -81,11 +85,11 @@ public class ChipsEditText extends EditText {
         final int textLength = spanableText.length() - 1;
 
         TextPaint paint = getPaint();
-        Bitmap tmpBitmap = Bitmap.createBitmap(200, 50, Bitmap.Config.ARGB_8888);
+        Bitmap tmpBitmap = Bitmap.createBitmap(200, mChipsHeightPx, Bitmap.Config.ARGB_8888);
         float maxWidth = getWidth() - getPaddingLeft() - getPaddingRight() - mChipPadding * 2;
         CharSequence ellipsizedText = TextUtils.ellipsize(text, paint, maxWidth, TextUtils.TruncateAt.END);
         Drawable background = getContext().getResources().getDrawable(R.drawable.bg_chips);
-        background.setBounds(0, 0, 200, 50);
+        background.setBounds(0, 0, 200, mChipsHeightPx);
         Canvas canvas = new Canvas(tmpBitmap);
         background.draw(canvas);
         paint.setColor(getContext().getResources().getColor(android.R.color.black));
