@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.Editable;
@@ -17,6 +16,8 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.EditText;
+
+import com.itacit.healthcare.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -83,8 +84,7 @@ public class ChipsEditText extends EditText {
         Bitmap tmpBitmap = Bitmap.createBitmap(200, 50, Bitmap.Config.ARGB_8888);
         float maxWidth = getWidth() - getPaddingLeft() - getPaddingRight() - mChipPadding * 2;
         CharSequence ellipsizedText = TextUtils.ellipsize(text, paint, maxWidth, TextUtils.TruncateAt.END);
-        int bgColor = getContext().getResources().getColor(android.R.color.holo_red_dark);
-        Drawable background = new ColorDrawable(bgColor);
+        Drawable background = getContext().getResources().getDrawable(R.drawable.bg_chips);
         background.setBounds(0, 0, 200, 50);
         Canvas canvas = new Canvas(tmpBitmap);
         background.draw(canvas);
@@ -136,21 +136,21 @@ public class ChipsEditText extends EditText {
 
     private VisibleFilterChip getLastChip() {
         VisibleFilterChip last = null;
-        VisibleFilterChip[] chips = getSortedRecipients();
+        VisibleFilterChip[] chips = getSortedChips();
         if (chips != null && chips.length > 0) {
             last = chips[chips.length - 1];
         }
         return last;
     }
 
-    private VisibleFilterChip[] getSortedRecipients() {
+    private VisibleFilterChip[] getSortedChips() {
         final Spannable spannable = getText();
-        VisibleFilterChip[] recips = spannable
+        VisibleFilterChip[] chips = spannable
                 .getSpans(0, getText().length(), VisibleFilterChip.class);
-        ArrayList<VisibleFilterChip> recipientsList = new ArrayList<VisibleFilterChip>(
-                Arrays.asList(recips));
+        ArrayList<VisibleFilterChip> chipsList = new ArrayList<VisibleFilterChip>(
+                Arrays.asList(chips));
 
-        Collections.sort(recipientsList, new Comparator<VisibleFilterChip>() {
+        Collections.sort(chipsList, new Comparator<VisibleFilterChip>() {
 
             @Override
             public int compare(VisibleFilterChip first, VisibleFilterChip second) {
@@ -165,7 +165,7 @@ public class ChipsEditText extends EditText {
                 }
             }
         });
-        return recipientsList.toArray(new VisibleFilterChip[recipientsList.size()]);
+        return chipsList.toArray(new VisibleFilterChip[chipsList.size()]);
     }
 
     @Override
@@ -270,12 +270,12 @@ public class ChipsEditText extends EditText {
     }
 
     private void sanitizeBetween() {
-        final VisibleFilterChip[] recips = getSortedRecipients();
-        if (recips != null && recips.length > 0) {
-            final VisibleFilterChip last = recips[recips.length - 1];
+        final VisibleFilterChip[] chips = getSortedChips();
+        if (chips != null && chips.length > 0) {
+            final VisibleFilterChip last = chips[chips.length - 1];
             VisibleFilterChip beforeLast = null;
-            if (recips.length > 1)
-                beforeLast = recips[recips.length - 2];
+            if (chips.length > 1)
+                beforeLast = chips[chips.length - 2];
             int startLooking = 0;
             final int end = getText().getSpanStart(last);
             if (beforeLast != null) {

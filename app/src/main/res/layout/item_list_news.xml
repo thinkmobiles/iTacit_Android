@@ -4,16 +4,16 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="horizontal"
-              android:paddingTop="15dp"
-              android:paddingLeft="15dp">
+              android:paddingTop="16dp"
+              android:paddingLeft="16dp">
 
    <ImageView
         android:id="@+id/iv_icon_ILN"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
        />
 
-   <LinearLayout
+   <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -23,31 +23,38 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Care Giving Reminders,"
-            android:lines="2"
+            android:layout_marginLeft="16dp"
             style="@style/textTitle"/>
 
         <TextView
             android:id="@+id/tv_category_ILN"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="56dp"
+            android:layout_alignLeft="@id/tv_title_ILN"
             style="@style/textCategory"
-            tools:text="Care Giving"
-            android:layout_marginBottom="10dp"/>
+            tools:text="Care Giving"/>
 
 	     <TextView
 		    android:id="@+id/tv_time_ILN"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:layout_alignLeft="@id/tv_title_ILN"
+            android:layout_below="@id/tv_category_ILN"
             tools:text="12:57 am"
             style="@style/textCategory"/>
 
-         <View
+       <View
            android:layout_width="match_parent"
-           android:layout_height="2dp"
-           android:layout_marginLeft="10dp"
-           android:background="@color/bg_line"
-           android:layout_marginTop="5dp"/>
+           android:layout_height="1dp"
+           android:background="@color/gray_light"
+           android:layout_alignLeft="@id/tv_title_ILN"
+           android:layout_below="@id/tv_time_ILN"
+           android:layout_marginTop="16dp"/>
 
-    </LinearLayout>
+    </RelativeLayout>
+
+
 
 </LinearLayout>
