@@ -15,6 +15,7 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 
 import com.itacit.healthcare.R;
@@ -31,13 +32,12 @@ import rx.subjects.Subject;
 /**
  * Created by root on 22.10.15.
  */
-public class ChipsEditText extends MultiAutoCompleteTextView {
+public class ChipsEditText extends EditText {
 
     private final Subject<VisibleFilterChip, VisibleFilterChip> mChipRemovedSubject = PublishSubject.create();
     private int mChipPadding = 12;
     private final float mChipHeightDp = 32;
 
-    private int mChipsHeightPx;
     public ChipsEditText(Context context) {
         super(context);
     }
@@ -49,7 +49,6 @@ public class ChipsEditText extends MultiAutoCompleteTextView {
 
     public ChipsEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mChipsHeightPx = (int) AndroidUtils.convertDpToPixel(mChipHeightDp, getContext());
     }
 
     private static int findText(final Editable text, final int offset) {
@@ -85,16 +84,19 @@ public class ChipsEditText extends MultiAutoCompleteTextView {
         final int textLength = spanableText.length() - 1;
 
         TextPaint paint = getPaint();
-        Bitmap tmpBitmap = Bitmap.createBitmap(200, mChipsHeightPx, Bitmap.Config.ARGB_8888);
+        int heightPx = (int) AndroidUtils.convertDpToPixel(mChipHeightDp, getContext());
+        int width = (int)Math.floor(paint.measureText(text,0,text.length()))+mChipPadding*2;
+        Bitmap tmpBitmap = Bitmap.createBitmap(width, heightPx, Bitmap.Config.ARGB_8888);
         float maxWidth = getWidth() - getPaddingLeft() - getPaddingRight() - mChipPadding * 2;
-        CharSequence ellipsizedText = TextUtils.ellipsize(text, paint, maxWidth, TextUtils.TruncateAt.END);
+        //CharSequence ellipsizedText = TextUtils.ellipsize(text, paint, maxWidth, TextUtils.TruncateAt.END);
+        CharSequence ellipsizedText = text;
         Drawable background = getContext().getResources().getDrawable(R.drawable.bg_chips);
-        background.setBounds(0, 0, 200, mChipsHeightPx);
+        background.setBounds(0, 0, width, heightPx);
         Canvas canvas = new Canvas(tmpBitmap);
         background.draw(canvas);
-        paint.setColor(getContext().getResources().getColor(android.R.color.black));
+        paint.setColor(getContext().getResources().getColor(android.R.color.white));
         // Vertically center the text in the chip.
-        canvas.drawText(ellipsizedText, 0, ellipsizedText.length(), mChipPadding, getTextYOffset((String) ellipsizedText, paint, 50), paint);
+        canvas.drawText(ellipsizedText, 0, ellipsizedText.length(), mChipPadding, getTextYOffset((String) ellipsizedText, paint, heightPx), paint);
         final Drawable result = new BitmapDrawable(getResources(), tmpBitmap);
         result.setBounds(0, 0, tmpBitmap.getWidth(), tmpBitmap.getHeight());
         FilterChip chip = new VisibleFilterChip(result, text, FilterChip.FilterType.Author);

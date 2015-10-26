@@ -5,9 +5,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.EditText;
 
 import com.itacit.healthcare.R;
+import com.itacit.healthcare.chipsView.ChipsEditText;
 import com.itacit.healthcare.domain.interactor.GetNewsInteractor;
 import com.itacit.healthcare.presentation.base.views.BaseFragmentView;
 import com.itacit.healthcare.presentation.news.mapper.NewsModelDataMapper;
@@ -26,8 +26,8 @@ import rx.Observable;
  * Created by root on 13.10.15.
  */
 public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implements INewsFeedView {
-    @Bind(R.id.et_search_FN)
-    EditText searchNewsEt;
+    @Bind(R.id.cet_search_FN)
+    ChipsEditText mSearchNewsView;
 
     @Bind(R.id.recycler_view_FN)
     RecyclerView mRecyclerView;
@@ -36,6 +36,8 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
     protected void setUpView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
+
+        mSearchNewsView.addChip("JohnCarson");
     }
 
     @Override
@@ -76,6 +78,6 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 
     @Override
     public Observable<String> getNewsSearchTextObs() {
-        return RxTextView.textChangeEvents(searchNewsEt).map(e -> e.text().toString());
+        return RxTextView.textChangeEvents(mSearchNewsView).map(e -> e.text().toString());
     }
 }

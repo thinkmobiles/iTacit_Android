@@ -19,7 +19,7 @@
             android:src="@drawable/ic_search"/>
 
         <com.itacit.healthcare.chipsView.ChipsEditText
-            android:id="@+id/et_search_FN"
+            android:id="@+id/cet_search_FN"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_toLeftOf="@+id/ib_close_FN"
