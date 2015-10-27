@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/rl_search_FNSF">
 
-        <com.itacit.healthcare.chipsView.ChipsEditText
+        <com.itacit.healthcare.presentation.news.views.chipsView.ChipsEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/et_serch_FNSF"
@@ -206,7 +206,8 @@
                   android:id="@+id/datepicker_wheel_FNSF"
                   android:layout_gravity="center_horizontal"
                   android:layout_marginTop="30dp"
-                  android:layout_marginBottom="30dp"/>
+                  android:layout_marginBottom="30dp"
+                />
 
 	        <!--<DatePicker-->
                     <!--android:layout_width="wrap_content"-->

@@ -1,4 +1,4 @@
-package com.itacit.healthcare.chipsView;
+package com.itacit.healthcare.presentation.news.views.chipsView;
 
 /**
  * Created by root on 22.10.15.

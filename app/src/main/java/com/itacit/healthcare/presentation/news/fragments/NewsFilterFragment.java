@@ -1,13 +1,22 @@
 package com.itacit.healthcare.presentation.news.fragments;
 
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.itacit.healthcare.R;
-import com.itacit.healthcare.chipsView.ChipsEditText;
+import com.itacit.healthcare.presentation.news.views.WheelDatePicker;
+import com.itacit.healthcare.presentation.news.views.chipsView.ChipsEditText;
 import com.itacit.healthcare.presentation.base.views.BaseFragmentView;
 import com.itacit.healthcare.presentation.news.presenters.NewsFilterPresenter;
 import com.itacit.healthcare.presentation.news.views.INewsFilterView;
+
+import java.util.Locale;
 
 import butterknife.Bind;
 
@@ -17,10 +26,35 @@ import butterknife.Bind;
 public class NewsFilterFragment extends BaseFragmentView<NewsFilterPresenter> implements INewsFilterView {
     @Bind(R.id.et_serch_FNSF)
     ChipsEditText mSearchFiltersEt;
+    @Bind(R.id.ib_close_FNSF)
+    ImageButton ibClose;
+    @Bind(R.id.tv_count_author_FNSF)
+    TextView tvCountAuthor;
+    @Bind(R.id.iv_expand_author_FNSF)
+    ImageView ivExpandAuthor;
+    @Bind(R.id.recycler_view_authors_FNSF)
+    RecyclerView recyclerViewAuthors;
+    @Bind(R.id.tv_count_category_FNSF)
+    TextView tvCountCategory;
+    @Bind(R.id.iv_expand_category_FNSF)
+    ImageView ivExpandCategory;
+    @Bind(R.id.recycler_view_categories_FNSF)
+    RecyclerView recyclerViewCategories;
+    @Bind(R.id.tv_from_FNSF)
+    TextView tvDateFrom;
+    @Bind(R.id.tv_to_FNSF)
+    TextView tvDateTo;
+    @Bind(R.id.datepicker_wheel_FNSF)
+    WheelDatePicker datePickerWheel;
+    @Bind(R.id.tv_done_FNSF)
+    TextView tvDone;
+    @Bind(R.id.tv_cancel_FNSF)
+    TextView tvCancel;
+    @Bind(R.id.btn_search_FNSF)
+    Button btnSearch;
 
     @Override
     protected void setUpView() {
-
         ViewTreeObserver observer = mSearchFiltersEt.getViewTreeObserver();
         observer.addOnGlobalLayoutListener (new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -29,18 +63,37 @@ public class NewsFilterFragment extends BaseFragmentView<NewsFilterPresenter> im
                 mSearchFiltersEt.addChip("JohnCarson");
             }
         });
+        datePickerWheel.setDay(25);
+        datePickerWheel.setMonth(10);
+        datePickerWheel.setYear(2015);
+// Locale("ru", "RU") is also available
+        datePickerWheel.setLocale(Locale.US);
+        datePickerWheel.setVisibleItems(5);
+        datePickerWheel.setMinMaxYears(2000, 2020);
+        datePickerWheel.addDateChangedListener(new WheelDatePicker.IDateChangedListener() {
+            @Override
+            public void onChanged(WheelDatePicker sender, int oldDay, int oldMonth, int oldYear, int day, int month, int year) {
+                Log.i("WHEEL_APP", String.format("Selected date changed ! %02d.%02d.%04d -> %02d.%02d.%04d",
+                        oldDay, oldMonth, oldYear, day, month, year));
+            }
+        });
+
     }
 
     @Override
     protected void setUpActionBar(ActionBar actionBar) {
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setTitle(R.string.title_news_filter);
 
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDefaultDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
     protected int getLayoutRes() {
         return R.layout.fragment_news_search_filter;
     }
-
     @Override
     protected NewsFilterPresenter createPresenter() {
         return new NewsFilterPresenter();

@@ -3,7 +3,10 @@ package com.itacit.healthcare.presentation.news.views;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import junit.framework.Assert;
 
 import com.itacit.healthcare.R;
@@ -224,7 +227,8 @@ public class WheelDatePicker extends LinearLayout {
 
         wheelYear = ( WheelView ) findViewById( R.id.wheelYear );
         wheelYear.setTag( "wheelYear" ); // to debug inside wheel control code, can be safely removed
-        wheelYear.setViewAdapter(new NumericWheelAdapter(ctx, minYear, maxYear));
+        NumericWheelAdapter yearAdapter = new NumericWheelAdapter(ctx, minYear, maxYear);
+        wheelYear.setViewAdapter(yearAdapter);
         wheelYear.setCurrentItem(DEFAULT_YEAR - minYear);
         wheelYear.setVisibleItems(DEFAULT_VISIBLE_ITEMS);
         wheelYear.setCyclic(true);
@@ -250,6 +254,9 @@ public class WheelDatePicker extends LinearLayout {
                 int newDay = getDay();
                 int month = getMonth();
                 raiseDateChangedEvent(oldDay, month, oldYear, newDay, month, newYear);
+                yearAdapter.selectedItem = newValue;
+                View view = wheelYear.getItemView(newValue);
+                ((TextView) view).setTextColor(getContext().getResources().getColor(R.color.btn_blue));
             }
         });
 

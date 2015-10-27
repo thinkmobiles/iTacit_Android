@@ -1,4 +1,4 @@
-package com.itacit.healthcare.chipsView;
+package com.itacit.healthcare.presentation.news.views.chipsView;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -14,11 +14,8 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.MultiAutoCompleteTextView;
 
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.utils.AndroidUtils;

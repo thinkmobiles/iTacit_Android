@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".chipsView.Main2Activity"
+            android:name=".presentation.news.views.chipsView.Main2Activity"
             android:theme="@style/AppTheme" >
 
         </activity>
