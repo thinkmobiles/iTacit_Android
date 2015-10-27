@@ -20,6 +20,7 @@
 
     <!-- Titles -->
     <string name="title_news_feed">News</string>
+    <string name="title_news_filter">Filter</string>
     <string name="from">From</string>
     <string name="to">To</string>
     <string name="author">Author</string>

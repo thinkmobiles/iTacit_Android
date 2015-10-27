@@ -7,6 +7,6 @@
     <dimen name="text_margin">10dp</dimen>
     <dimen name="padding_btn_top">10dp</dimen>
     <dimen name="padding_btn_side">30dp</dimen>
-    <dimen name="corner_radius_btn">25</dimen>
+    <dimen name="corner_radius_btn">25dp</dimen>
     <dimen name="btn_text_size">18sp</dimen>
 </resources>

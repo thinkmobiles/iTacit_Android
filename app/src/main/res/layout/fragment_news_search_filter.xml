@@ -18,12 +18,12 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/et_serch_FNSF"
+            android:id="@+id/et_search_FNSF"
             android:lines="2"
             />
 
         <ImageButton
-                android:id="@+id/ib_close_FN"
+                android:id="@+id/ib_close_FNSF"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_alignParentRight="true"
@@ -197,24 +197,32 @@
 		            android:layout_alignParentTop="true"
 		            android:layout_alignStart="@+id/tv_to_FNSF"/>
 
+            <view android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  class="com.itacit.healthcare.presentation.news.views.WheelDatePicker"
+                  android:layout_below="@id/tv_from_FNSF"
+                  android:id="@+id/datepicker_wheel_FNSF"
+                  android:layout_gravity="center_horizontal"
+                  android:layout_marginTop="30dp"
+                  android:layout_marginBottom="30dp"/>
 
-
-	        <DatePicker
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/datePicker_FNSF"
-                    android:layout_below="@id/tv_from_FNSF"
-                    android:calendarViewShown="false"
-                    android:datePickerMode="spinner"
-                    android:layout_centerHorizontal="true"
-                    android:theme="@style/Base.Theme.AppCompat.Light"/>
+	        <!--<DatePicker-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/datePicker_FNSF"-->
+                    <!--android:layout_below="@id/datepicker_wheel_FNSF"-->
+                    <!--android:calendarViewShown="false"-->
+                    <!--android:datePickerMode="spinner"-->
+                    <!--android:layout_centerHorizontal="true"-->
+                    <!--android:theme="@style/Base.Theme.AppCompat.Light"-->
+                    <!--android:visibility="gone"/>-->
 
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/rl_done_date_FNSF"
-                android:layout_below="@id/datePicker_FNSF"
+                android:layout_below="@id/datepicker_wheel_FNSF"
                 >
 
                 <TextView
