@@ -14,8 +14,10 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
 
 import com.itacit.healthcare.R;
@@ -35,8 +37,10 @@ import rx.subjects.Subject;
 public class ChipsEditText extends EditText {
 
     private final Subject<VisibleFilterChip, VisibleFilterChip> mChipRemovedSubject = PublishSubject.create();
-    private int mChipPadding = 12;
     private final float mChipHeightDp = 32;
+    private final float mPaddingLeftDp = 12;
+    private final float mPaddingRightDp = 8;
+
 
     public ChipsEditText(Context context) {
         super(context);
@@ -73,6 +77,11 @@ public class ChipsEditText extends EditText {
         editable.delete(0, editable.length());
     }
 
+    private float calculateAvailableWidth(float paddingChips)
+    {
+        return getWidth()-getPaddingLeft()-getPaddingRight()-paddingChips;
+    }
+
     private CharSequence createChip(String text) {
         String spanableText;
         if (text.endsWith(" ")) {
@@ -80,23 +89,30 @@ public class ChipsEditText extends EditText {
         } else {
             spanableText = text + " ";
         }
+
+        Drawable delete = getContext().getResources().getDrawable(R.drawable.btn_chip_del);
         SpannableString chipText = new SpannableString(spanableText);
         final int textLength = spanableText.length() - 1;
-
         TextPaint paint = getPaint();
+        float paddingRightPx = AndroidUtils.convertDpToPixel(mPaddingRightDp, getContext());
+        float paddingLeftPx = AndroidUtils.convertDpToPixel(mPaddingLeftDp, getContext());
         int heightPx = (int) AndroidUtils.convertDpToPixel(mChipHeightDp, getContext());
-        int width = (int)Math.floor(paint.measureText(text,0,text.length()))+mChipPadding*2;
+        int width = (int) (Math.floor(paint.measureText(text,0,text.length()))+paddingLeftPx+2*paddingRightPx+delete.getMinimumWidth());
         Bitmap tmpBitmap = Bitmap.createBitmap(width, heightPx, Bitmap.Config.ARGB_8888);
-        float maxWidth = getWidth() - getPaddingLeft() - getPaddingRight() - mChipPadding * 2;
-        //CharSequence ellipsizedText = TextUtils.ellipsize(text, paint, maxWidth, TextUtils.TruncateAt.END);
-        CharSequence ellipsizedText = text;
+        float maxWidth = calculateAvailableWidth(paddingRightPx + paddingLeftPx);
+        CharSequence ellipsizedText = TextUtils.ellipsize(text, paint, maxWidth, TextUtils.TruncateAt.END);
+
         Drawable background = getContext().getResources().getDrawable(R.drawable.bg_chips);
         background.setBounds(0, 0, width, heightPx);
         Canvas canvas = new Canvas(tmpBitmap);
         background.draw(canvas);
-        paint.setColor(getContext().getResources().getColor(android.R.color.white));
+        paint.setColor(getContext().getResources().getColor(R.color.gray_dark));
         // Vertically center the text in the chip.
-        canvas.drawText(ellipsizedText, 0, ellipsizedText.length(), mChipPadding, getTextYOffset((String) ellipsizedText, paint, heightPx), paint);
+        canvas.drawText(ellipsizedText, 0, ellipsizedText.length(), paddingLeftPx, getTextYOffset((String) ellipsizedText, paint, heightPx), paint);
+
+        delete.draw(canvas);
+
+
         final Drawable result = new BitmapDrawable(getResources(), tmpBitmap);
         result.setBounds(0, 0, tmpBitmap.getWidth(), tmpBitmap.getHeight());
         FilterChip chip = new VisibleFilterChip(result, text, FilterChip.FilterType.Author);
