@@ -224,8 +224,8 @@ public abstract class AbstractWheelTextAdapter extends AbstractWheelAdapter {
         view.setTextSize(textSize);
         view.setLines(1);
 
-        Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Regular.ttf");
-        view.setTypeface(roboto);
+//        Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Regular.ttf");
+        view.setTypeface(Typeface.SANS_SERIF);
     }
     
     /**
