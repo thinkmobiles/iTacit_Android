@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.Editable;
@@ -15,8 +14,14 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.MultiAutoCompleteTextView;
+
+import com.itacit.healthcare.R;
+import com.itacit.healthcare.utils.AndroidUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,7 +37,10 @@ import rx.subjects.Subject;
 public class ChipsEditText extends EditText {
 
     private final Subject<VisibleFilterChip, VisibleFilterChip> mChipRemovedSubject = PublishSubject.create();
-    private int mChipPadding = 5;
+    private final float mChipHeightDp = 32;
+    private final float mPaddingLeftDp = 12;
+    private final float mPaddingRightDp = 8;
+
 
     public ChipsEditText(Context context) {
         super(context);
@@ -69,6 +77,11 @@ public class ChipsEditText extends EditText {
         editable.delete(0, editable.length());
     }
 
+    private float calculateAvailableWidth(float paddingChips)
+    {
+        return getWidth()-getPaddingLeft()-getPaddingRight()-paddingChips;
+    }
+
     private CharSequence createChip(String text) {
         String spanableText;
         if (text.endsWith(" ")) {
@@ -76,21 +89,30 @@ public class ChipsEditText extends EditText {
         } else {
             spanableText = text + " ";
         }
+
+        Drawable delete = getContext().getResources().getDrawable(R.drawable.btn_chip_del);
         SpannableString chipText = new SpannableString(spanableText);
         final int textLength = spanableText.length() - 1;
-
         TextPaint paint = getPaint();
-        Bitmap tmpBitmap = Bitmap.createBitmap(200, 50, Bitmap.Config.ARGB_8888);
-        float maxWidth = getWidth() - getPaddingLeft() - getPaddingRight() - mChipPadding * 2;
+        float paddingRightPx = AndroidUtils.convertDpToPixel(mPaddingRightDp, getContext());
+        float paddingLeftPx = AndroidUtils.convertDpToPixel(mPaddingLeftDp, getContext());
+        int heightPx = (int) AndroidUtils.convertDpToPixel(mChipHeightDp, getContext());
+        int width = (int) (Math.floor(paint.measureText(text,0,text.length()))+paddingLeftPx+2*paddingRightPx+delete.getMinimumWidth());
+        Bitmap tmpBitmap = Bitmap.createBitmap(width, heightPx, Bitmap.Config.ARGB_8888);
+        float maxWidth = calculateAvailableWidth(paddingRightPx + paddingLeftPx);
         CharSequence ellipsizedText = TextUtils.ellipsize(text, paint, maxWidth, TextUtils.TruncateAt.END);
-        int bgColor = getContext().getResources().getColor(android.R.color.holo_red_dark);
-        Drawable background = new ColorDrawable(bgColor);
-        background.setBounds(0, 0, 200, 50);
+
+        Drawable background = getContext().getResources().getDrawable(R.drawable.bg_chips);
+        background.setBounds(0, 0, width, heightPx);
         Canvas canvas = new Canvas(tmpBitmap);
         background.draw(canvas);
-        paint.setColor(getContext().getResources().getColor(android.R.color.black));
+        paint.setColor(getContext().getResources().getColor(R.color.gray_dark));
         // Vertically center the text in the chip.
-        canvas.drawText(ellipsizedText, 0, ellipsizedText.length(), mChipPadding, getTextYOffset((String) ellipsizedText, paint, 50), paint);
+        canvas.drawText(ellipsizedText, 0, ellipsizedText.length(), paddingLeftPx, getTextYOffset((String) ellipsizedText, paint, heightPx), paint);
+
+        delete.draw(canvas);
+
+
         final Drawable result = new BitmapDrawable(getResources(), tmpBitmap);
         result.setBounds(0, 0, tmpBitmap.getWidth(), tmpBitmap.getHeight());
         FilterChip chip = new VisibleFilterChip(result, text, FilterChip.FilterType.Author);
@@ -136,21 +158,21 @@ public class ChipsEditText extends EditText {
 
     private VisibleFilterChip getLastChip() {
         VisibleFilterChip last = null;
-        VisibleFilterChip[] chips = getSortedRecipients();
+        VisibleFilterChip[] chips = getSortedChips();
         if (chips != null && chips.length > 0) {
             last = chips[chips.length - 1];
         }
         return last;
     }
 
-    private VisibleFilterChip[] getSortedRecipients() {
+    private VisibleFilterChip[] getSortedChips() {
         final Spannable spannable = getText();
-        VisibleFilterChip[] recips = spannable
+        VisibleFilterChip[] chips = spannable
                 .getSpans(0, getText().length(), VisibleFilterChip.class);
-        ArrayList<VisibleFilterChip> recipientsList = new ArrayList<VisibleFilterChip>(
-                Arrays.asList(recips));
+        ArrayList<VisibleFilterChip> chipsList = new ArrayList<VisibleFilterChip>(
+                Arrays.asList(chips));
 
-        Collections.sort(recipientsList, new Comparator<VisibleFilterChip>() {
+        Collections.sort(chipsList, new Comparator<VisibleFilterChip>() {
 
             @Override
             public int compare(VisibleFilterChip first, VisibleFilterChip second) {
@@ -165,7 +187,7 @@ public class ChipsEditText extends EditText {
                 }
             }
         });
-        return recipientsList.toArray(new VisibleFilterChip[recipientsList.size()]);
+        return chipsList.toArray(new VisibleFilterChip[chipsList.size()]);
     }
 
     @Override
@@ -270,12 +292,12 @@ public class ChipsEditText extends EditText {
     }
 
     private void sanitizeBetween() {
-        final VisibleFilterChip[] recips = getSortedRecipients();
-        if (recips != null && recips.length > 0) {
-            final VisibleFilterChip last = recips[recips.length - 1];
+        final VisibleFilterChip[] chips = getSortedChips();
+        if (chips != null && chips.length > 0) {
+            final VisibleFilterChip last = chips[chips.length - 1];
             VisibleFilterChip beforeLast = null;
-            if (recips.length > 1)
-                beforeLast = recips[recips.length - 2];
+            if (chips.length > 1)
+                beforeLast = chips[chips.length - 2];
             int startLooking = 0;
             final int end = getText().getSpanStart(last);
             if (beforeLast != null) {

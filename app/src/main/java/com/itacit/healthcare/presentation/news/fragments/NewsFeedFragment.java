@@ -13,7 +13,6 @@ import com.itacit.healthcare.presentation.base.views.BaseFragmentView;
 import com.itacit.healthcare.presentation.news.mapper.NewsModelDataMapper;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
 import com.itacit.healthcare.presentation.news.presenters.NewsFeedPresenter;
-import com.itacit.healthcare.presentation.news.presenters.NewsFeedPresenterImpl;
 import com.itacit.healthcare.presentation.news.views.INewsFeedView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
@@ -28,7 +27,7 @@ import rx.Observable;
  */
 public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implements INewsFeedView {
     @Bind(R.id.et_search_FN)
-    EditText searchNewsEt;
+    EditText mSearchNewsView;
 
     @Bind(R.id.recycler_view_FN)
     RecyclerView mRecyclerView;
@@ -37,6 +36,7 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
     protected void setUpView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
+
     }
 
     @Override
@@ -62,7 +62,7 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 
     @Override
     protected NewsFeedPresenter createPresenter() {
-        return new NewsFeedPresenterImpl(new GetNewsInteractor(), new NewsModelDataMapper());
+        return new NewsFeedPresenter(new GetNewsInteractor(), new NewsModelDataMapper());
     }
 
     @Override
@@ -77,6 +77,6 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 
     @Override
     public Observable<String> getNewsSearchTextObs() {
-        return RxTextView.textChangeEvents(searchNewsEt).map(e -> e.text().toString());
+        return RxTextView.textChangeEvents(mSearchNewsView).map(e -> e.text().toString());
     }
 }

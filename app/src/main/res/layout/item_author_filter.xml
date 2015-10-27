@@ -3,43 +3,51 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:orientation="horizontal"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+              android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+    android:paddingTop="10dp">
+
 
     <ImageView
         android:id="@+id/iv_filter_IAF"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
         android:layout_gravity="center_vertical"
-        android:src="@android:drawable/checkbox_on_background"
+        android:src="@drawable/ic_check"
         android:layout_marginLeft="@dimen/text_margin"
-        android:visibility="invisible"/>
+        android:visibility="visible"/>
 
-    <ImageView
+        <ImageView
         android:id="@+id/iv_icon_IAF"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/author_img_size"
+        android:layout_height="@dimen/author_img_size"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="@dimen/text_margin"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_name_IAF"
-            style="@style/textTitle"
+            android:textSize="16sp"
+            android:textColor="@color/gray_dark"
+            android:layout_marginLeft="@dimen/text_margin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Bryan Chapman"/>
 
         <TextView
             android:id="@+id/tv_position_IAF"
-            style="@style/textCategory"
+            android:textSize="14sp"
+            android:layout_below="@id/tv_name_IAF"
+            android:layout_marginTop="10dp"
+            android:layout_alignLeft="@id/tv_name_IAF"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="General manager"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

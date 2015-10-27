@@ -7,5 +7,9 @@
     <color name="bg_light">#90ffffff</color>
     <color name="bg_line">#E1E1E1</color>
     <color name="text_dark_grey">#313131</color>
+    <color name="gray_dark">#505057</color>
+    <color name="gray_light">#9d9da2</color>
     <color name="btn_blue">#02aff1</color>
+    <color name="chips_bg">#f5f6f9</color>
+    <color name="chips_btn">#E7E7EA</color>
 </resources>

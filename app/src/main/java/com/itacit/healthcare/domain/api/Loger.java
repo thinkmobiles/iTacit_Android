@@ -2,10 +2,14 @@ package com.itacit.healthcare.domain.api;
 
 import android.util.Log;
 
-import com.squareup.okhttp.*;
-import okio.Buffer;
+import com.squareup.okhttp.Interceptor;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+import com.squareup.okhttp.ResponseBody;
 
 import java.io.IOException;
+
+import okio.Buffer;
 
 /**
  * Created by tZpace
@@ -14,16 +18,6 @@ import java.io.IOException;
 public final class Loger implements Interceptor {
 
     private static final String TAG = "API Loger";
-
-    private static String getBody(final Request request){
-        Buffer buffer = new Buffer();
-        try {
-            request.body().writeTo(buffer);
-        } catch (Exception e) {
-            return e.getMessage();
-        }
-        return buffer.readUtf8();
-    }
 
     @Override
     public Response intercept(Chain chain) throws IOException {
@@ -36,12 +30,22 @@ public final class Loger implements Interceptor {
 
         final String bodyString = response.body().string();
 
-        Log.d(TAG, "incoming: " + response.toString()  + " body = " + bodyString);
+        Log.d(TAG, "incoming: " + response.toString() + " body = " + bodyString);
 
 
         return response.newBuilder()
                 .headers(response.headers())
                 .body(ResponseBody.create(response.body().contentType(), bodyString))
                 .build();
+    }
+
+    private static String getBody(final Request request) {
+        Buffer buffer = new Buffer();
+        try {
+            request.body().writeTo(buffer);
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+        return buffer.readUtf8();
     }
 }

@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.presentation.news.fragments.NewsFeedFragment;
+import com.itacit.healthcare.presentation.news.fragments.NewsFilterFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -27,7 +28,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setSupportActionBar(mToolBar);
 
-        getFragmentManager().beginTransaction().replace(R.id.content, new NewsFeedFragment()).commit();
+        //Fixme
+        getFragmentManager().beginTransaction().replace(R.id.content, new NewsFilterFragment()).commit();
     }
 
     protected abstract @LayoutRes int getLayoutRes();

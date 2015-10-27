@@ -15,11 +15,13 @@
             android:layout_height="wrap_content"
             android:id="@+id/rl_search_FNSF">
 
-        <EditText
+        <com.itacit.healthcare.chipsView.ChipsEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/et_search_FNSF"
-            android:lines="2"
+            android:id="@+id/et_serch_FNSF"
+            android:textSize="13sp"
+            android:textColor="@color/gray_dark"
+            android:background="@null"
             />
 
         <ImageButton

@@ -10,20 +10,18 @@
 
     <style name="textCategory">
         <item name="android:layout_gravity">left</item>
-        <item name="android:layout_marginLeft">10dp</item>
-        <item name="android:layout_marginBottom">10dp</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/gray_light</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="textArticle" parent="textCategory">
+    <style name="textArticle">
         <item name="android:textColor">@color/text_dark_grey</item>
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="textTitle" parent="textCategory">
+    <style name="textTitle" >
         <item name="android:textSize">20sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/text_dark_grey</item>
+        <item name="android:textColor">@color/gray_dark</item>
     </style>
 
     <style name="tv_date">

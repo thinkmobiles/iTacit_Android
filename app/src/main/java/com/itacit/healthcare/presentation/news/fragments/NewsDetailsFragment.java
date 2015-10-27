@@ -9,7 +9,7 @@ import com.itacit.healthcare.presentation.news.views.INewsDetailsView;
 /**
  * Created by root on 21.10.15.
  */
-public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter> implements INewsDetailsView{
+public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter> implements INewsDetailsView {
     @Override
     protected void setUpView() {
 

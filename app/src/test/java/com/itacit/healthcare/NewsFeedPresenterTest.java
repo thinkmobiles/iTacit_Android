@@ -1,10 +1,10 @@
 package com.itacit.healthcare;
 
+import com.itacit.healthcare.domain.interactor.GetNewsInteractor;
+import com.itacit.healthcare.presentation.news.mapper.NewsModelDataMapper;
 import com.itacit.healthcare.presentation.news.presenters.NewsFeedPresenter;
-import com.itacit.healthcare.presentation.news.presenters.NewsFeedPresenterImpl;
 import com.itacit.healthcare.presentation.news.views.INewsFeedView;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import rx.Observable;
@@ -32,7 +32,7 @@ public class NewsFeedPresenterTest {
 
         INewsFeedView newsFeedView = mock(INewsFeedView.class);
 
-        NewsFeedPresenter presenter = new NewsFeedPresenterImpl();
+        NewsFeedPresenter presenter = new NewsFeedPresenter(new GetNewsInteractor(), new NewsModelDataMapper());
 
         when(newsFeedView.getNewsSearchTextObs()).thenReturn(observable);
         presenter.attachView(newsFeedView);

@@ -1,11 +1,10 @@
 package com.itacit.healthcare.presentation.news.presenters;
 
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
-import com.itacit.healthcare.presentation.news.views.INewsFeedView;
+import com.itacit.healthcare.presentation.news.views.INewsDetailsView;
 
 /**
- * Created by root on 21.10.15.
+ * Created by root on 26.10.15.
  */
-public abstract class NewsDetailsPresenter extends BasePresenter<INewsFeedView> {
-
+public class NewsDetailsPresenter extends BasePresenter<INewsDetailsView> implements INewsDetailsPresenter{
 }
