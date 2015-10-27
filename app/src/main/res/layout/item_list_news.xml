@@ -5,12 +5,12 @@
               android:layout_height="wrap_content"
               android:orientation="horizontal"
               android:paddingTop="16dp"
-              android:paddingLeft="16dp">
+              android:paddingLeft="@dimen/text_margin">
 
    <ImageView
         android:id="@+id/iv_icon_ILN"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="@dimen/news_thumb_size"
+        android:layout_height="@dimen/news_thumb_size"
        />
 
    <RelativeLayout
@@ -23,14 +23,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Care Giving Reminders,"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="@dimen/news_item_text_left_margin"
             style="@style/textTitle"/>
 
         <TextView
             android:id="@+id/tv_category_ILN"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="56dp"
+            android:layout_marginTop="@dimen/news_item_category_margin_top"
             android:layout_alignLeft="@id/tv_title_ILN"
             style="@style/textCategory"
             tools:text="Care Giving"/>
@@ -51,10 +51,8 @@
            android:background="@color/gray_light"
            android:layout_alignLeft="@id/tv_title_ILN"
            android:layout_below="@id/tv_time_ILN"
-           android:layout_marginTop="16dp"/>
+           android:layout_marginTop="@dimen/news_item_line_margin_top"/>
 
     </RelativeLayout>
-
-
 
 </LinearLayout>

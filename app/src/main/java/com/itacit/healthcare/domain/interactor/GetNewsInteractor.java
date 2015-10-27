@@ -6,6 +6,7 @@ import com.itacit.healthcare.domain.api.RequestNews;
 
 import java.util.List;
 
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -22,11 +23,16 @@ public class GetNewsInteractor extends BaseRestInteractor<List<News>> {
     }
 
     @Override
-    public void execute(Subscriber<List<News>> subscriber) {
+    public void execute(Subscriber<List<News>> subscriber, Schedulers ) {
         RequestNews request = new RequestNews();
         request.setStartIndex(1);
         request.setRowCount(20);
-        mApi.getNews(request).observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io()).subscribe(subscriber);
+        mApi.getNews(request).observeOn()
+                .subscribeOn().subscribe(subscriber);
+    }
+
+    @Override
+    protected Observable buildUseCaseObservable() {
+        return null;
     }
 }
