@@ -46,12 +46,10 @@
             style="@style/textCategory"/>
 
        <View
-           android:layout_width="match_parent"
-           android:layout_height="1dp"
-           android:background="@color/gray_light"
            android:layout_alignLeft="@id/tv_title_ILN"
            android:layout_below="@id/tv_time_ILN"
-           android:layout_marginTop="16dp"/>
+           android:layout_marginTop="16dp"
+           style="@style/line_separator"/>
 
     </RelativeLayout>
 

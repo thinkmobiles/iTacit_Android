@@ -4,10 +4,18 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <dimen name="layout_search_margin">10dp</dimen>
+    <dimen name="layout_top_margin">28dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="main_margin">16dp</dimen>
     <dimen name="padding_btn_top">10dp</dimen>
     <dimen name="padding_btn_side">30dp</dimen>
     <dimen name="corner_radius_btn">25dp</dimen>
-    <dimen name="btn_text_size">18sp</dimen>
+    <dimen name="btn_text_size">14sp</dimen>
+    <dimen name="text_size">14sp</dimen>
+    <dimen name="label_text_size">12sp</dimen>
+    <dimen name="btn_date_width">148dp</dimen>
+    <dimen name="btn_date_height">40dp</dimen>
+    <dimen name="btn_search_width">160dp</dimen>
+    <dimen name="btn_search_height">42dp</dimen>
     <dimen name="author_img_size">40dp</dimen>
 </resources>

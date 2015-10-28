@@ -254,9 +254,7 @@ public class WheelDatePicker extends LinearLayout {
                 int newDay = getDay();
                 int month = getMonth();
                 raiseDateChangedEvent(oldDay, month, oldYear, newDay, month, newYear);
-                yearAdapter.selectedItem = newValue;
-                View view = wheelYear.getItemView(newValue);
-                ((TextView) view).setTextColor(getContext().getResources().getColor(R.color.btn_blue));
+
             }
         });
 

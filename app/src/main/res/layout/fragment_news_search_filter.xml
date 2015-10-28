@@ -13,7 +13,9 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/rl_search_FNSF">
+            android:id="@+id/rl_search_FNSF"
+            android:layout_marginLeft="@dimen/main_margin"
+            android:layout_marginRight="@dimen/main_margin">
 
         <com.itacit.healthcare.presentation.news.views.chipsView.ChipsEditText
             android:layout_width="match_parent"
@@ -22,28 +24,38 @@
             android:textSize="13sp"
             android:textColor="@color/gray_dark"
             android:background="@null"
+            android:layout_marginBottom="@dimen/main_margin"
             />
+
+        <View
+            android:id="@+id/line_separator_FNSF"
+            android:layout_below="@+id/et_serch_FNSF"
+            style="@style/line_separator"/>
 
         <ImageButton
                 android:id="@+id/ib_close_FNSF"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/line_separator_FNSF"
                 android:layout_alignParentRight="true"
                 android:background="@android:color/white"
-                android:src="@android:drawable/ic_menu_close_clear_cancel"
-                />
+                android:src="@drawable/btn_del_filter"
+                android:layout_marginBottom="@dimen/main_margin"/>
 
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/rl_author_FNSF">
+            android:id="@+id/rl_author_FNSF"
+            android:layout_marginLeft="@dimen/main_margin"
+            android:layout_marginRight="@dimen/main_margin">
 
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/layout_top_margin"
                 android:id="@+id/rl_author_title_FNSF">
 
 	            <ImageView
@@ -52,7 +64,7 @@
 		            android:id="@+id/iv_icon_author_FNSF"
 		            android:layout_alignParentLeft="true"
 		            android:layout_alignParentStart="true"
-		            android:src="@android:drawable/ic_menu_myplaces"
+		            android:src="@drawable/ic_user"
 		            android:layout_margin="5dp"
 		            android:layout_centerVertical="true"/>
 
@@ -62,7 +74,8 @@
 		            android:text="@string/author"
 		            android:id="@+id/tv_label_author_FNSF"
 		            android:layout_toRightOf="@+id/iv_icon_author_FNSF"
-		            style="@style/labelFilter"/>
+		            style="@style/labelFilter"
+                    android:layout_marginLeft="@dimen/main_margin"/>
 
 	            <TextView
 		            android:layout_width="wrap_content"
@@ -79,7 +92,7 @@
 		            android:id="@+id/iv_expand_author_FNSF"
 		            android:layout_alignParentEnd="true"
 		            android:layout_alignParentRight="true"
-		            android:src="@android:drawable/arrow_down_float"
+		            android:src="@drawable/ic_drop"
 		            android:layout_margin="5dp"
 		            android:layout_centerVertical="true"/>
             </RelativeLayout>
@@ -97,7 +110,10 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/rl_category_FNSF">
+            android:id="@+id/rl_category_FNSF"
+            android:layout_marginTop="@dimen/layout_top_margin"
+            android:layout_marginLeft="@dimen/main_margin"
+            android:layout_marginRight="@dimen/main_margin">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -110,7 +126,7 @@
 		            android:id="@+id/iv_icon_category_FNSF"
 		            android:layout_alignParentLeft="true"
 		            android:layout_alignParentStart="true"
-		            android:src="@android:drawable/ic_menu_gallery"
+		            android:src="@drawable/ic_category"
 		            android:layout_margin="5dp"
 		            android:layout_centerVertical="true"/>
 
@@ -120,7 +136,8 @@
 		            android:text="@string/category"
 		            android:id="@+id/tv_label_category_FNSF"
 		            android:layout_toRightOf="@+id/iv_icon_category_FNSF"
-		            style="@style/labelFilter"/>
+		            style="@style/labelFilter"
+                    android:layout_marginLeft="@dimen/main_margin"/>
 
 	            <TextView
 		            android:layout_width="wrap_content"
@@ -137,7 +154,7 @@
 		            android:id="@+id/iv_expand_category_FNSF"
 		            android:layout_alignParentEnd="true"
 		            android:layout_alignParentRight="true"
-		            android:src="@android:drawable/arrow_down_float"
+		            android:src="@drawable/ic_drop"
 		            android:layout_margin="5dp"
 		            android:layout_centerVertical="true"/>
 
@@ -156,7 +173,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/rl_date_FNSF">
+            android:id="@+id/rl_date_FNSF"
+            android:layout_marginTop="@dimen/layout_top_margin">
 
 
 	            <TextView
@@ -171,20 +189,20 @@
 	                android:layout_marginLeft="@dimen/text_margin"/>
 
                 <TextView
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/btn_date_width"
+                    android:layout_height="@dimen/btn_date_height"
                     android:text="@string/add_date"
                     android:id="@+id/tv_from_FNSF"
-                    android:drawableLeft="@android:drawable/ic_menu_my_calendar"
+                    android:drawableLeft="@drawable/ic_calendar"
                     android:layout_alignStart="@+id/tv_label_from_FNSF"
                     android:layout_below="@id/tv_label_from_FNSF"
                     style="@style/tv_date"/>
 
                 <TextView
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/btn_date_width"
+                    android:layout_height="@dimen/btn_date_height"
                     android:text="@string/add_date"
-                    android:drawableLeft="@android:drawable/ic_menu_my_calendar"
+                    android:drawableLeft="@drawable/ic_calendar"
                     android:id="@+id/tv_to_FNSF"
                     android:layout_marginRight="@dimen/text_margin"
                     style="@style/tv_date"
@@ -229,36 +247,39 @@
                 >
 
                 <TextView
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="100dp"
+                    android:layout_height="@dimen/btn_date_height"
                     android:text="@string/done"
                     android:id="@+id/tv_done_FNSF"
-                    android:drawableLeft="@android:drawable/checkbox_on_background"
+                    android:drawableLeft="@drawable/btn_done"
                     android:layout_alignParentLeft="true"
-                    style="@style/tv_date"
-                    android:layout_marginLeft="10dp"/>
+                    style="@style/tv_done"
+                    android:textColor="@color/btn_blue"
+                    android:layout_marginLeft="20dp"/>
 
                 <TextView
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="100dp"
+                    android:layout_height="@dimen/btn_date_height"
                     android:text="@string/cancel"
-                    android:drawableLeft="@android:drawable/ic_menu_close_clear_cancel"
+                    android:drawableLeft="@drawable/btn_close"
                     android:id="@+id/tv_cancel_FNSF"
+                    style="@style/tv_done"
                     android:layout_alignParentRight="true"
-                    style="@style/tv_date"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="20dp"
+                    android:textColor="@color/gray_dark"
                     android:layout_alignTop="@+id/tv_done_FNSF"/>
             </RelativeLayout>
 
         </RelativeLayout>
 
         <Button
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/btn_search_width"
+            android:layout_height="@dimen/btn_search_height"
             android:text="@string/search"
             android:id="@+id/btn_search_FNSF"
             android:layout_gravity="center_horizontal"
             android:capitalize="characters"
+            android:layout_marginTop="@dimen/layout_top_margin"
             android:background="@drawable/selector_btn_search"
             android:textColor="@android:color/white"
             android:textSize="@dimen/btn_text_size"/>
