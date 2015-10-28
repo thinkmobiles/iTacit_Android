@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.itacit.healthcare.R;
-import com.itacit.healthcare.domain.interactor.GetNewsInteractor;
+import com.itacit.healthcare.domain.interactor.GetNewsUseCase;
 import com.itacit.healthcare.presentation.base.views.BaseFragmentView;
 import com.itacit.healthcare.presentation.news.mapper.NewsModelDataMapper;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
@@ -62,7 +62,7 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 
     @Override
     protected NewsFeedPresenter createPresenter() {
-        return new NewsFeedPresenter(new GetNewsInteractor(), new NewsModelDataMapper());
+        return new NewsFeedPresenter(new GetNewsUseCase(), new NewsModelDataMapper());
     }
 
     @Override

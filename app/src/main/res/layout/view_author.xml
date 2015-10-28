@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+
+   <ImageView
+        android:id="@+id/iv_icon_IAF"
+        android:layout_width="@dimen/author_img_size"
+        android:layout_height="@dimen/author_img_size"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/text_margin"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_name_IAF"
+            android:textSize="16sp"
+            android:textColor="@color/gray_dark"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Bryan Chapman"/>
+
+        <TextView
+            android:id="@+id/tv_position_IAF"
+            android:textSize="14sp"
+            android:layout_below="@id/tv_name_IAF"
+            android:layout_marginTop="10dp"
+            android:layout_alignLeft="@id/tv_name_IAF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="General manager"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

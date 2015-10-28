@@ -1,4 +1,4 @@
-package com.itacit.healthcare.data;
+package com.itacit.healthcare.data.network.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

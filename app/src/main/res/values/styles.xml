@@ -16,7 +16,7 @@
 
     <style name="textArticle">
         <item name="android:textColor">@color/text_dark_grey</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="textTitle" >

@@ -27,9 +27,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getLayoutRes());
         ButterKnife.bind(this);
         setSupportActionBar(mToolBar);
-
-        //Fixme
-        getFragmentManager().beginTransaction().replace(R.id.content, new NewsFilterFragment()).commit();
     }
 
     protected abstract @LayoutRes int getLayoutRes();

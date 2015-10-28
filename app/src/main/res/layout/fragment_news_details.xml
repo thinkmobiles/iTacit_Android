@@ -8,31 +8,37 @@
 	<ImageView
 		android:id="@+id/imageView"
 		android:layout_width="match_parent"
-		android:layout_height="200dp"
-		android:layout_marginBottom="20dp"/>
+		android:layout_height="200dp"/>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:layout_marginLeft="@dimen/margin_sides"
+		android:layout_marginRight="@dimen/margin_sides">
 
 	<TextView
 		android:id="@+id/tv_title_FND"
 		style="@style/textTitle"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginBottom="20dp"
-		android:layout_marginRight="@dimen/text_margin"
-		tools:text="MDS Dglfgkslg sdglskglmsl"
-		android:textSize="25sp"/>
+		android:layout_marginTop="@dimen/margin_news_details"
+		android:layout_marginBottom="@dimen/margin_news_details"
+		tools:text="MDS Dglfgkslg sdglskglmsl"/>
 
 	<TextView
 		android:id="@+id/tv_article_FND"
 		style="@style/textArticle"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginBottom="20dp"
+		android:lineSpacingMultiplier="2"
 		android:layout_marginRight="@dimen/text_margin"
 		tools:text="Medium Text Lorem ipsum Medium Text Lorem ipsumMedium Text Lorem ipsumMedium Text Lorem ipsumMedium Text Lorem ipsum"/>
 
 	<TextView
 		android:id="@+id/tv_category_FND"
 		style="@style/textCategory"
+		android:layout_marginTop="@dimen/margin_news_details"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		tools:text="Car Service"/>
@@ -42,41 +48,11 @@
 		style="@style/textCategory"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginBottom="20dp"
+		android:layout_marginTop="@dimen/margin_news_details"
 		tools:text="July 30, 2015"/>
-
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="horizontal">
-
-		<ImageView
-			android:id="@+id/iv_icon_FND"
-			android:layout_width="50dp"
-			android:layout_height="50dp"
-			android:layout_gravity="center_vertical"
-			android:layout_marginLeft="@dimen/text_margin"/>
-
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="vertical">
-
-			<TextView
-				android:id="@+id/tv_name_FND"
-				style="@style/textTitle"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				tools:text="Bryan Chapman"/>
-
-			<TextView
-				android:id="@+id/tv_position_FND"
-				style="@style/textCategory"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				tools:text="General manager"/>
-
-		</LinearLayout>
-
 	</LinearLayout>
+
+	<include layout="@layout/view_author" android:layout_marginTop="23dp"
+			 android:layout_height="wrap_content"
+			 android:layout_width="match_parent"/>
 </LinearLayout>

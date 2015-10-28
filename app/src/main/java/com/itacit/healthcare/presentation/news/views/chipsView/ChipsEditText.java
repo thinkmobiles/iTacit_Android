@@ -35,8 +35,10 @@ public class ChipsEditText extends EditText {
 
     private final Subject<VisibleFilterChip, VisibleFilterChip> mChipRemovedSubject = PublishSubject.create();
     private final float mChipHeightDp = 32;
-    private final float mPaddingLeftDp = 12;
-    private final float mPaddingRightDp = 8;
+    private final float mBgPaddingLeftDp = 12;
+    private final float mBgPaddingRightDp = 8;
+    private final float mBgPaddingTop = 8;
+    private final float mDeleteSizeDp = 16;
 
 
     public ChipsEditText(Context context) {
@@ -88,11 +90,13 @@ public class ChipsEditText extends EditText {
         }
 
         Drawable delete = getContext().getResources().getDrawable(R.drawable.btn_chip_del);
+        int deleteSizePx = (int) AndroidUtils.convertDpToPixel(mDeleteSizeDp, getContext());
         SpannableString chipText = new SpannableString(spanableText);
         final int textLength = spanableText.length() - 1;
         TextPaint paint = getPaint();
-        float paddingRightPx = AndroidUtils.convertDpToPixel(mPaddingRightDp, getContext());
-        float paddingLeftPx = AndroidUtils.convertDpToPixel(mPaddingLeftDp, getContext());
+        int paddingTopPx = (int) AndroidUtils.convertDpToPixel(mBgPaddingTop, getContext());
+        int paddingRightPx = (int) AndroidUtils.convertDpToPixel(mBgPaddingRightDp, getContext());
+        int paddingLeftPx = (int) AndroidUtils.convertDpToPixel(mBgPaddingLeftDp, getContext());
         int heightPx = (int) AndroidUtils.convertDpToPixel(mChipHeightDp, getContext());
         int width = (int) (Math.floor(paint.measureText(text,0,text.length()))+paddingLeftPx+2*paddingRightPx+delete.getMinimumWidth());
         Bitmap tmpBitmap = Bitmap.createBitmap(width, heightPx, Bitmap.Config.ARGB_8888);
@@ -106,7 +110,7 @@ public class ChipsEditText extends EditText {
         paint.setColor(getContext().getResources().getColor(R.color.gray_dark));
         // Vertically center the text in the chip.
         canvas.drawText(ellipsizedText, 0, ellipsizedText.length(), paddingLeftPx, getTextYOffset((String) ellipsizedText, paint, heightPx), paint);
-
+        delete.setBounds(width - (deleteSizePx + paddingRightPx), paddingTopPx, width - paddingRightPx, heightPx - paddingTopPx);
         delete.draw(canvas);
 
 
