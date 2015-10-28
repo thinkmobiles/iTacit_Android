@@ -20,6 +20,7 @@ import rx.Scheduler;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import rx.subscriptions.Subscriptions;
 
 /**
@@ -43,15 +44,21 @@ public abstract class UseCase<T> {
   /**
    * Executes the current use case.
    *
-   * @param UseCaseSubscriber The guy who will be listen to the observable build with {@link #buildUseCaseObservable()}.
+   * @param useCaseSubscriber The guy who will be listen to the observable build with {@link #buildUseCaseObservable()}.
    */
   @SuppressWarnings("unchecked")
-  public void execute(Subscriber<T> UseCaseSubscriber, Scheduler scheduler) {
+  public void execute(Subscriber<T> useCaseSubscriber, Scheduler subscribeOn, Scheduler observeOn) {
     this.subscription = this.buildUseCaseObservable()
-        .subscribeOn(scheduler)
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(UseCaseSubscriber);
+        .subscribeOn(subscribeOn)
+        .observeOn(observeOn)
+        .subscribe(useCaseSubscriber);
   }
+
+
+  public void execute (Subscriber<T> useCaseSubscriber) {
+    execute(useCaseSubscriber, Schedulers.io(), AndroidSchedulers.mainThread());
+  }
+
 
   /**
    * Unsubscribes from current {@link Subscription}.

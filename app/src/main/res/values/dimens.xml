@@ -10,6 +10,8 @@
     <dimen name="corner_radius_btn">25dp</dimen>
     <dimen name="btn_text_size">18sp</dimen>
     <dimen name="author_img_size">40dp</dimen>
+    <dimen name="margin_sides">16dp</dimen>
+    <dimen name="margin_news_details">28dp</dimen>
     <dimen name="news_thumb_size">100dp</dimen>
     <dimen name="news_item_category_margin_top">56dp</dimen>
     <dimen name="news_item_text_left_margin">16dp</dimen>

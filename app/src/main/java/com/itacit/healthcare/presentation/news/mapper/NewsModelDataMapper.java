@@ -1,6 +1,6 @@
 package com.itacit.healthcare.presentation.news.mapper;
 
-import com.itacit.healthcare.data.News;
+import com.itacit.healthcare.data.network.response.News;
 import com.itacit.healthcare.presentation.base.ModelDataMapper;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
 

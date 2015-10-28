@@ -1,7 +1,7 @@
 package com.itacit.healthcare.presentation.news.presenters;
 
-import com.itacit.healthcare.data.News;
-import com.itacit.healthcare.domain.interactor.GetNewsInteractor;
+import com.itacit.healthcare.data.network.response.News;
+import com.itacit.healthcare.domain.interactor.GetNewsUseCase;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
 import com.itacit.healthcare.presentation.news.mapper.NewsModelDataMapper;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
@@ -16,11 +16,11 @@ import rx.Subscriber;
  */
 public class NewsFeedPresenter extends BasePresenter<INewsFeedView> implements INewsFeedPresenter {
     public static final int SEARCH_TEXT_MIN_LENGTH = 3;
-    private GetNewsInteractor mNewsInteractor;
+    private GetNewsUseCase mGetNewsUseCase;
     private NewsModelDataMapper mDataMapper;
 
-    public NewsFeedPresenter(GetNewsInteractor newsInteractor, NewsModelDataMapper newsModelDataMapper) {
-        mNewsInteractor = newsInteractor;
+    public NewsFeedPresenter(GetNewsUseCase newsUseCase, NewsModelDataMapper newsModelDataMapper) {
+        mGetNewsUseCase = newsUseCase;
         mDataMapper = newsModelDataMapper;
     }
 
@@ -41,7 +41,7 @@ public class NewsFeedPresenter extends BasePresenter<INewsFeedView> implements I
 
     @Override
     public void loadNews() {
-        mNewsInteractor.execute(new NewsListSubscriber());
+        mGetNewsUseCase.execute(new NewsListSubscriber());
     }
 
     @Override

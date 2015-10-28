@@ -1,4 +1,4 @@
-package com.itacit.healthcare.domain.api;
+package com.itacit.healthcare.data.network.interceptors;
 
 import android.util.Log;
 
