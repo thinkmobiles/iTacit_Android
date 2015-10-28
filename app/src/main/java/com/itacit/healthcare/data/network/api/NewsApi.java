@@ -6,6 +6,7 @@ import com.itacit.healthcare.data.network.request.RequestNews;
 import java.util.List;
 
 import retrofit.http.Body;
+import retrofit.http.Headers;
 import retrofit.http.POST;
 import rx.Observable;
 
@@ -13,6 +14,6 @@ import rx.Observable;
  * Created by root on 21.10.15.
  */
 public interface NewsApi {
-    @POST("/1.0/news/article")
+    @POST("mobile/1.0/news/article")
     Observable<List<News>> getNews(@Body RequestNews request);
 }
