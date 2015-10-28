@@ -10,14 +10,12 @@ import com.itacit.healthcare.presentation.news.views.INewsFeedView;
 import java.util.List;
 
 import rx.Subscriber;
-import rx.Subscription;
 
 /**
  * Created by root on 13.10.15.
  */
 public class NewsFeedPresenter extends BasePresenter<INewsFeedView> implements INewsFeedPresenter {
     public static final int SEARCH_TEXT_MIN_LENGTH = 3;
-    private Subscription mSubscriptionSearchText;
     private GetNewsInteractor mNewsInteractor;
     private NewsModelDataMapper mDataMapper;
 
@@ -29,19 +27,10 @@ public class NewsFeedPresenter extends BasePresenter<INewsFeedView> implements I
     @Override
     public void attachView(INewsFeedView view) {
         super.attachView(view);
-        if (mSubscriptionSearchText == null && getView()!= null) {
-            mSubscriptionSearchText = getView().getNewsSearchTextObs()
+        if (getView()!= null) {
+            mCompositeSubscription.add(getView().getNewsSearchTextObs()
                     .filter(t -> t.length() > SEARCH_TEXT_MIN_LENGTH)
-                    .subscribe(this::searchNews);
-        }
-    }
-
-    @Override
-    public void detachView() {
-        super.detachView();
-        if (mSubscriptionSearchText != null && mSubscriptionSearchText.isUnsubscribed()) {
-            mSubscriptionSearchText.unsubscribe();
-            mSubscriptionSearchText = null;
+                    .subscribe(this::searchNews));
         }
     }
 

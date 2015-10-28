@@ -13,7 +13,7 @@ import rx.subscriptions.Subscriptions;
 /**
  * Created by root on 21.10.15.
  */
-public abstract class BaseRestInteractor<T> implements Interactor<T> {
+public abstract class BaseRestInteractor<T> extends UseCase<T> {
     protected Retrofit mRetrofit;
     protected Subscription mSubscription = Subscriptions.empty();
 
@@ -27,12 +27,6 @@ public abstract class BaseRestInteractor<T> implements Interactor<T> {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(client)
                         .build();
-    }
-
-    public void unsubscribe() {
-        if (!mSubscription.isUnsubscribed()) {
-            mSubscription.unsubscribe();
-        }
     }
 
 }

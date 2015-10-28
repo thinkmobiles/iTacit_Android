@@ -19,11 +19,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".presentation.news.views.chipsView.Main2Activity"
-            android:theme="@style/AppTheme" >
-
-        </activity>
     </application>
 
 </manifest>
