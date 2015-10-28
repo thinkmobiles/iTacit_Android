@@ -1,5 +1,6 @@
 package com.itacit.healthcare.domain.interactor;
 
+import com.itacit.healthcare.data.network.AuthManager;
 import com.itacit.healthcare.data.network.ServiceGenerator;
 import com.itacit.healthcare.data.network.response.News;
 import com.itacit.healthcare.data.network.api.NewsApi;
@@ -22,6 +23,6 @@ public class GetNewsUseCase extends UseCase<List<News>> {
         RequestNews request = new RequestNews();
         request.setStartIndex(1);
         request.setRowCount(20);
-        return ServiceGenerator.createService(NewsApi.class).getNews(request);
+        return ServiceGenerator.createService(NewsApi.class, AuthManager.accessToken).getNews(request);
     }
 }
