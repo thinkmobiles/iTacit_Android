@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by root on 23.10.15.
  */
-public class RequestNews {
+public class ListRequest {
 
     @SerializedName("query")
     @Expose

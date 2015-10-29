@@ -1,6 +1,6 @@
 package com.itacit.healthcare.data.network.api;
 
-import com.itacit.healthcare.data.network.response.AccessToken;
+import com.itacit.healthcare.data.entries.AccessToken;
 
 
 import retrofit.http.Headers;
