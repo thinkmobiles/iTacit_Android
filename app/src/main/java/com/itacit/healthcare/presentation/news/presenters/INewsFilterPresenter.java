@@ -5,4 +5,6 @@ package com.itacit.healthcare.presentation.news.presenters;
  */
 interface INewsFilterPresenter {
 
+	public abstract void loadDatePicker();
+
 }

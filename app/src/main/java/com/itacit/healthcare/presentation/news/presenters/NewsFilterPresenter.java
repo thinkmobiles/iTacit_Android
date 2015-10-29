@@ -7,4 +7,9 @@ import com.itacit.healthcare.presentation.news.views.INewsFilterView;
  * Created by root on 26.10.15.
  */
 public class NewsFilterPresenter extends BasePresenter<INewsFilterView> implements INewsFilterPresenter {
+
+	@Override
+	public void loadDatePicker() {
+
+	}
 }

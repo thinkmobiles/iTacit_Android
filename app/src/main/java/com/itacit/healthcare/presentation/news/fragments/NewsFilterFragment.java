@@ -3,6 +3,7 @@ package com.itacit.healthcare.presentation.news.fragments;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -19,6 +20,7 @@ import com.itacit.healthcare.presentation.news.views.INewsFilterView;
 import java.util.Locale;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * Created by root on 21.10.15.
@@ -71,11 +73,11 @@ public class NewsFilterFragment extends BaseFragmentView<NewsFilterPresenter> im
         datePickerWheel.setVisibleItems(5);
         datePickerWheel.setMinMaxYears(2000, 2020);
         datePickerWheel.addDateChangedListener(new WheelDatePicker.IDateChangedListener() {
-            @Override
-            public void onChanged(WheelDatePicker sender, int oldDay, int oldMonth, int oldYear, int day, int month, int year) {
-                Log.i("WHEEL_APP", String.format("Selected date changed ! %02d.%02d.%04d -> %02d.%02d.%04d",
-                        oldDay, oldMonth, oldYear, day, month, year));
-            }
+	        @Override
+	        public void onChanged(WheelDatePicker sender, int oldDay, int oldMonth, int oldYear, int day, int month, int year) {
+		        Log.i("WHEEL_APP", String.format("Selected date changed ! %02d.%02d.%04d -> %02d.%02d.%04d",
+				        oldDay, oldMonth, oldYear, day, month, year));
+	        }
         });
 
     }
@@ -98,4 +100,44 @@ public class NewsFilterFragment extends BaseFragmentView<NewsFilterPresenter> im
     protected NewsFilterPresenter createPresenter() {
         return new NewsFilterPresenter();
     }
+
+
+	@OnClick({R.id.tv_from_FNSF, R.id.tv_to_FNSF})
+	@Override
+    public void showDatePicker() {
+
+
+		if (datePickerWheel.getVisibility()==View.GONE) {
+			datePickerWheel.setVisibility(View.VISIBLE);
+		} else {
+			datePickerWheel.setVisibility(View.GONE);
+		}
+    }
+
+	@OnClick(R.id.iv_expand_author_FNSF)
+	@Override
+	public void showAuthors() {
+
+		if (recyclerViewAuthors.getVisibility()==View.GONE) {
+			recyclerViewAuthors.setVisibility(View.VISIBLE);
+			ivExpandAuthor.setImageResource(R.drawable.ic_drop_hide);
+		} else {
+			recyclerViewAuthors.setVisibility(View.GONE);
+			ivExpandAuthor.setImageResource(R.drawable.ic_drop);
+		}
+	}
+
+	@OnClick(R.id.iv_expand_category_FNSF)
+	@Override
+	public void showCategory() {
+
+		if (recyclerViewCategories.getVisibility()==View.GONE) {
+			recyclerViewCategories.setVisibility(View.VISIBLE);
+			ivExpandCategory.setImageResource(R.drawable.ic_drop_hide);
+		} else {
+			recyclerViewCategories.setVisibility(View.GONE);
+			ivExpandCategory.setImageResource(R.drawable.ic_drop);
+		}
+	}
+
 }

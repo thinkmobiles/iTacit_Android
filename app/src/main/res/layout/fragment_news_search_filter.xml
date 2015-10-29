@@ -49,13 +49,12 @@
             android:layout_height="wrap_content"
             android:id="@+id/rl_author_FNSF"
             android:layout_marginLeft="@dimen/main_margin"
-            android:layout_marginRight="@dimen/main_margin">
+            android:layout_marginTop="@dimen/layout_top_margin">
 
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/layout_top_margin"
                 android:id="@+id/rl_author_title_FNSF">
 
 	            <ImageView
@@ -93,8 +92,8 @@
 		            android:layout_alignParentEnd="true"
 		            android:layout_alignParentRight="true"
 		            android:src="@drawable/ic_drop"
-		            android:layout_margin="5dp"
-		            android:layout_centerVertical="true"/>
+                    android:layout_centerVertical="true"
+                    android:padding="@dimen/main_margin"/>
             </RelativeLayout>
 
 	        <android.support.v7.widget.RecyclerView
@@ -113,7 +112,7 @@
             android:id="@+id/rl_category_FNSF"
             android:layout_marginTop="@dimen/layout_top_margin"
             android:layout_marginLeft="@dimen/main_margin"
-            android:layout_marginRight="@dimen/main_margin">
+            >
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -155,8 +154,9 @@
 		            android:layout_alignParentEnd="true"
 		            android:layout_alignParentRight="true"
 		            android:src="@drawable/ic_drop"
-		            android:layout_margin="5dp"
-		            android:layout_centerVertical="true"/>
+		            android:layout_centerVertical="true"
+                    android:padding="@dimen/main_margin"/>
+                    android:paddingLeft="@dimen/main_margin"/>
 
             </RelativeLayout>
 
@@ -225,7 +225,7 @@
                   android:layout_gravity="center_horizontal"
                   android:layout_marginTop="30dp"
                   android:layout_marginBottom="30dp"
-                />
+                  android:visibility="gone"/>
 
 	        <!--<DatePicker-->
                     <!--android:layout_width="wrap_content"-->
@@ -280,6 +280,7 @@
             android:layout_gravity="center_horizontal"
             android:capitalize="characters"
             android:layout_marginTop="@dimen/layout_top_margin"
+            android:layout_marginBottom="@dimen/layout_top_margin"
             android:background="@drawable/selector_btn_search"
             android:textColor="@android:color/white"
             android:textSize="@dimen/btn_text_size"/>
