@@ -8,7 +8,7 @@
               android:paddingLeft="@dimen/text_margin">
 
    <ImageView
-        android:id="@+id/iv_icon_ILN"
+        android:id="@+id/iv_headline_ILN"
         android:layout_width="@dimen/news_thumb_size"
         android:layout_height="@dimen/news_thumb_size"
        />
@@ -19,7 +19,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_title_ILN"
+            android:id="@+id/tv_headline_ILN"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Care Giving Reminders,"
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/news_item_category_margin_top"
-            android:layout_alignLeft="@id/tv_title_ILN"
+            android:layout_alignLeft="@id/tv_headline_ILN"
             style="@style/textCategory"
             tools:text="Care Giving"/>
 
@@ -40,7 +40,7 @@
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
-            android:layout_alignLeft="@id/tv_title_ILN"
+            android:layout_alignLeft="@id/tv_headline_ILN"
             android:layout_below="@id/tv_category_ILN"
             tools:text="12:57 am"
             style="@style/textCategory"/>
@@ -49,7 +49,7 @@
            android:layout_width="match_parent"
            android:layout_height="1dp"
            android:background="@color/gray_light"
-           android:layout_alignLeft="@id/tv_title_ILN"
+           android:layout_alignLeft="@id/tv_headline_ILN"
            android:layout_below="@id/tv_time_ILN"
            android:layout_marginTop="@dimen/news_item_line_margin_top"/>
 

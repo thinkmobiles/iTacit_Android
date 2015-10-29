@@ -10,6 +10,7 @@ import android.widget.EditText;
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.GetNewsUseCase;
 import com.itacit.healthcare.presentation.base.views.BaseFragmentView;
+import com.itacit.healthcare.presentation.news.adapters.NewsAdapter;
 import com.itacit.healthcare.presentation.news.mapper.NewsModelDataMapper;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
 import com.itacit.healthcare.presentation.news.presenters.NewsFeedPresenter;
@@ -67,7 +68,8 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 
     @Override
     public void showNews(List<NewsModel> news) {
-
+        NewsAdapter adapter = new NewsAdapter(getActivity(), news);
+        mRecyclerView.setAdapter(adapter);
     }
 
     @Override
