@@ -17,7 +17,7 @@
  *  limitations under the License.
  */
 
-package com.itacit.healthcare.presentation.news.views.wheel.widget;
+package com.itacit.healthcare.presentation.base.widgets.wheelDatePicker.wheel;
 
 import android.content.Context;
 import android.os.Handler;

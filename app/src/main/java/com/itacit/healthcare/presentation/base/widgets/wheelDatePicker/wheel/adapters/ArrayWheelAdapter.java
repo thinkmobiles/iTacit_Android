@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.itacit.healthcare.presentation.news.views.wheel.widget.adapters;
+package com.itacit.healthcare.presentation.base.widgets.wheelDatePicker.wheel.adapters;
 
 import android.content.Context;
 

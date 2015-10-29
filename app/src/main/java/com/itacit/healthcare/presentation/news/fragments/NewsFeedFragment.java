@@ -8,10 +8,11 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.itacit.healthcare.R;
-import com.itacit.healthcare.domain.interactor.GetNewsUseCase;
+import com.itacit.healthcare.domain.interactor.GetNewsListUseCase;
+import com.itacit.healthcare.presentation.base.BaseActivity;
 import com.itacit.healthcare.presentation.base.views.BaseFragmentView;
 import com.itacit.healthcare.presentation.news.adapters.NewsAdapter;
-import com.itacit.healthcare.presentation.news.mapper.NewsModelDataMapper;
+import com.itacit.healthcare.presentation.news.mapper.NewsModelMapper;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
 import com.itacit.healthcare.presentation.news.presenters.NewsFeedPresenter;
 import com.itacit.healthcare.presentation.news.views.INewsFeedView;
@@ -28,22 +29,29 @@ import rx.Observable;
  */
 public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implements INewsFeedView {
     @Bind(R.id.et_search_FN)
-    EditText mSearchNewsView;
+    EditText searchNewsView;
 
     @Bind(R.id.recycler_view_FN)
-    RecyclerView mRecyclerView;
+    RecyclerView newsRecyclerView;
+    private NewsAdapter newsAdapter;
+
+    @Override
+    public void showNewsItemDetails(long newsId) {
+        Bundle args = new Bundle(1);
+        args.putLong(NewsDetailsFragment.NEWS_ID, newsId);
+        ((BaseActivity)getActivity()).switchContent(NewsDetailsFragment.class, true, args);
+    }
 
     @Override
     protected void setUpView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(layoutManager);
-
+        newsRecyclerView.setLayoutManager(layoutManager);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mPresenter.loadNews();
+        presenter.loadNews();
     }
 
     @Override
@@ -63,22 +71,18 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 
     @Override
     protected NewsFeedPresenter createPresenter() {
-        return new NewsFeedPresenter(new GetNewsUseCase(), new NewsModelDataMapper());
+        return new NewsFeedPresenter(new GetNewsListUseCase(), new NewsModelMapper());
     }
 
     @Override
     public void showNews(List<NewsModel> news) {
-        NewsAdapter adapter = new NewsAdapter(getActivity(), news);
-        mRecyclerView.setAdapter(adapter);
-    }
-
-    @Override
-    public void newsItemSelected(NewsModel newsItem) {
-
+        newsAdapter = new NewsAdapter(getActivity(), news);
+        newsRecyclerView.setAdapter(newsAdapter);
+        newsAdapter.setOnNewsItemSelectedListener(this::showNewsItemDetails);
     }
 
     @Override
     public Observable<String> getNewsSearchTextObs() {
-        return RxTextView.textChangeEvents(mSearchNewsView).map(e -> e.text().toString());
+        return RxTextView.textChangeEvents(searchNewsView).map(e -> e.text().toString());
     }
 }

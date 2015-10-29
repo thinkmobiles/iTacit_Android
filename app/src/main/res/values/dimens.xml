@@ -14,6 +14,4 @@
     <dimen name="margin_news_details">28dp</dimen>
     <dimen name="news_thumb_size">100dp</dimen>
     <dimen name="news_item_category_margin_top">56dp</dimen>
-    <dimen name="news_item_text_left_margin">16dp</dimen>
-    <dimen name="news_item_line_margin_top">16dp</dimen>
 </resources>

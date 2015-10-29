@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.itacit.healthcare.presentation.news.views.wheel.widget.adapters;
+package com.itacit.healthcare.presentation.base.widgets.wheelDatePicker.wheel.adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -179,6 +179,8 @@ public abstract class AbstractWheelTextAdapter extends AbstractWheelAdapter {
      */
     protected abstract CharSequence getItemText(int index);
 
+    public int selectedItem = 1;
+
     @Override
     public View getItem(int index, View convertView, ViewGroup parent) {
         if (index >= 0 && index < getItemsCount()) {
@@ -197,6 +199,9 @@ public abstract class AbstractWheelTextAdapter extends AbstractWheelAdapter {
                     configureTextView(textView);
                 }
             }
+//            if (index == selectedItem) {
+//                ((TextView) convertView).setTextColor(context.getResources().getColor(R.color.btn_blue));
+//            }
             return convertView;
         }
     	return null;

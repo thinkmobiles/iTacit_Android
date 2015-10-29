@@ -17,7 +17,7 @@
  *  limitations under the License.
  */
 
-package com.itacit.healthcare.presentation.news.views.wheel.widget;
+package com.itacit.healthcare.presentation.base.widgets.wheelDatePicker.wheel;
 
 /**
  * Range for visible items.

@@ -1,18 +1,18 @@
-package com.itacit.healthcare.presentation.news.views;
+package com.itacit.healthcare.presentation.base.widgets.wheelDatePicker;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+
+import com.itacit.healthcare.R;
+import com.itacit.healthcare.presentation.base.widgets.wheelDatePicker.wheel.OnWheelChangedListener;
+import com.itacit.healthcare.presentation.base.widgets.wheelDatePicker.wheel.WheelView;
+import com.itacit.healthcare.presentation.base.widgets.wheelDatePicker.wheel.adapters.NumericWheelAdapter;
 
 import junit.framework.Assert;
 
-import com.itacit.healthcare.R;
-import com.itacit.healthcare.presentation.news.views.wheel.widget.OnWheelChangedListener;
-import com.itacit.healthcare.presentation.news.views.wheel.widget.WheelView;
-import com.itacit.healthcare.presentation.news.views.wheel.widget.adapters.NumericWheelAdapter;
+
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;

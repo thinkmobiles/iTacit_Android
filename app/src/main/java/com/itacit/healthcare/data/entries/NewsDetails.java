@@ -1,13 +1,22 @@
-package com.itacit.healthcare.data.network.response;
+package com.itacit.healthcare.data.entries;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by root on 21.10.15.
+ * Created by root on 29.10.15.
  */
-public class News {
+public class NewsDetails {
 
+    @SerializedName("body")
+    @Expose
+    private String body;
+    @SerializedName("articleId")
+    @Expose
+    private String articleId;
+    @SerializedName("authorName")
+    @Expose
+    private String authorName;
     @SerializedName("categoryName")
     @Expose
     private String categoryName;
@@ -17,6 +26,9 @@ public class News {
     @SerializedName("summary")
     @Expose
     private String summary;
+    @SerializedName("categoryId")
+    @Expose
+    private String categoryId;
     @SerializedName("authorId")
     @Expose
     private String authorId;
@@ -32,12 +44,60 @@ public class News {
     @SerializedName("headlineImageAssetId")
     @Expose
     private String headlineImageAssetId;
-    @SerializedName("authorName")
-    @Expose
-    private String authorName;
-    @SerializedName("articleId")
-    @Expose
-    private String articleId;
+
+    /**
+     *
+     * @return
+     * The body
+     */
+    public String getBody() {
+        return body;
+    }
+
+    /**
+     *
+     * @param body
+     * The body
+     */
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    /**
+     *
+     * @return
+     * The articleId
+     */
+    public String getArticleId() {
+        return articleId;
+    }
+
+    /**
+     *
+     * @param articleId
+     * The articleId
+     */
+    public void setArticleId(String articleId) {
+        this.articleId = articleId;
+    }
+
+    /**
+     *
+     * @return
+     * The authorName
+     */
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    /**
+     *
+     * @param authorName
+     * The authorName
+     */
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
+    }
 
     /**
      *
@@ -91,6 +151,24 @@ public class News {
      */
     public void setSummary(String summary) {
         this.summary = summary;
+    }
+
+    /**
+     *
+     * @return
+     * The categoryId
+     */
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    /**
+     *
+     * @param categoryId
+     * The categoryId
+     */
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 
     /**
@@ -181,42 +259,6 @@ public class News {
      */
     public void setHeadlineImageAssetId(String headlineImageAssetId) {
         this.headlineImageAssetId = headlineImageAssetId;
-    }
-
-    /**
-     *
-     * @return
-     * The authorName
-     */
-    public String getAuthorName() {
-        return authorName;
-    }
-
-    /**
-     *
-     * @param authorName
-     * The authorName
-     */
-    public void setAuthorName(String authorName) {
-        this.authorName = authorName;
-    }
-
-    /**
-     *
-     * @return
-     * The articleId
-     */
-    public String getArticleId() {
-        return articleId;
-    }
-
-    /**
-     *
-     * @param articleId
-     * The articleId
-     */
-    public void setArticleId(String articleId) {
-        this.articleId = articleId;
     }
 
 }

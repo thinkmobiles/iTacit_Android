@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="horizontal"
-              android:paddingTop="16dp"
-              android:paddingLeft="@dimen/text_margin">
+              android:paddingTop="10dp"
+              android:paddingLeft="@dimen/margin_sides">
 
    <ImageView
         android:id="@+id/iv_headline_ILN"
@@ -14,16 +14,21 @@
        />
 
    <RelativeLayout
+        android:id="@+id/rl_news_info_ILN"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/iv_headline_ILN"
+        android:layout_marginLeft="@dimen/margin_sides"
+        android:layout_marginRight="@dimen/margin_sides"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_headline_ILN"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Care Giving Reminders,"
-            android:layout_marginLeft="@dimen/news_item_text_left_margin"
+            tools:text="Care Giving Reminders: During a Flu Outbreak and some"
+            android:maxLines="2"
+            android:ellipsize="end"
             style="@style/textTitle"/>
 
         <TextView
@@ -31,7 +36,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/news_item_category_margin_top"
-            android:layout_alignLeft="@id/tv_headline_ILN"
             style="@style/textCategory"
             tools:text="Care Giving"/>
 
@@ -40,19 +44,18 @@
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
-            android:layout_alignLeft="@id/tv_headline_ILN"
             android:layout_below="@id/tv_category_ILN"
             tools:text="12:57 am"
             style="@style/textCategory"/>
 
-       <View
-           android:layout_width="match_parent"
-           android:layout_height="1dp"
-           android:background="@color/gray_light"
-           android:layout_alignLeft="@id/tv_headline_ILN"
-           android:layout_below="@id/tv_time_ILN"
-           android:layout_marginTop="@dimen/news_item_line_margin_top"/>
-
     </RelativeLayout>
 
-</LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray_light"
+        android:layout_marginTop="16dp"
+        android:layout_alignLeft="@id/rl_news_info_ILN"
+        android:layout_below="@id/rl_news_info_ILN"/>
+
+</RelativeLayout>

@@ -17,7 +17,7 @@
  *  limitations under the License.
  */
 
-package com.itacit.healthcare.presentation.news.views.wheel.widget;
+package com.itacit.healthcare.presentation.base.widgets.wheelDatePicker.wheel;
 
 import android.content.Context;
 import android.database.DataSetObserver;
@@ -26,7 +26,6 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.GradientDrawable.Orientation;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -34,8 +33,8 @@ import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 
 import com.itacit.healthcare.R;
-import com.itacit.healthcare.presentation.news.views.wheel.widget.adapters.WheelViewAdapter;
-import com.itacit.healthcare.presentation.news.views.WheelDatePicker;
+import com.itacit.healthcare.presentation.base.widgets.wheelDatePicker.wheel.adapters.WheelViewAdapter;
+
 //import org.apache.commons.lang3.time.StopWatch;
 
 import java.util.LinkedList;
@@ -79,7 +78,7 @@ public class WheelView extends View {
 
 	// Scrolling
 	private WheelScroller scroller;
-    private boolean isScrollingPerformed; 
+    private boolean isScrollingPerformed;
     private int scrollingOffset;
 
 	// Cyclic
@@ -417,7 +416,7 @@ public class WheelView extends View {
             scrollingOffset = 0;
         } else if (itemsLayout != null) {
             // cache all items
-	        recycle.recycleItems(itemsLayout, firstItem, new ItemsRange());         
+	        recycle.recycleItems(itemsLayout, firstItem, new ItemsRange());
         }
         
         invalidate();
@@ -902,7 +901,7 @@ public class WheelView extends View {
 	 * @param index the item index
 	 * @return item view or empty view if index is out of bounds
 	 */
-    private View getItemView(int index) {
+    public View getItemView(int index) {
 		if (viewAdapter == null || viewAdapter.getItemsCount() == 0) {
 			return null;
 		}

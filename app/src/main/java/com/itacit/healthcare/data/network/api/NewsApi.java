@@ -1,13 +1,13 @@
 package com.itacit.healthcare.data.network.api;
 
-import com.itacit.healthcare.data.network.response.News;
+import com.itacit.healthcare.data.entries.NewsDetails;
 import com.itacit.healthcare.data.network.request.RequestNews;
+import com.itacit.healthcare.data.network.response.NewsListResponse;
 
-import java.util.List;
 
 import retrofit.http.Body;
-import retrofit.http.Headers;
 import retrofit.http.POST;
+import retrofit.http.Path;
 import rx.Observable;
 
 /**
@@ -15,5 +15,8 @@ import rx.Observable;
  */
 public interface NewsApi {
     @POST("mobile/1.0/news/article")
-    Observable<List<News>> getNews(@Body RequestNews request);
+    Observable<NewsListResponse> getNews(@Body RequestNews request);
+
+    @POST("/mobile/1.0/news/article/{articleId}")
+    Observable<NewsDetails> getNewsDetails(@Path("articleId") String articleId);
 }

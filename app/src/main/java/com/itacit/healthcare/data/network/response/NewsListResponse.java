@@ -2,6 +2,7 @@ package com.itacit.healthcare.data.network.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.itacit.healthcare.data.entries.News;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-/*
+package com.itacit.healthcare.presentation.base.widgets.wheelDatePicker.wheel;/*
  *  Copyright 2010 Yuri Kanivets
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +14,6 @@
  *  limitations under the License.
  */
 
-package com.itacit.healthcare.presentation.news.views.wheel.widget;
 
 /**
  * Wheel adapter interface

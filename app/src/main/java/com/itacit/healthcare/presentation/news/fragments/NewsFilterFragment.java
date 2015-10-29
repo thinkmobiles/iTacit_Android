@@ -10,9 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.itacit.healthcare.R;
-import com.itacit.healthcare.presentation.news.views.WheelDatePicker;
-import com.itacit.healthcare.presentation.news.views.chipsView.ChipsEditText;
+import com.itacit.healthcare.presentation.base.widgets.chipsView.ChipsEditText;
 import com.itacit.healthcare.presentation.base.views.BaseFragmentView;
+import com.itacit.healthcare.presentation.base.widgets.wheelDatePicker.WheelDatePicker;
 import com.itacit.healthcare.presentation.news.presenters.NewsFilterPresenter;
 import com.itacit.healthcare.presentation.news.views.INewsFilterView;
 

@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/rl_search_FNSF">
 
-        <com.itacit.healthcare.presentation.news.views.chipsView.ChipsEditText
+        <com.itacit.healthcare.presentation.base.widgets.chipsView.ChipsEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/et_serch_FNSF"
@@ -201,7 +201,7 @@
 
             <view android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  class="com.itacit.healthcare.presentation.news.views.WheelDatePicker"
+                  class="com.itacit.healthcare.presentation.base.widgets.wheelDatePicker.WheelDatePicker"
                   android:layout_below="@id/tv_from_FNSF"
                   android:id="@+id/datepicker_wheel_FNSF"
                   android:layout_gravity="center_horizontal"

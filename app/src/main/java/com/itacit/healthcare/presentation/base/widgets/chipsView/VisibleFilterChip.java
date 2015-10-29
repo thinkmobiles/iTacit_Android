@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.itacit.healthcare.presentation.news.views.chipsView;
+package com.itacit.healthcare.presentation.base.widgets.chipsView;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
