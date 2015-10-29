@@ -6,6 +6,7 @@ import com.itacit.healthcare.data.network.response.NewsListResponse;
 
 
 import retrofit.http.Body;
+import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Path;
 import rx.Observable;
@@ -17,6 +18,6 @@ public interface NewsApi {
     @POST("mobile/1.0/news/article")
     Observable<NewsListResponse> getNews(@Body RequestNews request);
 
-    @POST("/mobile/1.0/news/article/{articleId}")
+    @GET("/mobile/1.0/news/article/{articleId}")
     Observable<NewsDetails> getNewsDetails(@Path("articleId") String articleId);
 }

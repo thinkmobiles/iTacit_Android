@@ -1,6 +1,8 @@
 package com.itacit.healthcare.presentation.news.fragments;
 
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.view.View;
 
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.GetNewsDetailsUseCase;
@@ -16,6 +18,11 @@ import com.itacit.healthcare.presentation.news.views.INewsDetailsView;
 public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter> implements INewsDetailsView {
     public static final String NEWS_ID = "newsId";
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        presenter.loadNewsDetails();
+    }
 
 
     @Override
