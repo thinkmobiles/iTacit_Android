@@ -3,9 +3,9 @@ package com.itacit.healthcare.presentation.news.models;
 import android.net.Uri;
 
 /**
- * Created by root on 20.10.15.
+ * Created by root on 29.10.15.
  */
-public class NewsModel {
+public class NewsDetailsModel {
     private long articleId;
     private Uri headlineUri;
     private String startDate;

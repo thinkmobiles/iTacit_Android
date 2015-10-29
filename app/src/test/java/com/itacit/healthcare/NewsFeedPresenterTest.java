@@ -1,7 +1,7 @@
 package com.itacit.healthcare;
 
-import com.itacit.healthcare.domain.interactor.GetNewsUseCase;
-import com.itacit.healthcare.presentation.news.mapper.NewsModelDataMapper;
+import com.itacit.healthcare.domain.interactor.GetNewsListUseCase;
+import com.itacit.healthcare.presentation.news.mapper.NewsModelMapper;
 import com.itacit.healthcare.presentation.news.presenters.NewsFeedPresenter;
 import com.itacit.healthcare.presentation.news.views.INewsFeedView;
 
@@ -32,7 +32,7 @@ public class NewsFeedPresenterTest {
 
         INewsFeedView newsFeedView = mock(INewsFeedView.class);
 
-        NewsFeedPresenter presenter = new NewsFeedPresenter(new GetNewsUseCase(), new NewsModelDataMapper());
+        NewsFeedPresenter presenter = new NewsFeedPresenter(new GetNewsListUseCase(), new NewsModelMapper());
 
         when(newsFeedView.getNewsSearchTextObs()).thenReturn(observable);
         presenter.attachView(newsFeedView);

@@ -1,9 +1,9 @@
 package com.itacit.healthcare.presentation.news.presenters;
 
-import com.itacit.healthcare.data.network.response.News;
-import com.itacit.healthcare.domain.interactor.GetNewsUseCase;
+import com.itacit.healthcare.data.entries.News;
+import com.itacit.healthcare.domain.interactor.GetNewsListUseCase;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
-import com.itacit.healthcare.presentation.news.mapper.NewsModelDataMapper;
+import com.itacit.healthcare.presentation.news.mapper.NewsModelMapper;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
 import com.itacit.healthcare.presentation.news.views.INewsFeedView;
 
@@ -16,12 +16,12 @@ import rx.Subscriber;
  */
 public class NewsFeedPresenter extends BasePresenter<INewsFeedView> implements INewsFeedPresenter {
     public static final int SEARCH_TEXT_MIN_LENGTH = 3;
-    private GetNewsUseCase mGetNewsUseCase;
-    private NewsModelDataMapper mDataMapper;
+    private GetNewsListUseCase getNewsListUseCase;
+    private NewsModelMapper dataMapper;
 
-    public NewsFeedPresenter(GetNewsUseCase newsUseCase, NewsModelDataMapper newsModelDataMapper) {
-        mGetNewsUseCase = newsUseCase;
-        mDataMapper = newsModelDataMapper;
+    public NewsFeedPresenter(GetNewsListUseCase newsUseCase, NewsModelMapper newsModelDataMapper) {
+        getNewsListUseCase = newsUseCase;
+        dataMapper = newsModelDataMapper;
     }
 
     @Override
@@ -35,13 +35,13 @@ public class NewsFeedPresenter extends BasePresenter<INewsFeedView> implements I
     }
 
     private void showNewsOnView(List<News> news) {
-        List<NewsModel> newsModels = mDataMapper.transform(news);
+        List<NewsModel> newsModels = dataMapper.transform(news);
         if(getView() != null) getView().showNews(newsModels);
     }
 
     @Override
     public void loadNews() {
-        mGetNewsUseCase.execute(new NewsListSubscriber());
+        getNewsListUseCase.execute(new NewsListSubscriber());
     }
 
     @Override

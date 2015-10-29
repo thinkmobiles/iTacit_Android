@@ -11,7 +11,7 @@ import rx.Observable;
  * Created by root on 13.10.15.
  */
 public interface INewsFeedView extends IView {
-    public void showNews(List<NewsModel> news);
-    public void newsItemSelected(NewsModel newsItem);
-    public Observable<String> getNewsSearchTextObs();
+    void showNews(List<NewsModel> news);
+    void showNewsItemDetails(long newsId);
+    Observable<String> getNewsSearchTextObs();
 }
