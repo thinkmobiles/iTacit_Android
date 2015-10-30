@@ -16,9 +16,12 @@ public class NewsDetailsModelMapper extends ModelMapper<NewsDetailsModel, NewsDe
         long id = dataEntry.getArticleId() != null ? Long.parseLong(dataEntry.getArticleId()) : 0;
         newsModel.setArticleId(id);
         newsModel.setHeadline(dataEntry.getHeadline());
+        newsModel.setBody(dataEntry.getBody());
         newsModel.setCategoryName(dataEntry.getCategoryName());
         newsModel.setHeadlineUri(Uri.parse(dataEntry.getHeadlineImageUrl()));
         newsModel.setStartDate(dataEntry.getStartDate());
+        newsModel.setAuthorName(dataEntry.getAuthorName());
+        newsModel.setAuthorId(dataEntry.getAuthorId());
         return newsModel;
     }
 }

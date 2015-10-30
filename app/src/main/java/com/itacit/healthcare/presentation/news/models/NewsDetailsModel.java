@@ -11,6 +11,9 @@ public class NewsDetailsModel {
     private String startDate;
     private String categoryName;
     private String headline;
+    private String body;
+    private String authorName;
+    private String authorId;
 
     public Uri getHeadlineUri() {
         return headlineUri;
@@ -50,5 +53,29 @@ public class NewsDetailsModel {
 
     public void setArticleId(long articleId) {
         this.articleId = articleId;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
+    }
+
+    public String getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(String authorId) {
+        this.authorId = authorId;
     }
 }

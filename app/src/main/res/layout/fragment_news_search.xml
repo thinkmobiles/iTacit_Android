@@ -99,9 +99,8 @@
 	        <android.support.v7.widget.RecyclerView
 		        android:id="@+id/recycler_view_authors_FNS"
 		        android:layout_width="match_parent"
-		        android:layout_height="200dp"
+		        android:layout_height="150dp"
 		        android:background="@android:color/white"
-		        android:visibility="gone"
 		        android:layout_below="@+id/rl_author_title_FNS"/>
 
         </RelativeLayout>
@@ -163,10 +162,9 @@
 	        <android.support.v7.widget.RecyclerView
 		        android:id="@+id/recycler_view_categories_FNS"
 		        android:layout_width="match_parent"
-		        android:layout_height="200dp"
+		        android:layout_height="150dp"
 		        android:background="@android:color/white"
-		        android:layout_below="@+id/rl_category_title_FNS"
-		        android:visibility="gone"/>
+		        android:layout_below="@+id/rl_category_title_FNS"/>
 
         </RelativeLayout>
 
