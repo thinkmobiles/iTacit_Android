@@ -120,10 +120,10 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSaerchPresenter> im
 
 		if (recyclerViewAuthors.getVisibility()==View.GONE) {
 			recyclerViewAuthors.setVisibility(View.VISIBLE);
-			ivExpandAuthor.setImageResource(R.drawable.ic_drop_hide);
+            ivExpandAuthor.setImageResource(R.drawable.ic_drop);
 		} else {
 			recyclerViewAuthors.setVisibility(View.GONE);
-			ivExpandAuthor.setImageResource(R.drawable.ic_drop);
+            ivExpandAuthor.setImageResource(R.drawable.ic_drop_hide);
 		}
 	}
 
