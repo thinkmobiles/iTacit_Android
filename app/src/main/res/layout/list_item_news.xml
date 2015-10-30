@@ -8,22 +8,22 @@
               android:paddingLeft="@dimen/margin_sides">
 
    <ImageView
-        android:id="@+id/iv_headline_ILN"
+        android:id="@+id/iv_headline_LIN"
         android:layout_width="@dimen/news_thumb_size"
         android:layout_height="@dimen/news_thumb_size"
        />
 
    <RelativeLayout
-        android:id="@+id/rl_news_info_ILN"
+        android:id="@+id/rl_news_info_LIN"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/iv_headline_ILN"
+        android:layout_toRightOf="@id/iv_headline_LIN"
         android:layout_marginLeft="@dimen/margin_sides"
         android:layout_marginRight="@dimen/margin_sides"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_headline_ILN"
+            android:id="@+id/tv_headline_LIN"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Care Giving Reminders: During a Flu Outbreak and some"
@@ -32,7 +32,7 @@
             style="@style/textTitle"/>
 
         <TextView
-            android:id="@+id/tv_category_ILN"
+            android:id="@+id/tv_category_LIN"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/news_item_category_margin_top"
@@ -40,11 +40,11 @@
             tools:text="Care Giving"/>
 
 	     <TextView
-		    android:id="@+id/tv_time_ILN"
+		    android:id="@+id/tv_time_LIN"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
-            android:layout_below="@id/tv_category_ILN"
+            android:layout_below="@id/tv_category_LIN"
             tools:text="12:57 am"
             style="@style/textCategory"/>
 
@@ -55,7 +55,7 @@
         android:layout_height="1dp"
         android:background="@color/gray_light"
         android:layout_marginTop="16dp"
-        android:layout_alignLeft="@id/rl_news_info_ILN"
-        android:layout_below="@id/rl_news_info_ILN"/>
+        android:layout_alignLeft="@id/rl_news_info_LIN"
+        android:layout_below="@id/rl_news_info_LIN"/>
 
 </RelativeLayout>

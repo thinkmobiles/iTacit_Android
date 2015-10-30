@@ -20,6 +20,7 @@ public class GetAuthorsListUserCase extends UseCase<List<Author>> {
         listRequest = new ListRequest();
         listRequest.setStartIndex(startIndex);
         listRequest.setRowCount(rowCounts);
+        //listRequest.setQuery("Admin");
     }
 
     @Override

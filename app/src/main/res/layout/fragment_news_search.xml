@@ -13,19 +13,19 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/rl_search_FNSF">
+            android:id="@+id/rl_search_FNS">
 
         <com.itacit.healthcare.presentation.base.widgets.chipsView.ChipsEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/et_serch_FNSF"
+            android:id="@+id/et_serch_FNS"
             android:textSize="13sp"
             android:textColor="@color/gray_dark"
             android:background="@null"
             />
 
         <ImageButton
-                android:id="@+id/ib_close_FNSF"
+                android:id="@+id/ib_close_FNS"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_alignParentRight="true"
@@ -38,18 +38,18 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/rl_author_FNSF">
+            android:id="@+id/rl_author_FNS">
 
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/rl_author_title_FNSF">
+                android:id="@+id/rl_author_title_FNS">
 
 	            <ImageView
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
-		            android:id="@+id/iv_icon_author_FNSF"
+		            android:id="@+id/iv_icon_author_FNS"
 		            android:layout_alignParentLeft="true"
 		            android:layout_alignParentStart="true"
 		            android:src="@android:drawable/ic_menu_myplaces"
@@ -60,23 +60,23 @@
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:text="@string/author"
-		            android:id="@+id/tv_label_author_FNSF"
-		            android:layout_toRightOf="@+id/iv_icon_author_FNSF"
+		            android:id="@+id/tv_label_author_FNS"
+		            android:layout_toRightOf="@+id/iv_icon_author_FNS"
 		            style="@style/labelFilter"/>
 
 	            <TextView
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            tools:text="3"
-		            android:id="@+id/tv_count_author_FNSF"
-		            android:layout_toLeftOf="@+id/iv_expand_author_FNSF"
+		            android:id="@+id/tv_count_author_FNS"
+		            android:layout_toLeftOf="@+id/iv_expand_author_FNS"
 		            android:layout_margin="5dp"
 		            android:layout_centerVertical="true"/>
 
 	            <ImageView
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
-		            android:id="@+id/iv_expand_author_FNSF"
+		            android:id="@+id/iv_expand_author_FNS"
 		            android:layout_alignParentEnd="true"
 		            android:layout_alignParentRight="true"
 		            android:src="@android:drawable/arrow_down_float"
@@ -85,29 +85,29 @@
             </RelativeLayout>
 
 	        <android.support.v7.widget.RecyclerView
-		        android:id="@+id/recycler_view_authors_FNSF"
+		        android:id="@+id/recycler_view_authors_FNS"
 		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
 		        android:background="@android:color/white"
 		        android:visibility="gone"
-		        android:layout_below="@+id/rl_author_title_FNSF"/>
+		        android:layout_below="@+id/rl_author_title_FNS"/>
 
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/rl_category_FNSF">
+            android:id="@+id/rl_category_FNS">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/rl_category_title_FNSF">
+                android:id="@+id/rl_category_title_FNS">
 
 	            <ImageView
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
-		            android:id="@+id/iv_icon_category_FNSF"
+		            android:id="@+id/iv_icon_category_FNS"
 		            android:layout_alignParentLeft="true"
 		            android:layout_alignParentStart="true"
 		            android:src="@android:drawable/ic_menu_gallery"
@@ -118,23 +118,23 @@
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:text="@string/category"
-		            android:id="@+id/tv_label_category_FNSF"
-		            android:layout_toRightOf="@+id/iv_icon_category_FNSF"
+		            android:id="@+id/tv_label_category_FNS"
+		            android:layout_toRightOf="@+id/iv_icon_category_FNS"
 		            style="@style/labelFilter"/>
 
 	            <TextView
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            tools:text="3"
-		            android:id="@+id/tv_count_category_FNSF"
-		            android:layout_toLeftOf="@+id/iv_expand_category_FNSF"
+		            android:id="@+id/tv_count_category_FNS"
+		            android:layout_toLeftOf="@+id/iv_expand_category_FNS"
 		            android:layout_margin="5dp"
 		            android:layout_centerVertical="true"/>
 
 	            <ImageView
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
-		            android:id="@+id/iv_expand_category_FNSF"
+		            android:id="@+id/iv_expand_category_FNS"
 		            android:layout_alignParentEnd="true"
 		            android:layout_alignParentRight="true"
 		            android:src="@android:drawable/arrow_down_float"
@@ -144,11 +144,11 @@
             </RelativeLayout>
 
 	        <android.support.v7.widget.RecyclerView
-		        android:id="@+id/recycler_view_categories_FNSF"
+		        android:id="@+id/recycler_view_categories_FNS"
 		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
 		        android:background="@android:color/white"
-		        android:layout_below="@+id/rl_category_title_FNSF"
+		        android:layout_below="@+id/rl_category_title_FNS"
 		        android:visibility="gone"/>
 
         </RelativeLayout>
@@ -156,7 +156,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/rl_date_FNSF">
+            android:id="@+id/rl_date_FNS">
 
 
 	            <TextView
@@ -164,7 +164,7 @@
 		            android:layout_height="wrap_content"
 		            android:textAppearance="?android:attr/textAppearanceSmall"
 		            android:text="@string/from"
-		            android:id="@+id/tv_label_from_FNSF"
+		            android:id="@+id/tv_label_from_FNS"
 		            android:layout_alignParentTop="true"
 		            android:layout_alignParentLeft="true"
 		            android:layout_alignParentStart="true"
@@ -174,10 +174,10 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="@string/add_date"
-                    android:id="@+id/tv_from_FNSF"
+                    android:id="@+id/tv_from_FNS"
                     android:drawableLeft="@android:drawable/ic_menu_my_calendar"
-                    android:layout_alignStart="@+id/tv_label_from_FNSF"
-                    android:layout_below="@id/tv_label_from_FNSF"
+                    android:layout_alignStart="@+id/tv_label_from_FNS"
+                    android:layout_below="@id/tv_label_from_FNS"
                     style="@style/tv_date"/>
 
                 <TextView
@@ -185,25 +185,25 @@
                     android:layout_height="wrap_content"
                     android:text="@string/add_date"
                     android:drawableLeft="@android:drawable/ic_menu_my_calendar"
-                    android:id="@+id/tv_to_FNSF"
+                    android:id="@+id/tv_to_FNS"
                     android:layout_marginRight="@dimen/text_margin"
                     style="@style/tv_date"
-                    android:layout_alignTop="@+id/tv_from_FNSF"
+                    android:layout_alignTop="@+id/tv_from_FNS"
 	                android:layout_alignParentRight="true"/>
 	            <TextView
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:textAppearance="?android:attr/textAppearanceSmall"
 		            android:text="@string/to"
-		            android:id="@+id/tv_label_to_FNSF"
+		            android:id="@+id/tv_label_to_FNS"
 		            android:layout_alignParentTop="true"
-		            android:layout_alignStart="@+id/tv_to_FNSF"/>
+		            android:layout_alignStart="@+id/tv_to_FNS"/>
 
             <view android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   class="com.itacit.healthcare.presentation.base.widgets.wheelDatePicker.WheelDatePicker"
-                  android:layout_below="@id/tv_from_FNSF"
-                  android:id="@+id/datepicker_wheel_FNSF"
+                  android:layout_below="@id/tv_from_FNS"
+                  android:id="@+id/datepicker_wheel_FNS"
                   android:layout_gravity="center_horizontal"
                   android:layout_marginTop="30dp"
                   android:layout_marginBottom="30dp"
@@ -212,8 +212,8 @@
 	        <!--<DatePicker-->
                     <!--android:layout_width="wrap_content"-->
                     <!--android:layout_height="wrap_content"-->
-                    <!--android:id="@+id/datePicker_FNSF"-->
-                    <!--android:layout_below="@id/datepicker_wheel_FNSF"-->
+                    <!--android:id="@+id/datePicker_FNS"-->
+                    <!--android:layout_below="@id/datepicker_wheel_FNS"-->
                     <!--android:calendarViewShown="false"-->
                     <!--android:datePickerMode="spinner"-->
                     <!--android:layout_centerHorizontal="true"-->
@@ -224,15 +224,15 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/rl_done_date_FNSF"
-                android:layout_below="@id/datepicker_wheel_FNSF"
+                android:id="@+id/rl_done_date_FNS"
+                android:layout_below="@id/datepicker_wheel_FNS"
                 >
 
                 <TextView
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="@string/done"
-                    android:id="@+id/tv_done_FNSF"
+                    android:id="@+id/tv_done_FNS"
                     android:drawableLeft="@android:drawable/checkbox_on_background"
                     android:layout_alignParentLeft="true"
                     style="@style/tv_date"
@@ -243,11 +243,11 @@
                     android:layout_height="wrap_content"
                     android:text="@string/cancel"
                     android:drawableLeft="@android:drawable/ic_menu_close_clear_cancel"
-                    android:id="@+id/tv_cancel_FNSF"
+                    android:id="@+id/tv_cancel_FNS"
                     android:layout_alignParentRight="true"
                     style="@style/tv_date"
                     android:layout_marginRight="10dp"
-                    android:layout_alignTop="@+id/tv_done_FNSF"/>
+                    android:layout_alignTop="@+id/tv_done_FNS"/>
             </RelativeLayout>
 
         </RelativeLayout>
@@ -256,7 +256,7 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="@string/search"
-            android:id="@+id/btn_search_FNSF"
+            android:id="@+id/btn_search_FNS"
             android:layout_gravity="center_horizontal"
             android:capitalize="characters"
             android:background="@drawable/selector_btn_search"

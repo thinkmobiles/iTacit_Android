@@ -38,6 +38,9 @@ public class News {
     @SerializedName("articleId")
     @Expose
     private String articleId;
+    @SerializedName("resultSetRowId")
+    @Expose
+    private String resultSetRowId;
 
     /**
      *
@@ -219,4 +222,11 @@ public class News {
         this.articleId = articleId;
     }
 
+    public String getResultSetRowId() {
+        return resultSetRowId;
+    }
+
+    public void setResultSetRowId(String resultSetRowId) {
+        this.resultSetRowId = resultSetRowId;
+    }
 }

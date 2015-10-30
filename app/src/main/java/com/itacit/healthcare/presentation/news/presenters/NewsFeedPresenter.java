@@ -44,7 +44,7 @@ public class NewsFeedPresenter extends BasePresenter<INewsFeedView> implements I
     @Override
     public void loadNews() {
         getNewsListUseCase.execute(new NewsListSubscriber());
-        new GetAuthorsListUserCase(1, 10).execute(new Subscriber<List<Author>>() {
+        new GetAuthorsListUserCase(0, 10).execute(new Subscriber<List<Author>>() {
             @Override
             public void onCompleted() {
 

@@ -5,6 +5,6 @@ import com.itacit.healthcare.presentation.base.views.IView;
 /**
  * Created by root on 21.10.15.
  */
-public interface INewsFilterView extends IView {
+public interface INewsSearchView extends IView {
 
 }

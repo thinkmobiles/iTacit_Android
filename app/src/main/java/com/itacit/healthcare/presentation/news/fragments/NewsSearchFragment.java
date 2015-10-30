@@ -13,8 +13,8 @@ import com.itacit.healthcare.R;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.ChipsEditText;
 import com.itacit.healthcare.presentation.base.views.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.wheelDatePicker.WheelDatePicker;
-import com.itacit.healthcare.presentation.news.presenters.NewsFilterPresenter;
-import com.itacit.healthcare.presentation.news.views.INewsFilterView;
+import com.itacit.healthcare.presentation.news.presenters.NewsSaerchPresenter;
+import com.itacit.healthcare.presentation.news.views.INewsSearchView;
 
 import java.util.Locale;
 
@@ -23,34 +23,34 @@ import butterknife.Bind;
 /**
  * Created by root on 21.10.15.
  */
-public class NewsFilterFragment extends BaseFragmentView<NewsFilterPresenter> implements INewsFilterView {
-    @Bind(R.id.et_serch_FNSF)
+public class NewsSearchFragment extends BaseFragmentView<NewsSaerchPresenter> implements INewsSearchView {
+    @Bind(R.id.et_serch_FNS)
     ChipsEditText mSearchFiltersEt;
-    @Bind(R.id.ib_close_FNSF)
+    @Bind(R.id.ib_close_FNS)
     ImageButton ibClose;
-    @Bind(R.id.tv_count_author_FNSF)
+    @Bind(R.id.tv_count_author_FNS)
     TextView tvCountAuthor;
-    @Bind(R.id.iv_expand_author_FNSF)
+    @Bind(R.id.iv_expand_author_FNS)
     ImageView ivExpandAuthor;
-    @Bind(R.id.recycler_view_authors_FNSF)
+    @Bind(R.id.recycler_view_authors_FNS)
     RecyclerView recyclerViewAuthors;
-    @Bind(R.id.tv_count_category_FNSF)
+    @Bind(R.id.tv_count_category_FNS)
     TextView tvCountCategory;
-    @Bind(R.id.iv_expand_category_FNSF)
+    @Bind(R.id.iv_expand_category_FNS)
     ImageView ivExpandCategory;
-    @Bind(R.id.recycler_view_categories_FNSF)
+    @Bind(R.id.recycler_view_categories_FNS)
     RecyclerView recyclerViewCategories;
-    @Bind(R.id.tv_from_FNSF)
+    @Bind(R.id.tv_from_FNS)
     TextView tvDateFrom;
-    @Bind(R.id.tv_to_FNSF)
+    @Bind(R.id.tv_to_FNS)
     TextView tvDateTo;
-    @Bind(R.id.datepicker_wheel_FNSF)
+    @Bind(R.id.datepicker_wheel_FNS)
     WheelDatePicker datePickerWheel;
-    @Bind(R.id.tv_done_FNSF)
+    @Bind(R.id.tv_done_FNS)
     TextView tvDone;
-    @Bind(R.id.tv_cancel_FNSF)
+    @Bind(R.id.tv_cancel_FNS)
     TextView tvCancel;
-    @Bind(R.id.btn_search_FNSF)
+    @Bind(R.id.btn_search_FNS)
     Button btnSearch;
 
     @Override
@@ -92,10 +92,10 @@ public class NewsFilterFragment extends BaseFragmentView<NewsFilterPresenter> im
 
     @Override
     protected int getLayoutRes() {
-        return R.layout.fragment_news_search_filter;
+        return R.layout.fragment_news_search;
     }
     @Override
-    protected NewsFilterPresenter createPresenter() {
-        return new NewsFilterPresenter();
+    protected NewsSaerchPresenter createPresenter() {
+        return new NewsSaerchPresenter();
     }
 }

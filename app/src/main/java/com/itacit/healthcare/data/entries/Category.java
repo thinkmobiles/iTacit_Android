@@ -16,6 +16,9 @@ public class Category {
     @SerializedName("mostRecentArticlePublishDate")
     @Expose
     private String mostRecentPublishDate;
+    @SerializedName("resultSetRowId")
+    @Expose
+    private String resultSetRowId;
 
     public String getId() {
         return id;
@@ -39,5 +42,13 @@ public class Category {
 
     public void setMostRecentPublishDate(String mostRecentPublishDate) {
         this.mostRecentPublishDate = mostRecentPublishDate;
+    }
+
+    public String getResultSetRowId() {
+        return resultSetRowId;
+    }
+
+    public void setResultSetRowId(String resultSetRowId) {
+        this.resultSetRowId = resultSetRowId;
     }
 }
