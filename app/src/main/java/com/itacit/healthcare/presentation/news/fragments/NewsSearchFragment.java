@@ -102,7 +102,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSaerchPresenter> im
     }
 
 
-	@OnClick({R.id.tv_from_FNSF, R.id.tv_to_FNSF})
+	@OnClick({R.id.tv_from_FNS, R.id.tv_to_FNS})
 	@Override
     public void showDatePicker() {
 
@@ -114,7 +114,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSaerchPresenter> im
 		}
     }
 
-	@OnClick(R.id.iv_expand_author_FNSF)
+	@OnClick(R.id.iv_expand_author_FNS)
 	@Override
 	public void showAuthors() {
 
@@ -127,7 +127,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSaerchPresenter> im
 		}
 	}
 
-	@OnClick(R.id.iv_expand_category_FNSF)
+	@OnClick(R.id.iv_expand_category_FNS)
 	@Override
 	public void showCategory() {
 
