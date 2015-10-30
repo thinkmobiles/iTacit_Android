@@ -254,6 +254,7 @@ public class WheelDatePicker extends LinearLayout {
                 int newDay = getDay();
                 int month = getMonth();
                 raiseDateChangedEvent(oldDay, month, oldYear, newDay, month, newYear);
+
             }
         });
 

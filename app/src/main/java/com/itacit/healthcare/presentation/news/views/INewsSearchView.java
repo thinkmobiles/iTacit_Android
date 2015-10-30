@@ -7,4 +7,7 @@ import com.itacit.healthcare.presentation.base.views.IView;
  */
 public interface INewsSearchView extends IView {
 
+	public void showDatePicker();
+	public void showAuthors();
+	public void showCategory();
 }

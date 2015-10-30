@@ -24,6 +24,13 @@
         <item name="android:textColor">@color/gray_dark</item>
     </style>
 
+    <style name="tv_done">
+        <item name="android:textSize">@dimen/btn_text_size</item>
+        <item name="android:textColor">@color/gray_dark</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
     <style name="tv_date">
         <item name="android:textSize">@dimen/btn_text_size</item>
         <item name="android:gravity">center</item>
@@ -32,10 +39,17 @@
     </style>
 
     <style name="labelFilter">
+	    <item name="android:textSize">@dimen/text_size</item>
         <item name="android:layout_margin">5dp</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:textColor">@color/btn_blue</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+	<style name="line_separator">
+		<item name="android:layout_width">match_parent</item>
+		<item name="android:layout_height">1dp</item>
+		<item name="android:background">@color/gray_light</item>
+	</style>
 
 </resources>
