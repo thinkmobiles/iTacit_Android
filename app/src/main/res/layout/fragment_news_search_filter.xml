@@ -99,7 +99,7 @@
 	        <android.support.v7.widget.RecyclerView
 		        android:id="@+id/recycler_view_authors_FNSF"
 		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
+		        android:layout_height="200dp"
 		        android:background="@android:color/white"
 		        android:visibility="gone"
 		        android:layout_below="@+id/rl_author_title_FNSF"/>
@@ -163,7 +163,7 @@
 	        <android.support.v7.widget.RecyclerView
 		        android:id="@+id/recycler_view_categories_FNSF"
 		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
+		        android:layout_height="200dp"
 		        android:background="@android:color/white"
 		        android:layout_below="@+id/rl_category_title_FNSF"
 		        android:visibility="gone"/>
@@ -244,7 +244,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/rl_done_date_FNSF"
                 android:layout_below="@id/datepicker_wheel_FNSF"
-                >
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="100dp"
