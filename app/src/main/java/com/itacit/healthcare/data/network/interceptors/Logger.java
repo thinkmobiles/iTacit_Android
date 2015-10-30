@@ -15,9 +15,9 @@ import okio.Buffer;
  * Created by tZpace
  * on 28-Sep-15.
  */
-public final class Loger implements Interceptor {
+public final class Logger implements Interceptor {
 
-    private static final String TAG = "API Loger";
+    private static final String TAG = "API Logger";
 
     @Override
     public Response intercept(Chain chain) throws IOException {

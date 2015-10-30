@@ -4,25 +4,23 @@ import com.itacit.healthcare.data.network.AuthManager;
 import com.itacit.healthcare.data.network.ServiceGenerator;
 import com.itacit.healthcare.data.entries.News;
 import com.itacit.healthcare.data.network.api.NewsApi;
-import com.itacit.healthcare.data.network.request.ListRequest;
-
-import java.util.List;
+import com.itacit.healthcare.data.network.response.ListResponse;
 
 import rx.Observable;
 
 /**
  * Created by root on 21.10.15.
  */
-public class GetNewsListUseCase extends UseCase<List<News>> {
+public class GetNewsListUseCase extends GetListUseCase<News> {
+
+    public GetNewsListUseCase(int startIndex, int rowCounts) {
+        super(startIndex, rowCounts);
+    }
 
     @Override
-    protected Observable buildUseCaseObservable() {
-        ListRequest request = new ListRequest();
-        request.setStartIndex(1);
-        request.setRowCount(100);
+    protected Observable<ListResponse<News>> request() {
         return ServiceGenerator.createService(NewsApi.class, AuthManager.accessToken)
-                .getNews(request)
-                .filter(r -> r.getResponseRows() != null)
-                .map(r -> r.getResponseRows());
+                .getNews(listRequest);
     }
+
 }
