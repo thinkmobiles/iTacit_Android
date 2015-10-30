@@ -2,6 +2,7 @@ package com.itacit.healthcare.presentation.news.fragments;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,7 +79,7 @@ public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter> 
 	public void showNewsDetails(NewsDetailsModel newsDetails) {
 
 		tvTitle.setText(newsDetails.getHeadline());
-		tvArticle.setText(newsDetails.getBody());
+		tvArticle.setText(Html.fromHtml(newsDetails.getBody()));
 		tvCategory.setText(newsDetails.getCategoryName());
 		tvTime.setText(newsDetails.getStartDate());
 		tvAuthorName.setText(newsDetails.getAuthorName());
