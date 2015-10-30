@@ -12,6 +12,8 @@ import rx.Observable;
  */
 public interface INewsFeedView extends IView {
     void showNews(List<NewsModel> news);
+    void showProgress();
+    void hideProgress();
     void showNewsItemDetails(long newsId);
     Observable<String> getNewsSearchTextObs();
 }

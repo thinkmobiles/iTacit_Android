@@ -1,5 +1,6 @@
 package com.itacit.healthcare.presentation.news.fragments;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,24 +35,18 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
     @Bind(R.id.recycler_view_FN)
     RecyclerView newsRecyclerView;
     private NewsAdapter newsAdapter;
+    private ProgressDialog progressDialog;
 
     @Override
-    public void showNewsItemDetails(long newsId) {
-        Bundle args = new Bundle(1);
-        args.putLong(NewsDetailsFragment.NEWS_ID, newsId);
-        ((BaseActivity)getActivity()).switchContent(NewsDetailsFragment.class, true, args);
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        presenter.loadNews();
     }
 
     @Override
     protected void setUpView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         newsRecyclerView.setLayoutManager(layoutManager);
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        presenter.loadNews();
     }
 
     @Override
@@ -79,6 +74,30 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
         newsAdapter = new NewsAdapter(getActivity(), news);
         newsRecyclerView.setAdapter(newsAdapter);
         newsAdapter.setOnNewsItemSelectedListener(this::showNewsItemDetails);
+    }
+
+    @Override
+    public void showProgress() {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setMessage("Loading...");
+            progressDialog.setCancelable(true);
+        }
+        progressDialog.show();
+    }
+
+    @Override
+    public void hideProgress() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.hide();
+        }
+    }
+
+    @Override
+    public void showNewsItemDetails(long newsId) {
+        Bundle args = new Bundle(1);
+        args.putLong(NewsDetailsFragment.NEWS_ID, newsId);
+        ((BaseActivity) getActivity()).switchContent(NewsDetailsFragment.class, true, args);
     }
 
     @Override
