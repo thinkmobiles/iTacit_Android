@@ -1,6 +1,6 @@
 package com.itacit.healthcare.data.network.interceptors;
 
-import com.itacit.healthcare.data.network.response.AccessToken;
+import com.itacit.healthcare.data.entries.AccessToken;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;

@@ -64,13 +64,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @Bind(R.id.iv_headline_ILN)
+        @Bind(R.id.iv_headline_LIN)
         ImageView headlineIv;
-        @Bind(R.id.tv_headline_ILN)
+        @Bind(R.id.tv_headline_LIN)
         TextView headlineTv;
-        @Bind(R.id.tv_category_ILN)
+        @Bind(R.id.tv_category_LIN)
         TextView categoryTv;
-        @Bind(R.id.tv_time_ILN)
+        @Bind(R.id.tv_time_LIN)
         TextView timeTv;
 
         private OnNewsItemSelectedListener newsItemSelectedListener;

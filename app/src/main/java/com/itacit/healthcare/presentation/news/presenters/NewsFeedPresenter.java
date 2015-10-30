@@ -1,6 +1,8 @@
 package com.itacit.healthcare.presentation.news.presenters;
 
+import com.itacit.healthcare.data.entries.Author;
 import com.itacit.healthcare.data.entries.News;
+import com.itacit.healthcare.domain.interactor.GetAuthorsListUserCase;
 import com.itacit.healthcare.domain.interactor.GetNewsListUseCase;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
 import com.itacit.healthcare.presentation.news.mapper.NewsModelMapper;
@@ -42,6 +44,22 @@ public class NewsFeedPresenter extends BasePresenter<INewsFeedView> implements I
     @Override
     public void loadNews() {
         getNewsListUseCase.execute(new NewsListSubscriber());
+        new GetAuthorsListUserCase(0, 10).execute(new Subscriber<List<Author>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(List<Author> authors) {
+
+            }
+        });
     }
 
     @Override

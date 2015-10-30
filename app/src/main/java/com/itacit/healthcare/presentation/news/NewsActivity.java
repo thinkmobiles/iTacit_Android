@@ -5,7 +5,6 @@ import android.os.Bundle;
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.presentation.base.BaseActivity;
 import com.itacit.healthcare.presentation.news.fragments.NewsFeedFragment;
-import com.itacit.healthcare.presentation.news.fragments.NewsFilterFragment;
 
 /**
  * Created by root on 21.10.15.

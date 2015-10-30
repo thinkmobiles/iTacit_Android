@@ -1,7 +1,7 @@
 package com.itacit.healthcare.data.network;
 
 import com.itacit.healthcare.data.network.api.AuthApi;
-import com.itacit.healthcare.data.network.response.AccessToken;
+import com.itacit.healthcare.data.entries.AccessToken;
 
 import rx.Observable;
 
