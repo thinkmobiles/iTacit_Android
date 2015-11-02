@@ -19,6 +19,6 @@ public class LoginUseCase extends UseCase {
 
     @Override
     protected Observable buildUseCaseObservable() {
-        return new AuthManager().login(userName, password);
+        return AuthManager.login(userName, password);
     }
 }

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.itacit.healthcare.R;
-import com.itacit.healthcare.data.entries.AccessToken;
 import com.itacit.healthcare.domain.interactor.LoginUseCase;
 import com.itacit.healthcare.presentation.base.BaseActivity;
 import com.itacit.healthcare.presentation.news.NewsActivity;
@@ -24,7 +23,7 @@ public class AuthActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LoginUseCase loginUseCase = new LoginUseCase("ph", "ph");
-        loginUseCase.execute(new Subscriber<AccessToken>() {
+        loginUseCase.execute(new Subscriber<Boolean>() {
             @Override
             public void onCompleted() {
 
@@ -36,7 +35,7 @@ public class AuthActivity extends BaseActivity {
             }
 
             @Override
-            public void onNext(AccessToken accessToken) {
+            public void onNext(Boolean success) {
                 startActivity(new Intent(AuthActivity.this, NewsActivity.class));
             }
         });

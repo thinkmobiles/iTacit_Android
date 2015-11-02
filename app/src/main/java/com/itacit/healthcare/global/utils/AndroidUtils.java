@@ -1,4 +1,4 @@
-package com.itacit.healthcare.utils;
+package com.itacit.healthcare.global.utils;
 
 import android.content.Context;
 import android.content.res.Resources;
