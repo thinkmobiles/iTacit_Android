@@ -1,11 +1,7 @@
 package com.itacit.healthcare.presentation.news.presenters;
 
-import com.itacit.healthcare.data.entries.Author;
-import com.itacit.healthcare.data.entries.Category;
 import com.itacit.healthcare.data.entries.News;
-import com.itacit.healthcare.domain.interactor.GetAuthorsListUserCase;
-import com.itacit.healthcare.domain.interactor.GetCategoriesListUseCase;
-import com.itacit.healthcare.domain.interactor.GetNewsListUseCase;
+import com.itacit.healthcare.domain.interactor.GetNewsUseCase;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
 import com.itacit.healthcare.presentation.news.mapper.NewsModelMapper;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
@@ -20,19 +16,18 @@ import rx.Subscriber;
  */
 public class NewsFeedPresenter extends BasePresenter<INewsFeedView> implements INewsFeedPresenter {
     public static final int SEARCH_TEXT_MIN_LENGTH = 3;
-    private GetNewsListUseCase getNewsListUseCase;
+    private GetNewsUseCase getNewsUseCase;
     private NewsModelMapper dataMapper;
 
-    public NewsFeedPresenter(GetNewsListUseCase newsUseCase, NewsModelMapper newsModelDataMapper) {
-        getNewsListUseCase = newsUseCase;
+    public NewsFeedPresenter(GetNewsUseCase newsUseCase, NewsModelMapper newsModelDataMapper) {
+        getNewsUseCase = newsUseCase;
         dataMapper = newsModelDataMapper;
     }
 
     @Override
-    public void attachView(INewsFeedView view) {
-        super.attachView(view);
+    protected void onViewAttach() {
         if (getView()!= null) {
-            mCompositeSubscription.add(getView().getNewsSearchTextObs()
+            compositeSubscription.add(getView().getNewsSearchTextObs()
                     .filter(t -> t.length() > SEARCH_TEXT_MIN_LENGTH)
                     .subscribe(this::searchNews));
         }
@@ -46,7 +41,7 @@ public class NewsFeedPresenter extends BasePresenter<INewsFeedView> implements I
     @Override
     public void loadNews() {
         if(getView() != null) getView().showProgress();
-        getNewsListUseCase.execute(new NewsListSubscriber());
+        getNewsUseCase.execute(new NewsListSubscriber());
     }
 
     @Override
@@ -63,7 +58,7 @@ public class NewsFeedPresenter extends BasePresenter<INewsFeedView> implements I
 
         @Override
         public void onError(Throwable e) {
-
+            if(getView() != null) getView().hideProgress();
         }
 
         @Override

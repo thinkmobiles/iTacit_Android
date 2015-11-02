@@ -11,9 +11,9 @@ import rx.Observable;
 /**
  * Created by Nerevar on 10/29/2015.
  */
-public class GetAuthorsListUserCase extends GetListUseCase<Author> {
+public class GetAuthorsUseCase extends GetListUseCase<Author> {
 
-    public GetAuthorsListUserCase(int startIndex, int rowCounts) {
+    public GetAuthorsUseCase(int startIndex, int rowCounts) {
         super(startIndex, rowCounts);
     }
 
