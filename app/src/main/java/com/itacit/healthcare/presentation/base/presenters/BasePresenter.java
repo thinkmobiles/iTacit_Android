@@ -12,31 +12,36 @@ import rx.subscriptions.CompositeSubscription;
  * Created by root on 13.10.15.
  */
 public abstract class BasePresenter<V extends IView> implements IPresenter<V> {
-    private WeakReference<V> mViewRef;
-    protected CompositeSubscription mCompositeSubscription;
+    private WeakReference<V> viewRef;
+    protected CompositeSubscription compositeSubscription;
 
     @Override
-    public void attachView(V view) {
-        if(mCompositeSubscription == null) {
-            mCompositeSubscription = new CompositeSubscription();
+    public final void attachView(V view) {
+        if(compositeSubscription == null) {
+            compositeSubscription = new CompositeSubscription();
         }
-        mViewRef = new WeakReference<>(view);
+        viewRef = new WeakReference<>(view);
+        onViewAttach();
     }
 
     @Override
     public void detachView() {
-        if (mCompositeSubscription != null) {
-            mCompositeSubscription.unsubscribe();
+        onViewDetach();
+        if (compositeSubscription != null) {
+            compositeSubscription.unsubscribe();
         }
 
-        if (mViewRef != null) {
-            mViewRef.clear();
-            mViewRef = null;
+        if (viewRef != null) {
+            viewRef.clear();
+            viewRef = null;
         }
     }
 
     @Nullable
     public V getView() {
-        return mViewRef == null ? null : mViewRef.get();
+        return viewRef == null ? null : viewRef.get();
     }
+
+    protected void onViewAttach() {}
+    protected void onViewDetach() {}
 }

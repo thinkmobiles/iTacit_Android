@@ -18,7 +18,7 @@ import android.view.MotionEvent;
 import android.widget.EditText;
 
 import com.itacit.healthcare.R;
-import com.itacit.healthcare.utils.AndroidUtils;
+import com.itacit.healthcare.global.utils.AndroidUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;

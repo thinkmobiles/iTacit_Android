@@ -18,7 +18,7 @@
             android:layout_centerVertical="true"
             android:src="@drawable/ic_search"/>
 
-        <EditText
+        <com.itacit.healthcare.presentation.base.widgets.chipsView.ChipsEditText
             android:id="@+id/et_search_FN"
             android:layout_width="match_parent"
             android:layout_height="48dp"

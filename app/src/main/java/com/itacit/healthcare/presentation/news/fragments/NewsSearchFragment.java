@@ -11,23 +11,29 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.itacit.healthcare.R;
+import com.itacit.healthcare.domain.interactor.GetAuthorsUseCase;
+import com.itacit.healthcare.domain.interactor.GetCategoriesUseCase;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.ChipsEditText;
 import com.itacit.healthcare.presentation.base.views.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.wheelDatePicker.WheelDatePicker;
-import com.itacit.healthcare.presentation.news.presenters.NewsSaerchPresenter;
+import com.itacit.healthcare.presentation.news.models.AuthorModel;
+import com.itacit.healthcare.presentation.news.models.CategoryModel;
+import com.itacit.healthcare.presentation.news.presenters.NewsSearchPresenter;
 import com.itacit.healthcare.presentation.news.views.INewsSearchView;
 
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import rx.Observable;
 
 /**
  * Created by root on 21.10.15.
  */
-public class NewsSearchFragment extends BaseFragmentView<NewsSaerchPresenter> implements INewsSearchView {
+public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> implements INewsSearchView {
     @Bind(R.id.et_serch_FNS)
-    ChipsEditText mSearchFiltersEt;
+    ChipsEditText searchFiltersEt;
     @Bind(R.id.ib_close_FNS)
     ImageButton ibClose;
     @Bind(R.id.tv_count_author_FNS)
@@ -35,13 +41,13 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSaerchPresenter> im
     @Bind(R.id.iv_expand_author_FNS)
     ImageView ivExpandAuthor;
     @Bind(R.id.recycler_view_authors_FNS)
-    RecyclerView recyclerViewAuthors;
+    RecyclerView authorsRv;
     @Bind(R.id.tv_count_category_FNS)
     TextView tvCountCategory;
     @Bind(R.id.iv_expand_category_FNS)
     ImageView ivExpandCategory;
     @Bind(R.id.recycler_view_categories_FNS)
-    RecyclerView recyclerViewCategories;
+    RecyclerView categoriesRv;
     @Bind(R.id.tv_from_FNS)
     TextView tvDateFrom;
     @Bind(R.id.tv_to_FNS)
@@ -57,18 +63,17 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSaerchPresenter> im
 
     @Override
     protected void setUpView() {
-        ViewTreeObserver observer = mSearchFiltersEt.getViewTreeObserver();
+        ViewTreeObserver observer = searchFiltersEt.getViewTreeObserver();
         observer.addOnGlobalLayoutListener (new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                mSearchFiltersEt.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                mSearchFiltersEt.addChip("JohnCarson");
+                searchFiltersEt.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                searchFiltersEt.addChip("JohnCarson");
             }
         });
         datePickerWheel.setDay(25);
         datePickerWheel.setMonth(10);
         datePickerWheel.setYear(2015);
-// Locale("ru", "RU") is also available
         datePickerWheel.setLocale(Locale.US);
         datePickerWheel.setVisibleItems(5);
         datePickerWheel.setMinMaxYears(2000, 2020);
@@ -97,16 +102,14 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSaerchPresenter> im
         return R.layout.fragment_news_search;
     }
     @Override
-    protected NewsSaerchPresenter createPresenter() {
-        return new NewsSaerchPresenter();
+    protected NewsSearchPresenter createPresenter() {
+        return new NewsSearchPresenter(new GetAuthorsUseCase(0, 10),new GetCategoriesUseCase(0, 10));
     }
 
 
 	@OnClick({R.id.tv_from_FNS, R.id.tv_to_FNS})
 	@Override
     public void showDatePicker() {
-
-
 		if (datePickerWheel.getVisibility()==View.GONE) {
 			datePickerWheel.setVisibility(View.VISIBLE);
 		} else {
@@ -114,30 +117,47 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSaerchPresenter> im
 		}
     }
 
-	@OnClick(R.id.iv_expand_author_FNS)
-	@Override
-	public void showAuthors() {
 
-		if (recyclerViewAuthors.getVisibility()==View.GONE) {
-			recyclerViewAuthors.setVisibility(View.VISIBLE);
-            ivExpandAuthor.setImageResource(R.drawable.ic_drop);
-		} else {
-			recyclerViewAuthors.setVisibility(View.GONE);
-            ivExpandAuthor.setImageResource(R.drawable.ic_drop_hide);
-		}
+
+    @Override
+    public Observable<String> getSearchTextObs() {
+        return null;
+    }
+
+    @Override
+    public Observable<Integer> getListClickObs() {
+        return null;
+    }
+
+    @OnClick({R.id.iv_expand_author_FNS,R.id.iv_expand_category_FNS})
+    void onExpandClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_expand_author_FNS:
+                toggleListVisibility(authorsRv, ivExpandAuthor);
+                break;
+            case R.id.iv_expand_category_FNS:
+                toggleListVisibility(categoriesRv, ivExpandCategory);
+                break;
+        }
+    }
+
+    private void toggleListVisibility(RecyclerView recyclerView, ImageView expandIv) {
+        if (recyclerView.getVisibility()==View.GONE) {
+            recyclerView.setVisibility(View.VISIBLE);
+            expandIv.setImageResource(R.drawable.ic_drop);
+        } else {
+            recyclerView.setVisibility(View.GONE);
+            expandIv.setImageResource(R.drawable.ic_drop_hide);
+        }
+    }
+
+	@Override
+	public void showAuthors(List<AuthorModel> authors) {
+
 	}
 
-	@OnClick(R.id.iv_expand_category_FNS)
-	@Override
-	public void showCategory() {
+    @Override
+    public void showCategories(List<CategoryModel> categories) {
 
-		if (recyclerViewCategories.getVisibility()==View.GONE) {
-			recyclerViewCategories.setVisibility(View.VISIBLE);
-			ivExpandCategory.setImageResource(R.drawable.ic_drop_hide);
-		} else {
-			recyclerViewCategories.setVisibility(View.GONE);
-			ivExpandCategory.setImageResource(R.drawable.ic_drop);
-		}
-	}
-
+    }
 }
