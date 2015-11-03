@@ -12,6 +12,7 @@
 	<ImageView
 		android:id="@+id/iv_headline_FND"
 		android:layout_width="match_parent"
+		android:scaleType="centerCrop"
 		android:layout_height="150dp"/>
 
 	<LinearLayout

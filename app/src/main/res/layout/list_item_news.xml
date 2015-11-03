@@ -11,6 +11,7 @@
         android:id="@+id/iv_headline_LIN"
         android:layout_width="@dimen/news_thumb_size"
         android:layout_height="@dimen/news_thumb_size"
+        android:scaleType="centerCrop"
        />
 
    <RelativeLayout

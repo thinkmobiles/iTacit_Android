@@ -3,19 +3,21 @@ package com.itacit.healthcare.presentation.news.fragments;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.Html;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.itacit.healthcare.R;
+import com.itacit.healthcare.data.network.interceptors.AuthInterceptor;
 import com.itacit.healthcare.domain.interactor.GetNewsDetailsUseCase;
 import com.itacit.healthcare.presentation.base.views.BaseFragmentView;
 import com.itacit.healthcare.presentation.news.mapper.NewsDetailsModelMapper;
 import com.itacit.healthcare.presentation.news.models.NewsDetailsModel;
 import com.itacit.healthcare.presentation.news.presenters.NewsDetailsPresenter;
 import com.itacit.healthcare.presentation.news.views.INewsDetailsView;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.picasso.OkHttpDownloader;
+import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -42,10 +44,18 @@ public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter> 
 	@Bind(R.id.tv_position_IAF)
 	TextView tvPosition;
 
+	private Picasso picasso;
+
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+		OkHttpClient picassoClient = new OkHttpClient();
+		picassoClient.interceptors().add(new AuthInterceptor());
+		picasso = new Picasso.Builder(activity)
+				.downloader(new OkHttpDownloader(picassoClient))
+				.build();
 		presenter.loadNewsDetails();
+
 	}
 
 
@@ -77,7 +87,7 @@ public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter> 
 
 	@Override
 	public void showNewsDetails(NewsDetailsModel newsDetails) {
-
+		picasso.load(newsDetails.getHeadlineUri()).into(ivHeadline);
 		tvTitle.setText(newsDetails.getHeadline());
 		tvArticle.setText(Html.fromHtml(newsDetails.getBody()));
 		tvCategory.setText(newsDetails.getCategoryName());

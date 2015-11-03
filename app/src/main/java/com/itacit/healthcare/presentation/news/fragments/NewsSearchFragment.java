@@ -84,7 +84,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
             @Override
             public void onGlobalLayout() {
                 searchFiltersEt.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                searchFiltersEt.addFilter(new Filter(1, "JohnCarson", Filter.FilterType.Author));
+                searchFiltersEt.addFilter(new Filter(1, "JohnCarson", Filter.FilterType.Category));
             }
         });
         datePickerWheel.setDay(25);
