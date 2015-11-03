@@ -26,4 +26,27 @@ public class Filter {
     public FilterType getFilterType() {
         return filterType;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Filter) {
+            Filter other = (Filter) o;
+            if (other.getFilterType() != filterType) {
+                return false;
+            }
+
+            if (other.getId() != id) {
+                return false;
+            }
+
+            if (!other.getVisibleText().equals(visibleText)) {
+                return false;
+            }
+
+        } else {
+            return false;
+        }
+
+        return true;
+    }
 }

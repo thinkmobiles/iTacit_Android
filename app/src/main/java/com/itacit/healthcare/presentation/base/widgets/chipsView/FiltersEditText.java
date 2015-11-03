@@ -92,6 +92,14 @@ public class FiltersEditText extends EditText {
         return spannable.subSequence(0, spannable.length()).toString();
     }
 
+    public void removeFilter(Filter filter) {
+        for (VisibleFilterChip chip : getSortedChips()) {
+            if (chip.getFilter().equals(filter)) {
+                removeChip(chip);
+            }
+        }
+    }
+
     private CharSequence createChip(Filter filter) {
         String spannableText;
         String text = filter.getVisibleText();
@@ -142,7 +150,7 @@ public class FiltersEditText extends EditText {
         return height - (height - textHeight) / 2 - (int) paint.descent();
     }
 
-    void removeChip(VisibleFilterChip chip) {
+    private void removeChip(VisibleFilterChip chip) {
         Spannable spannable = getText();
         int spanStart = spannable.getSpanStart(chip);
         int spanEnd = spannable.getSpanEnd(chip);
