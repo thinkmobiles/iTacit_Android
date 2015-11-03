@@ -1,6 +1,7 @@
 package com.itacit.healthcare.presentation.news.fragments;
 
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,8 @@ import com.itacit.healthcare.domain.interactor.GetCategoriesUseCase;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.ChipsEditText;
 import com.itacit.healthcare.presentation.base.views.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.wheelDatePicker.WheelDatePicker;
+import com.itacit.healthcare.presentation.news.adapters.AuthorsAdapter;
+import com.itacit.healthcare.presentation.news.adapters.CategoriesAdapter;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
 import com.itacit.healthcare.presentation.news.models.CategoryModel;
 import com.itacit.healthcare.presentation.news.presenters.NewsSearchPresenter;
@@ -61,6 +64,9 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
     @Bind(R.id.btn_search_FNS)
     Button btnSearch;
 
+    private AuthorsAdapter authorsAdapter;
+    private CategoriesAdapter categoriesAdapter;
+
     @Override
     protected void setUpView() {
         ViewTreeObserver observer = searchFiltersEt.getViewTreeObserver();
@@ -78,13 +84,16 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
         datePickerWheel.setVisibleItems(5);
         datePickerWheel.setMinMaxYears(2000, 2020);
         datePickerWheel.addDateChangedListener(new WheelDatePicker.IDateChangedListener() {
-	        @Override
-	        public void onChanged(WheelDatePicker sender, int oldDay, int oldMonth, int oldYear, int day, int month, int year) {
-		        Log.i("WHEEL_APP", String.format("Selected date changed ! %02d.%02d.%04d -> %02d.%02d.%04d",
-				        oldDay, oldMonth, oldYear, day, month, year));
-	        }
+            @Override
+            public void onChanged(WheelDatePicker sender, int oldDay, int oldMonth, int oldYear, int day, int month, int year) {
+                Log.i("WHEEL_APP", String.format("Selected date changed ! %02d.%02d.%04d -> %02d.%02d.%04d",
+                        oldDay, oldMonth, oldYear, day, month, year));
+            }
         });
 
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        authorsRv.setLayoutManager(layoutManager);
+        categoriesRv.setLayoutManager(layoutManager);
     }
 
     @Override
@@ -154,10 +163,28 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 	@Override
 	public void showAuthors(List<AuthorModel> authors) {
 
+        authorsAdapter = new AuthorsAdapter(getActivity(), authors);
+        authorsRv.setAdapter(authorsAdapter);
+        authorsAdapter.setOnAuthorsItemSelectedListener(this::addAuthorToSearchList);
 	}
 
     @Override
     public void showCategories(List<CategoryModel> categories) {
 
+        categoriesAdapter = new CategoriesAdapter(getActivity(), categories);
+        categoriesRv.setAdapter(categoriesAdapter);
+        categoriesAdapter.setOnCategoriesItemSelectedListener(this::addCategoryToSearchList);
     }
+
+	@Override
+	public void addAuthorToSearchList(long authorId) {
+
+	}
+
+	@Override
+	public void addCategoryToSearchList(long categoryId) {
+
+	}
+
+
 }
