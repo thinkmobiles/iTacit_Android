@@ -3,23 +3,27 @@ package com.itacit.healthcare.presentation.news.fragments;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.GetAuthorsUseCase;
 import com.itacit.healthcare.domain.interactor.GetCategoriesUseCase;
-import com.itacit.healthcare.presentation.base.widgets.chipsView.ChipsEditText;
+import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
+import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
 import com.itacit.healthcare.presentation.base.views.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.wheelDatePicker.WheelDatePicker;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
 import com.itacit.healthcare.presentation.news.models.CategoryModel;
 import com.itacit.healthcare.presentation.news.presenters.NewsSearchPresenter;
 import com.itacit.healthcare.presentation.news.views.INewsSearchView;
+import com.jakewharton.rxbinding.widget.RxTextView;
 
 import java.util.List;
 import java.util.Locale;
@@ -32,10 +36,10 @@ import rx.Observable;
  * Created by root on 21.10.15.
  */
 public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> implements INewsSearchView {
+    @Bind(R.id.sv_root_FNS)
+    ScrollView rootSv;
     @Bind(R.id.et_serch_FNS)
-    ChipsEditText searchFiltersEt;
-    @Bind(R.id.ib_close_FNS)
-    ImageButton ibClose;
+    FiltersEditText searchFiltersEt;
     @Bind(R.id.tv_count_author_FNS)
     TextView tvCountAuthor;
     @Bind(R.id.iv_expand_author_FNS)
@@ -61,6 +65,12 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
     @Bind(R.id.btn_search_FNS)
     Button btnSearch;
 
+
+    @OnClick(R.id.ib_clear_FNS)
+    void onClearFilters() {
+        searchFiltersEt.removeFilters();
+    }
+
     @Override
     protected void setUpView() {
         ViewTreeObserver observer = searchFiltersEt.getViewTreeObserver();
@@ -68,7 +78,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
             @Override
             public void onGlobalLayout() {
                 searchFiltersEt.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                searchFiltersEt.addChip("JohnCarson");
+                searchFiltersEt.addFilter(new Filter(1, "JohnCarson", Filter.FilterType.Author));
             }
         });
         datePickerWheel.setDay(25);
@@ -78,13 +88,25 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
         datePickerWheel.setVisibleItems(5);
         datePickerWheel.setMinMaxYears(2000, 2020);
         datePickerWheel.addDateChangedListener(new WheelDatePicker.IDateChangedListener() {
-	        @Override
-	        public void onChanged(WheelDatePicker sender, int oldDay, int oldMonth, int oldYear, int day, int month, int year) {
-		        Log.i("WHEEL_APP", String.format("Selected date changed ! %02d.%02d.%04d -> %02d.%02d.%04d",
-				        oldDay, oldMonth, oldYear, day, month, year));
-	        }
+            @Override
+            public void onChanged(WheelDatePicker sender, int oldDay, int oldMonth, int oldYear, int day, int month, int year) {
+                Log.i("WHEEL_APP", String.format("Selected date changed ! %02d.%02d.%04d -> %02d.%02d.%04d",
+                        oldDay, oldMonth, oldYear, day, month, year));
+            }
         });
 
+        searchFiltersEt.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                rootSv.requestDisallowInterceptTouchEvent(true);
+                switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                    case MotionEvent.ACTION_UP:
+                        rootSv.requestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -117,11 +139,9 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 		}
     }
 
-
-
     @Override
     public Observable<String> getSearchTextObs() {
-        return null;
+        return RxTextView.textChangeEvents(searchFiltersEt).map(e -> e.text().toString());
     }
 
     @Override

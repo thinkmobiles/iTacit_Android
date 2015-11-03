@@ -23,50 +23,30 @@ import android.text.style.DynamicDrawableSpan;
 import android.text.style.ImageSpan;
 
 
-public class VisibleFilterChip extends ImageSpan implements FilterChip {
-    private CharSequence mDisplay;
-    private CharSequence mValue;
-    private FilterChip.FilterType mFilterType;
+public class VisibleFilterChip extends ImageSpan {
+    private final Filter filter;
 
 
-    public VisibleFilterChip(final Drawable drawable, String displayText, FilterChip.FilterType filterType) {
+    public VisibleFilterChip(final Drawable drawable, Filter filter) {
         super(drawable, DynamicDrawableSpan.ALIGN_BOTTOM);
-        mFilterType = filterType;
-        mDisplay = displayText;
+        this.filter = filter;
     }
 
-    @Override
     public Rect getBounds() {
         return getDrawable().getBounds();
     }
 
-    @Override
     public void draw(final Canvas canvas) {
         getDrawable().draw(canvas);
     }
 
     @Override
-    public CharSequence getDisplay() {
-        return mDisplay;
-    }
-
-    @Override
-    public CharSequence getValue() {
-        return mValue;
-    }
-
-    @Override
     public String toString() {
-        return mDisplay + " <" + mValue + ">";
+        return filter.getVisibleText() + " <" + filter.getFilterType().toString() + " " + String.valueOf(filter.getId()) + ">";
     }
 
-    @Override
-    public FilterType getFilterType() {
-        return mFilterType;
-    }
 
-    @Override
-    public void setFilterType(FilterType filterType) {
-        mFilterType = filterType;
+    public Filter getFilter() {
+        return filter;
     }
 }

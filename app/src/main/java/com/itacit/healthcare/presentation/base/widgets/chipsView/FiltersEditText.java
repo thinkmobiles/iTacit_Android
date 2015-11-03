@@ -31,7 +31,7 @@ import rx.subjects.Subject;
 /**
  * Created by root on 22.10.15.
  */
-public class ChipsEditText extends EditText {
+public class FiltersEditText extends EditText {
 
     private final Subject<VisibleFilterChip, VisibleFilterChip> mChipRemovedSubject = PublishSubject.create();
     private final float mChipHeightDp = 32;
@@ -41,16 +41,16 @@ public class ChipsEditText extends EditText {
     private final float mDeleteSizeDp = 16;
 
 
-    public ChipsEditText(Context context) {
+    public FiltersEditText(Context context) {
         super(context);
     }
 
-    public ChipsEditText(Context context, AttributeSet attrs) {
+    public FiltersEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
 
-    public ChipsEditText(Context context, AttributeSet attrs, int defStyleAttr) {
+    public FiltersEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -64,14 +64,14 @@ public class ChipsEditText extends EditText {
         return mChipRemovedSubject;
     }
 
-    public void addChip(String text) {
+    public void addFilter(Filter filter) {
         final Editable editable = getText();
-        CharSequence chip = createChip(text);
+        CharSequence chip = createChip(filter);
         editable.append(chip);
         sanitizeBetween();
     }
 
-    public void removeChips() {
+    public void removeFilters() {
         final Editable editable = getText();
         editable.delete(0, editable.length());
     }
@@ -81,24 +81,27 @@ public class ChipsEditText extends EditText {
         return getWidth()-getPaddingLeft()-getPaddingRight()-paddingChips;
     }
 
-    private CharSequence createChip(String text) {
+    private CharSequence createChip(Filter filter) {
         String spanableText;
+        String text = filter.getVisibleText();
         if (text.endsWith(" ")) {
             spanableText = text;
         } else {
             spanableText = text + " ";
         }
 
-        Drawable delete = getContext().getResources().getDrawable(R.drawable.btn_chip_del);
-        int deleteSizePx = (int) AndroidUtils.convertDpToPixel(mDeleteSizeDp, getContext());
-        SpannableString chipText = new SpannableString(spanableText);
-        final int textLength = spanableText.length() - 1;
-        TextPaint paint = getPaint();
         int paddingTopPx = (int) AndroidUtils.convertDpToPixel(mBgPaddingTop, getContext());
         int paddingRightPx = (int) AndroidUtils.convertDpToPixel(mBgPaddingRightDp, getContext());
         int paddingLeftPx = (int) AndroidUtils.convertDpToPixel(mBgPaddingLeftDp, getContext());
         int heightPx = (int) AndroidUtils.convertDpToPixel(mChipHeightDp, getContext());
+        int deleteSizePx = (int) AndroidUtils.convertDpToPixel(mDeleteSizeDp, getContext());
+
+        Drawable delete = getContext().getResources().getDrawable(R.drawable.btn_chip_del);
+        SpannableString chipText = new SpannableString(spanableText);
+        final int textLength = spanableText.length() - 1;
+        TextPaint paint = getPaint();
         int width = (int) (Math.floor(paint.measureText(text,0,text.length()))+paddingLeftPx+2*paddingRightPx+delete.getMinimumWidth());
+
         Bitmap tmpBitmap = Bitmap.createBitmap(width, heightPx, Bitmap.Config.ARGB_8888);
         float maxWidth = calculateAvailableWidth(paddingRightPx + paddingLeftPx);
         CharSequence ellipsizedText = TextUtils.ellipsize(text, paint, maxWidth, TextUtils.TruncateAt.END);
@@ -116,7 +119,7 @@ public class ChipsEditText extends EditText {
 
         final Drawable result = new BitmapDrawable(getResources(), tmpBitmap);
         result.setBounds(0, 0, tmpBitmap.getWidth(), tmpBitmap.getHeight());
-        FilterChip chip = new VisibleFilterChip(result, text, FilterChip.FilterType.Author);
+        VisibleFilterChip chip = new VisibleFilterChip(result, filter);
         chipText.setSpan(chip, 0, textLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return chipText;
     }

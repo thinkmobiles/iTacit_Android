@@ -8,8 +8,10 @@ import com.itacit.healthcare.presentation.news.models.NewsModel;
 import com.itacit.healthcare.presentation.news.views.INewsFeedView;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import rx.Subscriber;
+import rx.schedulers.TimeInterval;
 
 /**
  * Created by root on 13.10.15.
@@ -28,7 +30,8 @@ public class NewsFeedPresenter extends BasePresenter<INewsFeedView> implements I
     protected void onViewAttach() {
         if (getView()!= null) {
             compositeSubscription.add(getView().getNewsSearchTextObs()
-                    .filter(t -> t.length() > SEARCH_TEXT_MIN_LENGTH)
+                    .filter(text -> text.length() > SEARCH_TEXT_MIN_LENGTH)
+                    .debounce(1, TimeUnit.SECONDS)
                     .subscribe(this::searchNews));
         }
     }

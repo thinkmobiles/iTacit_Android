@@ -78,4 +78,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         transaction.commitAllowingStateLoss();
     }
 
+    public void switchContent(Class<?> fragmentClass, boolean addToBackStack) {
+        switchContent(fragmentClass, addToBackStack, null);
+    }
+
 }

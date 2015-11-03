@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.GetNewsUseCase;
-import com.itacit.healthcare.presentation.base.BaseActivity;
 import com.itacit.healthcare.presentation.base.views.BaseFragmentView;
 import com.itacit.healthcare.presentation.news.adapters.NewsAdapter;
 import com.itacit.healthcare.presentation.news.mapper.NewsModelMapper;
@@ -36,6 +38,12 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
     RecyclerView newsRecyclerView;
     private NewsAdapter newsAdapter;
     private ProgressDialog progressDialog;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -70,6 +78,24 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_filter, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.filter:
+                activity.switchContent(NewsSearchFragment.class, true);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
+    @Override
     public void showNews(List<NewsModel> news) {
         newsAdapter = new NewsAdapter(getActivity(), news);
         newsRecyclerView.setAdapter(newsAdapter);
@@ -97,7 +123,7 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
     public void showNewsItemDetails(long newsId) {
         Bundle args = new Bundle(1);
         args.putLong(NewsDetailsFragment.NEWS_ID, newsId);
-        ((BaseActivity) getActivity()).switchContent(NewsDetailsFragment.class, true, args);
+        activity.switchContent(NewsDetailsFragment.class, true, args);
     }
 
     @Override

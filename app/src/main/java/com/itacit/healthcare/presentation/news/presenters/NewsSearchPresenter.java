@@ -5,8 +5,11 @@ import com.itacit.healthcare.domain.interactor.GetCategoriesUseCase;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
 import com.itacit.healthcare.presentation.news.views.INewsSearchView;
 
+import java.util.concurrent.TimeUnit;
+
 import rx.Observable;
 import rx.Subscriber;
+import rx.schedulers.TimeInterval;
 
 /**
  * Created by root on 26.10.15.
@@ -29,7 +32,8 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
     private Observable<String> getSearchObs() {
         if(getView() != null) {
             return getView().getSearchTextObs()
-                    .filter(t->t.length() > NewsFeedPresenter.SEARCH_TEXT_MIN_LENGTH);
+                    .filter(t -> t.length() > NewsFeedPresenter.SEARCH_TEXT_MIN_LENGTH)
+                    .debounce(1, TimeUnit.SECONDS);
         }
         return Observable.empty();
     }

@@ -19,6 +19,13 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseFragmentView<P extends IPresenter> extends Fragment implements IView {
     protected P presenter;
+    protected BaseActivity activity;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        activity = (BaseActivity) getActivity();
+    }
 
     @Nullable
     @Override
