@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import rx.Subscriber;
-import rx.schedulers.TimeInterval;
 
 /**
  * Created by root on 13.10.15.

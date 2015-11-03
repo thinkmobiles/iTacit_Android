@@ -101,21 +101,21 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
             }
         });
 
-        searchFiltersEt.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                rootSv.requestDisallowInterceptTouchEvent(true);
-                switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                    case MotionEvent.ACTION_UP:
-                        rootSv.requestDisallowInterceptTouchEvent(false);
-                        break;
-                }
-                return false;
+        preventRootScroll();
+        authorsRv.setLayoutManager(new LinearLayoutManager(activity));
+        categoriesRv.setLayoutManager(new LinearLayoutManager(activity));
+    }
+
+    private void preventRootScroll() {
+        searchFiltersEt.setOnTouchListener((v, event) -> {
+            rootSv.requestDisallowInterceptTouchEvent(true);
+            switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                case MotionEvent.ACTION_UP:
+                    rootSv.requestDisallowInterceptTouchEvent(false);
+                    break;
             }
+            return false;
         });
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        authorsRv.setLayoutManager(layoutManager);
-        categoriesRv.setLayoutManager(layoutManager);
     }
 
     @Override
@@ -150,7 +150,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 
     @Override
     public Observable<String> getSearchTextObs() {
-        return RxTextView.textChangeEvents(searchFiltersEt).map(e -> e.text().toString());
+        return RxTextView.textChangeEvents(searchFiltersEt).map(e -> searchFiltersEt.getInputText());
     }
 
     @Override

@@ -40,12 +40,12 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
 
     @Override
     public void getAuthors(String query) {
-        getAuthorsUseCase.execute(new GetAuthorsSubscriber());
+        getAuthorsUseCase.execute(new GetAuthorsSubscriber(), query);
     }
 
     @Override
     public void getCategories(String query) {
-        getCategoriesUseCase.execute(new GetCategoriesSubscriber());
+        getCategoriesUseCase.execute(new GetCategoriesSubscriber(), query);
     }
 
 

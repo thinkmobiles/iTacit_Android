@@ -81,13 +81,24 @@ public class FiltersEditText extends EditText {
         return getWidth()-getPaddingLeft()-getPaddingRight()-paddingChips;
     }
 
+    public String getInputText() {
+        Spannable spannable = getText();
+        VisibleFilterChip last = getLastChip();
+        int endSpans = getText().getSpanEnd(last) + 1;
+        if (last != null && 0 < endSpans) {
+            return spannable.subSequence(endSpans, spannable.length()).toString();
+        }
+
+        return spannable.subSequence(0, spannable.length()).toString();
+    }
+
     private CharSequence createChip(Filter filter) {
-        String spanableText;
+        String spannableText;
         String text = filter.getVisibleText();
         if (text.endsWith(" ")) {
-            spanableText = text;
+            spannableText = text;
         } else {
-            spanableText = text + " ";
+            spannableText = text + " ";
         }
 
         int paddingTopPx = (int) AndroidUtils.convertDpToPixel(mBgPaddingTop, getContext());
@@ -97,8 +108,8 @@ public class FiltersEditText extends EditText {
         int deleteSizePx = (int) AndroidUtils.convertDpToPixel(mDeleteSizeDp, getContext());
 
         Drawable delete = getContext().getResources().getDrawable(R.drawable.btn_chip_del);
-        SpannableString chipText = new SpannableString(spanableText);
-        final int textLength = spanableText.length() - 1;
+        SpannableString chipText = new SpannableString(spannableText);
+        final int textLength = spannableText.length() - 1;
         TextPaint paint = getPaint();
         int width = (int) (Math.floor(paint.measureText(text,0,text.length()))+paddingLeftPx+2*paddingRightPx+delete.getMinimumWidth());
 
