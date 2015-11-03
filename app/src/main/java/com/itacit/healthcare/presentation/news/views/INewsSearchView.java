@@ -15,6 +15,8 @@ public interface INewsSearchView extends IView {
 	void showDatePicker();
 	void showAuthors(List<AuthorModel> authors);
 	void showCategories(List<CategoryModel> categories);
+	void addAuthorToSearchList(long authorId);
+	void addCategoryToSearchList(long categoryId);
 	Observable<String> getSearchTextObs();
 	Observable<Integer> getListClickObs();
 }

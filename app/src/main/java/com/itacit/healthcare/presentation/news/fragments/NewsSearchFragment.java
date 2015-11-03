@@ -1,6 +1,7 @@
 package com.itacit.healthcare.presentation.news.fragments;
 
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -19,6 +20,8 @@ import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
 import com.itacit.healthcare.presentation.base.views.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.wheelDatePicker.WheelDatePicker;
+import com.itacit.healthcare.presentation.news.adapters.AuthorsAdapter;
+import com.itacit.healthcare.presentation.news.adapters.CategoriesAdapter;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
 import com.itacit.healthcare.presentation.news.models.CategoryModel;
 import com.itacit.healthcare.presentation.news.presenters.NewsSearchPresenter;
@@ -71,6 +74,9 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
         searchFiltersEt.removeFilters();
     }
 
+    private AuthorsAdapter authorsAdapter;
+    private CategoriesAdapter categoriesAdapter;
+
     @Override
     protected void setUpView() {
         ViewTreeObserver observer = searchFiltersEt.getViewTreeObserver();
@@ -107,6 +113,9 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
                 return false;
             }
         });
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        authorsRv.setLayoutManager(layoutManager);
+        categoriesRv.setLayoutManager(layoutManager);
     }
 
     @Override
@@ -174,10 +183,28 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 	@Override
 	public void showAuthors(List<AuthorModel> authors) {
 
+        authorsAdapter = new AuthorsAdapter(getActivity(), authors);
+        authorsRv.setAdapter(authorsAdapter);
+        authorsAdapter.setOnAuthorsItemSelectedListener(this::addAuthorToSearchList);
 	}
 
     @Override
     public void showCategories(List<CategoryModel> categories) {
 
+        categoriesAdapter = new CategoriesAdapter(getActivity(), categories);
+        categoriesRv.setAdapter(categoriesAdapter);
+        categoriesAdapter.setOnCategoriesItemSelectedListener(this::addCategoryToSearchList);
     }
+
+	@Override
+	public void addAuthorToSearchList(long authorId) {
+
+	}
+
+	@Override
+	public void addCategoryToSearchList(long categoryId) {
+
+	}
+
+
 }
