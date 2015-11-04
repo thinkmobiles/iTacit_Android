@@ -14,6 +14,7 @@ import android.widget.EditText;
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.GetNewsUseCase;
 import com.itacit.healthcare.presentation.base.views.BaseFragmentView;
+import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
 import com.itacit.healthcare.presentation.news.adapters.NewsAdapter;
 import com.itacit.healthcare.presentation.news.mapper.NewsModelMapper;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
@@ -32,7 +33,7 @@ import rx.Observable;
  */
 public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implements INewsFeedView {
     @Bind(R.id.et_search_FN)
-    EditText searchNewsView;
+    FiltersEditText searchNewsView;
 
     @Bind(R.id.recycler_view_FN)
     RecyclerView newsRecyclerView;
@@ -128,6 +129,6 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 
     @Override
     public Observable<String> getNewsSearchTextObs() {
-        return RxTextView.textChangeEvents(searchNewsView).map(e -> e.text().toString());
+        return RxTextView.textChangeEvents(searchNewsView).map(e -> searchNewsView.getInputText());
     }
 }

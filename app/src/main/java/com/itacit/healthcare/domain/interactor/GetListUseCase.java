@@ -6,6 +6,7 @@ import com.itacit.healthcare.data.network.response.ListResponse;
 import java.util.List;
 
 import rx.Observable;
+import rx.Subscriber;
 
 /**
  * Created by Nerevar on 10/29/2015.
@@ -17,6 +18,11 @@ public abstract class GetListUseCase<T> extends UseCase<List<T>> {
         listRequest = new ListRequest();
         listRequest.setStartIndex(startIndex);
         listRequest.setRowCount(rowCounts);
+    }
+
+    public void execute(Subscriber<List<T>> useCaseSubscriber, String query) {
+        listRequest.setQuery(query);
+        super.execute(useCaseSubscriber);
     }
 
     protected abstract Observable<ListResponse<T>> request();
