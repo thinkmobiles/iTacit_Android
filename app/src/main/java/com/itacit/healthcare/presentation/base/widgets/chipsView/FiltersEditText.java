@@ -15,7 +15,7 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.EditText;
+import android.widget.MultiAutoCompleteTextView;
 
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.global.utils.AndroidUtils;
@@ -31,7 +31,7 @@ import rx.subjects.Subject;
 /**
  * Created by root on 22.10.15.
  */
-public class FiltersEditText extends EditText {
+public class FiltersEditText extends MultiAutoCompleteTextView {
 
     private final Subject<VisibleFilterChip, VisibleFilterChip> mChipRemovedSubject = PublishSubject.create();
     private final float mChipHeightDp = 32;
@@ -71,35 +71,6 @@ public class FiltersEditText extends EditText {
         sanitizeBetween();
     }
 
-    public void removeFilters() {
-        final Editable editable = getText();
-        editable.delete(0, editable.length());
-    }
-
-    private float calculateAvailableWidth(float paddingChips)
-    {
-        return getWidth()-getPaddingLeft()-getPaddingRight()-paddingChips;
-    }
-
-    public String getInputText() {
-        Spannable spannable = getText();
-        VisibleFilterChip last = getLastChip();
-        int endSpans = getText().getSpanEnd(last) + 1;
-        if (last != null && 0 < endSpans) {
-            return spannable.subSequence(endSpans, spannable.length()).toString();
-        }
-
-        return spannable.subSequence(0, spannable.length()).toString();
-    }
-
-    public void removeFilter(Filter filter) {
-        for (VisibleFilterChip chip : getSortedChips()) {
-            if (chip.getFilter().equals(filter)) {
-                removeChip(chip);
-            }
-        }
-    }
-
     private CharSequence createChip(Filter filter) {
         String spannableText;
         String text = filter.getVisibleText();
@@ -119,7 +90,7 @@ public class FiltersEditText extends EditText {
         SpannableString chipText = new SpannableString(spannableText);
         final int textLength = spannableText.length() - 1;
         TextPaint paint = getPaint();
-        int width = (int) (Math.floor(paint.measureText(text,0,text.length()))+paddingLeftPx+2*paddingRightPx+delete.getMinimumWidth());
+        int width = (int) (Math.floor(paint.measureText(text, 0, text.length())) + paddingLeftPx + 2 * paddingRightPx + delete.getMinimumWidth());
 
         Bitmap tmpBitmap = Bitmap.createBitmap(width, heightPx, Bitmap.Config.ARGB_8888);
         float maxWidth = calculateAvailableWidth(paddingRightPx + paddingLeftPx);
@@ -131,7 +102,7 @@ public class FiltersEditText extends EditText {
         background.draw(canvas);
         paint.setColor(getContext().getResources().getColor(R.color.gray_dark));
         // Vertically center the text in the chip.
-        canvas.drawText(ellipsizedText, 0, ellipsizedText.length(), paddingLeftPx, getTextYOffset((String) ellipsizedText, paint, heightPx), paint);
+        canvas.drawText(ellipsizedText, 0, ellipsizedText.length(), paddingLeftPx, getTextYOffset((String) ellipsizedText, paint, heightPx) + 4, paint);
         delete.setBounds(width - (deleteSizePx + paddingRightPx), paddingTopPx, width - paddingRightPx, heightPx - paddingTopPx);
         delete.draw(canvas);
 
@@ -143,11 +114,99 @@ public class FiltersEditText extends EditText {
         return chipText;
     }
 
+    private void sanitizeBetween() {
+        final VisibleFilterChip[] chips = getSortedChips();
+        if (chips != null && chips.length > 0) {
+            final VisibleFilterChip last = chips[chips.length - 1];
+            VisibleFilterChip beforeLast = null;
+            if (chips.length > 1)
+                beforeLast = chips[chips.length - 2];
+            int startLooking = 0;
+            final int end = getText().getSpanStart(last);
+            if (beforeLast != null) {
+                startLooking = getText().getSpanEnd(beforeLast);
+                final Editable text = getText();
+                if (startLooking == -1 || startLooking > text.length() - 1)
+                    // There is nothing after this chip.
+                    return;
+                if (text.charAt(startLooking) == ' ')
+                    startLooking++;
+            }
+            if (startLooking >= 0 && end >= 0 && startLooking < end)
+                getText().delete(startLooking, end);
+        }
+    }
+
+    private float calculateAvailableWidth(float paddingChips) {
+        return getWidth() - getPaddingLeft() - getPaddingRight() - paddingChips;
+    }
+
     private static float getTextYOffset(final String text, final TextPaint paint, final int height) {
         final Rect bounds = new Rect();
         paint.getTextBounds(text, 0, text.length(), bounds);
         final int textHeight = bounds.bottom - bounds.top;
         return height - (height - textHeight) / 2 - (int) paint.descent();
+    }
+
+    private VisibleFilterChip[] getSortedChips() {
+        final Spannable spannable = getText();
+        VisibleFilterChip[] chips = spannable
+                .getSpans(0, getText().length(), VisibleFilterChip.class);
+        ArrayList<VisibleFilterChip> chipsList = new ArrayList<VisibleFilterChip>(
+                Arrays.asList(chips));
+
+        Collections.sort(chipsList, new Comparator<VisibleFilterChip>() {
+
+            @Override
+            public int compare(VisibleFilterChip first, VisibleFilterChip second) {
+                int firstStart = spannable.getSpanStart(first);
+                int secondStart = spannable.getSpanStart(second);
+                if (firstStart < secondStart) {
+                    return -1;
+                } else if (firstStart > secondStart) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        });
+        return chipsList.toArray(new VisibleFilterChip[chipsList.size()]);
+    }
+
+    public void removeFilters() {
+        for (VisibleFilterChip chip : getSortedChips()) {
+            removeChip(chip);
+        }
+
+        getText().clear();
+    }
+
+    public String getInputText() {
+        Spannable spannable = getText();
+        VisibleFilterChip last = getLastChip();
+        int endSpans = getText().getSpanEnd(last) + 1;
+        if (last != null && 0 < endSpans) {
+            return spannable.subSequence(endSpans, spannable.length()).toString();
+        }
+
+        return spannable.subSequence(0, spannable.length()).toString();
+    }
+
+    private VisibleFilterChip getLastChip() {
+        VisibleFilterChip last = null;
+        VisibleFilterChip[] chips = getSortedChips();
+        if (chips != null && chips.length > 0) {
+            last = chips[chips.length - 1];
+        }
+        return last;
+    }
+
+    public void removeFilter(Filter filter) {
+        for (VisibleFilterChip chip : getSortedChips()) {
+            if (chip.getFilter().equals(filter)) {
+                removeChip(chip);
+            }
+        }
     }
 
     private void removeChip(VisibleFilterChip chip) {
@@ -177,40 +236,6 @@ public class FiltersEditText extends EditText {
         }
         super.onSelectionChanged(start, end);
 
-    }
-
-    private VisibleFilterChip getLastChip() {
-        VisibleFilterChip last = null;
-        VisibleFilterChip[] chips = getSortedChips();
-        if (chips != null && chips.length > 0) {
-            last = chips[chips.length - 1];
-        }
-        return last;
-    }
-
-    private VisibleFilterChip[] getSortedChips() {
-        final Spannable spannable = getText();
-        VisibleFilterChip[] chips = spannable
-                .getSpans(0, getText().length(), VisibleFilterChip.class);
-        ArrayList<VisibleFilterChip> chipsList = new ArrayList<VisibleFilterChip>(
-                Arrays.asList(chips));
-
-        Collections.sort(chipsList, new Comparator<VisibleFilterChip>() {
-
-            @Override
-            public int compare(VisibleFilterChip first, VisibleFilterChip second) {
-                int firstStart = spannable.getSpanStart(first);
-                int secondStart = spannable.getSpanStart(second);
-                if (firstStart < secondStart) {
-                    return -1;
-                } else if (firstStart > secondStart) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            }
-        });
-        return chipsList.toArray(new VisibleFilterChip[chipsList.size()]);
     }
 
     @Override
@@ -312,29 +337,6 @@ public class FiltersEditText extends EditText {
         x = Math.min(getWidth() - getTotalPaddingRight() - 1, x);
         x += getScrollX();
         return x;
-    }
-
-    private void sanitizeBetween() {
-        final VisibleFilterChip[] chips = getSortedChips();
-        if (chips != null && chips.length > 0) {
-            final VisibleFilterChip last = chips[chips.length - 1];
-            VisibleFilterChip beforeLast = null;
-            if (chips.length > 1)
-                beforeLast = chips[chips.length - 2];
-            int startLooking = 0;
-            final int end = getText().getSpanStart(last);
-            if (beforeLast != null) {
-                startLooking = getText().getSpanEnd(beforeLast);
-                final Editable text = getText();
-                if (startLooking == -1 || startLooking > text.length() - 1)
-                    // There is nothing after this chip.
-                    return;
-                if (text.charAt(startLooking) == ' ')
-                    startLooking++;
-            }
-            if (startLooking >= 0 && end >= 0 && startLooking < end)
-                getText().delete(startLooking, end);
-        }
     }
 
 }
