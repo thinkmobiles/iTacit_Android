@@ -47,8 +47,8 @@ public class NewsFeedPresenter extends BasePresenter<INewsFeedView> implements I
     }
 
     @Override
-    public void searchNews(String searchWord) {
-
+    public void searchNews(String query) {
+        getNewsUseCase.execute(new NewsListSubscriber(), query);
     }
 
     private final class NewsListSubscriber extends Subscriber<List<News>> {

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/sv_root_FNS"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+<ScrollView
+    android:id="@+id/sv_root_FNS"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
+        android:orientation="vertical"
         android:paddingLeft="@dimen/main_margin"
         android:paddingRight="@dimen/main_margin"
         android:paddingTop="@dimen/main_margin">
@@ -17,284 +18,284 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="13sp"
+            android:text="Selected"
             android:textColor="@color/gray_light"
-            android:text="Selected"/>
+            android:textSize="13sp"/>
 
         <RelativeLayout
+            android:id="@+id/rl_search_FNS"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/rl_search_FNS"
             android:layout_marginTop="5dp"
             >
 
-        <com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/et_serch_FNS"
-            android:textSize="13sp"
-            android:lineSpacingExtra="20sp"
-            android:lines="2"
-            android:minLines="2"
-            android:textColor="@color/gray_dark"
-            android:background="@null"
-            android:layout_marginBottom="@dimen/main_margin"
-            android:paddingRight="16dp"
-            />
-
-        <View
-            android:id="@+id/line_separator_FNS"
-            android:layout_below="@+id/et_serch_FNS"
-            style="@style/line_separator"/>
-
-        <ImageButton
+            <ImageButton
                 android:id="@+id/ib_clear_FNS"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_above="@+id/line_separator_FNS"
                 android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/main_margin"
                 android:background="@android:color/white"
-                android:src="@drawable/btn_del_filter"
-                android:layout_marginBottom="@dimen/main_margin"/>
+                android:padding="5dp"
+                android:src="@drawable/btn_del_filter"/>
 
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/rl_author_FNS"
-            android:layout_marginLeft="@dimen/main_margin"
-            android:layout_marginTop="@dimen/layout_top_margin">
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/rl_author_title_FNS">
-
-	            <ImageView
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:id="@+id/iv_icon_author_FNS"
-		            android:layout_alignParentLeft="true"
-		            android:layout_alignParentStart="true"
-		            android:src="@drawable/ic_user"
-		            android:layout_margin="5dp"
-		            android:layout_centerVertical="true"/>
-
-	            <TextView
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:text="@string/author"
-		            android:id="@+id/tv_label_author_FNS"
-		            android:layout_toRightOf="@+id/iv_icon_author_FNS"
-		            style="@style/labelFilter"
-                    android:layout_marginLeft="@dimen/main_margin"/>
-
-	            <TextView
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            tools:text="3"
-		            android:id="@+id/tv_count_author_FNS"
-		            android:layout_toLeftOf="@+id/iv_expand_author_FNS"
-		            android:layout_margin="5dp"
-		            android:layout_centerVertical="true"/>
-
-	            <ImageView
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:id="@+id/iv_expand_author_FNS"
-		            android:layout_alignParentEnd="true"
-		            android:layout_alignParentRight="true"
-		            android:src="@drawable/ic_drop"
-                    android:layout_centerVertical="true"
-                    android:padding="@dimen/main_margin"/>
-            </RelativeLayout>
-
-	        <android.support.v7.widget.RecyclerView
-		        android:id="@+id/recycler_view_authors_FNS"
-		        android:layout_width="match_parent"
-		        android:layout_height="150dp"
-		        android:background="@android:color/white"
-		        android:layout_below="@+id/rl_author_title_FNS"/>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/rl_category_FNS"
-            android:layout_marginTop="@dimen/layout_top_margin"
-            android:layout_marginLeft="@dimen/main_margin"
-            >
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/rl_category_title_FNS">
-
-	            <ImageView
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:id="@+id/iv_icon_category_FNS"
-		            android:layout_alignParentLeft="true"
-		            android:layout_alignParentStart="true"
-		            android:src="@drawable/ic_category"
-		            android:layout_margin="5dp"
-		            android:layout_centerVertical="true"/>
-
-	            <TextView
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:text="@string/category"
-		            android:id="@+id/tv_label_category_FNS"
-		            android:layout_toRightOf="@+id/iv_icon_category_FNS"
-		            style="@style/labelFilter"
-                    android:layout_marginLeft="@dimen/main_margin"/>
-
-	            <TextView
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            tools:text="3"
-		            android:id="@+id/tv_count_category_FNS"
-		            android:layout_toLeftOf="@+id/iv_expand_category_FNS"
-		            android:layout_margin="5dp"
-		            android:layout_centerVertical="true"/>
-
-	            <ImageView
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:id="@+id/iv_expand_category_FNS"
-		            android:layout_alignParentEnd="true"
-		            android:layout_alignParentRight="true"
-		            android:src="@drawable/ic_drop"
-		            android:layout_centerVertical="true"
-                    android:padding="@dimen/main_margin"/>
-                    android:paddingLeft="@dimen/main_margin"/>
-
-            </RelativeLayout>
-
-	        <android.support.v7.widget.RecyclerView
-		        android:id="@+id/recycler_view_categories_FNS"
-		        android:layout_width="match_parent"
-		        android:layout_height="150dp"
-		        android:background="@android:color/white"
-		        android:layout_below="@+id/rl_category_title_FNS"/>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/rl_date_FNS"
-            android:layout_marginTop="@dimen/layout_top_margin">
-
-
-	            <TextView
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:textAppearance="?android:attr/textAppearanceSmall"
-		            android:text="@string/from"
-		            android:id="@+id/tv_label_from_FNS"
-		            android:layout_alignParentTop="true"
-		            android:layout_alignParentLeft="true"
-		            android:layout_alignParentStart="true"
-	                android:layout_marginLeft="@dimen/text_margin"/>
-
-                <TextView
-                    android:layout_width="@dimen/btn_date_width"
-                    android:layout_height="@dimen/btn_date_height"
-                    android:text="@string/add_date"
-                    android:id="@+id/tv_from_FNS"
-                    android:drawableLeft="@drawable/ic_calendar"
-                    android:layout_alignStart="@+id/tv_label_from_FNS"
-                    android:layout_below="@id/tv_label_from_FNS"
-                    style="@style/tv_date"/>
-
-                <TextView
-                    android:layout_width="@dimen/btn_date_width"
-                    android:layout_height="@dimen/btn_date_height"
-                    android:text="@string/add_date"
-                    android:drawableLeft="@drawable/ic_calendar"
-                    android:id="@+id/tv_to_FNS"
-                    android:layout_marginRight="@dimen/text_margin"
-                    style="@style/tv_date"
-                    android:layout_alignTop="@+id/tv_from_FNS"
-	                android:layout_alignParentRight="true"/>
-	            <TextView
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:textAppearance="?android:attr/textAppearanceSmall"
-		            android:text="@string/to"
-		            android:id="@+id/tv_label_to_FNS"
-		            android:layout_alignParentTop="true"
-		            android:layout_alignStart="@+id/tv_to_FNS"/>
-
-            <view android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  class="com.itacit.healthcare.presentation.base.widgets.wheelDatePicker.WheelDatePicker"
-                  android:layout_below="@id/tv_from_FNS"
-                  android:id="@+id/datepicker_wheel_FNS"
-                  android:layout_gravity="center_horizontal"
-                  android:layout_marginTop="30dp"
-                  android:layout_marginBottom="30dp"
-                  android:visibility="gone"/>
-
-	        <!--<DatePicker-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:id="@+id/datePicker_FNS"-->
-                    <!--android:layout_below="@id/datepicker_wheel_FNS"-->
-                    <!--android:calendarViewShown="false"-->
-                    <!--android:datePickerMode="spinner"-->
-                    <!--android:layout_centerHorizontal="true"-->
-                    <!--android:theme="@style/Base.Theme.AppCompat.Light"-->
-                    <!--android:visibility="gone"/>-->
-
-
-            <RelativeLayout
+            <com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText
+                android:id="@+id/et_serch_FNS"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:background="@null"
+                android:lineSpacingExtra="5dp"
+                android:minHeight="32dp"
+                android:layout_toLeftOf="@id/ib_clear_FNS"
+                android:textColor="@color/gray_dark"
+                android:textSize="13sp"
+                />
+
+            <View
+                android:id="@+id/line_separator_FNS"
+                style="@style/line_separator"
+                android:layout_below="@+id/et_serch_FNS"/>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_author_FNS"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_top_margin">
+
+
+            <RelativeLayout
+                android:id="@+id/rl_author_title_FNS"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/iv_icon_author_FNS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="5dp"
+                    android:src="@drawable/ic_user"/>
+
+                <TextView
+                    android:id="@+id/tv_label_author_FNS"
+                    style="@style/labelFilter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/main_margin"
+                    android:layout_toRightOf="@+id/iv_icon_author_FNS"
+                    android:text="@string/author"/>
+
+                <TextView
+                    android:id="@+id/tv_count_author_FNS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="5dp"
+                    android:layout_toLeftOf="@+id/iv_expand_author_FNS"
+                    tools:text="3"/>
+
+                <ImageView
+                    android:id="@+id/iv_expand_author_FNS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:padding="@dimen/main_margin"
+                    android:src="@drawable/ic_drop"/>
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_authors_FNS"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_below="@+id/rl_author_title_FNS"
+                android:background="@android:color/white"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_category_FNS"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_top_margin">
+
+            <RelativeLayout
+                android:id="@+id/rl_category_title_FNS"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/iv_icon_category_FNS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="5dp"
+                    android:src="@drawable/ic_category"/>
+
+                <TextView
+                    android:id="@+id/tv_label_category_FNS"
+                    style="@style/labelFilter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/main_margin"
+                    android:layout_toRightOf="@+id/iv_icon_category_FNS"
+                    android:text="@string/category"/>
+
+                <TextView
+                    android:id="@+id/tv_count_category_FNS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="5dp"
+                    android:layout_toLeftOf="@+id/iv_expand_category_FNS"
+                    tools:text="3"/>
+
+                <ImageView
+                    android:id="@+id/iv_expand_category_FNS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:padding="@dimen/main_margin"
+                    android:src="@drawable/ic_drop"/>
+                android:paddingLeft="@dimen/main_margin"/>
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_categories_FNS"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_below="@+id/rl_category_title_FNS"
+                android:background="@android:color/white"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_date_FNS"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_top_margin">
+
+
+            <TextView
+                android:id="@+id/tv_label_from_FNS"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/from"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+            <TextView
+                android:id="@+id/tv_from_FNS"
+                style="@style/tv_date"
+                android:layout_width="@dimen/btn_date_width"
+                android:layout_height="@dimen/btn_date_height"
+                android:layout_alignStart="@+id/tv_label_from_FNS"
+                android:layout_below="@id/tv_label_from_FNS"
+                android:layout_marginRight="10dp"
+                android:drawableLeft="@drawable/ic_calendar"
+                android:text="@string/add_date"/>
+
+            <TextView
+                android:id="@+id/tv_to_FNS"
+                style="@style/tv_date"
+                android:layout_width="@dimen/btn_date_width"
+                android:layout_height="@dimen/btn_date_height"
+                android:layout_alignParentRight="true"
+
+                android:layout_alignTop="@+id/tv_from_FNS"
+                android:drawableLeft="@drawable/ic_calendar"
+                android:text="@string/add_date"/>
+
+            <TextView
+                android:id="@+id/tv_label_to_FNS"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignStart="@+id/tv_to_FNS"
+                android:text="@string/to"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+            <view
+                android:id="@+id/datepicker_wheel_FNS"
+                class="com.itacit.healthcare.presentation.base.widgets.wheelDatePicker.WheelDatePicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_from_FNS"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="30dp"
+                android:visibility="gone"/>
+
+            <!--<DatePicker-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/datePicker_FNS"-->
+            <!--android:layout_below="@id/datepicker_wheel_FNS"-->
+            <!--android:calendarViewShown="false"-->
+            <!--android:datePickerMode="spinner"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:theme="@style/Base.Theme.AppCompat.Light"-->
+            <!--android:visibility="gone"/>-->
+
+
+            <RelativeLayout
                 android:id="@+id/rl_done_date_FNS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/datepicker_wheel_FNS"
                 android:visibility="gone">
 
                 <TextView
+                    android:id="@+id/tv_done_FNS"
+                    style="@style/tv_done"
                     android:layout_width="100dp"
                     android:layout_height="@dimen/btn_date_height"
-                    android:text="@string/done"
-                    android:id="@+id/tv_done_FNS"
-                    android:drawableLeft="@drawable/btn_done"
                     android:layout_alignParentLeft="true"
-                    style="@style/tv_done"
-                    android:textColor="@color/btn_blue"
-                    android:layout_marginLeft="20dp"/>
+                    android:layout_marginLeft="20dp"
+                    android:drawableLeft="@drawable/btn_done"
+                    android:text="@string/done"
+                    android:textColor="@color/btn_blue"/>
 
                 <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="@dimen/btn_date_height"
-                    android:text="@string/cancel"
-                    android:drawableLeft="@drawable/btn_close"
                     android:id="@+id/tv_cancel_FNS"
                     style="@style/tv_done"
+                    android:layout_width="100dp"
+                    android:layout_height="@dimen/btn_date_height"
                     android:layout_alignParentRight="true"
+                    android:layout_alignTop="@+id/tv_done_FNS"
                     android:layout_marginRight="20dp"
-                    android:textColor="@color/gray_dark"
-                    android:layout_alignTop="@+id/tv_done_FNS"/>
+                    android:drawableLeft="@drawable/btn_close"
+                    android:text="@string/cancel"
+                    android:textColor="@color/gray_dark"/>
             </RelativeLayout>
 
         </RelativeLayout>
 
         <Button
+            android:id="@+id/btn_search_FNS"
             android:layout_width="@dimen/btn_search_width"
             android:layout_height="@dimen/btn_search_height"
-            android:text="@string/search"
-            android:id="@+id/btn_search_FNS"
             android:layout_gravity="center_horizontal"
-            android:capitalize="characters"
-            android:layout_marginTop="@dimen/layout_top_margin"
             android:layout_marginBottom="@dimen/layout_top_margin"
+            android:layout_marginTop="@dimen/layout_top_margin"
             android:background="@drawable/selector_btn_search"
+            android:capitalize="characters"
+            android:text="@string/search"
             android:textColor="@android:color/white"
             android:textSize="@dimen/btn_text_size"/>
     </LinearLayout>
