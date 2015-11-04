@@ -13,6 +13,9 @@ import com.itacit.healthcare.presentation.news.models.AuthorModel;
 import com.itacit.healthcare.presentation.news.models.CategoryModel;
 import com.itacit.healthcare.presentation.news.views.INewsSearchView;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -24,12 +27,19 @@ import rx.schedulers.TimeInterval;
  * Created by root on 26.10.15.
  */
 public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implements INewsSearchPresenter {
+    //interactors
     private GetAuthorsUseCase getAuthorsUseCase;
     private GetCategoriesUseCase getCategoriesUseCase;
+    //mappers
     private AuthorModelMapper authorMapper;
     private CategoryModelMapper categoryMapper;
+    //models
 	private List<AuthorModel> authorModels;
 	private List<CategoryModel> categoryModels;
+
+    private Calendar fromDate = new GregorianCalendar();
+    private Calendar toDate = new GregorianCalendar();
+
 
     public NewsSearchPresenter(GetAuthorsUseCase getAuthorsUseCase, GetCategoriesUseCase getCategoriesUseCase, AuthorModelMapper authorModelMapper, CategoryModelMapper categoryModelMapper) {
         this.getAuthorsUseCase = getAuthorsUseCase;
@@ -88,6 +98,34 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
 		}
 
 	}
+
+    @Override
+    public void onDateSelected(DateType dateType, int year, int monthOfYear, int dayOfMonth) {
+        switch (dateType) {
+            case From:
+                fromDate.set(year, monthOfYear, dayOfMonth);
+                if(getView() != null) getView().showFromDate(INewsSearchView.dateFormat.format(fromDate.getTime()));
+                break;
+            case To:
+                toDate.set(year, monthOfYear, dayOfMonth);
+                if(getView() != null) getView().showToDate(INewsSearchView.dateFormat.format(toDate.getTime()));
+                break;
+        }
+    }
+
+    @Override
+    public void onDateClear(DateType dateType) {
+        switch (dateType) {
+            case From:
+                fromDate.clear();
+                if(getView() != null) getView().showFromDate("ADD DATE");
+                break;
+            case To:
+                fromDate.clear();
+                if(getView() != null) getView().showToDate("ADD DATE");
+                break;
+        }
+    }
 
     private void showAuthorsOnView(List<Author> authors) {
         List<AuthorModel> authorModels = authorMapper.transform(authors);

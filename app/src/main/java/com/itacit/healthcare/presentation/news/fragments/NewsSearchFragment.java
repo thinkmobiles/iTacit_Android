@@ -8,7 +8,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -16,9 +15,10 @@ import android.widget.TextView;
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.GetAuthorsUseCase;
 import com.itacit.healthcare.domain.interactor.GetCategoriesUseCase;
+import com.itacit.healthcare.presentation.base.views.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
-import com.itacit.healthcare.presentation.base.views.BaseFragmentView;
+import com.itacit.healthcare.presentation.base.widgets.datePicker.DatePickerFragment;
 import com.itacit.healthcare.presentation.base.widgets.wheelDatePicker.WheelDatePicker;
 import com.itacit.healthcare.presentation.news.adapters.AuthorsAdapter;
 import com.itacit.healthcare.presentation.news.adapters.CategoriesAdapter;
@@ -26,10 +26,12 @@ import com.itacit.healthcare.presentation.news.mapper.AuthorModelMapper;
 import com.itacit.healthcare.presentation.news.mapper.CategoryModelMapper;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
 import com.itacit.healthcare.presentation.news.models.CategoryModel;
+import com.itacit.healthcare.presentation.news.presenters.INewsSearchPresenter.DateType;
 import com.itacit.healthcare.presentation.news.presenters.NewsSearchPresenter;
 import com.itacit.healthcare.presentation.news.views.INewsSearchView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -97,11 +99,11 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
         datePickerWheel.setVisibleItems(5);
         datePickerWheel.setMinMaxYears(2000, 2020);
         datePickerWheel.addDateChangedListener(new WheelDatePicker.IDateChangedListener() {
-	        @Override
-	        public void onChanged(WheelDatePicker sender, int oldDay, int oldMonth, int oldYear, int day, int month, int year) {
-		        Log.i("WHEEL_APP", String.format("Selected date changed ! %02d.%02d.%04d -> %02d.%02d.%04d",
-				        oldDay, oldMonth, oldYear, day, month, year));
-	        }
+            @Override
+            public void onChanged(WheelDatePicker sender, int oldDay, int oldMonth, int oldYear, int day, int month, int year) {
+                Log.i("WHEEL_APP", String.format("Selected date changed ! %02d.%02d.%04d -> %02d.%02d.%04d",
+                        oldDay, oldMonth, oldYear, day, month, year));
+            }
         });
 
         preventRootScroll();
@@ -135,6 +137,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
     protected int getLayoutRes() {
         return R.layout.fragment_news_search;
     }
+
     @Override
     protected NewsSearchPresenter createPresenter() {
         return new NewsSearchPresenter(new GetAuthorsUseCase(0, 10),new GetCategoriesUseCase(0, 10), new AuthorModelMapper(), new CategoryModelMapper());
@@ -142,13 +145,23 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 
 
 	@OnClick({R.id.tv_from_FNS, R.id.tv_to_FNS})
-	@Override
-    public void showDatePicker() {
-		if (datePickerWheel.getVisibility()==View.GONE) {
-			datePickerWheel.setVisibility(View.VISIBLE);
-		} else {
-			datePickerWheel.setVisibility(View.GONE);
-		}
+    void showDatePicker(View view) {
+        switch (view.getId()) {
+            case R.id.tv_from_FNS:
+                DatePickerFragment fromDatePicker =
+                        new DatePickerFragment((datePicker, year, monthOfYear, dayOfMonth) ->
+                                presenter.onDateSelected(DateType.From, year, monthOfYear, dayOfMonth),
+                                () -> presenter.onDateClear(DateType.From));
+                fromDatePicker.show(getFragmentManager(), "FromDatePicker");
+                break;
+            case R.id.tv_to_FNS:
+                DatePickerFragment toDatePicker =
+                        new DatePickerFragment((datePicker, year, monthOfYear, dayOfMonth) ->
+                                presenter.onDateSelected(DateType.To, year, monthOfYear, dayOfMonth),
+                                () -> presenter.onDateClear(DateType.To));
+                toDatePicker.show(getFragmentManager(), "ToDatePicker");
+                break;
+        }
     }
 
     @Override
@@ -183,7 +196,17 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
         }
     }
 
-	@Override
+    @Override
+    public void showFromDate(String fromDate) {
+        tvDateFrom.setText(fromDate);
+    }
+
+    @Override
+    public void showToDate(String toDate) {
+        tvDateTo.setText(toDate);
+    }
+
+    @Override
 	public void showAuthors(List<AuthorModel> authors) {
 
         authorsAdapter = new AuthorsAdapter(getActivity(), authors);
