@@ -22,6 +22,8 @@ import com.itacit.healthcare.presentation.base.views.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.wheelDatePicker.WheelDatePicker;
 import com.itacit.healthcare.presentation.news.adapters.AuthorsAdapter;
 import com.itacit.healthcare.presentation.news.adapters.CategoriesAdapter;
+import com.itacit.healthcare.presentation.news.mapper.AuthorModelMapper;
+import com.itacit.healthcare.presentation.news.mapper.CategoryModelMapper;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
 import com.itacit.healthcare.presentation.news.models.CategoryModel;
 import com.itacit.healthcare.presentation.news.presenters.NewsSearchPresenter;
@@ -87,6 +89,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
                 searchFiltersEt.addFilter(new Filter(1, "JohnCarson", Filter.FilterType.Category));
             }
         });
+
         datePickerWheel.setDay(25);
         datePickerWheel.setMonth(10);
         datePickerWheel.setYear(2015);
@@ -94,11 +97,11 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
         datePickerWheel.setVisibleItems(5);
         datePickerWheel.setMinMaxYears(2000, 2020);
         datePickerWheel.addDateChangedListener(new WheelDatePicker.IDateChangedListener() {
-            @Override
-            public void onChanged(WheelDatePicker sender, int oldDay, int oldMonth, int oldYear, int day, int month, int year) {
-                Log.i("WHEEL_APP", String.format("Selected date changed ! %02d.%02d.%04d -> %02d.%02d.%04d",
-                        oldDay, oldMonth, oldYear, day, month, year));
-            }
+	        @Override
+	        public void onChanged(WheelDatePicker sender, int oldDay, int oldMonth, int oldYear, int day, int month, int year) {
+		        Log.i("WHEEL_APP", String.format("Selected date changed ! %02d.%02d.%04d -> %02d.%02d.%04d",
+				        oldDay, oldMonth, oldYear, day, month, year));
+	        }
         });
 
         preventRootScroll();
@@ -134,7 +137,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
     }
     @Override
     protected NewsSearchPresenter createPresenter() {
-        return new NewsSearchPresenter(new GetAuthorsUseCase(0, 10),new GetCategoriesUseCase(0, 10));
+        return new NewsSearchPresenter(new GetAuthorsUseCase(0, 10),new GetCategoriesUseCase(0, 10), new AuthorModelMapper(), new CategoryModelMapper());
     }
 
 
@@ -185,7 +188,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 
         authorsAdapter = new AuthorsAdapter(getActivity(), authors);
         authorsRv.setAdapter(authorsAdapter);
-        authorsAdapter.setOnAuthorsItemSelectedListener(this::addAuthorToSearchList);
+        authorsAdapter.setOnAuthorsItemSelectedListener(presenter::selectAuthorFilterById);
 	}
 
     @Override
@@ -193,18 +196,12 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 
         categoriesAdapter = new CategoriesAdapter(getActivity(), categories);
         categoriesRv.setAdapter(categoriesAdapter);
-        categoriesAdapter.setOnCategoriesItemSelectedListener(this::addCategoryToSearchList);
+        categoriesAdapter.setOnCategoriesItemSelectedListener(presenter::selectCategoryFilterById);
     }
 
-	@Override
-	public void addAuthorToSearchList(long authorId) {
-
-	}
-
-	@Override
-	public void addCategoryToSearchList(long categoryId) {
-
-	}
-
+    @Override
+    public void addItemToSearchList(Filter filter) {
+        searchFiltersEt.addFilter(filter);
+    }
 
 }
