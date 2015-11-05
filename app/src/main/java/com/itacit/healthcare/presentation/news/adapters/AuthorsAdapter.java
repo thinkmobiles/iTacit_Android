@@ -44,7 +44,7 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.ViewHold
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		View view = LayoutInflater.from(context)
-				.inflate(R.layout.item_author_filter, parent, false);
+				.inflate(R.layout.list_item_author_filter, parent, false);
 		return new ViewHolder(view, authorsItemSelectedListener);
 	}
 

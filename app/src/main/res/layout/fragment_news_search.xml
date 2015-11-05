@@ -12,7 +12,6 @@
         android:background="@android:color/white"
         android:orientation="vertical"
         android:paddingLeft="@dimen/main_margin"
-        android:paddingRight="@dimen/main_margin"
         android:paddingTop="@dimen/main_margin">
 
         <TextView
@@ -31,7 +30,7 @@
 
             <ImageButton
                 android:id="@+id/ib_clear_FNS"
-                android:layout_width="wrap_content"
+                android:layout_width="48dp"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/line_separator_FNS"
                 android:layout_alignParentRight="true"
@@ -56,6 +55,7 @@
             <View
                 android:id="@+id/line_separator_FNS"
                 style="@style/line_separator"
+                android:layout_marginRight="@dimen/main_margin"
                 android:layout_below="@+id/et_serch_FNS"/>
 
 
@@ -75,12 +75,12 @@
 
                 <ImageView
                     android:id="@+id/iv_icon_author_FNS"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:layout_margin="5dp"
+                    android:layout_marginRight="16dp"
                     android:src="@drawable/ic_user"/>
 
                 <TextView
@@ -88,7 +88,6 @@
                     style="@style/labelFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/main_margin"
                     android:layout_toRightOf="@+id/iv_icon_author_FNS"
                     android:text="@string/author"/>
 
@@ -97,25 +96,26 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_margin="5dp"
                     android:layout_toLeftOf="@+id/iv_expand_author_FNS"
                     tools:text="3"/>
 
                 <ImageView
                     android:id="@+id/iv_expand_author_FNS"
-                    android:layout_width="wrap_content"
+                    android:layout_width="48dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
                     android:layout_centerVertical="true"
-                    android:padding="@dimen/main_margin"
                     android:src="@drawable/ic_drop"/>
             </RelativeLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view_authors_FNS"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/main_margin"
                 android:layout_below="@+id/rl_author_title_FNS"
                 android:background="@android:color/white"/>
 
@@ -134,12 +134,12 @@
 
                 <ImageView
                     android:id="@+id/iv_icon_category_FNS"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:layout_margin="5dp"
+                    android:layout_marginRight="16dp"
                     android:src="@drawable/ic_category"/>
 
                 <TextView
@@ -147,7 +147,6 @@
                     style="@style/labelFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/main_margin"
                     android:layout_toRightOf="@+id/iv_icon_category_FNS"
                     android:text="@string/category"/>
 
@@ -162,12 +161,12 @@
 
                 <ImageView
                     android:id="@+id/iv_expand_category_FNS"
-                    android:layout_width="wrap_content"
+                    android:layout_width="48dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:padding="@dimen/main_margin"
+                    android:padding="5dp"
                     android:src="@drawable/ic_drop"/>
                 android:paddingLeft="@dimen/main_margin"/>
 
@@ -176,7 +175,8 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view_categories_FNS"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/main_margin"
                 android:layout_below="@+id/rl_category_title_FNS"
                 android:background="@android:color/white"/>
 
@@ -216,7 +216,7 @@
                 android:layout_width="@dimen/btn_date_width"
                 android:layout_height="@dimen/btn_date_height"
                 android:layout_alignParentRight="true"
-
+                android:layout_marginRight="@dimen/main_margin"
                 android:layout_alignTop="@+id/tv_from_FNS"
                 android:drawableLeft="@drawable/ic_calendar"
                 android:text="@string/add_date"/>

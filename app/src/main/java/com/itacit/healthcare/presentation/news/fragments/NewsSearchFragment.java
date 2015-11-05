@@ -3,10 +3,8 @@ package com.itacit.healthcare.presentation.news.fragments;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -16,6 +14,7 @@ import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.GetAuthorsUseCase;
 import com.itacit.healthcare.domain.interactor.GetCategoriesUseCase;
 import com.itacit.healthcare.presentation.base.views.BaseFragmentView;
+import com.itacit.healthcare.presentation.base.widgets.WrapChildsLayotManager;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
 import com.itacit.healthcare.presentation.base.widgets.datePicker.DatePickerFragment;
@@ -26,14 +25,13 @@ import com.itacit.healthcare.presentation.news.mapper.AuthorModelMapper;
 import com.itacit.healthcare.presentation.news.mapper.CategoryModelMapper;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
 import com.itacit.healthcare.presentation.news.models.CategoryModel;
+import com.itacit.healthcare.presentation.news.presenters.INewsSearchPresenter;
 import com.itacit.healthcare.presentation.news.presenters.INewsSearchPresenter.DateType;
 import com.itacit.healthcare.presentation.news.presenters.NewsSearchPresenter;
 import com.itacit.healthcare.presentation.news.views.INewsSearchView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -83,36 +81,14 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 
     @Override
     protected void setUpView() {
-        ViewTreeObserver observer = searchFiltersEt.getViewTreeObserver();
-        observer.addOnGlobalLayoutListener (new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                searchFiltersEt.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                searchFiltersEt.addFilter(new Filter(1, "JohnCarson", Filter.FilterType.Category));
-            }
-        });
-
-        datePickerWheel.setDay(25);
-        datePickerWheel.setMonth(10);
-        datePickerWheel.setYear(2015);
-        datePickerWheel.setLocale(Locale.US);
-        datePickerWheel.setVisibleItems(5);
-        datePickerWheel.setMinMaxYears(2000, 2020);
-        datePickerWheel.addDateChangedListener(new WheelDatePicker.IDateChangedListener() {
-            @Override
-            public void onChanged(WheelDatePicker sender, int oldDay, int oldMonth, int oldYear, int day, int month, int year) {
-                Log.i("WHEEL_APP", String.format("Selected date changed ! %02d.%02d.%04d -> %02d.%02d.%04d",
-                        oldDay, oldMonth, oldYear, day, month, year));
-            }
-        });
-
-        preventRootScroll();
-        authorsRv.setLayoutManager(new LinearLayoutManager(activity));
-        categoriesRv.setLayoutManager(new LinearLayoutManager(activity));
+        preventRootScroll(authorsRv);
+        preventRootScroll(categoriesRv);
+        authorsRv.setLayoutManager(new WrapChildsLayotManager(activity));
+        categoriesRv.setLayoutManager(new WrapChildsLayotManager(activity));
     }
 
-    private void preventRootScroll() {
-        searchFiltersEt.setOnTouchListener((v, event) -> {
+    private void preventRootScroll(View view) {
+        view.setOnTouchListener((v, event) -> {
             rootSv.requestDisallowInterceptTouchEvent(true);
             switch (event.getAction() & MotionEvent.ACTION_MASK) {
                 case MotionEvent.ACTION_UP:
@@ -208,7 +184,6 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 
     @Override
 	public void showAuthors(List<AuthorModel> authors) {
-
         authorsAdapter = new AuthorsAdapter(getActivity(), authors);
         authorsRv.setAdapter(authorsAdapter);
         authorsAdapter.setOnAuthorsItemSelectedListener(presenter::selectAuthorFilterById);
@@ -218,17 +193,28 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 
     @Override
     public void showCategories(List<CategoryModel> categories) {
-
         categoriesAdapter = new CategoriesAdapter(getActivity(), categories);
         categoriesRv.setAdapter(categoriesAdapter);
         categoriesAdapter.setOnCategoriesItemSelectedListener(presenter::selectCategoryFilterById);
-
+	    
         tvCountCategory.setText(categories.size());
     }
 
     @Override
-    public void addItemToSearchList(Filter filter) {
+    public void addFilter(Filter filter) {
         searchFiltersEt.addFilter(filter);
+    }
+
+    @Override
+    public void resetDate(DateType dateType) {
+        switch (dateType) {
+            case From:
+                tvDateFrom.setText(R.string.add_date);
+                break;
+            case To:
+                tvDateTo.setText(R.string.add_date);
+                break;
+        }
     }
 
 }

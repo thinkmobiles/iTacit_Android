@@ -16,7 +16,8 @@ public abstract class ModelMapper<M, D> {
         if (dataCollection != null && !dataCollection.isEmpty()) {
             modelsCollection = new ArrayList<>();
             for (D data : dataCollection) {
-                modelsCollection.add(transform(data));
+                M model = transform(data);
+                if (model != null)  modelsCollection.add(model);
             }
         } else {
             modelsCollection = Collections.emptyList();
