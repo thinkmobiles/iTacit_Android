@@ -101,40 +101,57 @@ public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter> 
 		tvCategory.setText(newsDetails.getCategoryName());
 		tvTime.setText(newsDetails.getStartDate());
 		tvAuthorName.setText(newsDetails.getAuthorName());
+
+//		test
+		picasso.load(newsDetails.getHeadlineUri())
+				.transform(new CircleTransformation())
+				.fit()
+				.into(ivAuthorIcon);
 	}
 
 	@Override
 	public void showAuthorDetails(AuthorModel authorModel) {
-		picasso.load(authorModel.getImageUri())
-				.transform(new CircleTransformation(100, 1))
-				.fit()
-				.into(ivAuthorIcon);
+//		picasso.load(authorModel.getImageUri())
+//				.transform(new CircleTransformation(100, 1))
+//				.fit()
+//				.into(ivAuthorIcon);
 		tvPosition.setText(authorModel.getRole());
 	}
 
 	public class CircleTransformation implements com.squareup.picasso.Transformation {
-		private final int radius;
-		private final int margin; // dp
-
-		// radius is corner radii in dp
-		// margin is the board in dp
-		public CircleTransformation(final int radius, final int margin) {
-			this.radius = radius;
-			this.margin = margin;
-		}
 
 		@Override
-		public Bitmap transform(final Bitmap source) {
-			final Paint paint = new Paint();
-			paint.setAntiAlias(true);
-			paint.setShader(new BitmapShader(source, Shader.TileMode.CLAMP,
-					Shader.TileMode.CLAMP));
+		public Bitmap transform(Bitmap source) {
 
-			Bitmap output = Bitmap.createBitmap(source.getWidth(),
-					source.getHeight(), Bitmap.Config.ARGB_8888);
+			Bitmap bm = source.isMutable() ? source : source.copy(Bitmap.Config.ARGB_8888, true);
+
+			int width = bm.getWidth();
+			int height = bm.getHeight();
+
+			Bitmap cropped_bitmap;
+
+			if (width > height) {
+				cropped_bitmap = Bitmap.createBitmap(bm,
+						(width / 2) - (height / 2), 0, height, height);
+			} else {
+				cropped_bitmap = Bitmap.createBitmap(bm, 0, (height / 2)
+						- (width / 2), width, width);
+			}
+
+			BitmapShader shader = new BitmapShader(cropped_bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+
+			Paint paint = new Paint();
+			paint.setAntiAlias(true);
+			paint.setShader(shader);
+
+			height = cropped_bitmap.getHeight();
+			width = cropped_bitmap.getWidth();
+
+			Bitmap output = Bitmap.createBitmap(width, height,
+					Bitmap.Config.ARGB_8888);
+
 			Canvas canvas = new Canvas(output);
-			canvas.drawRoundRect(new RectF(margin, margin, source.getWidth()
-					- margin, source.getHeight() - margin), radius, radius, paint);
+			canvas.drawCircle(width/2, height/2, width/2, paint);
 
 			if (source != output) {
 				source.recycle();
