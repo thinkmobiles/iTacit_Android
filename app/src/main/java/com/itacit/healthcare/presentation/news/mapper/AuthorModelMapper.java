@@ -22,7 +22,7 @@ public class AuthorModelMapper extends ModelMapper<AuthorModel, Author> {
 
 			authorModel.setFullName(dataEntry.getFullName() != null ? dataEntry.getFullName() : "");
 			authorModel.setRole(dataEntry.getRole() != null ? dataEntry.getRole() : "");
-			authorModel.setImageUri(Uri.parse(dataEntry.getImageUrl()  != null ? dataEntry.getImageUrl() : ""));
+			authorModel.setImageUri(Uri.parse(dataEntry.getImageUrl() != null ? dataEntry.getImageUrl() : ""));
 			return authorModel;
 		} catch (NumberFormatException e) {
 			e.printStackTrace();

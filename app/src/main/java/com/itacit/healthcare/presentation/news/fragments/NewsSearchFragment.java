@@ -3,6 +3,7 @@ package com.itacit.healthcare.presentation.news.fragments;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -187,6 +188,8 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
         authorsAdapter = new AuthorsAdapter(getActivity(), authors);
         authorsRv.setAdapter(authorsAdapter);
         authorsAdapter.setOnAuthorsItemSelectedListener(presenter::selectAuthorFilterById);
+
+        tvCountAuthor.setText(String.valueOf(authors.size()));
 	}
 
     @Override
@@ -194,7 +197,8 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
         categoriesAdapter = new CategoriesAdapter(getActivity(), categories);
         categoriesRv.setAdapter(categoriesAdapter);
         categoriesAdapter.setOnCategoriesItemSelectedListener(presenter::selectCategoryFilterById);
-
+	    
+        tvCountCategory.setText(String.valueOf(categories.size()));
     }
 
     @Override

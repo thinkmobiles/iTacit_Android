@@ -13,12 +13,19 @@ public class NewsModelMapper extends ModelMapper<NewsModel, News> {
     @Override
     public NewsModel transform(News dataEntry) {
         NewsModel newsModel = new NewsModel();
-        long id = dataEntry.getArticleId() != null ? Long.parseLong(dataEntry.getArticleId()) : 0;
-        newsModel.setArticleId(id);
-        newsModel.setHeadline(dataEntry.getHeadline());
-        newsModel.setCategoryName(dataEntry.getCategoryName());
-        newsModel.setHeadlineUri(Uri.parse(dataEntry.getHeadlineImageUrl()));
-        newsModel.setStartDate(dataEntry.getStartDate());
-        return newsModel;
+        try {
+            long id = dataEntry.getArticleId() != null ? Long.parseLong(dataEntry.getArticleId()) : 0;
+            if (id == 0) return null;
+            newsModel.setArticleId(id);
+
+            newsModel.setHeadline(dataEntry.getHeadline() != null ? dataEntry.getHeadline() : "");
+            newsModel.setCategoryName(dataEntry.getCategoryName() != null ? dataEntry.getCategoryName() : "");
+            newsModel.setHeadlineUri(Uri.parse(dataEntry.getHeadlineImageUrl() != null ? dataEntry.getHeadlineImageUrl() : ""));
+            newsModel.setStartDate(dataEntry.getStartDate() != null ? dataEntry.getStartDate() : "");
+            return newsModel;
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

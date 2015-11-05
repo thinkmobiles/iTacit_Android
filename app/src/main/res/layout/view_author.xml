@@ -11,7 +11,8 @@
         android:layout_width="@dimen/author_img_size"
         android:layout_height="@dimen/author_img_size"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="@dimen/text_margin"/>
+        android:layout_marginLeft="@dimen/text_margin"
+        android:scaleType="centerCrop"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
