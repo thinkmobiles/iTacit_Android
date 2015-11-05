@@ -31,7 +31,6 @@ public abstract class GetListUseCase<T> extends UseCase<List<T>> {
     protected Observable<List<T>> buildUseCaseObservable() {
         return request()
                 .filter(r -> r != null)
-                .filter(r -> r.getResponseRows() != null)
                 .map(ListResponse::getResponseRows);
     }
 }
