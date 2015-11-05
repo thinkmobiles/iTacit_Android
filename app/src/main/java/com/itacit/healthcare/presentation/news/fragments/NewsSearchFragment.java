@@ -212,6 +212,8 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
         authorsAdapter = new AuthorsAdapter(getActivity(), authors);
         authorsRv.setAdapter(authorsAdapter);
         authorsAdapter.setOnAuthorsItemSelectedListener(presenter::selectAuthorFilterById);
+
+        tvCountAuthor.setText(authors.size());
 	}
 
     @Override
@@ -220,6 +222,8 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
         categoriesAdapter = new CategoriesAdapter(getActivity(), categories);
         categoriesRv.setAdapter(categoriesAdapter);
         categoriesAdapter.setOnCategoriesItemSelectedListener(presenter::selectCategoryFilterById);
+
+        tvCountCategory.setText(categories.size());
     }
 
     @Override
