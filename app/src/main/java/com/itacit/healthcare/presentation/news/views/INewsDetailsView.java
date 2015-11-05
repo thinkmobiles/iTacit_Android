@@ -3,6 +3,7 @@ package com.itacit.healthcare.presentation.news.views;
 import android.graphics.Bitmap;
 
 import com.itacit.healthcare.presentation.base.views.IView;
+import com.itacit.healthcare.presentation.news.models.AuthorModel;
 import com.itacit.healthcare.presentation.news.models.NewsDetailsModel;
 
 /**
@@ -10,4 +11,5 @@ import com.itacit.healthcare.presentation.news.models.NewsDetailsModel;
  */
 public interface INewsDetailsView extends IView {
     void showNewsDetails(NewsDetailsModel newsDetails);
+    void showAuthorDetails(AuthorModel authorModel);
 }
