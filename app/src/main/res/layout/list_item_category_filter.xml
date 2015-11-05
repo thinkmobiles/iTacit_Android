@@ -16,7 +16,8 @@
 
     <TextView
         android:id="@+id/tv_name_IAF"
-        style="@style/textTitle"
+        android:textSize="16sp"
+        android:textColor="@color/gray_dark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="Care giving"
