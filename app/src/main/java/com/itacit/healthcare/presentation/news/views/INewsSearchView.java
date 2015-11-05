@@ -10,16 +10,20 @@ import java.util.List;
 
 import rx.Observable;
 
+import static com.itacit.healthcare.presentation.news.presenters.INewsSearchPresenter.DateType;
+
 /**
  * Created by root on 21.10.15.
  */
 public interface INewsSearchView extends IView {
+	SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+
 	void showFromDate(String fromDate);
 	void showToDate(String toDate);
 	void showAuthors(List<AuthorModel> authors);
 	void showCategories(List<CategoryModel> categories);
-	void addItemToSearchList(Filter filter);
+	void addFilter(Filter filter);
+	void resetDate(DateType dateType);
 	Observable<String> getSearchTextObs();
 	Observable<Integer> getListClickObs();
-	SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
 }

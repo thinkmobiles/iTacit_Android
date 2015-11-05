@@ -29,7 +29,7 @@ public class NewsFeedPresenter extends BasePresenter<INewsFeedView> implements I
     protected void onViewAttach() {
         if (getView()!= null) {
             compositeSubscription.add(getView().getNewsSearchTextObs()
-                    .filter(text -> text.length() > SEARCH_TEXT_MIN_LENGTH)
+                    .filter(text -> text.length() >= SEARCH_TEXT_MIN_LENGTH)
                     .debounce(1, TimeUnit.SECONDS)
                     .subscribe(this::searchNews));
         }
