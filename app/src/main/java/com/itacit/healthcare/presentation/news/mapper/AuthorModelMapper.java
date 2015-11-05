@@ -15,13 +15,18 @@ public class AuthorModelMapper extends ModelMapper<AuthorModel, Author> {
 	public AuthorModel transform(Author dataEntry) {
 
 		AuthorModel authorModel = new AuthorModel();
+		try {
+			long id = dataEntry.getId() != null ? Long.parseLong(dataEntry.getId()) : 0;
+			if (id == 0) return null;
+			authorModel.setId(id);
 
-		long id = dataEntry.getId() != null ? Long.parseLong(dataEntry.getId()) : 0;
-		authorModel.setId(id);
-		authorModel.setFullName(dataEntry.getFullName());
-		authorModel.setRole(dataEntry.getRole());
-		authorModel.setImageUri(Uri.parse(dataEntry.getImageUrl()));
-
-		return authorModel;
+			authorModel.setFullName(dataEntry.getFullName() != null ? dataEntry.getFullName() : "");
+			authorModel.setRole(dataEntry.getRole() != null ? dataEntry.getRole() : "");
+			authorModel.setImageUri(Uri.parse(dataEntry.getImageUrl()  != null ? dataEntry.getImageUrl() : ""));
+			return authorModel;
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
