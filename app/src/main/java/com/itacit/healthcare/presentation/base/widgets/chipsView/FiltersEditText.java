@@ -63,6 +63,11 @@ public class FiltersEditText extends MultiAutoCompleteTextView {
     }
 
     public void addFilter(Filter filter) {
+        for (VisibleFilterChip chip : getSortedChips()) {
+            if (chip.getFilter().equals(filter)) {
+                return;
+            }
+        }
         removeInputText();
         final Editable editable = getText();
         CharSequence chip = createChip(filter);
@@ -77,7 +82,7 @@ public class FiltersEditText extends MultiAutoCompleteTextView {
         VisibleFilterChip lastChip = getLastChip();
         int chipEnd;
         if (lastChip != null) {
-            chipEnd = getText().getSpanEnd(lastChip);
+            chipEnd = getText().getSpanEnd(lastChip) + 1;
         } else {
             chipEnd = 0;
         }
@@ -97,7 +102,6 @@ public class FiltersEditText extends MultiAutoCompleteTextView {
         int deleteSizePx = (int) AndroidUtils.convertDpToPixel(mDeleteSizeDp, getContext());
 
         String text = filter.getVisibleText();
-        String displayText = text;
         if (!text.endsWith(" ")) {
            text += " ";
         }
@@ -110,7 +114,7 @@ public class FiltersEditText extends MultiAutoCompleteTextView {
 
         Bitmap tmpBitmap = Bitmap.createBitmap(width, heightPx, Bitmap.Config.ARGB_8888);
         float maxWidth = calculateAvailableWidth(paddingRightPx + paddingLeftPx);
-        CharSequence ellipsizedText = TextUtils.ellipsize(displayText, paint, maxWidth, TextUtils.TruncateAt.END);
+        CharSequence ellipsizedText = TextUtils.ellipsize(text, paint, maxWidth, TextUtils.TruncateAt.END);
 
         Drawable background = getContext().getResources().getDrawable(R.drawable.bg_chips);
         background.setBounds(0, 0, width, heightPx);
@@ -202,6 +206,9 @@ public class FiltersEditText extends MultiAutoCompleteTextView {
         VisibleFilterChip last = getLastChip();
         int endSpans = getText().getSpanEnd(last) + 1;
         if (last != null && 0 < endSpans) {
+            if (endSpans >= spannable.length()) {
+                return "";
+            }
             return spannable.subSequence(endSpans, spannable.length()).toString();
         }
 
