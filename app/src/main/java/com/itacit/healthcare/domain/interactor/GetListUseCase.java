@@ -30,7 +30,11 @@ public abstract class GetListUseCase<T> extends UseCase<List<T>> {
     @Override
     protected Observable<List<T>> buildUseCaseObservable() {
         return request()
-                .filter(r -> r != null)
-                .map(ListResponse::getResponseRows);
+                .map(r -> {
+                    if (r != null) {
+                        return r.getResponseRows();
+                    }
+                    return null;
+                });
     }
 }

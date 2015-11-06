@@ -48,8 +48,8 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
 
     @Override
     protected void onViewAttach() {
-        compositeSubscription.add(getSearchObs().subscribe(this::getAuthors));
-        compositeSubscription.add(getSearchObs().subscribe(this::getCategories));
+        compositeSubscription.add(getSearchObs().subscribe(this::getAuthors, e -> e.printStackTrace()));
+        compositeSubscription.add(getSearchObs().subscribe(this::getCategories, e -> e.printStackTrace()));
     }
 
     private Observable<String> getSearchObs() {
@@ -63,13 +63,11 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
 
     @Override
     public void getAuthors(String query) {
-        authorModels.clear();
         getAuthorsUseCase.execute(new GetAuthorsSubscriber(), query);
     }
 
     @Override
     public void getCategories(String query) {
-        categoryModels.clear();
         getCategoriesUseCase.execute(new GetCategoriesSubscriber(), query);
     }
 
@@ -146,6 +144,7 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
 
         @Override
         public void onNext(List<Author> authors) {
+            authorModels.clear();
             List<AuthorModel> authorModels = authorMapper.transform(authors);
             NewsSearchPresenter.this.authorModels.addAll(authorModels);
         }
@@ -165,6 +164,7 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
 
         @Override
         public void onNext(List<Category> categories) {
+            categoryModels.clear();
             List<CategoryModel> categoryModels = categoryMapper.transform(categories);
             NewsSearchPresenter.this.categoryModels.addAll(categoryModels);
         }

@@ -1,9 +1,7 @@
 package com.itacit.healthcare.presentation.news.fragments;
 
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -27,7 +25,6 @@ import com.itacit.healthcare.presentation.news.mapper.AuthorModelMapper;
 import com.itacit.healthcare.presentation.news.mapper.CategoryModelMapper;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
 import com.itacit.healthcare.presentation.news.models.CategoryModel;
-import com.itacit.healthcare.presentation.news.presenters.INewsSearchPresenter;
 import com.itacit.healthcare.presentation.news.presenters.INewsSearchPresenter.DateType;
 import com.itacit.healthcare.presentation.news.presenters.NewsSearchPresenter;
 import com.itacit.healthcare.presentation.news.views.INewsSearchView;
@@ -206,7 +203,6 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
         authorsAdapter = new AuthorsAdapter(getActivity(), authors);
         authorsRv.setAdapter(authorsAdapter);
         authorsAdapter.setOnAuthorsItemSelectedListener(presenter::selectAuthorFilterById);
-
         tvCountAuthor.setText(String.valueOf(authors.size()));
 	}
 
@@ -215,7 +211,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
         categoriesAdapter = new CategoriesAdapter(getActivity(), categories);
         categoriesRv.setAdapter(categoriesAdapter);
         categoriesAdapter.setOnCategoriesItemSelectedListener(presenter::selectCategoryFilterById);
-	    
+
         tvCountCategory.setText(String.valueOf(categories.size()));
     }
 
