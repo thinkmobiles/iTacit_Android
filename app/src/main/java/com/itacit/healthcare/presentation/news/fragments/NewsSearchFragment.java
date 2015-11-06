@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.GetAuthorsUseCase;
@@ -141,7 +142,24 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
         }
     }
 
+	@OnClick(R.id.btn_search_FNS)
+    void onSearchClick() {
+
+		presenter.DateIntervalValidating();
+
+    }
+
     @Override
+    public void searchNews() {
+
+	}
+
+	@Override
+	public void showInvalidDateWarning() {
+		Toast.makeText(getActivity(), getActivity().getResources().getText(R.string.invalid_date_interval), Toast.LENGTH_LONG ).show();
+	}
+
+	@Override
     public Observable<String> getSearchTextObs() {
         return RxTextView.textChangeEvents(searchFiltersEt).map(e -> searchFiltersEt.getInputText());
     }

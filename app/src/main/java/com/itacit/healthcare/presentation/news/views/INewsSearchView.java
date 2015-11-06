@@ -24,6 +24,8 @@ public interface INewsSearchView extends IView {
 	void showCategories(List<CategoryModel> categories);
 	void addFilter(Filter filter);
 	void resetDate(DateType dateType);
+	void searchNews();
+	void showInvalidDateWarning();
 	Observable<String> getSearchTextObs();
 	Observable<Integer> getListClickObs();
 }

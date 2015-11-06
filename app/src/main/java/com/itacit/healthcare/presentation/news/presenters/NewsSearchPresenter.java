@@ -114,6 +114,16 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
         if (getView() != null) getView().resetDate(dateType);
     }
 
+    @Override
+    public void DateIntervalValidating() {
+
+        if (fromDate.getTime().after(toDate.getTime())) {
+            if (getView() != null) getView().showInvalidDateWarning();
+        } else {
+            if (getView() != null) getView().searchNews();
+        }
+    }
+
     private void showAuthorsOnView() {
         if (getView() != null) getView().showAuthors(authorModels);
     }

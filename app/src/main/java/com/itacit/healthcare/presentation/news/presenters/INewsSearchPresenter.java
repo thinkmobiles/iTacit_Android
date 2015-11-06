@@ -11,5 +11,6 @@ public interface INewsSearchPresenter {
     void selectCategoryFilterById(long id);
     void onDateSelected(DateType dateType, int year, int monthOfYear, int dayOfMonth);
     void onDateClear(DateType dateType);
+    void DateIntervalValidating();
     enum DateType {From, To}
 }
