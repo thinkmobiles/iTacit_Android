@@ -6,7 +6,7 @@ import android.net.Uri;
  * Created by root on 20.10.15.
  */
 public class NewsModel {
-    private long articleId;
+    private long id;
     private Uri headlineUri;
     private String startDate;
     private String categoryName;
@@ -44,11 +44,11 @@ public class NewsModel {
         this.headline = headline;
     }
 
-    public long getArticleId() {
-        return articleId;
+    public long getId() {
+        return id;
     }
 
-    public void setArticleId(long articleId) {
-        this.articleId = articleId;
+    public void setId(long id) {
+        this.id = id;
     }
 }

@@ -35,13 +35,9 @@ public class News {
     @SerializedName("authorName")
     @Expose
     private String authorName;
-    @SerializedName("articleId")
+    @SerializedName("id")
     @Expose
-    private String articleId;
-    @SerializedName("resultSetRowId")
-    @Expose
-    private String resultSetRowId;
-
+    private String id;
     /**
      *
      * @return
@@ -209,24 +205,16 @@ public class News {
      * @return
      * The articleId
      */
-    public String getArticleId() {
-        return articleId;
+    public String getId() {
+        return id;
     }
 
     /**
      *
-     * @param articleId
+     * @param id
      * The articleId
      */
-    public void setArticleId(String articleId) {
-        this.articleId = articleId;
-    }
-
-    public String getResultSetRowId() {
-        return resultSetRowId;
-    }
-
-    public void setResultSetRowId(String resultSetRowId) {
-        this.resultSetRowId = resultSetRowId;
+    public void setId(String id) {
+        this.id = id;
     }
 }

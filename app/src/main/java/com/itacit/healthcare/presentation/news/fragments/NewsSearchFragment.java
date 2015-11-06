@@ -1,5 +1,6 @@
 package com.itacit.healthcare.presentation.news.fragments;
 
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
@@ -19,12 +20,14 @@ import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
 import com.itacit.healthcare.presentation.base.widgets.datePicker.DatePickerFragment;
 import com.itacit.healthcare.presentation.base.widgets.wheelDatePicker.WheelDatePicker;
+import com.itacit.healthcare.presentation.news.NewsActivity;
 import com.itacit.healthcare.presentation.news.adapters.AuthorsAdapter;
 import com.itacit.healthcare.presentation.news.adapters.CategoriesAdapter;
 import com.itacit.healthcare.presentation.news.mapper.AuthorModelMapper;
 import com.itacit.healthcare.presentation.news.mapper.CategoryModelMapper;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
 import com.itacit.healthcare.presentation.news.models.CategoryModel;
+import com.itacit.healthcare.presentation.news.models.NewsSearch;
 import com.itacit.healthcare.presentation.news.presenters.INewsSearchPresenter.DateType;
 import com.itacit.healthcare.presentation.news.presenters.NewsSearchPresenter;
 import com.itacit.healthcare.presentation.news.views.INewsSearchView;
@@ -139,16 +142,14 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
         }
     }
 
-	@OnClick(R.id.btn_search_FNS)
-    void onSearchClick() {
-
-		presenter.DateIntervalValidating();
-
-    }
-
+    @OnClick(R.id.btn_search_FNS)
     @Override
     public void searchNews() {
-
+        if (presenter.isDateValid()) {
+            NewsSearch search =presenter.getNewsSearch();
+            ((NewsActivity)activity).getSearchNews().onNext(search);
+            activity.switchContent(NewsFeedFragment.class, true);
+        }
 	}
 
 	@Override
@@ -164,6 +165,11 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
     @Override
     public Observable<Integer> getListClickObs() {
         return null;
+    }
+
+    @Override
+    public List<Filter> getFilters() {
+        return searchFiltersEt.getSelectedFilters();
     }
 
     @OnClick({R.id.iv_expand_author_FNS,R.id.iv_expand_category_FNS})

@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import rx.subjects.PublishSubject;
 import rx.subjects.Subject;
@@ -362,6 +363,14 @@ public class FiltersEditText extends MultiAutoCompleteTextView {
         return x;
     }
 
+
+    public List<Filter> getSelectedFilters() {
+        ArrayList<Filter> filters = new ArrayList<>();
+        for (VisibleFilterChip chip : getSortedChips()) {
+            filters.add(chip.getFilter());
+        }
+        return filters;
+    }
 
 
     private class FiltersTextWatcher implements TextWatcher {

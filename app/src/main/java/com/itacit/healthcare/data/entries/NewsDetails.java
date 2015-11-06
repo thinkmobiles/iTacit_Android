@@ -11,9 +11,9 @@ public class NewsDetails {
     @SerializedName("body")
     @Expose
     private String body;
-    @SerializedName("articleId")
+    @SerializedName("id")
     @Expose
-    private String articleId;
+    private String id;
     @SerializedName("authorName")
     @Expose
     private String authorName;
@@ -68,17 +68,17 @@ public class NewsDetails {
      * @return
      * The articleId
      */
-    public String getArticleId() {
-        return articleId;
+    public String getId() {
+        return id;
     }
 
     /**
      *
-     * @param articleId
+     * @param id
      * The articleId
      */
-    public void setArticleId(String articleId) {
-        this.articleId = articleId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     /**

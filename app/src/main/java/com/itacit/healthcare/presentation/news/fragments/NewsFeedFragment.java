@@ -14,10 +14,13 @@ import android.widget.EditText;
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.GetNewsUseCase;
 import com.itacit.healthcare.presentation.base.views.BaseFragmentView;
+import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
+import com.itacit.healthcare.presentation.news.NewsActivity;
 import com.itacit.healthcare.presentation.news.adapters.NewsAdapter;
 import com.itacit.healthcare.presentation.news.mapper.NewsModelMapper;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
+import com.itacit.healthcare.presentation.news.models.NewsSearch;
 import com.itacit.healthcare.presentation.news.presenters.NewsFeedPresenter;
 import com.itacit.healthcare.presentation.news.views.INewsFeedView;
 import com.jakewharton.rxbinding.widget.RxTextView;
@@ -26,6 +29,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import rx.Observable;
+import rx.subjects.BehaviorSubject;
 
 
 /**
@@ -104,6 +108,13 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
     }
 
     @Override
+    public void showFilters(List<Filter> filters) {
+        for (Filter filter : filters) {
+            searchNewsView.addFilter(filter);
+        }
+    }
+
+    @Override
     public void showProgress() {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(getActivity());
@@ -130,5 +141,10 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
     @Override
     public Observable<String> getNewsSearchTextObs() {
         return RxTextView.textChangeEvents(searchNewsView).map(e -> searchNewsView.getInputText());
+    }
+
+    @Override
+    public BehaviorSubject<NewsSearch> getNewsSearch() {
+        return ((NewsActivity)activity).getSearchNews();
     }
 }

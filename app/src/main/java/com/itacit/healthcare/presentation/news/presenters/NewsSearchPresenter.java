@@ -10,6 +10,7 @@ import com.itacit.healthcare.presentation.news.mapper.AuthorModelMapper;
 import com.itacit.healthcare.presentation.news.mapper.CategoryModelMapper;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
 import com.itacit.healthcare.presentation.news.models.CategoryModel;
+import com.itacit.healthcare.presentation.news.models.NewsSearch;
 import com.itacit.healthcare.presentation.news.views.INewsSearchView;
 
 import java.util.ArrayList;
@@ -38,7 +39,6 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
     private Calendar fromDate = new GregorianCalendar();
     private Calendar toDate = new GregorianCalendar();
 
-
     public NewsSearchPresenter(GetAuthorsUseCase getAuthorsUseCase, GetCategoriesUseCase getCategoriesUseCase, AuthorModelMapper authorModelMapper, CategoryModelMapper categoryModelMapper) {
         this.getAuthorsUseCase = getAuthorsUseCase;
         this.getCategoriesUseCase = getCategoriesUseCase;
@@ -59,6 +59,13 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
                     .debounce(1, TimeUnit.SECONDS);
         }
         return Observable.empty();
+    }
+
+    @Override
+    public NewsSearch getNewsSearch() {
+        List<Filter> filters = new ArrayList<>();
+        if (getView() != null) filters = getView().getFilters();
+        return new NewsSearch(filters, fromDate.getTime(), toDate.getTime());
     }
 
     @Override
@@ -113,13 +120,12 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
     }
 
     @Override
-    public void DateIntervalValidating() {
-
+    public boolean isDateValid() {
         if (fromDate.getTime().after(toDate.getTime())) {
             if (getView() != null) getView().showInvalidDateWarning();
-        } else {
-            if (getView() != null) getView().searchNews();
+            return false;
         }
+        return true;
     }
 
     private void showAuthorsOnView() {

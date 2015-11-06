@@ -14,7 +14,7 @@ public class NewsDetailsModelMapper extends ModelMapper<NewsDetailsModel, NewsDe
     public NewsDetailsModel transform(NewsDetails dataEntry) {
         NewsDetailsModel newsDetailsModel = new NewsDetailsModel();
         try {
-            long id = dataEntry.getArticleId() != null ? Long.parseLong(dataEntry.getArticleId()) : 0;
+            long id = dataEntry.getId() != null ? Long.parseLong(dataEntry.getId()) : 0;
             if (id == 0) return null;
             newsDetailsModel.setArticleId(id);
 

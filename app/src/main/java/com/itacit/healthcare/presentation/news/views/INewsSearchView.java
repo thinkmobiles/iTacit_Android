@@ -28,4 +28,5 @@ public interface INewsSearchView extends IView {
 	void showInvalidDateWarning();
 	Observable<String> getSearchTextObs();
 	Observable<Integer> getListClickObs();
+	List<Filter> getFilters();
 }

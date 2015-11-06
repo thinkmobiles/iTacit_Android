@@ -14,9 +14,9 @@ public class NewsModelMapper extends ModelMapper<NewsModel, News> {
     public NewsModel transform(News dataEntry) {
         NewsModel newsModel = new NewsModel();
         try {
-            long id = dataEntry.getArticleId() != null ? Long.parseLong(dataEntry.getArticleId()) : 0;
+            long id = dataEntry.getId() != null ? Long.parseLong(dataEntry.getId()) : 0;
             if (id == 0) return null;
-            newsModel.setArticleId(id);
+            newsModel.setId(id);
 
             newsModel.setHeadline(dataEntry.getHeadline() != null ? dataEntry.getHeadline() : "");
             newsModel.setCategoryName(dataEntry.getCategoryName() != null ? dataEntry.getCategoryName() : "");

@@ -5,6 +5,7 @@ import com.itacit.healthcare.domain.interactor.GetNewsUseCase;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
 import com.itacit.healthcare.presentation.news.mapper.NewsModelMapper;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
+import com.itacit.healthcare.presentation.news.models.NewsSearch;
 import com.itacit.healthcare.presentation.news.views.INewsFeedView;
 
 import java.util.List;
@@ -32,7 +33,15 @@ public class NewsFeedPresenter extends BasePresenter<INewsFeedView> implements I
                     .filter(text -> text.length() >= SEARCH_TEXT_MIN_LENGTH)
                     .debounce(1, TimeUnit.SECONDS)
                     .subscribe(this::searchNews));
+
+            compositeSubscription.add(getView().getNewsSearch().subscribe(this::searchNews));
         }
+    }
+
+    private void searchNews(NewsSearch search) {
+        if (getView()!= null) getView().showFilters(search.getFilters());
+
+        getNewsUseCase.execute(new NewsListSubscriber(), search);
     }
 
     private void showNewsOnView(List<News> news) {

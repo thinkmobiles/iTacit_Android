@@ -58,7 +58,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     @Override
     public long getItemId(int position) {
-        return news.get(position).getArticleId();
+        return news.get(position).getId();
     }
 
     @Override
