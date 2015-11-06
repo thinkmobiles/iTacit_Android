@@ -40,7 +40,7 @@ public class FiltersEditText extends MultiAutoCompleteTextView {
     private final float mBgPaddingRightDp = 8;
     private final float mBgPaddingTop = 8;
     private final float mDeleteSizeDp = 16;
-    private RecipientTextWatcher mTextWatcher;
+    private FiltersTextWatcher mTextWatcher;
 
     public FiltersEditText(Context context) {
         super(context);
@@ -48,7 +48,7 @@ public class FiltersEditText extends MultiAutoCompleteTextView {
 
     public FiltersEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mTextWatcher = new RecipientTextWatcher();
+        mTextWatcher = new FiltersTextWatcher();
         addTextChangedListener(mTextWatcher);
     }
 
@@ -63,11 +63,31 @@ public class FiltersEditText extends MultiAutoCompleteTextView {
     }
 
     public void addFilter(Filter filter) {
+        removeInputText();
         final Editable editable = getText();
         CharSequence chip = createChip(filter);
         editable.append(chip);
-        sanitizeBetween();
     }
+
+    private void removeInputText() {
+        if (getInputText().isEmpty()) {
+            return;
+        }
+
+        VisibleFilterChip lastChip = getLastChip();
+        int chipEnd;
+        if (lastChip != null) {
+            chipEnd = getText().getSpanEnd(lastChip);
+        } else {
+            chipEnd = 0;
+        }
+
+        if (chipEnd >= 0 && getText().length() > chipEnd) {
+            getText().delete(chipEnd, getText().length());
+        }
+
+    }
+
 
     private CharSequence createChip(Filter filter) {
         int paddingTopPx = (int) AndroidUtils.convertDpToPixel(mBgPaddingTop, getContext());
@@ -337,10 +357,15 @@ public class FiltersEditText extends MultiAutoCompleteTextView {
 
 
 
-    private class RecipientTextWatcher implements TextWatcher {
+    private class FiltersTextWatcher implements TextWatcher {
+        private boolean remove;
+        private int chipStart;
         @Override
         public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
-
+            remove = getInputText().isEmpty() && count > after;
+            if (remove) {
+                chipStart = getText().getSpanStart(getLastChip());
+            }
         }
 
         @Override
@@ -348,22 +373,16 @@ public class FiltersEditText extends MultiAutoCompleteTextView {
             // The user deleted some text OR some text was replaced; check to
             // see if the insertion point is on a space
             // following a chip.
-            if (count != before) {
-                final VisibleFilterChip[] chips = getText().getSpans(0, getText().length(), VisibleFilterChip.class);
-                final int chipsCount = chips.length;
-                if (mPreviousChipsCount > chipsCount && mChipListener != null)
-                    mChipListener.onDataChanged();
-                mPreviousChipsCount = chipsCount;
-            }
-            if (before - count == 1) {
-                // If the item deleted is a space, and the thing before the
-                // space is a chip, delete the entire span.
-                final int selStart = getSelectionStart();
-                final VisibleFilterChip[] repl = getText().getSpans(selStart, selStart, VisibleFilterChip.class);
-                if (repl.length > 0) {
-                    getText().removeSpan(repl[0]);
-                }
-            }
+//
+//            if (before - count == 1) {
+//                // If the item deleted is a space, and the thing before the
+//                // space is a chip, delete the entire span.
+//                final int selStart = getSelectionStart() - 1 ;
+//                final VisibleFilterChip[] repl = getText().getSpans(selStart, selStart, VisibleFilterChip.class);
+//                if (repl.length > 0) {
+//                    getText().removeSpan(repl[0]);
+//                }
+//            }
         }
 
         @Override
@@ -377,6 +396,11 @@ public class FiltersEditText extends MultiAutoCompleteTextView {
                 for (final VisibleFilterChip chip : chips)
                     spannable.removeSpan(chip);
             }
+
+            if (remove) {
+                s.delete(chipStart, s.length());
+            }
+
         }
     }
 

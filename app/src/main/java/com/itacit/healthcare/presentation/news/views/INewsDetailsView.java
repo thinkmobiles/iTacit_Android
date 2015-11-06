@@ -1,7 +1,5 @@
 package com.itacit.healthcare.presentation.news.views;
 
-import android.graphics.Bitmap;
-
 import com.itacit.healthcare.presentation.base.views.IView;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
 import com.itacit.healthcare.presentation.news.models.NewsDetailsModel;
