@@ -13,6 +13,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.MultiAutoCompleteTextView;
@@ -39,7 +40,7 @@ public class FiltersEditText extends MultiAutoCompleteTextView {
     private final float mBgPaddingRightDp = 8;
     private final float mBgPaddingTop = 8;
     private final float mDeleteSizeDp = 16;
-
+    private FiltersTextWatcher mTextWatcher;
 
     public FiltersEditText(Context context) {
         super(context);
@@ -47,11 +48,8 @@ public class FiltersEditText extends MultiAutoCompleteTextView {
 
     public FiltersEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-    }
-
-
-    public FiltersEditText(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+        mTextWatcher = new FiltersTextWatcher();
+        addTextChangedListener(mTextWatcher);
     }
 
     private static int findText(final Editable text, final int offset) {
@@ -65,36 +63,54 @@ public class FiltersEditText extends MultiAutoCompleteTextView {
     }
 
     public void addFilter(Filter filter) {
+        removeInputText();
         final Editable editable = getText();
         CharSequence chip = createChip(filter);
         editable.append(chip);
-        sanitizeBetween();
     }
 
-    private CharSequence createChip(Filter filter) {
-        String spannableText;
-        String text = filter.getVisibleText();
-        if (text.endsWith(" ")) {
-            spannableText = text;
-        } else {
-            spannableText = text + " ";
+    private void removeInputText() {
+        if (getInputText().isEmpty()) {
+            return;
         }
 
+        VisibleFilterChip lastChip = getLastChip();
+        int chipEnd;
+        if (lastChip != null) {
+            chipEnd = getText().getSpanEnd(lastChip);
+        } else {
+            chipEnd = 0;
+        }
+
+        if (chipEnd >= 0 && getText().length() > chipEnd) {
+            getText().delete(chipEnd, getText().length());
+        }
+
+    }
+
+
+    private CharSequence createChip(Filter filter) {
         int paddingTopPx = (int) AndroidUtils.convertDpToPixel(mBgPaddingTop, getContext());
         int paddingRightPx = (int) AndroidUtils.convertDpToPixel(mBgPaddingRightDp, getContext());
         int paddingLeftPx = (int) AndroidUtils.convertDpToPixel(mBgPaddingLeftDp, getContext());
         int heightPx = (int) AndroidUtils.convertDpToPixel(mChipHeightDp, getContext());
         int deleteSizePx = (int) AndroidUtils.convertDpToPixel(mDeleteSizeDp, getContext());
 
+        String text = filter.getVisibleText();
+        String displayText = text;
+        if (!text.endsWith(" ")) {
+           text += " ";
+        }
+
         Drawable delete = getContext().getResources().getDrawable(R.drawable.btn_chip_del);
-        SpannableString chipText = new SpannableString(spannableText);
-        final int textLength = spannableText.length() - 1;
+        SpannableString chipText = new SpannableString(text);
+        final int textLength = text.length() - 1;
         TextPaint paint = getPaint();
         int width = (int) (Math.floor(paint.measureText(text, 0, text.length())) + paddingLeftPx + 2 * paddingRightPx + delete.getMinimumWidth());
 
         Bitmap tmpBitmap = Bitmap.createBitmap(width, heightPx, Bitmap.Config.ARGB_8888);
         float maxWidth = calculateAvailableWidth(paddingRightPx + paddingLeftPx);
-        CharSequence ellipsizedText = TextUtils.ellipsize(text, paint, maxWidth, TextUtils.TruncateAt.END);
+        CharSequence ellipsizedText = TextUtils.ellipsize(displayText, paint, maxWidth, TextUtils.TruncateAt.END);
 
         Drawable background = getContext().getResources().getDrawable(R.drawable.bg_chips);
         background.setBounds(0, 0, width, heightPx);
@@ -337,6 +353,55 @@ public class FiltersEditText extends MultiAutoCompleteTextView {
         x = Math.min(getWidth() - getTotalPaddingRight() - 1, x);
         x += getScrollX();
         return x;
+    }
+
+
+
+    private class FiltersTextWatcher implements TextWatcher {
+        private boolean remove;
+        private int chipStart;
+        @Override
+        public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
+            remove = getInputText().isEmpty() && count > after;
+            if (remove) {
+                chipStart = getText().getSpanStart(getLastChip());
+            }
+        }
+
+        @Override
+        public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
+            // The user deleted some text OR some text was replaced; check to
+            // see if the insertion point is on a space
+            // following a chip.
+//
+//            if (before - count == 1) {
+//                // If the item deleted is a space, and the thing before the
+//                // space is a chip, delete the entire span.
+//                final int selStart = getSelectionStart() - 1 ;
+//                final VisibleFilterChip[] repl = getText().getSpans(selStart, selStart, VisibleFilterChip.class);
+//                if (repl.length > 0) {
+//                    getText().removeSpan(repl[0]);
+//                }
+//            }
+        }
+
+        @Override
+        public void afterTextChanged(final Editable s) {
+            // If the text has been set to null or empty, make sure we remove
+            // all the spans we applied.
+            if (TextUtils.isEmpty(s)) {
+                // Remove all the chips spans.
+                final Spannable spannable = getText();
+                final VisibleFilterChip[] chips = spannable.getSpans(0, getText().length(), VisibleFilterChip.class);
+                for (final VisibleFilterChip chip : chips)
+                    spannable.removeSpan(chip);
+            }
+
+            if (remove) {
+                s.delete(chipStart, s.length());
+            }
+
+        }
     }
 
 }
