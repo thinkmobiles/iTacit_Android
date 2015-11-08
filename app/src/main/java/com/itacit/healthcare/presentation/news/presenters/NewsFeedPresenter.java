@@ -8,6 +8,7 @@ import com.itacit.healthcare.presentation.news.models.NewsModel;
 import com.itacit.healthcare.presentation.news.models.NewsSearch;
 import com.itacit.healthcare.presentation.news.views.INewsFeedView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -20,6 +21,7 @@ public class NewsFeedPresenter extends BasePresenter<INewsFeedView> implements I
     public static final int SEARCH_TEXT_MIN_LENGTH = 3;
     private GetNewsUseCase getNewsUseCase;
     private NewsModelMapper dataMapper;
+    public List<NewsModel> newsModels;
 
     public NewsFeedPresenter(GetNewsUseCase newsUseCase, NewsModelMapper newsModelDataMapper) {
         getNewsUseCase = newsUseCase;
@@ -35,6 +37,7 @@ public class NewsFeedPresenter extends BasePresenter<INewsFeedView> implements I
                     .subscribe(this::searchNews));
 
             compositeSubscription.add(getView().getNewsSearch().subscribe(this::searchNews));
+                    .subscribe(this::showSearchHints));
         }
     }
 
@@ -44,8 +47,7 @@ public class NewsFeedPresenter extends BasePresenter<INewsFeedView> implements I
         getNewsUseCase.execute(new NewsListSubscriber(), search);
     }
 
-    private void showNewsOnView(List<News> news) {
-        List<NewsModel> newsModels = dataMapper.transform(news);
+    private void showNewsOnView() {
         if(getView() != null) getView().showNews(newsModels);
     }
 
@@ -60,11 +62,26 @@ public class NewsFeedPresenter extends BasePresenter<INewsFeedView> implements I
 
     }
 
+	private void showSearchHints(String searchWord) {
+
+		List<NewsModel> resultNewsModels = new ArrayList<>();
+
+		for (NewsModel model : newsModels) {
+			if (model.getHeadline().contains(searchWord)) {
+				resultNewsModels.add(model);
+			}
+		}
+		if (!resultNewsModels.isEmpty()) {
+			if (getView() != null) getView().showSearchResults(resultNewsModels);
+		}
+	}
+
     private final class NewsListSubscriber extends Subscriber<List<News>> {
 
         @Override
         public void onCompleted() {
             if(getView() != null) getView().hideProgress();
+	        showNewsOnView();
         }
 
         @Override
@@ -74,7 +91,7 @@ public class NewsFeedPresenter extends BasePresenter<INewsFeedView> implements I
 
         @Override
         public void onNext(List<News> newses) {
-            showNewsOnView(newses);
+	        newsModels = dataMapper.transform(newses);
         }
     }
 }
