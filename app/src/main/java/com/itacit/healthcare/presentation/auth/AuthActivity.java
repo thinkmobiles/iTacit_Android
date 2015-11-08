@@ -20,8 +20,8 @@ public class AuthActivity extends BaseActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onResume() {
+        super.onResume();
         LoginUseCase loginUseCase = new LoginUseCase("ph", "ph");
         loginUseCase.execute(new Subscriber<Boolean>() {
             @Override
@@ -39,5 +39,11 @@ public class AuthActivity extends BaseActivity {
                 startActivity(new Intent(AuthActivity.this, NewsActivity.class));
             }
         });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
     }
 }

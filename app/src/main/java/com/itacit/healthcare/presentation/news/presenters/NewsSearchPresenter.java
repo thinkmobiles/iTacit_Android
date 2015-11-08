@@ -15,6 +15,7 @@ import com.itacit.healthcare.presentation.news.views.INewsSearchView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -26,6 +27,7 @@ import rx.Subscriber;
  * Created by root on 26.10.15.
  */
 public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implements INewsSearchPresenter {
+    public static final int TIMEOUT = 1;
     //interactors
     private GetAuthorsUseCase getAuthorsUseCase;
     private GetCategoriesUseCase getCategoriesUseCase;
@@ -36,8 +38,8 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
     private List<AuthorModel> authorModels = new ArrayList<>();
     private List<CategoryModel> categoryModels = new ArrayList<>();
 
-    private Calendar fromDate = new GregorianCalendar();
-    private Calendar toDate = new GregorianCalendar();
+    private Calendar fromDate;
+    private Calendar toDate;
 
     public NewsSearchPresenter(GetAuthorsUseCase getAuthorsUseCase, GetCategoriesUseCase getCategoriesUseCase, AuthorModelMapper authorModelMapper, CategoryModelMapper categoryModelMapper) {
         this.getAuthorsUseCase = getAuthorsUseCase;
@@ -56,7 +58,7 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
         if (getView() != null) {
             return getView().getSearchTextObs()
                     .filter(t -> t.length() >= NewsFeedPresenter.SEARCH_TEXT_MIN_LENGTH)
-                    .debounce(1, TimeUnit.SECONDS);
+                    .debounce(TIMEOUT, TimeUnit.SECONDS);
         }
         return Observable.empty();
     }
@@ -65,7 +67,8 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
     public NewsSearch getNewsSearch() {
         List<Filter> filters = new ArrayList<>();
         if (getView() != null) filters = getView().getFilters();
-        return new NewsSearch(filters, fromDate.getTime(), toDate.getTime());
+
+        return new NewsSearch(filters, fromDate, toDate);
     }
 
     @Override
@@ -100,27 +103,41 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
 
     @Override
     public void onDateSelected(DateType dateType, int year, int monthOfYear, int dayOfMonth) {
+        Calendar calendar = null;
         switch (dateType) {
             case From:
-                fromDate.set(year, monthOfYear, dayOfMonth);
-                if (getView() != null)
-                    getView().showFromDate(INewsSearchView.dateFormat.format(fromDate.getTime()));
+                calendar = fromDate = new GregorianCalendar(year, monthOfYear, dayOfMonth);
                 break;
             case To:
-                toDate.set(year, monthOfYear, dayOfMonth);
-                if (getView() != null)
-                    getView().showToDate(INewsSearchView.dateFormat.format(toDate.getTime()));
+                calendar = toDate = new GregorianCalendar(year, monthOfYear, dayOfMonth);
                 break;
+        }
+
+        if (getView() != null) {
+            getView().showDate(dateType,
+                    INewsSearchView.dateFormat.format(calendar.getTime()));
         }
     }
 
     @Override
     public void onDateClear(DateType dateType) {
         if (getView() != null) getView().resetDate(dateType);
+        switch (dateType) {
+            case From:
+                fromDate = null;
+                break;
+            case To:
+                toDate = null;
+                break;
+        }
     }
 
     @Override
     public boolean isDateValid() {
+        if (fromDate == null || toDate == null) {
+            return true;
+        }
+
         if (fromDate.getTime().after(toDate.getTime())) {
             if (getView() != null) getView().showInvalidDateWarning();
             return false;
@@ -174,7 +191,5 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
             List<CategoryModel> categoryModels = categoryMapper.transform(categories);
             NewsSearchPresenter.this.categoryModels.addAll(categoryModels);
         }
-
     }
-
 }

@@ -18,8 +18,7 @@ import static com.itacit.healthcare.presentation.news.presenters.INewsSearchPres
 public interface INewsSearchView extends IView {
 	SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
 
-	void showFromDate(String fromDate);
-	void showToDate(String toDate);
+	void showDate(DateType dateType, String toDate);
 	void showAuthors(List<AuthorModel> authors);
 	void showCategories(List<CategoryModel> categories);
 	void addFilter(Filter filter);

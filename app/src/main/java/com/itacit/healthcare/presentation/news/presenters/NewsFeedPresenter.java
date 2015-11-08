@@ -34,10 +34,9 @@ public class NewsFeedPresenter extends BasePresenter<INewsFeedView> implements I
             compositeSubscription.add(getView().getNewsSearchTextObs()
                     .filter(text -> text.length() >= SEARCH_TEXT_MIN_LENGTH)
                     .debounce(1, TimeUnit.SECONDS)
-                    .subscribe(this::searchNews));
+                    .subscribe(this::showSearchHints));
 
             compositeSubscription.add(getView().getNewsSearch().subscribe(this::searchNews));
-                    .subscribe(this::showSearchHints));
         }
     }
 

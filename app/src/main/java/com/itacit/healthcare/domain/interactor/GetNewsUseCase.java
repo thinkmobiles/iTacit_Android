@@ -24,7 +24,7 @@ public class GetNewsUseCase extends GetListUseCase<News> {
     public static final String SEARCH_PREFIX = "search:";
     public static final String START_DATE_PREFIX = "startDate:";
 
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public GetNewsUseCase(int startIndex, int rowCounts) {
         super(startIndex, rowCounts);
@@ -73,13 +73,13 @@ public class GetNewsUseCase extends GetListUseCase<News> {
         }
 
         String date = "";
-        if (search.getDateFrom() != null && search.getDateFrom().getTime() > 0) {
-            String from = dateFormat.format(search.getDateFrom());
+        if (search.getDateFrom() != null) {
+            String from = dateFormat.format(search.getDateFrom().getTime());
             date += START_DATE_PREFIX + from;
         }
 
-        if (search.getDateTo() != null && search.getDateTo().getTime() > 0) {
-            String to = dateFormat.format(search.getDateTo());
+        if (search.getDateTo() != null) {
+            String to = dateFormat.format(search.getDateTo().getTime());
             if (!date.isEmpty()) {
                 date += ",";
             } else  {

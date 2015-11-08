@@ -168,11 +168,6 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 	}
 
 	@Override
-	public Observable<String> getNewsSearchTextObs() {
-		return RxTextView.textChangeEvents(searchNewsView).observeOn(AndroidSchedulers.mainThread()).map(e -> searchNewsView.getInputText());
-	}
-
-	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// TODO: inflate a fragment view
 		View rootView = super.onCreateView(inflater, container, savedInstanceState);

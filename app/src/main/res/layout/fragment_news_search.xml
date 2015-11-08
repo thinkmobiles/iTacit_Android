@@ -6,14 +6,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/main_margin"
-        android:paddingTop="@dimen/main_margin">
+        >
 
+        <View
+            style="@style/shadow_bottom"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/main_margin"
+            android:paddingTop="@dimen/main_margin"
+            android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,6 +57,8 @@
                 android:paddingLeft="5dp"
                 android:lineSpacingExtra="5dp"
                 android:minHeight="32dp"
+                android:lines="2"
+                android:minLines="2"
                 android:layout_toLeftOf="@id/ib_clear_FNS"
                 android:textColor="@color/gray_dark"
                 android:textSize="13sp"
@@ -117,6 +128,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/main_margin"
+                android:minHeight="50dp"
                 android:layout_below="@+id/rl_author_title_FNS"
                 android:background="@android:color/white"/>
 
@@ -177,6 +189,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/main_margin"
+                android:minHeight="50dp"
                 android:layout_below="@+id/rl_category_title_FNS"
                 android:background="@android:color/white"/>
 
@@ -199,7 +212,7 @@
                 android:text="@string/from"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
 
-            <TextView
+            <Button
                 android:id="@+id/tv_from_FNS"
                 style="@style/tv_date"
                 android:layout_width="@dimen/btn_date_width"
@@ -210,7 +223,7 @@
                 android:drawableLeft="@drawable/ic_calendar"
                 android:text="@string/add_date"/>
 
-            <TextView
+            <Button
                 android:id="@+id/tv_to_FNS"
                 style="@style/tv_date"
                 android:layout_width="@dimen/btn_date_width"
@@ -298,5 +311,6 @@
             android:text="@string/search"
             android:textColor="@android:color/white"
             android:textSize="@dimen/btn_text_size"/>
+    </LinearLayout>
     </LinearLayout>
 </ScrollView>

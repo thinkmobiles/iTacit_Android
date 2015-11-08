@@ -25,7 +25,7 @@ public class NewsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         searchNews = BehaviorSubject.create();
-        getFragmentManager().beginTransaction().replace(R.id.content, new NewsFeedFragment()).commit();
+        switchContent(NewsFeedFragment.class, true);
     }
 
     public BehaviorSubject<NewsSearch> getSearchNews() {

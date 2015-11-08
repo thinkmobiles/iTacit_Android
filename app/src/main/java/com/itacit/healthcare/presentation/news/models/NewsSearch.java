@@ -2,6 +2,7 @@ package com.itacit.healthcare.presentation.news.models;
 
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -10,12 +11,12 @@ import java.util.List;
  */
 public class NewsSearch {
     private List<Filter> filters;
-    private Date dateFrom;
-    private Date dateTo;
-    private String search;
+    private Calendar dateFrom;
+    private Calendar dateTo;
+    private String search = "";
 
 
-    public NewsSearch(List<Filter> filters, Date dateFrom, Date dateTo) {
+    public NewsSearch(List<Filter> filters, Calendar dateFrom, Calendar dateTo) {
         this.filters = filters;
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
@@ -25,11 +26,11 @@ public class NewsSearch {
         return filters;
     }
 
-    public Date getDateFrom() {
+    public Calendar getDateFrom() {
         return dateFrom;
     }
 
-    public Date getDateTo() {
+    public Calendar getDateTo() {
         return dateTo;
     }
 
