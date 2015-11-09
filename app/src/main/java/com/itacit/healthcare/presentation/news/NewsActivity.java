@@ -24,8 +24,8 @@ public class NewsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        searchNews = BehaviorSubject.create();
-        switchContent(NewsFeedFragment.class, true);
+        searchNews = BehaviorSubject.create(new NewsSearch());
+        switchContent(NewsFeedFragment.class, false);
     }
 
     public BehaviorSubject<NewsSearch> getSearchNews() {

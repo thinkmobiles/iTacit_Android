@@ -86,7 +86,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
         if (presenter.isDateValid()) {
             NewsSearch search = presenter.getNewsSearch();
             ((NewsActivity) activity).getSearchNews().onNext(search);
-            activity.switchContent(NewsFeedFragment.class, true);
+            activity.switchContent(NewsFeedFragment.class, false);
         }
     }
 
@@ -117,6 +117,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
     protected void setUpView() {
         preventRootScroll(authorsRv);
         preventRootScroll(categoriesRv);
+        preventRootScroll(searchFiltersEt);
         authorsRv.setLayoutManager(new WrapChildsLayotManager(activity));
         categoriesRv.setLayoutManager(new WrapChildsLayotManager(activity));
     }
