@@ -41,7 +41,9 @@ public abstract class BaseFragmentView<P extends IPresenter> extends Fragment im
         super.onViewCreated(view, savedInstanceState);
         setUpActionBar(((BaseActivity)getActivity()).getSupportActionBar());
         setUpView();
-        presenter = createPresenter();
+        if (presenter == null) {
+            presenter = createPresenter();
+        }
         presenter.attachView(this);
     }
 
