@@ -43,6 +43,8 @@ public class FiltersEditText extends AutoCompleteTextView {
     private final float mBgPaddingTop = 8;
     private final float mDeleteSizeDp = 16;
     private FiltersTextWatcher mTextWatcher;
+    private int moreChips;
+    private boolean showMore;
 
     public FiltersEditText(Context context) {
         super(context);
@@ -64,17 +66,28 @@ public class FiltersEditText extends AutoCompleteTextView {
         return mChipRemovedSubject;
     }
 
-    public void addFilter(Filter filter) {
-        for (VisibleFilterChip chip : getSortedChips()) {
-            if (chip.getFilter().equals(filter)) {
-                return;
-            }
+    public void addFilter(Filter filter, boolean showDelete) {
+        float width = 0;
+         for (VisibleFilterChip chip : getSortedChips()) {
+             width += getPaint().measureText(chip.getFilter().getVisibleText());
+            if (chip.getFilter().equals(filter)) return;
         }
+
+
         removeInputText();
         final Editable editable = getText();
-        CharSequence chip = createChip(filter);
-        editable.append(chip);
+        width += getPaint().measureText(filter.getVisibleText());
+        CharSequence chip;
+        if (width > getWidth() && showMore) {
+            //Todo create more chips
+            removeFilter(new Filter(-1, "+" + String.valueOf(moreChips) + "...", Filter.FilterType.Author ));
+            chip = createChip(new Filter(-1, "+" + String.valueOf(++moreChips) + "...", Filter.FilterType.Author), false);
+        } else {
+            chip = createChip(filter, showDelete);
+        }
+            editable.append(chip);
     }
+
 
     private void removeInputText() {
         if (getInputText().isEmpty()) {
@@ -96,7 +109,7 @@ public class FiltersEditText extends AutoCompleteTextView {
     }
 
 
-    private CharSequence createChip(Filter filter) {
+    private CharSequence createChip(Filter filter, boolean showDelete) {
         int paddingTopPx = (int) AndroidUtils.convertDpToPixel(mBgPaddingTop, getContext());
         int paddingRightPx = (int) AndroidUtils.convertDpToPixel(mBgPaddingRightDp, getContext());
         int paddingLeftPx = (int) AndroidUtils.convertDpToPixel(mBgPaddingLeftDp, getContext());
@@ -108,11 +121,22 @@ public class FiltersEditText extends AutoCompleteTextView {
            text += " ";
         }
 
-        Drawable delete = getContext().getResources().getDrawable(R.drawable.btn_chip_del);
+
         SpannableString chipText = new SpannableString(text);
         final int textLength = text.length() - 1;
         TextPaint paint = getPaint();
-        int width = (int) (Math.floor(paint.measureText(text, 0, text.length())) + paddingLeftPx + 2 * paddingRightPx + delete.getMinimumWidth());
+        int width;
+
+        Drawable delete= null;
+        if (showDelete) {
+             delete = getContext().getResources().getDrawable(R.drawable.btn_chip_del);
+            width = (int) (Math.floor(paint.measureText(text, 0, text.length())) + paddingLeftPx + 2 * paddingRightPx + delete.getMinimumWidth());
+            delete.setBounds(width - (deleteSizePx + paddingRightPx), paddingTopPx, width - paddingRightPx, heightPx - paddingTopPx);
+
+        } else {
+            width = (int) (Math.floor(paint.measureText(text, 0, text.length())) + paddingLeftPx + paddingRightPx);
+        }
+
 
         Bitmap tmpBitmap = Bitmap.createBitmap(width, heightPx, Bitmap.Config.ARGB_8888);
         float maxWidth = calculateAvailableWidth(paddingRightPx + paddingLeftPx);
@@ -125,8 +149,9 @@ public class FiltersEditText extends AutoCompleteTextView {
         paint.setColor(getContext().getResources().getColor(R.color.gray_dark));
         // Vertically center the text in the chip.
         canvas.drawText(ellipsizedText, 0, ellipsizedText.length(), paddingLeftPx, getTextYOffset((String) ellipsizedText, paint, heightPx) + 4, paint);
-        delete.setBounds(width - (deleteSizePx + paddingRightPx), paddingTopPx, width - paddingRightPx, heightPx - paddingTopPx);
-        delete.draw(canvas);
+        if(showDelete){
+            delete.draw(canvas);
+        }
 
 
         final Drawable result = new BitmapDrawable(getResources(), tmpBitmap);
@@ -371,6 +396,11 @@ public class FiltersEditText extends AutoCompleteTextView {
         }
         return filters;
     }
+
+    public void setShowMore(boolean showMore) {
+        this.showMore = showMore;
+    }
+
 
     private class FiltersTextWatcher implements TextWatcher {
         private boolean remove;

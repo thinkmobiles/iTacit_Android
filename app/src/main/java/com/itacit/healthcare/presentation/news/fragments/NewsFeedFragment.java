@@ -61,6 +61,7 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 	protected void setUpView() {
 		LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
 		newsRecyclerView.setLayoutManager(layoutManager);
+		searchNewsView.setShowMore(true);
 	}
 
 	@Override
@@ -129,7 +130,7 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 				});
 
 				for (Filter filter : filters) {
-					searchNewsView.addFilter(filter);
+					searchNewsView.addFilter(filter, false);
 				}
 			}
 		});

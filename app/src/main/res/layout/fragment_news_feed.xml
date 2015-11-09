@@ -37,6 +37,7 @@
             android:id="@+id/et_search_FN"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:singleLine="true"
             android:layout_toLeftOf="@id/ib_clear_FN"
             android:layout_toRightOf="@+id/ib_search_FN"
             android:background="@android:color/white"

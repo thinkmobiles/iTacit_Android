@@ -115,6 +115,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 
     @Override
     protected void setUpView() {
+        searchFiltersEt.setShowMore(false);
         preventRootScroll(authorsRv);
         preventRootScroll(categoriesRv);
         preventRootScroll(searchFiltersEt);
@@ -275,6 +276,6 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 
     @Override
     public void addFilter(Filter filter) {
-        searchFiltersEt.addFilter(filter);
+        searchFiltersEt.addFilter(filter, true);
     }
 }

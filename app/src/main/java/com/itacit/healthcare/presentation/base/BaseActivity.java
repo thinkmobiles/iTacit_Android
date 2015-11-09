@@ -78,7 +78,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
 
         transaction.replace(R.id.content, fragment, fragmentClass.getName());
-        if (addToBackStack) {
+        if (false) {
             transaction.addToBackStack(fragmentClass.getName());
         }
 
