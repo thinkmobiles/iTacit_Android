@@ -120,7 +120,7 @@
                 android:layout_marginRight="@dimen/main_margin"
                 android:minHeight="50dp"
                 android:layout_below="@+id/rl_author_title_FNS"
-                android:background="@android:color/white"/>
+                android:background="@android:color/holo_red_light"/>
 
         </RelativeLayout>
 
@@ -181,7 +181,7 @@
                 android:layout_marginRight="@dimen/main_margin"
                 android:minHeight="50dp"
                 android:layout_below="@+id/rl_category_title_FNS"
-                android:background="@android:color/white"/>
+                android:background="@android:color/holo_red_light"/>
 
         </RelativeLayout>
 

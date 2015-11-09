@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -173,12 +175,55 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
     }
 
     private void toggleListVisibility(RecyclerView recyclerView, ImageView expandIv) {
+
         if (recyclerView.getVisibility() == View.GONE) {
-            recyclerView.setVisibility(View.VISIBLE);
-            expandIv.setImageResource(R.drawable.ic_drop);
+
+	        Animation animShow = AnimationUtils.loadAnimation(getActivity(),
+			        R.anim.anim_show);
+	        animShow.setAnimationListener(new Animation.AnimationListener() {
+		        @Override
+		        public void onAnimationStart(Animation animation) {
+			        recyclerView.setVisibility(View.VISIBLE);
+		        }
+
+		        @Override
+		        public void onAnimationEnd(Animation animation) {
+			        recyclerView.clearAnimation();
+			        recyclerView.setVisibility(View.VISIBLE);
+			        expandIv.setImageResource(R.drawable.ic_drop);
+		        }
+
+		        @Override
+		        public void onAnimationRepeat(Animation animation) {
+
+		        }
+	        });
+	        recyclerView.startAnimation(animShow);
+
         } else {
-            recyclerView.setVisibility(View.GONE);
-            expandIv.setImageResource(R.drawable.ic_drop_hide);
+	        Animation animHide = AnimationUtils.loadAnimation(getActivity(),
+			        R.anim.anim_hide);
+	        animHide.setAnimationListener(new Animation.AnimationListener() {
+		        @Override
+		        public void onAnimationStart(Animation animation) {
+
+		        }
+
+		        @Override
+		        public void onAnimationEnd(Animation animation) {
+			        recyclerView.clearAnimation();
+			        recyclerView.setVisibility(View.GONE);
+			        expandIv.setImageResource(R.drawable.ic_drop_hide);
+		        }
+
+		        @Override
+		        public void onAnimationRepeat(Animation animation) {
+
+		        }
+	        });
+
+	        recyclerView.startAnimation(animHide);
+
         }
     }
 
