@@ -183,14 +183,13 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 	        animShow.setAnimationListener(new Animation.AnimationListener() {
 		        @Override
 		        public void onAnimationStart(Animation animation) {
-			        recyclerView.setVisibility(View.VISIBLE);
+
+			        expandIv.setImageResource(R.drawable.ic_drop);
 		        }
 
 		        @Override
 		        public void onAnimationEnd(Animation animation) {
-			        recyclerView.clearAnimation();
-			        recyclerView.setVisibility(View.VISIBLE);
-			        expandIv.setImageResource(R.drawable.ic_drop);
+
 		        }
 
 		        @Override
@@ -198,6 +197,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 
 		        }
 	        });
+	        recyclerView.setVisibility(View.VISIBLE);
 	        recyclerView.startAnimation(animShow);
 
         } else {
@@ -206,14 +206,14 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 	        animHide.setAnimationListener(new Animation.AnimationListener() {
 		        @Override
 		        public void onAnimationStart(Animation animation) {
-
+			        expandIv.setImageResource(R.drawable.ic_drop_hide);
 		        }
 
 		        @Override
 		        public void onAnimationEnd(Animation animation) {
-			        recyclerView.clearAnimation();
+
 			        recyclerView.setVisibility(View.GONE);
-			        expandIv.setImageResource(R.drawable.ic_drop_hide);
+
 		        }
 
 		        @Override
