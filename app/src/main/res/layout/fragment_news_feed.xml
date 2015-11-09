@@ -17,7 +17,7 @@
             android:id="@+id/ib_search_FN"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:background="@color/bg_grey"
+            android:background="@android:color/white"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_search_margin"
             android:src="@drawable/ic_search"/>
@@ -28,7 +28,7 @@
             android:layout_height="48dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/layout_search_margin"
-            android:background="@color/bg_grey"
+            android:background="@android:color/white"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_del_search"
             android:visibility="visible"/>
@@ -39,7 +39,7 @@
             android:layout_height="48dp"
             android:layout_toLeftOf="@id/ib_clear_FN"
             android:layout_toRightOf="@+id/ib_search_FN"
-            android:background="@color/bg_grey"
+            android:background="@android:color/white"
             android:textSize="14sp"
             android:dropDownAnchor="@id/rl_news_header_FNF"
             android:dropDownHeight="150dp"
