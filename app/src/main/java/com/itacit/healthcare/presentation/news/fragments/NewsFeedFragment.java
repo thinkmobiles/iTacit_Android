@@ -5,14 +5,10 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.GetNewsUseCase;
@@ -21,7 +17,6 @@ import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
 import com.itacit.healthcare.presentation.news.NewsActivity;
 import com.itacit.healthcare.presentation.news.adapters.NewsAdapter;
-import com.itacit.healthcare.presentation.news.adapters.NewsSearchAdapter;
 import com.itacit.healthcare.presentation.news.mapper.NewsModelMapper;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
 import com.itacit.healthcare.presentation.news.models.NewsSearch;
@@ -33,10 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.subjects.BehaviorSubject;
 
 
@@ -57,12 +50,6 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 	}
 
 	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-		presenter.loadNews();
-	}
-
-	@Override
 	protected void setUpView() {
 		LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
 		newsRecyclerView.setLayoutManager(layoutManager);
@@ -70,6 +57,7 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 
 	@Override
 	protected void setUpActionBar(ActionBar actionBar) {
+		actionBar.setHomeAsUpIndicator(R.drawable.btn_back);
 		activity.setActionBarShadowVisibile(false);
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setTitle(R.string.title_news_feed);
@@ -122,9 +110,14 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 
     @Override
     public void showFilters(List<Filter> filters) {
-        for (Filter filter : filters) {
-            searchNewsView.addFilter(filter);
-        }
+		searchNewsView.post(new Runnable() {
+			@Override
+			public void run() {
+				for (Filter filter : filters) {
+					searchNewsView.addFilter(filter);
+				}
+			}
+		});
     }
 
     @Override
