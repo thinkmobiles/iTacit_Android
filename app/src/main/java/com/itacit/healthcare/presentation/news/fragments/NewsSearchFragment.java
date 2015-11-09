@@ -133,6 +133,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 
     @Override
     protected void setUpActionBar(ActionBar actionBar) {
+        activity.setActionBarShadowVisibile(true);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(R.string.title_news_filter);
 
