@@ -4,6 +4,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -40,7 +42,7 @@ import rx.Observable;
 /**
  * Created by root on 21.10.15.
  */
-public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> implements INewsSearchView {
+public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> implements INewsSearchView, Animation.AnimationListener {
     @Bind(R.id.sv_root_FNS)                     ScrollView rootSv;
     @Bind(R.id.et_serch_FNS)                    FiltersEditText searchFiltersEt;
     @Bind(R.id.tv_count_author_FNS)             TextView tvCountAuthor;
@@ -51,6 +53,8 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
     @Bind(R.id.recycler_view_categories_FNS)    RecyclerView categoriesRv;
     @Bind(R.id.tv_from_FNS)                     Button tvDateFrom;
     @Bind(R.id.tv_to_FNS)                       Button tvDateTo;
+
+    Animation anim;
 
     @OnClick(R.id.ib_clear_FNS)
     void onClearFilters() {
@@ -105,6 +109,10 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
         preventRootScroll(categoriesRv);
         authorsRv.setLayoutManager(new WrapChildsLayotManager(activity));
         categoriesRv.setLayoutManager(new WrapChildsLayotManager(activity));
+
+	    anim = AnimationUtils.loadAnimation(getActivity(),
+			    R.anim.anim_visibility); //Load the animation from the xml file
+	    anim.setAnimationListener(this); //Set Animation Listener
     }
 
     private void preventRootScroll(View view) {
@@ -162,6 +170,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
     private void toggleListVisibility(RecyclerView recyclerView, ImageView expandIv) {
         if (recyclerView.getVisibility() == View.GONE) {
             recyclerView.setVisibility(View.VISIBLE);
+            recyclerView.startAnimation(anim);
             expandIv.setImageResource(R.drawable.ic_drop);
         } else {
             recyclerView.setVisibility(View.GONE);
@@ -218,4 +227,19 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
     public void addFilter(Filter filter) {
         searchFiltersEt.addFilter(filter);
     }
+
+	@Override
+	public void onAnimationStart(Animation animation) {
+
+	}
+
+	@Override
+	public void onAnimationEnd(Animation animation) {
+
+	}
+
+	@Override
+	public void onAnimationRepeat(Animation animation) {
+
+	}
 }
