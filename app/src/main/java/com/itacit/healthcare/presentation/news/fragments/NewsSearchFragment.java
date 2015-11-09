@@ -55,6 +55,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
     @Bind(R.id.tv_to_FNS)                       Button tvDateTo;
 
     Animation anim;
+	View currentRv;
 
     @OnClick(R.id.ib_clear_FNS)
     void onClearFilters() {
@@ -169,7 +170,8 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 
     private void toggleListVisibility(RecyclerView recyclerView, ImageView expandIv) {
         if (recyclerView.getVisibility() == View.GONE) {
-            recyclerView.setVisibility(View.VISIBLE);
+//            recyclerView.setVisibility(View.VISIBLE);
+	        currentRv = recyclerView;
             recyclerView.startAnimation(anim);
             expandIv.setImageResource(R.drawable.ic_drop);
         } else {
@@ -236,6 +238,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 	@Override
 	public void onAnimationEnd(Animation animation) {
 
+		currentRv.setVisibility(View.VISIBLE);
 	}
 
 	@Override

@@ -3,11 +3,10 @@
      android:fillAfter="true"
      android:interpolator="@android:anim/linear_interpolator" >
 
-	<!--Use two translate animations with a time gap of 5000 milliseconds-->
-	<!-- Use startOffset to provide delay between the animations -->
 	<translate
-		android:duration="400"
+		android:duration="500"
 		android:fillAfter="true"
 		android:fromYDelta="0%p"
+		android:startOffset="300"
 		android:toYDelta="50%p" />
 </set>
