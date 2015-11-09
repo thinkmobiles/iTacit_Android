@@ -25,6 +25,7 @@ public abstract class BaseFragmentView<P extends IPresenter> extends Fragment im
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (BaseActivity) getActivity();
+        setHasOptionsMenu(true);
     }
 
     @Nullable

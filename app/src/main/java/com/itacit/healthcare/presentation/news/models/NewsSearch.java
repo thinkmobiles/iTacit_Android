@@ -22,6 +22,27 @@ public class NewsSearch {
         this.dateTo = dateTo;
     }
 
+    public NewsSearch() {
+
+    }
+
+
+    public void setFilters(List<Filter> filters) {
+        this.filters = filters;
+    }
+
+    public void setDateFrom(Calendar dateFrom) {
+        this.dateFrom = dateFrom;
+    }
+
+    public void setDateTo(Calendar dateTo) {
+        this.dateTo = dateTo;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
+    }
+
     public List<Filter> getFilters() {
         return filters;
     }
@@ -38,7 +59,4 @@ public class NewsSearch {
         return search;
     }
 
-    public void setSearch(String search) {
-        this.search = search;
-    }
 }
