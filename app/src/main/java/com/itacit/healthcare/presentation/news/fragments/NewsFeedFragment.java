@@ -34,6 +34,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.subjects.BehaviorSubject;
@@ -47,8 +48,13 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 	@Bind(R.id.recycler_view_FN)			RecyclerView newsRecyclerView;
 
 	private NewsAdapter newsAdapter;
-	private NewsSearchAdapter newsSearchAdapter;
 	private ProgressDialog progressDialog;
+
+	@OnClick(R.id.ib_clear_FN)
+	void clearSearch() {
+		searchNewsView.removeFilters();
+		presenter.loadNews();
+	}
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {

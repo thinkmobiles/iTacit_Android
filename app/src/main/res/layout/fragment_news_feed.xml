@@ -22,11 +22,22 @@
             android:layout_marginLeft="@dimen/layout_search_margin"
             android:src="@drawable/ic_search"/>
 
+        <ImageButton
+            android:id="@+id/ib_clear_FN"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/layout_search_margin"
+            android:background="@color/bg_grey"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_del_search"
+            android:visibility="visible"/>
+
         <com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText
             android:id="@+id/et_search_FN"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_toLeftOf="@+id/ib_close_FN"
+            android:layout_toLeftOf="@id/ib_clear_FN"
             android:layout_toRightOf="@+id/ib_search_FN"
             android:background="@color/bg_grey"
             android:textSize="14sp"
@@ -36,17 +47,6 @@
             android:popupBackground="@android:color/white"
             android:layout_centerVertical="true"
             android:hint="@string/search_hint"/>
-
-        <ImageButton
-            android:id="@+id/ib_close_FN"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/layout_search_margin"
-            android:background="@color/bg_grey"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_del_search"
-            android:visibility="visible"/>
 
     </RelativeLayout>
 

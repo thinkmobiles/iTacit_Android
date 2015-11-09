@@ -31,8 +31,12 @@ public class GetNewsUseCase extends GetListUseCase<News> {
     }
 
     public void execute(Subscriber<List<News>> useCaseSubscriber, String query) {
-        NewsSearch search = new NewsSearch();
-        search.setSearch(query);
+        if (query == null ){
+            super.execute(useCaseSubscriber);
+        } else {
+            query = SEARCH_PREFIX + query;
+            super.execute(useCaseSubscriber, query);
+        }
     }
 
     public void execute(Subscriber<List<News>> useCaseSubscriber, NewsSearch search) {
