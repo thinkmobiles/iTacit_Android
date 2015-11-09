@@ -23,11 +23,13 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
 	private Context context;
 	private List<CategoryModel> categories;
+	private List<Long> selectedCategoriesIds;
 	private OnCategoriesItemSelectedListener categoriesItemSelectedListener;
 
-	public CategoriesAdapter(Context context, List<CategoryModel> categories) {
+	public CategoriesAdapter(Context context, List<CategoryModel> categories, List<Long> selectedCategoriesIds) {
 		this.context = context;
 		this.categories = categories;
+		this.selectedCategoriesIds = selectedCategoriesIds;
 		setHasStableIds(true);
 	}
 
@@ -42,6 +44,11 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 	public void onBindViewHolder(ViewHolder holder, int position) {
 		CategoryModel categoryModel = categories.get(position);
 		holder.tvName.setText(categoryModel.getName());
+		if (selectedCategoriesIds.contains(categoryModel.getId())) {
+			holder.ivFilter.setVisibility(View.VISIBLE);
+		} else {
+			holder.ivFilter.setVisibility(View.INVISIBLE);
+		}
 	}
 
 	@Override
@@ -77,6 +84,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 		public void onClick(View v) {
 			if (categoriesItemSelectedListener != null) {
 				categoriesItemSelectedListener.onCategoriesItemSelected(getItemId());
+				ivFilter.setVisibility(View.VISIBLE);
 			}
 		}
 	}

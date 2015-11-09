@@ -113,14 +113,26 @@
                     android:src="@drawable/ic_drop"/>
             </RelativeLayout>
 
-            <android.support.v7.widget.RecyclerView
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_author_title_FNS">
+
+                <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view_authors_FNS"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/rl_author_title_FNS"
+                android:layout_marginRight="@dimen/main_margin"
                 android:background="@android:color/white"/>
-   
+
+            </RelativeLayout>
         </RelativeLayout>
+
+	    <View
+		        android:id="@+id/line_separator2_FNS"
+		        style="@style/line_separator"
+		        android:layout_marginRight="@dimen/main_margin"
+		        android:layout_marginTop="5dp"/>
 
         <RelativeLayout
             android:id="@+id/rl_category_FNS"
@@ -172,13 +184,19 @@
 
             </RelativeLayout>
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_category_title_FNS">
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view_categories_FNS"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/rl_category_title_FNS"
+                android:layout_marginRight="@dimen/main_margin"
                 android:background="@android:color/white"/>
 
+            </RelativeLayout>
         </RelativeLayout>
 
         <RelativeLayout
