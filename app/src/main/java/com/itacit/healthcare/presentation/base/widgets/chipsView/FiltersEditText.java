@@ -364,7 +364,6 @@ public class FiltersEditText extends AutoCompleteTextView {
         return x;
     }
 
-
     public List<Filter> getSelectedFilters() {
         ArrayList<Filter> filters = new ArrayList<>();
         for (VisibleFilterChip chip : getSortedChips()) {
@@ -373,16 +372,15 @@ public class FiltersEditText extends AutoCompleteTextView {
         return filters;
     }
 
-
     private class FiltersTextWatcher implements TextWatcher {
         private boolean remove;
         private int chipStart;
         @Override
         public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
-            remove = getInputText().isEmpty() && count > after;
-            if (remove) {
-                chipStart = getText().getSpanStart(getLastChip());
-            }
+//            remove = getInputText().isEmpty() && count > after;
+//            if (remove) {
+//                chipStart = getText().getSpanStart(getLastChip());
+//            }
         }
 
         @Override
@@ -413,10 +411,10 @@ public class FiltersEditText extends AutoCompleteTextView {
                 for (final VisibleFilterChip chip : chips)
                     spannable.removeSpan(chip);
             }
-
-            if (remove) {
-                s.delete(chipStart, s.length());
-            }
+//
+//            if (remove) {
+//                s.delete(chipStart, s.length());
+//            }
 
         }
     }

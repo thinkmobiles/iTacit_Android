@@ -43,8 +43,9 @@ public class NewsFeedPresenter extends BasePresenter<INewsFeedView> implements I
     }
 
     private void searchNews(NewsSearch search) {
-        if (getView()!= null) getView().showFilters(search.getFilters());
-
+        if (search.getFilters() != null) {
+            if (getView() != null) getView().showFilters(search.getFilters());
+        }
         getNewsUseCase.execute(new NewsListSubscriber(), search);
     }
 
@@ -54,7 +55,7 @@ public class NewsFeedPresenter extends BasePresenter<INewsFeedView> implements I
 
     @Override
     public void loadNews() {
-        if(getView() != null) getView().showProgress();
+        if (getView() != null) getView().showProgress();
         getNewsUseCase.execute(new NewsListSubscriber());
     }
 
