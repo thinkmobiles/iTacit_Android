@@ -1,5 +1,6 @@
 package com.itacit.healthcare.presentation.news.presenters;
 
+import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.news.models.NewsSearch;
 
 /**

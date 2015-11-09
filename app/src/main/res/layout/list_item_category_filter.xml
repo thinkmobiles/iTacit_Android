@@ -7,10 +7,10 @@
 
     <ImageView
         android:id="@+id/iv_filter_IAF"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="@dimen/margin_sides"
+        android:layout_height="@dimen/margin_sides"
         android:layout_gravity="center_vertical"
-        android:src="@android:drawable/checkbox_on_background"
+        android:src="@drawable/ic_check"
         android:visibility="invisible"
         android:layout_margin="@dimen/text_margin"/>
 

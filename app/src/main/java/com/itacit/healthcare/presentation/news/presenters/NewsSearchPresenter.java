@@ -52,6 +52,7 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
     protected void onViewAttach() {
         compositeSubscription.add(getSearchObs().subscribe(this::getAuthors, e -> e.printStackTrace()));
         compositeSubscription.add(getSearchObs().subscribe(this::getCategories, e -> e.printStackTrace()));
+        compositeSubscription.add(getView().getFilterRemovedObs().subscribe(this::removeChip, e -> e.printStackTrace()));
     }
 
     private Observable<String> getSearchObs() {
@@ -81,7 +82,17 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
         getCategoriesUseCase.execute(new GetCategoriesSubscriber(), query);
     }
 
-    @Override
+	private void removeChip(Filter filter) {
+
+		switch (filter.getFilterType()) {
+			case Author: if (getView() != null) getView().unselectAuthor(filter.getId());
+				break;
+			case Category: if (getView() != null) getView().unselectCategory(filter.getId());
+				break;
+		}
+	}
+
+	@Override
     public void selectAuthorFilterById(long id) {
         for (AuthorModel authorModel : authorModels) {
             if (authorModel.getId() == id) {
@@ -139,7 +150,7 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
         }
 
         if (fromDate == null) {
-            if (getView() != null) getView().showInvalidDateWarning();
+            if (getView() != null) getView().showSelectDateWarning();
             return false;
         }
 

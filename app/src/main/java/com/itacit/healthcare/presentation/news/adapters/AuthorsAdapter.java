@@ -27,12 +27,14 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.ViewHold
 
 	private Context context;
 	private List<AuthorModel> authors;
+	private List<Long> selectedAuthorsIds;
 	private Picasso picasso;
 	private OnAuthorsItemSelectedListener authorsItemSelectedListener;
 
-	public AuthorsAdapter(Context context, List<AuthorModel> authors) {
+	public AuthorsAdapter(Context context, List<AuthorModel> authors, List<Long> selectedAuthorsIds) {
 		this.context = context;
 		this.authors = authors;
+		this.selectedAuthorsIds = selectedAuthorsIds;
 		OkHttpClient picassoClient = new OkHttpClient();
 		picassoClient.interceptors().add(new AuthInterceptor());
 		picasso = new Picasso.Builder(context)
@@ -55,6 +57,11 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.ViewHold
 		picasso.load(authorModel.getImageUri()).into(holder.ivIcon);
 		holder.tvName.setText(authorModel.getFullName());
 		holder.tvPosition.setText(authorModel.getRole());
+		if (selectedAuthorsIds.contains(authorModel.getId())) {
+			holder.ivFilter.setVisibility(View.VISIBLE);
+		} else {
+			holder.ivFilter.setVisibility(View.INVISIBLE);
+		}
 	}
 
 	@Override
@@ -95,6 +102,7 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.ViewHold
 		public void onClick(View v) {
 			if (authorsItemSelectedListener != null) {
 				authorsItemSelectedListener.onAuthorsItemSelected(getItemId());
+				ivFilter.setVisibility(View.VISIBLE);
 			}
 		}
 	}

@@ -36,7 +36,7 @@ import rx.subjects.Subject;
  */
 public class FiltersEditText extends AutoCompleteTextView {
 
-    private final Subject<VisibleFilterChip, VisibleFilterChip> mChipRemovedSubject = PublishSubject.create();
+    private final Subject<Filter, Filter> mChipRemovedSubject = PublishSubject.create();
     private final float mChipHeightDp = 32;
     private final float mBgPaddingLeftDp = 12;
     private final float mBgPaddingRightDp = 8;
@@ -60,7 +60,7 @@ public class FiltersEditText extends AutoCompleteTextView {
         return -1;
     }
 
-    public Subject<VisibleFilterChip, VisibleFilterChip> getChipRemovedSubject() {
+    public Subject<Filter, Filter> getChipRemovedSubject() {
         return mChipRemovedSubject;
     }
 
@@ -249,7 +249,7 @@ public class FiltersEditText extends AutoCompleteTextView {
             text.delete(spanStart, toDelete);
         }
 
-        mChipRemovedSubject.onNext(chip);
+        mChipRemovedSubject.onNext(chip.getFilter());
     }
 
     @Override
