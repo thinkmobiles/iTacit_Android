@@ -75,11 +75,25 @@ public abstract class BaseActivity extends AppCompatActivity {
             transaction.addToBackStack(fragmentClass.getName());
         }
 
-        transaction.commitAllowingStateLoss();
+        transaction.commit();
     }
 
     public void switchContent(Class<?> fragmentClass, boolean addToBackStack) {
         switchContent(fragmentClass, addToBackStack, null);
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        int count = getFragmentManager().getBackStackEntryCount();
+
+        if (count == 0) {
+            super.onBackPressed();
+            //additional code
+        } else {
+            getFragmentManager().popBackStack();
+        }
+
     }
 
 }

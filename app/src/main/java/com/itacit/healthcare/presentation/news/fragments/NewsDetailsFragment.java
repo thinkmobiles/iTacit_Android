@@ -8,6 +8,7 @@ import android.graphics.Shader;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.Html;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -54,6 +55,17 @@ public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter> 
                 .downloader(new OkHttpDownloader(picassoClient))
                 .build();
         presenter.loadNewsDetails();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                activity.onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

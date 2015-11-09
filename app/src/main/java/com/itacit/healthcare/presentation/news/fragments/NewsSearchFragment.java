@@ -2,6 +2,7 @@ package com.itacit.healthcare.presentation.news.fragments;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -96,6 +97,17 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
             case R.id.iv_expand_category_FNS:
                 toggleListVisibility(categoriesRv, ivExpandCategory);
                 break;
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                activity.onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
