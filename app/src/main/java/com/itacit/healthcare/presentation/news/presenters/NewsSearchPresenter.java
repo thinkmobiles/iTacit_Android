@@ -134,7 +134,16 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
 
     @Override
     public boolean isDateValid() {
-        if (fromDate == null || toDate == null) {
+        if (fromDate == null && toDate == null) {
+            return true;
+        }
+
+        if (fromDate == null) {
+            if (getView() != null) getView().showInvalidDateWarning();
+            return false;
+        }
+
+        if (toDate == null) {
             return true;
         }
 
