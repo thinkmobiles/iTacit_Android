@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by root on 13.10.15.
@@ -34,7 +35,8 @@ public class NewsFeedPresenter extends BasePresenter<INewsFeedView> implements I
             compositeSubscription.add(getView().getNewsSearchTextObs()
                     .filter(text -> text.length() >= SEARCH_TEXT_MIN_LENGTH)
                     .debounce(1, TimeUnit.SECONDS)
-                    .subscribe(this::showSearchHints));
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(this::searchNews));
 
             compositeSubscription.add(getView().getNewsSearch().subscribe(this::searchNews));
         }
@@ -58,22 +60,8 @@ public class NewsFeedPresenter extends BasePresenter<INewsFeedView> implements I
 
     @Override
     public void searchNews(String query) {
-
+        getNewsUseCase.execute(new NewsListSubscriber(), query);
     }
-
-	private void showSearchHints(String searchWord) {
-
-		List<NewsModel> resultNewsModels = new ArrayList<>();
-
-		for (NewsModel model : newsModels) {
-			if (model.getHeadline().contains(searchWord)) {
-				resultNewsModels.add(model);
-			}
-		}
-		if (!resultNewsModels.isEmpty()) {
-			if (getView() != null) getView().showSearchResults(resultNewsModels);
-		}
-	}
 
     private final class NewsListSubscriber extends Subscriber<List<News>> {
 

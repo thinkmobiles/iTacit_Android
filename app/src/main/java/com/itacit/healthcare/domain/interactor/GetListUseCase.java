@@ -25,6 +25,12 @@ public abstract class GetListUseCase<T> extends UseCase<List<T>> {
         super.execute(useCaseSubscriber);
     }
 
+    @Override
+    public void execute(Subscriber<List<T>> useCaseSubscriber) {
+        listRequest.setQuery(null);
+        super.execute(useCaseSubscriber);
+    }
+
     protected abstract Observable<ListResponse<T>> request();
 
     @Override

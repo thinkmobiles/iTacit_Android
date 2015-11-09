@@ -16,6 +16,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.widget.AutoCompleteTextView;
 import android.widget.MultiAutoCompleteTextView;
 
 import com.itacit.healthcare.R;
@@ -33,7 +34,7 @@ import rx.subjects.Subject;
 /**
  * Created by root on 22.10.15.
  */
-public class FiltersEditText extends MultiAutoCompleteTextView {
+public class FiltersEditText extends AutoCompleteTextView {
 
     private final Subject<VisibleFilterChip, VisibleFilterChip> mChipRemovedSubject = PublishSubject.create();
     private final float mChipHeightDp = 32;

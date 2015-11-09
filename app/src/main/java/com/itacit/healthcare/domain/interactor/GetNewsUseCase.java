@@ -30,6 +30,14 @@ public class GetNewsUseCase extends GetListUseCase<News> {
         super(startIndex, rowCounts);
     }
 
+    public void execute(Subscriber<List<News>> useCaseSubscriber, String query) {
+        if (query == null ){
+            super.execute(useCaseSubscriber);
+        } else {
+            query = SEARCH_PREFIX + query;
+            super.execute(useCaseSubscriber, query);
+        }
+    }
 
     public void execute(Subscriber<List<News>> useCaseSubscriber, NewsSearch search) {
         String query = "";
@@ -37,39 +45,41 @@ public class GetNewsUseCase extends GetListUseCase<News> {
             query = SEARCH_PREFIX + search.getSearch();
         }
 
-        String authorsIds = "";
-        String categoriesIds = "";
-        for (Filter filter :search.getFilters()) {
-            switch (filter.getFilterType()) {
-                case Author:
-                    if (!authorsIds.isEmpty()) {
-                        authorsIds += ",";
-                    }
-                    authorsIds+=String.valueOf(filter.getId());
-                    break;
-                case Category:
-                    if (!categoriesIds.isEmpty()) {
-                        categoriesIds += ",";
-                    }
-                    categoriesIds+=String.valueOf(filter.getId());
-                    break;
-            }
-        }
-
-        if (!authorsIds.isEmpty()) {
-            if (!query.isEmpty()) {
-                query += "|";
+        if (search.getFilters() != null) {
+            String authorsIds = "";
+            String categoriesIds = "";
+            for (Filter filter : search.getFilters()) {
+                switch (filter.getFilterType()) {
+                    case Author:
+                        if (!authorsIds.isEmpty()) {
+                            authorsIds += ",";
+                        }
+                        authorsIds += String.valueOf(filter.getId());
+                        break;
+                    case Category:
+                        if (!categoriesIds.isEmpty()) {
+                            categoriesIds += ",";
+                        }
+                        categoriesIds += String.valueOf(filter.getId());
+                        break;
+                }
             }
 
-            query += AUTHORS_PREFIX + authorsIds;
-        }
+            if (!authorsIds.isEmpty()) {
+                if (!query.isEmpty()) {
+                    query += "|";
+                }
 
-        if (!categoriesIds.isEmpty()) {
-            if (!query.isEmpty()) {
-                query += "|";
+                query += AUTHORS_PREFIX + authorsIds;
             }
 
-            query += CATEGORY_PREFIX + categoriesIds;
+            if (!categoriesIds.isEmpty()) {
+                if (!query.isEmpty()) {
+                    query += "|";
+                }
+
+                query += CATEGORY_PREFIX + categoriesIds;
+            }
         }
 
         String date = "";

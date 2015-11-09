@@ -2,6 +2,7 @@ package com.itacit.healthcare.presentation.news.fragments;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -105,6 +106,17 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                activity.onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     protected void setUpView() {
         preventRootScroll(authorsRv);
         preventRootScroll(categoriesRv);
@@ -130,6 +142,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 
     @Override
     protected void setUpActionBar(ActionBar actionBar) {
+        activity.setActionBarShadowVisibile(true);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(R.string.title_news_filter);
 

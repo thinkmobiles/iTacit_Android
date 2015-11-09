@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 
 import com.itacit.healthcare.R;
@@ -28,10 +29,12 @@ import com.itacit.healthcare.presentation.news.presenters.NewsFeedPresenter;
 import com.itacit.healthcare.presentation.news.views.INewsFeedView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.subjects.BehaviorSubject;
@@ -41,25 +44,16 @@ import rx.subjects.BehaviorSubject;
  * Created by root on 13.10.15.
  */
 public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implements INewsFeedView {
-	@Bind(R.id.et_search_FN)
-	FiltersEditText searchNewsView;
+	@Bind(R.id.et_search_FN)				FiltersEditText searchNewsView;
+	@Bind(R.id.recycler_view_FN)			RecyclerView newsRecyclerView;
 
-	@Bind(R.id.recycler_view_FN)
-	RecyclerView newsRecyclerView;
-	@Bind(R.id.ib_search_FN)
-	ImageButton ibSearch;
-	@Bind(R.id.ib_close_FN)
-	ImageButton ibClose;
-	@Bind(R.id.recycler_view_search_FN)
-	RecyclerView newsSearchRecyclerView;
 	private NewsAdapter newsAdapter;
-	private NewsSearchAdapter newsSearchAdapter;
 	private ProgressDialog progressDialog;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
+	@OnClick(R.id.ib_clear_FN)
+	void clearSearch() {
+		searchNewsView.removeFilters();
+		presenter.loadNews();
 	}
 
 	@Override
@@ -72,11 +66,11 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 	protected void setUpView() {
 		LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
 		newsRecyclerView.setLayoutManager(layoutManager);
-		newsSearchRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 	}
 
 	@Override
 	protected void setUpActionBar(ActionBar actionBar) {
+		activity.setActionBarShadowVisibile(false);
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setTitle(R.string.title_news_feed);
 
@@ -110,7 +104,6 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 			default:
 				return super.onOptionsItemSelected(item);
 		}
-
 	}
 
 	@Override
@@ -118,6 +111,13 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 		newsAdapter = new NewsAdapter(getActivity(), news);
 		newsRecyclerView.setAdapter(newsAdapter);
 		newsAdapter.setOnNewsItemSelectedListener(this::showNewsItemDetails);
+
+		ArrayList<String> headers = new ArrayList<>(news.size());
+		for(NewsModel newsModel : news) {
+			headers.add(newsModel.getHeadline());
+		}
+
+		searchNewsView.setAdapter(new ArrayAdapter<>(activity, R.layout.list_item_search_news, headers));
 	}
 
     @Override
@@ -160,24 +160,4 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
     public BehaviorSubject<NewsSearch> getNewsSearch() {
         return ((NewsActivity)activity).getSearchNews();
     }
-	@Override
-	public void showSearchResults(List<NewsModel> newsModels) {
-		newsSearchRecyclerView.setVisibility(View.VISIBLE);
-		newsSearchAdapter = new NewsSearchAdapter(getActivity(), newsModels);
-		newsSearchRecyclerView.setAdapter(newsSearchAdapter);
-	}
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		// TODO: inflate a fragment view
-		View rootView = super.onCreateView(inflater, container, savedInstanceState);
-		ButterKnife.bind(this, rootView);
-		return rootView;
-	}
-
-	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-		ButterKnife.unbind(this);
-	}
 }
