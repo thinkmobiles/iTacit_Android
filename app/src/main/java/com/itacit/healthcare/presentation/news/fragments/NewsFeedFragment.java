@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ArrayAdapter;
 
 import com.itacit.healthcare.R;
@@ -45,6 +47,12 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 
 	@OnClick(R.id.ib_clear_FN)
 	void clearSearch() {
+		searchNewsView.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				return false;
+			}
+		});
 		searchNewsView.removeFilters();
 		presenter.loadNews();
 	}
@@ -113,6 +121,13 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 		searchNewsView.post(new Runnable() {
 			@Override
 			public void run() {
+				searchNewsView.setOnTouchListener(new View.OnTouchListener() {
+					@Override
+					public boolean onTouch(View v, MotionEvent event) {
+						return true;
+					}
+				});
+
 				for (Filter filter : filters) {
 					searchNewsView.addFilter(filter);
 				}
