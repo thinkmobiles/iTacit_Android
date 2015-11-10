@@ -1,6 +1,6 @@
 package com.itacit.healthcare.domain.interactor;
 
-import com.itacit.healthcare.data.network.AuthManager;
+import com.itacit.healthcare.data.network.services.AuthService;
 
 import rx.Observable;
 
@@ -19,6 +19,6 @@ public class LoginUseCase extends UseCase {
 
     @Override
     protected Observable buildUseCaseObservable() {
-        return AuthManager.login(userName, password);
+        return AuthService.login(userName, password);
     }
 }

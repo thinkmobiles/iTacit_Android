@@ -1,4 +1,4 @@
-package com.itacit.healthcare.data.network;
+package com.itacit.healthcare.data.network.services;
 
 import com.itacit.healthcare.data.network.interceptors.AuthInterceptor;
 import com.itacit.healthcare.data.network.interceptors.Logger;

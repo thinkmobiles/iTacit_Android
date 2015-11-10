@@ -1,27 +1,35 @@
-package com.itacit.healthcare.data.network;
+package com.itacit.healthcare.data.network.services;
 
-import com.itacit.healthcare.data.network.api.AuthApi;
 import com.itacit.healthcare.data.entries.AccessToken;
 
 import java.io.IOException;
 
 import retrofit.Call;
+import retrofit.http.Headers;
+import retrofit.http.POST;
+import retrofit.http.Query;
 import rx.Observable;
 
 
 /**
  * Created by root on 28.10.15.
  */
-public abstract class AuthManager {
+public abstract class AuthService {
     private static final String CLIENT_ID = "MOBILESANDBOX";
     private static final String GRANT_TYPE_PASS = "password";
     private static final String GRANT_TYPE_TOKEN = "refresh_token";
 
-    public static AccessToken accessToken;
+    private static AccessToken accessToken;
     private static AuthApi authApi;
+
+
     private static AuthApi getService() {
         if (authApi == null) authApi = ServiceGenerator.createService(AuthApi.class);
         return authApi;
+    }
+
+    public static AccessToken getAccessToken() {
+        return accessToken;
     }
 
     public static Observable<Boolean> login(String userName, String password) {
@@ -43,4 +51,15 @@ public abstract class AuthManager {
         return accessToken;
     }
 
+    public interface AuthApi {
+        @Headers("Content-Type: application/json")
+        @POST("/mobile/oauth/token")
+        Observable<AccessToken> login(@Query("client_id") String clientId, @Query("username") String userName,
+                                      @Query("password") String password, @Query("grant_type") String grantType);
+
+        @Headers("Content-Type: application/json")
+        @POST("/mobile/oauth/token")
+        Call<AccessToken> refreshToken(@Query("client_id") String clientId,  @Query("grant_type") String grantType,
+                                       @Query("refresh_token") String refreshToken);
+    }
 }

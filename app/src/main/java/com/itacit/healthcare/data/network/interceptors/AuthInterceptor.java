@@ -1,6 +1,6 @@
 package com.itacit.healthcare.data.network.interceptors;
 
-import com.itacit.healthcare.data.network.AuthManager;
+import com.itacit.healthcare.data.network.services.AuthService;
 import com.itacit.healthcare.global.bus.RxBus;
 import com.itacit.healthcare.global.errors.AuthError;
 import com.squareup.okhttp.Interceptor;
@@ -18,7 +18,7 @@ public class AuthInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request original = chain.request();
-        if (AuthManager.accessToken == null) {
+        if (AuthService.getAccessToken() == null) {
             Response resp = chain.proceed(original);
             RxBus.getInstance().send(new AuthError(resp.message()));
             return resp;
@@ -28,7 +28,7 @@ public class AuthInterceptor implements Interceptor {
         Response response = chain.proceed(request);
 
         if(response.code() == 401) {
-            AuthManager.refreshToken();
+            AuthService.refreshToken();
             Request newRequest = addTokenHeader(original);
             response = chain.proceed(newRequest);
         }
@@ -40,7 +40,7 @@ public class AuthInterceptor implements Interceptor {
         Request.Builder builder = original.newBuilder();
 
         return builder
-                .header(AUTH_HEADER, AuthManager.accessToken.getTokenType() + " " + AuthManager.accessToken.getAccessToken())
+                .header(AUTH_HEADER, AuthService.getAccessToken().getTokenType() + " " + AuthService.getAccessToken().getAccessToken())
                 .method(original.method(), original.body())
                 .build();
     }

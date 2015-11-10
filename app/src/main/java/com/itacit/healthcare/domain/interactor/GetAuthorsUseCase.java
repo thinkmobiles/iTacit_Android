@@ -1,9 +1,7 @@
 package com.itacit.healthcare.domain.interactor;
 
 import com.itacit.healthcare.data.entries.Author;
-import com.itacit.healthcare.data.network.AuthManager;
-import com.itacit.healthcare.data.network.ServiceGenerator;
-import com.itacit.healthcare.data.network.api.NewsApi;
+import com.itacit.healthcare.data.network.services.NewsService;
 import com.itacit.healthcare.data.network.response.ListResponse;
 
 import java.util.List;
@@ -28,8 +26,7 @@ public class GetAuthorsUseCase extends GetListUseCase<Author> {
 
     @Override
     protected Observable<ListResponse<Author>> request() {
-        return ServiceGenerator.createService(NewsApi.class, AuthManager.accessToken)
-                .getAuthors(listRequest);
+        return NewsService.getApi().getAuthors(listRequest);
     }
 
 }
