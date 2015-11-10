@@ -67,7 +67,7 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 	@Override
 	protected void setUpActionBar(ActionBar actionBar) {
 		actionBar.setHomeAsUpIndicator(R.drawable.btn_back);
-		activity.setActionBarShadowVisibile(false);
+		activity.setActionBarShadowVisible(false);
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setTitle(R.string.title_news_feed);
 

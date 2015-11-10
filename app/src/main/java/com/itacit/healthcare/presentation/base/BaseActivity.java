@@ -37,6 +37,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     @Bind(R.id.action_bar_shadow)
     View actionBarShadow;
 
+    public void setActionBarShadowVisible(boolean visible) {
+        actionBarShadow.setVisibility(visible ? View.VISIBLE : View.GONE);
 //    For navigation drawer
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;

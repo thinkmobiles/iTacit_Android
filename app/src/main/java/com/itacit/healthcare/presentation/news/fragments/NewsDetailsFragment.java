@@ -61,7 +61,7 @@ public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter> 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                activity.onBackPressed();
+                activity.switchContent(NewsFeedFragment.class, false);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -75,7 +75,7 @@ public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter> 
 
     @Override
     protected void setUpActionBar(ActionBar actionBar) {
-        activity.setActionBarShadowVisibile(true);
+        activity.setActionBarShadowVisible(true);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(R.string.title_news_feed);
 
