@@ -11,7 +11,9 @@
         android:paddingBottom="@dimen/layout_search_margin"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true">
+        android:layout_alignParentLeft="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <ImageButton
             android:id="@+id/ib_search_FN"
@@ -47,6 +49,8 @@
             android:dropDownWidth="match_parent"
             android:popupBackground="@android:color/white"
             android:layout_centerVertical="true"
+            android:nextFocusUp="@id/rl_news_header_FNF"
+            android:nextFocusLeft="@id/rl_news_header_FNF"
             android:hint="@string/search_hint"/>
 
     </RelativeLayout>
