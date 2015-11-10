@@ -15,6 +15,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -27,14 +28,13 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.ViewHold
 
 	private Context context;
 	private List<AuthorModel> authors;
-	private List<Long> selectedAuthorsIds;
+	private List<Long> selectedAuthorsIds = new ArrayList<>();
 	private Picasso picasso;
 	private OnAuthorsItemSelectedListener authorsItemSelectedListener;
 
-	public AuthorsAdapter(Context context, List<AuthorModel> authors, List<Long> selectedAuthorsIds) {
+	public AuthorsAdapter(Context context, List<AuthorModel> authors) {
 		this.context = context;
 		this.authors = authors;
-		this.selectedAuthorsIds = selectedAuthorsIds;
 		OkHttpClient picassoClient = new OkHttpClient();
 		picassoClient.interceptors().add(new AuthInterceptor());
 		picasso = new Picasso.Builder(context)
@@ -47,7 +47,7 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.ViewHold
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		View view = LayoutInflater.from(context)
 				.inflate(R.layout.list_item_author_filter, parent, false);
-		return new ViewHolder(view, authorsItemSelectedListener);
+		return new ViewHolder(view);
 	}
 
 	@Override
@@ -55,6 +55,22 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.ViewHold
 
 		AuthorModel authorModel = authors.get(position);
 		picasso.load(authorModel.getImageUri()).into(holder.ivIcon);
+		holder.view.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				boolean isSelected = selectedAuthorsIds.contains(authorModel.getId());
+				if (isSelected) {
+					selectedAuthorsIds.remove(authorModel.getId());
+					authorsItemSelectedListener.onAutrorDiselected(authorModel.getId());
+				} else {
+					selectedAuthorsIds.add(authorModel.getId());
+					authorsItemSelectedListener.onAuthorsSelected(authorModel.getId());
+				}
+
+				isSelected = !isSelected;
+				holder.ivFilter.setVisibility(isSelected ? View.VISIBLE : View.INVISIBLE);
+			}
+		});
 		holder.tvName.setText(authorModel.getFullName());
 		holder.tvPosition.setText(authorModel.getRole());
 		if (selectedAuthorsIds.contains(authorModel.getId())) {
@@ -62,6 +78,10 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.ViewHold
 		} else {
 			holder.ivFilter.setVisibility(View.INVISIBLE);
 		}
+	}
+
+	public List<Long> getSelectedAuthorsIds() {
+		return selectedAuthorsIds;
 	}
 
 	@Override
@@ -78,7 +98,7 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.ViewHold
 		this.authorsItemSelectedListener = listener;
 	}
 
-	public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+	public static class ViewHolder extends RecyclerView.ViewHolder {
 
 		@Bind(R.id.iv_filter_IAF)
 		ImageView ivFilter;
@@ -89,25 +109,18 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.ViewHold
 		@Bind(R.id.tv_position_IAF)
 		TextView tvPosition;
 
-		private OnAuthorsItemSelectedListener authorsItemSelectedListener;
+		public View view;
 
-		public ViewHolder(View itemView, OnAuthorsItemSelectedListener listener) {
+
+		public ViewHolder(View itemView) {
 			super(itemView);
 			ButterKnife.bind(this, itemView);
-			itemView.setOnClickListener(this);
-			authorsItemSelectedListener = listener;
-		}
-
-		@Override
-		public void onClick(View v) {
-			if (authorsItemSelectedListener != null) {
-				authorsItemSelectedListener.onAuthorsItemSelected(getItemId());
-				ivFilter.setVisibility(View.VISIBLE);
-			}
+			view = itemView;
 		}
 	}
 
 	public interface OnAuthorsItemSelectedListener {
-		void onAuthorsItemSelected(long authorId);
+		void onAuthorsSelected(long authorId);
+		void onAutrorDiselected(long authorId);
 	}
 }

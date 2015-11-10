@@ -407,7 +407,7 @@ public class FiltersEditText extends AutoCompleteTextView {
         private int chipStart;
         @Override
         public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
-//            remove = getInputText().isEmpty() && count > after;
+            remove = getInputText().isEmpty() && count > after;
 //            if (remove) {
 //                chipStart = getText().getSpanStart(getLastChip());
 //            }
@@ -441,10 +441,11 @@ public class FiltersEditText extends AutoCompleteTextView {
                 for (final VisibleFilterChip chip : chips)
                     spannable.removeSpan(chip);
             }
-//
-//            if (remove) {
+
+            if (remove) {
 //                s.delete(chipStart, s.length());
-//            }
+                removeChip(getLastChip());
+            }
 
         }
     }

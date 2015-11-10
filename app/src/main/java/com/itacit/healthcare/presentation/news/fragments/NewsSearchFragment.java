@@ -44,7 +44,7 @@ import rx.Observable;
 /**
  * Created by root on 21.10.15.
  */
-public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> implements INewsSearchView {
+public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> implements INewsSearchView, AuthorsAdapter.OnAuthorsItemSelectedListener {
     @Bind(R.id.sv_root_FNS)                     ScrollView rootSv;
     @Bind(R.id.et_serch_FNS)                    FiltersEditText searchFiltersEt;
     @Bind(R.id.tv_count_author_FNS)             TextView tvCountAuthor;
@@ -58,8 +58,8 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 
 	private AuthorsAdapter authorsAdapter;
 	private CategoriesAdapter categoriesAdapter;
-	private List<Long> selectedAuthorsIds = new ArrayList<>();
-	private List<Long> selectedCategoriesIds = new ArrayList<>();;
+
+	private List<Long> selectedCategoriesIds = new ArrayList<>();
 
     @OnClick(R.id.ib_clear_FNS)
     void onClearFilters() {
@@ -174,7 +174,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 
 	@Override
 	public void unselectAuthor(long id) {
-		selectedAuthorsIds.remove(id);
+		authorsAdapter.getSelectedAuthorsIds().remove(id);
 		authorsAdapter.notifyDataSetChanged();
 	}
 
@@ -290,9 +290,15 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 
     @Override
     public void showAuthors(List<AuthorModel> authors) {
-        authorsAdapter = new AuthorsAdapter(getActivity(), authors, selectedAuthorsIds);
+        authorsAdapter = new AuthorsAdapter(getActivity(), authors);
+        for (Filter filter : searchFiltersEt.getSelectedFilters()) {
+            authorsAdapter.getSelectedAuthorsIds().add(filter.getId());
+        }
+
         authorsRv.setAdapter(authorsAdapter);
-        authorsAdapter.setOnAuthorsItemSelectedListener(presenter::selectAuthorFilterById);
+        authorsAdapter.setOnAuthorsItemSelectedListener(this);
+
+
         tvCountAuthor.setText(String.valueOf(authors.size()));
     }
 
@@ -307,14 +313,20 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
     @Override
     public void addFilter(Filter filter) {
         searchFiltersEt.addFilter(filter, true);
+    }
 
-	    switch (filter.getFilterType()) {
-		    case Author:
-			    selectedAuthorsIds.add(filter.getId());
-			    break;
-		    case Category:
-			    selectedCategoriesIds.add(filter.getId());
-			    break;
-	    }
+    @Override
+    public void removeFilter(Filter filter) {
+        searchFiltersEt.removeFilter(filter);
+    }
+
+    @Override
+    public void onAuthorsSelected(long authorId) {
+        presenter.selectAuthorFilterById(authorId);
+    }
+
+    @Override
+    public void onAutrorDiselected(long authorId) {
+        presenter.unselectAuthorFilterBuId(authorId);
     }
 }

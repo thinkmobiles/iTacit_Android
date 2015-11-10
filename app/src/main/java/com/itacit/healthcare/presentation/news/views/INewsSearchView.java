@@ -22,6 +22,7 @@ public interface INewsSearchView extends IView {
 	void showAuthors(List<AuthorModel> authors);
 	void showCategories(List<CategoryModel> categories);
 	void addFilter(Filter filter);
+	void removeFilter(Filter filter);
 	void resetDate(DateType dateType);
 	void searchNews();
 	void showInvalidDateWarning();
