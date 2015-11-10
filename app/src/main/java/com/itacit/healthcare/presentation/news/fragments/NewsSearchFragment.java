@@ -34,7 +34,6 @@ import com.itacit.healthcare.presentation.news.presenters.NewsSearchPresenter;
 import com.itacit.healthcare.presentation.news.views.INewsSearchView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -110,7 +109,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                activity.onBackPressed();
+                activity.switchContent(NewsFeedFragment.class, false);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -141,7 +140,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 
     @Override
     protected void setUpActionBar(ActionBar actionBar) {
-        activity.setActionBarShadowVisibile(true);
+        activity.setActionBarShadowVisible(true);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(R.string.title_news_filter);
 

@@ -32,8 +32,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Bind(R.id.action_bar_shadow)
     View actionBarShadow;
 
-    public void setActionBarShadowVisibile(boolean visibile) {
-        actionBarShadow.setVisibility(visibile ? View.VISIBLE : View.GONE);
+    public void setActionBarShadowVisible(boolean visible) {
+        actionBarShadow.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
     @Override
