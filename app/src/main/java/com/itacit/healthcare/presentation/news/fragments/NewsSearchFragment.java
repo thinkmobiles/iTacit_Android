@@ -44,7 +44,8 @@ import rx.Observable;
 /**
  * Created by root on 21.10.15.
  */
-public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> implements INewsSearchView, AuthorsAdapter.OnAuthorsItemSelectedListener {
+public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> implements INewsSearchView,
+        AuthorsAdapter.OnAuthorsItemSelectedListener, CategoriesAdapter.OnCategoriesItemSelectedListener {
     @Bind(R.id.sv_root_FNS)                     ScrollView rootSv;
     @Bind(R.id.et_serch_FNS)                    FiltersEditText searchFiltersEt;
     @Bind(R.id.tv_count_author_FNS)             TextView tvCountAuthor;
@@ -58,8 +59,6 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 
 	private AuthorsAdapter authorsAdapter;
 	private CategoriesAdapter categoriesAdapter;
-
-	private List<Long> selectedCategoriesIds = new ArrayList<>();
 
     @OnClick(R.id.ib_clear_FNS)
     void onClearFilters() {
@@ -180,7 +179,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 
 	@Override
 	public void unselectCategory(long id) {
-		selectedCategoriesIds.remove(id);
+        categoriesAdapter.getSelectedCategoriesIds().remove(id);
 		categoriesAdapter.notifyDataSetChanged();
 	}
 
@@ -294,19 +293,19 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
         for (Filter filter : searchFiltersEt.getSelectedFilters()) {
             authorsAdapter.getSelectedAuthorsIds().add(filter.getId());
         }
-
         authorsRv.setAdapter(authorsAdapter);
         authorsAdapter.setOnAuthorsItemSelectedListener(this);
-
-
         tvCountAuthor.setText(String.valueOf(authors.size()));
     }
 
     @Override
     public void showCategories(List<CategoryModel> categories) {
-        categoriesAdapter = new CategoriesAdapter(getActivity(), categories, selectedCategoriesIds);
+        categoriesAdapter = new CategoriesAdapter(getActivity(), categories);
+        for (Filter filter : searchFiltersEt.getSelectedFilters()) {
+            categoriesAdapter.getSelectedCategoriesIds().add(filter.getId());
+        }
         categoriesRv.setAdapter(categoriesAdapter);
-        categoriesAdapter.setOnCategoriesItemSelectedListener(presenter::selectCategoryFilterById);
+        categoriesAdapter.setOnCategoriesItemSelectedListener(this);
         tvCountCategory.setText(String.valueOf(categories.size()));
     }
 
@@ -326,7 +325,17 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
     }
 
     @Override
-    public void onAutrorDiselected(long authorId) {
-        presenter.unselectAuthorFilterBuId(authorId);
+    public void onAuthorsDeselected(long authorId) {
+        presenter.unselectAuthorFilterById(authorId);
+    }
+
+    @Override
+    public void onCategoriesSelected(long categoryId) {
+        presenter.selectCategoryFilterById(categoryId);
+    }
+
+    @Override
+    public void onCategoriesDeselected(long categoryId) {
+        presenter.unselectCategoryFilterById(categoryId);
     }
 }

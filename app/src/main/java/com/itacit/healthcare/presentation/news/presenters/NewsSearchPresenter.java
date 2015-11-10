@@ -102,7 +102,7 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
         }
     }
 
-    public void unselectAuthorFilterBuId(long id) {
+    public void unselectAuthorFilterById(long id) {
         for (AuthorModel authorModel : authorModels) {
             if (authorModel.getId() == id) {
                 Filter filter = new Filter(id, authorModel.getFullName(), Filter.FilterType.Author);
@@ -117,6 +117,15 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
             if (categoryModel.getId() == id) {
                 Filter filter = new Filter(id, categoryModel.getName(), Filter.FilterType.Category);
                 if (getView() != null) getView().addFilter(filter);
+            }
+        }
+    }
+
+    public void unselectCategoryFilterById(long id) {
+        for (CategoryModel categoryModel : categoryModels) {
+            if (categoryModel.getId() == id) {
+                Filter filter = new Filter(id, categoryModel.getName(), Filter.FilterType.Category);
+                if (getView() != null) getView().removeFilter(filter);
             }
         }
     }

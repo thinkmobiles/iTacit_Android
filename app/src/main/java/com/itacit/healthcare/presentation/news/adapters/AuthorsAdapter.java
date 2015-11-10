@@ -61,7 +61,7 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.ViewHold
 				boolean isSelected = selectedAuthorsIds.contains(authorModel.getId());
 				if (isSelected) {
 					selectedAuthorsIds.remove(authorModel.getId());
-					authorsItemSelectedListener.onAutrorDiselected(authorModel.getId());
+					authorsItemSelectedListener.onAuthorsDeselected(authorModel.getId());
 				} else {
 					selectedAuthorsIds.add(authorModel.getId());
 					authorsItemSelectedListener.onAuthorsSelected(authorModel.getId());
@@ -121,6 +121,6 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.ViewHold
 
 	public interface OnAuthorsItemSelectedListener {
 		void onAuthorsSelected(long authorId);
-		void onAutrorDiselected(long authorId);
+		void onAuthorsDeselected(long authorId);
 	}
 }

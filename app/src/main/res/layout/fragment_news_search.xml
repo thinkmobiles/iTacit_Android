@@ -132,7 +132,7 @@
 		        android:id="@+id/line_separator2_FNS"
 		        style="@style/line_separator"
 		        android:layout_marginRight="@dimen/main_margin"
-		        android:layout_marginTop="5dp"/>
+		        android:layout_marginTop="15dp"/>
 
         <RelativeLayout
             android:id="@+id/rl_category_FNS"
