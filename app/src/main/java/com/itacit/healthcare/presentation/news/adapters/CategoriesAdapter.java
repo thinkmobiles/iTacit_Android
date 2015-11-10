@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.presentation.news.models.CategoryModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -23,13 +24,12 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
 	private Context context;
 	private List<CategoryModel> categories;
-	private List<Long> selectedCategoriesIds;
+	private List<Long> selectedCategoriesIds = new ArrayList<>();
 	private OnCategoriesItemSelectedListener categoriesItemSelectedListener;
 
-	public CategoriesAdapter(Context context, List<CategoryModel> categories, List<Long> selectedCategoriesIds) {
+	public CategoriesAdapter(Context context, List<CategoryModel> categories) {
 		this.context = context;
 		this.categories = categories;
-		this.selectedCategoriesIds = selectedCategoriesIds;
 		setHasStableIds(true);
 	}
 
@@ -37,18 +37,39 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		View view = LayoutInflater.from(context)
 				.inflate(R.layout.list_item_category_filter, parent, false);
-		return new ViewHolder(view, categoriesItemSelectedListener);
+		return new ViewHolder(view);
 	}
 
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
 		CategoryModel categoryModel = categories.get(position);
+		holder.view.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				boolean isSelected = selectedCategoriesIds.contains(categoryModel.getId());
+				if (isSelected) {
+					selectedCategoriesIds.remove(categoryModel.getId());
+					categoriesItemSelectedListener.onCategoriesDeselected(categoryModel.getId());
+				} else {
+					selectedCategoriesIds.add(categoryModel.getId());
+					categoriesItemSelectedListener.onCategoriesSelected(categoryModel.getId());
+				}
+
+				isSelected = !isSelected;
+				holder.ivFilter.setVisibility(isSelected ? View.VISIBLE : View.INVISIBLE);
+			}
+		});
+
 		holder.tvName.setText(categoryModel.getName());
 		if (selectedCategoriesIds.contains(categoryModel.getId())) {
 			holder.ivFilter.setVisibility(View.VISIBLE);
 		} else {
 			holder.ivFilter.setVisibility(View.INVISIBLE);
 		}
+	}
+
+	public List<Long> getSelectedCategoriesIds() {
+		return selectedCategoriesIds;
 	}
 
 	@Override
@@ -65,31 +86,24 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 		this.categoriesItemSelectedListener = listener;
 	}
 
-	public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+	public static class ViewHolder extends RecyclerView.ViewHolder{
 
 		@Bind(R.id.iv_filter_IAF)
 		ImageView ivFilter;
 		@Bind(R.id.tv_name_IAF)
 		TextView tvName;
-		private OnCategoriesItemSelectedListener categoriesItemSelectedListener;
 
-		public ViewHolder(View itemView, OnCategoriesItemSelectedListener listener) {
+		public View view;
+
+		public ViewHolder(View itemView) {
 			super(itemView);
 			ButterKnife.bind(this, itemView);
-			itemView.setOnClickListener(this);
-			categoriesItemSelectedListener = listener;
-		}
-
-		@Override
-		public void onClick(View v) {
-			if (categoriesItemSelectedListener != null) {
-				categoriesItemSelectedListener.onCategoriesItemSelected(getItemId());
-				ivFilter.setVisibility(View.VISIBLE);
-			}
+			view = itemView;
 		}
 	}
 
 	public interface OnCategoriesItemSelectedListener {
-		void onCategoriesItemSelected(long categoryId);
+		void onCategoriesSelected(long categoryId);
+		void onCategoriesDeselected(long categoryId);
 	}
 }
