@@ -52,6 +52,7 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
     protected void onViewAttach() {
         compositeSubscription.add(getSearchObs().subscribe(this::getAuthors, e -> e.printStackTrace()));
         compositeSubscription.add(getSearchObs().subscribe(this::getCategories, e -> e.printStackTrace()));
+        compositeSubscription.add(getView().getFilterRemovedObs().subscribe(this::removeFilter, e -> e.printStackTrace()));
     }
 
     private Observable<String> getSearchObs() {
@@ -81,12 +82,31 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
         getCategoriesUseCase.execute(new GetCategoriesSubscriber(), query);
     }
 
-    @Override
+	public void removeFilter(Filter filter) {
+		switch (filter.getFilterType()) {
+			case Author: if (getView() != null) getView().unselectAuthor(filter.getId());
+				break;
+			case Category: if (getView() != null) getView().unselectCategory(filter.getId());
+				break;
+		}
+	}
+
+
+	@Override
     public void selectAuthorFilterById(long id) {
         for (AuthorModel authorModel : authorModels) {
             if (authorModel.getId() == id) {
                 Filter filter = new Filter(id, authorModel.getFullName(), Filter.FilterType.Author);
                 if (getView() != null) getView().addFilter(filter);
+            }
+        }
+    }
+
+    public void unselectAuthorFilterById(long id) {
+        for (AuthorModel authorModel : authorModels) {
+            if (authorModel.getId() == id) {
+                Filter filter = new Filter(id, authorModel.getFullName(), Filter.FilterType.Author);
+                if (getView() != null) getView().removeFilter(filter);
             }
         }
     }
@@ -97,6 +117,15 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
             if (categoryModel.getId() == id) {
                 Filter filter = new Filter(id, categoryModel.getName(), Filter.FilterType.Category);
                 if (getView() != null) getView().addFilter(filter);
+            }
+        }
+    }
+
+    public void unselectCategoryFilterById(long id) {
+        for (CategoryModel categoryModel : categoryModels) {
+            if (categoryModel.getId() == id) {
+                Filter filter = new Filter(id, categoryModel.getName(), Filter.FilterType.Category);
+                if (getView() != null) getView().removeFilter(filter);
             }
         }
     }
@@ -134,7 +163,16 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
 
     @Override
     public boolean isDateValid() {
-        if (fromDate == null || toDate == null) {
+        if (fromDate == null && toDate == null) {
+            return true;
+        }
+
+        if (fromDate == null) {
+            if (getView() != null) getView().showSelectDateWarning();
+            return false;
+        }
+
+        if (toDate == null) {
             return true;
         }
 

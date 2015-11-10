@@ -1,8 +1,10 @@
 package com.itacit.healthcare.presentation.base;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -14,6 +16,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 import com.itacit.healthcare.R;
 
@@ -67,7 +71,20 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         toolbar.setTitle(title);
     }
 
+    public static void hideKeyboard(Context ctx) {
+        InputMethodManager inputManager = (InputMethodManager) ctx
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        // check if no view has focus:
+        View v = ((Activity) ctx).getCurrentFocus();
+        if (v == null)
+            return;
+
+        inputManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+    }
+
     public void switchContent(Class<?> fragmentClass, boolean addToBackStack, Bundle args) {
+        hideKeyboard(this);
         FragmentManager fragmentManager = getFragmentManager();
         Fragment currentFragment = fragmentManager.findFragmentById(R.id.content);
         if (currentFragment != null && currentFragment.getClass().equals(fragmentClass)) {
@@ -99,7 +116,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         }
 
         transaction.replace(R.id.content, fragment, fragmentClass.getName());
-        if (addToBackStack) {
+        if (false) {
             transaction.addToBackStack(fragmentClass.getName());
         }
 

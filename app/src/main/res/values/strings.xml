@@ -6,7 +6,8 @@
     <string name="done">DONE</string>
     <string name="cancel">CANCEL</string>
     <string name="add_date">ADD DATE</string>
-    <string name="invalid_date_interval">Date interval is invalid. Please, insert valid interval.</string>
+    <string name="invalid_date_interval">Please, insert valid date interval.</string>
+    <string name="select_date_interval">Please, select value of \"Date from\"</string>
 
 
     <!-- Titles -->

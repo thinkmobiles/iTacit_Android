@@ -17,7 +17,7 @@ public class WrapChildsLayotManager extends LinearLayoutManager {
     @Override
     public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state,
                           int widthSpec, int heightSpec) {
-        if (state.getItemCount() == 0) {
+        if (state.getItemCount() <= 0) {
             super.onMeasure(recycler, state, widthSpec, heightSpec);
             return;
         }
@@ -26,10 +26,16 @@ public class WrapChildsLayotManager extends LinearLayoutManager {
         final int widthSize = View.MeasureSpec.getSize(widthSpec);
         final int heightSize = View.MeasureSpec.getSize(heightSpec);
 
-        measureScrapChild(recycler, 0,
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                mMeasuredDimension);
+        try {
+            measureScrapChild(recycler, 0,
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                    mMeasuredDimension);
+
+        } catch (Exception e) {
+            super.onMeasure(recycler, state, widthSpec, heightSpec);
+            return;
+        }
 
         int width = mMeasuredDimension[0];
         int height = mMeasuredDimension[1];

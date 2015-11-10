@@ -1,4 +1,4 @@
-package com.itacit.healthcare.presentation.base.views;
+package com.itacit.healthcare.presentation.base.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.itacit.healthcare.presentation.base.BaseActivity;
 import com.itacit.healthcare.presentation.base.presenters.IPresenter;
+import com.itacit.healthcare.presentation.base.views.IView;
 
 import butterknife.ButterKnife;
 
@@ -41,7 +42,9 @@ public abstract class BaseFragmentView<P extends IPresenter> extends Fragment im
         super.onViewCreated(view, savedInstanceState);
         setUpActionBar(((BaseActivity)getActivity()).getSupportActionBar());
         setUpView();
-        presenter = createPresenter();
+        if (presenter == null) {
+            presenter = createPresenter();
+        }
         presenter.attachView(this);
     }
 

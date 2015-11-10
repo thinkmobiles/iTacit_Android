@@ -12,6 +12,7 @@ import com.itacit.healthcare.R;
 import com.itacit.healthcare.data.network.interceptors.AuthInterceptor;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
 import com.squareup.okhttp.OkHttpClient;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
@@ -50,7 +51,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         NewsModel newsModel = news.get(position);
-        picasso.load(newsModel.getHeadlineUri()).into(holder.headlineIv);
+        picasso.load(newsModel.getHeadlineUri()).memoryPolicy(MemoryPolicy.NO_CACHE).into(holder.headlineIv);
         holder.headlineTv.setText(newsModel.getHeadline());
         holder.categoryTv.setText(newsModel.getCategoryName());
         holder.timeTv.setText(newsModel.getStartDate());

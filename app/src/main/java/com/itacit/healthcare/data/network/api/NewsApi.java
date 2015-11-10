@@ -24,9 +24,9 @@ public interface NewsApi {
     @GET("/mobile/1.0/news/article/{id}")
     Observable<NewsDetails> getNewsDetails(@Path("id") String id);
 
-    @POST("/mobile/1.0/news/article/author")
+    @POST("/mobile/1.0/news/author")
     Observable<ListResponse<Author>> getAuthors(@Body ListRequest request);
 
-    @POST("/mobile/1.0/news/article/category")
+    @POST("/mobile/1.0/news/category")
     Observable<ListResponse<Category>> getCategories(@Body ListRequest request);
 }

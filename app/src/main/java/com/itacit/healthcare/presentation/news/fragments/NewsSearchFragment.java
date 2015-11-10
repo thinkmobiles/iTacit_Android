@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.GetAuthorsUseCase;
 import com.itacit.healthcare.domain.interactor.GetCategoriesUseCase;
-import com.itacit.healthcare.presentation.base.views.BaseFragmentView;
+import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.WrapChildsLayotManager;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
@@ -34,6 +34,7 @@ import com.itacit.healthcare.presentation.news.presenters.NewsSearchPresenter;
 import com.itacit.healthcare.presentation.news.views.INewsSearchView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -43,7 +44,8 @@ import rx.Observable;
 /**
  * Created by root on 21.10.15.
  */
-public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> implements INewsSearchView {
+public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> implements INewsSearchView,
+        AuthorsAdapter.OnAuthorsItemSelectedListener, CategoriesAdapter.OnCategoriesItemSelectedListener {
     @Bind(R.id.sv_root_FNS)                     ScrollView rootSv;
     @Bind(R.id.et_serch_FNS)                    FiltersEditText searchFiltersEt;
     @Bind(R.id.tv_count_author_FNS)             TextView tvCountAuthor;
@@ -54,6 +56,9 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
     @Bind(R.id.recycler_view_categories_FNS)    RecyclerView categoriesRv;
     @Bind(R.id.tv_from_FNS)                     Button tvDateFrom;
     @Bind(R.id.tv_to_FNS)                       Button tvDateTo;
+
+	private AuthorsAdapter authorsAdapter;
+	private CategoriesAdapter categoriesAdapter;
 
     @OnClick(R.id.ib_clear_FNS)
     void onClearFilters() {
@@ -81,12 +86,11 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
     }
 
     @OnClick(R.id.btn_search_FNS)
-    @Override
-    public void searchNews() {
+    void searchNews() {
         if (presenter.isDateValid()) {
             NewsSearch search = presenter.getNewsSearch();
             ((NewsActivity) activity).getSearchNews().onNext(search);
-            activity.switchContent(NewsFeedFragment.class, true);
+            activity.switchContent(NewsFeedFragment.class, false);
         }
     }
 
@@ -115,8 +119,10 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 
     @Override
     protected void setUpView() {
+        searchFiltersEt.setShowMore(false);
         preventRootScroll(authorsRv);
         preventRootScroll(categoriesRv);
+        preventRootScroll(searchFiltersEt);
         authorsRv.setLayoutManager(new WrapChildsLayotManager(activity));
         categoriesRv.setLayoutManager(new WrapChildsLayotManager(activity));
     }
@@ -159,15 +165,32 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
         Toast.makeText(getActivity(), getActivity().getResources().getText(R.string.invalid_date_interval), Toast.LENGTH_LONG).show();
     }
 
-    @Override
+	@Override
+	public void showSelectDateWarning() {
+		Toast.makeText(getActivity(), getActivity().getResources().getText(R.string.select_date_interval), Toast.LENGTH_LONG).show();
+	}
+
+	@Override
+	public void unselectAuthor(long id) {
+		authorsAdapter.getSelectedAuthorsIds().remove(id);
+		authorsAdapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void unselectCategory(long id) {
+        categoriesAdapter.getSelectedCategoriesIds().remove(id);
+		categoriesAdapter.notifyDataSetChanged();
+	}
+
+	@Override
     public Observable<String> getSearchTextObs() {
         return RxTextView.textChangeEvents(searchFiltersEt).map(e -> searchFiltersEt.getInputText());
     }
 
-    @Override
-    public Observable<Integer> getListClickObs() {
-        return null;
-    }
+	@Override
+	public Observable<Filter> getFilterRemovedObs() {
+		return searchFiltersEt.getChipRemovedSubject();
+	}
 
     @Override
     public List<Filter> getFilters() {
@@ -183,14 +206,13 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 	        animShow.setAnimationListener(new Animation.AnimationListener() {
 		        @Override
 		        public void onAnimationStart(Animation animation) {
-			        recyclerView.setVisibility(View.VISIBLE);
+
+			        expandIv.setImageResource(R.drawable.ic_drop);
 		        }
 
 		        @Override
 		        public void onAnimationEnd(Animation animation) {
-			        recyclerView.clearAnimation();
-			        recyclerView.setVisibility(View.VISIBLE);
-			        expandIv.setImageResource(R.drawable.ic_drop);
+
 		        }
 
 		        @Override
@@ -198,6 +220,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 
 		        }
 	        });
+	        recyclerView.setVisibility(View.VISIBLE);
 	        recyclerView.startAnimation(animShow);
 
         } else {
@@ -206,14 +229,14 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 	        animHide.setAnimationListener(new Animation.AnimationListener() {
 		        @Override
 		        public void onAnimationStart(Animation animation) {
-
+			        expandIv.setImageResource(R.drawable.ic_drop_hide);
 		        }
 
 		        @Override
 		        public void onAnimationEnd(Animation animation) {
-			        recyclerView.clearAnimation();
+
 			        recyclerView.setVisibility(View.GONE);
-			        expandIv.setImageResource(R.drawable.ic_drop_hide);
+
 		        }
 
 		        @Override
@@ -228,14 +251,15 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
     }
 
     private Button selectDateView(DateType dateType) {
+
+	    Button btn = null;
         switch (dateType) {
-            case From:
-                return tvDateFrom;
-            case To:
-                return tvDateTo;
-            default:
-                return null;
+            case From:  btn = tvDateFrom;
+                 break;
+            case To:  btn = tvDateTo;
+	             break;
         }
+	    return btn;
     }
 
     @Override
@@ -254,26 +278,58 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
         btn.setTextColor(getResources().getColor(R.color.gray_dark));
         btn.setBackgroundResource(R.drawable.bg_btn_date);
         btn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_calendar, 0, 0, 0);
+	    btn.invalidate();
     }
 
     @Override
     public void showAuthors(List<AuthorModel> authors) {
-        AuthorsAdapter authorsAdapter = new AuthorsAdapter(getActivity(), authors);
+        authorsAdapter = new AuthorsAdapter(getActivity(), authors);
+        for (Filter filter : searchFiltersEt.getSelectedFilters()) {
+            authorsAdapter.getSelectedAuthorsIds().add(filter.getId());
+        }
         authorsRv.setAdapter(authorsAdapter);
-        authorsAdapter.setOnAuthorsItemSelectedListener(presenter::selectAuthorFilterById);
+        authorsAdapter.setOnAuthorsItemSelectedListener(this);
         tvCountAuthor.setText(String.valueOf(authors.size()));
     }
 
     @Override
     public void showCategories(List<CategoryModel> categories) {
-        CategoriesAdapter categoriesAdapter = new CategoriesAdapter(getActivity(), categories);
+        categoriesAdapter = new CategoriesAdapter(getActivity(), categories);
+        for (Filter filter : searchFiltersEt.getSelectedFilters()) {
+            categoriesAdapter.getSelectedCategoriesIds().add(filter.getId());
+        }
         categoriesRv.setAdapter(categoriesAdapter);
-        categoriesAdapter.setOnCategoriesItemSelectedListener(presenter::selectCategoryFilterById);
+        categoriesAdapter.setOnCategoriesItemSelectedListener(this);
         tvCountCategory.setText(String.valueOf(categories.size()));
     }
 
     @Override
     public void addFilter(Filter filter) {
-        searchFiltersEt.addFilter(filter);
+        searchFiltersEt.addFilter(filter, true);
+    }
+
+    @Override
+    public void removeFilter(Filter filter) {
+        searchFiltersEt.removeFilter(filter);
+    }
+
+    @Override
+    public void onAuthorsSelected(long authorId) {
+        presenter.selectAuthorFilterById(authorId);
+    }
+
+    @Override
+    public void onAuthorsDeselected(long authorId) {
+        presenter.unselectAuthorFilterById(authorId);
+    }
+
+    @Override
+    public void onCategoriesSelected(long categoryId) {
+        presenter.selectCategoryFilterById(categoryId);
+    }
+
+    @Override
+    public void onCategoriesDeselected(long categoryId) {
+        presenter.unselectCategoryFilterById(categoryId);
     }
 }

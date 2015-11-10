@@ -5,23 +5,20 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.GetNewsUseCase;
-import com.itacit.healthcare.presentation.base.views.BaseFragmentView;
+import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
 import com.itacit.healthcare.presentation.news.NewsActivity;
 import com.itacit.healthcare.presentation.news.adapters.NewsAdapter;
-import com.itacit.healthcare.presentation.news.adapters.NewsSearchAdapter;
 import com.itacit.healthcare.presentation.news.mapper.NewsModelMapper;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
 import com.itacit.healthcare.presentation.news.models.NewsSearch;
@@ -33,10 +30,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.subjects.BehaviorSubject;
 
 
@@ -52,13 +47,13 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 
 	@OnClick(R.id.ib_clear_FN)
 	void clearSearch() {
+		searchNewsView.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				return false;
+			}
+		});
 		searchNewsView.removeFilters();
-		presenter.loadNews();
-	}
-
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
 		presenter.loadNews();
 	}
 
@@ -66,10 +61,12 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 	protected void setUpView() {
 		LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
 		newsRecyclerView.setLayoutManager(layoutManager);
+		searchNewsView.setShowMore(true);
 	}
 
 	@Override
 	protected void setUpActionBar(ActionBar actionBar) {
+		actionBar.setHomeAsUpIndicator(R.drawable.btn_back);
 		activity.setActionBarShadowVisibile(false);
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setTitle(R.string.title_news_feed);
@@ -122,9 +119,22 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 
     @Override
     public void showFilters(List<Filter> filters) {
-        for (Filter filter : filters) {
-            searchNewsView.addFilter(filter);
-        }
+		searchNewsView.post(new Runnable() {
+			@Override
+			public void run() {
+				searchNewsView.setOnTouchListener(new View.OnTouchListener() {
+					@Override
+					public boolean onTouch(View v, MotionEvent event) {
+						return true;
+					}
+				});
+
+				for (Filter filter : filters) {
+					searchNewsView.addFilter(filter, false);
+				}
+				searchNewsView.scrollTo(0,0);
+			}
+		});
     }
 
     @Override

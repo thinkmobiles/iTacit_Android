@@ -22,10 +22,13 @@ public interface INewsSearchView extends IView {
 	void showAuthors(List<AuthorModel> authors);
 	void showCategories(List<CategoryModel> categories);
 	void addFilter(Filter filter);
+	void removeFilter(Filter filter);
 	void resetDate(DateType dateType);
-	void searchNews();
 	void showInvalidDateWarning();
+	void showSelectDateWarning();
+	void unselectAuthor(long id);
+	void unselectCategory(long id);
 	Observable<String> getSearchTextObs();
-	Observable<Integer> getListClickObs();
+	Observable<Filter> getFilterRemovedObs();
 	List<Filter> getFilters();
 }

@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by Nerevar on 10/29/2015.
  */
 public class Author {
-    @SerializedName("authorID")
+    @SerializedName("authorId")
     @Expose
     private String id;
     @SerializedName("authorNameFull")
