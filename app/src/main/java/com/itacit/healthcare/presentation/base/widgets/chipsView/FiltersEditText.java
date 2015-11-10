@@ -277,17 +277,18 @@ public class FiltersEditText extends AutoCompleteTextView {
         mChipRemovedSubject.onNext(chip.getFilter());
     }
 
-    @Override
-    protected void onSelectionChanged(int start, int end) {
-        VisibleFilterChip last = getLastChip();
-        if (last != null && start < getText().getSpanEnd(last)) {
-            // Grab the last chip and set the cursor to after it.
-            setSelection(Math.min(getText().getSpanEnd(last) + 1, getText().length()));
-        }
-        super.onSelectionChanged(start, end);
+//    @Override
+//    protected void onSelectionChanged(int start, int end) {
+//        VisibleFilterChip last = getLastChip();
+//        if (last != null && start < getText().getSpanEnd(last)) {
+//            // Grab the last chip and set the cursor to after it.
+//            setSelection(Math.min(getText().getSpanEnd(last) + 1, getText().length()));
+//        }
+//        super.onSelectionChanged(start, end);
+//
+//    }
 
-    }
-
+    private boolean isDirtyTouch;
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (!isFocused()) {
@@ -295,16 +296,26 @@ public class FiltersEditText extends AutoCompleteTextView {
         }
         boolean handled = super.onTouchEvent(event);
         switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                break;
+            case MotionEvent.ACTION_MOVE:
+                isDirtyTouch = true;
+                break;
             case MotionEvent.ACTION_UP:
                 final float x = event.getX();
                 final float y = event.getY();
                 final int offset = putOffsetInRange(x, y);
                 final VisibleFilterChip currentChip = findChip(offset);
                 if (currentChip != null && getChipEnd(currentChip) == offset) {
-                    removeChip(currentChip);
-                    handled = true;
+                    if (!isDirtyTouch) {
+                        removeChip(currentChip);
+                        handled = true;
+                    }
                 }
+                isDirtyTouch = false;
+                break;
         }
+
         return handled;
     }
 
@@ -407,7 +418,7 @@ public class FiltersEditText extends AutoCompleteTextView {
         private int chipStart;
         @Override
         public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
-            remove = getInputText().isEmpty() && count > after;
+            remove = getInputText().isEmpty() && count - after == 1;
 //            if (remove) {
 //                chipStart = getText().getSpanStart(getLastChip());
 //            }

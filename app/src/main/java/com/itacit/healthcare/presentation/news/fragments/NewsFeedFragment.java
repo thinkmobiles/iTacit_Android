@@ -132,6 +132,7 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 				for (Filter filter : filters) {
 					searchNewsView.addFilter(filter, false);
 				}
+				searchNewsView.scrollTo(0,0);
 			}
 		});
     }

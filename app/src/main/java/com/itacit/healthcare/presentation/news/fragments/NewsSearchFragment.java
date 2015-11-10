@@ -87,8 +87,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
     }
 
     @OnClick(R.id.btn_search_FNS)
-    @Override
-    public void searchNews() {
+    void searchNews() {
         if (presenter.isDateValid()) {
             NewsSearch search = presenter.getNewsSearch();
             ((NewsActivity) activity).getSearchNews().onNext(search);
@@ -193,11 +192,6 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 	public Observable<Filter> getFilterRemovedObs() {
 		return searchFiltersEt.getChipRemovedSubject();
 	}
-
-	@Override
-    public Observable<Integer> getListClickObs() {
-        return null;
-    }
 
     @Override
     public List<Filter> getFilters() {
