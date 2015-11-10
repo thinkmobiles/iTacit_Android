@@ -14,6 +14,7 @@ import java.io.IOException;
  */
 public class AuthInterceptor implements Interceptor {
     private static final String AUTH_HEADER = "Authorization";
+    public static final int AUTH_ERROR_CODE = 401;
 
     @Override
     public Response intercept(Chain chain) throws IOException {
@@ -27,7 +28,7 @@ public class AuthInterceptor implements Interceptor {
         final Request request = addTokenHeader(original);
         Response response = chain.proceed(request);
 
-        if(response.code() == 401) {
+        if(response.code() == AUTH_ERROR_CODE) {
             AuthService.refreshToken();
             Request newRequest = addTokenHeader(original);
             response = chain.proceed(newRequest);
