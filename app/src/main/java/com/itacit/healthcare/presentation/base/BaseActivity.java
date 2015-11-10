@@ -36,20 +36,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     Toolbar toolbar;
     @Bind(R.id.action_bar_shadow)
     View actionBarShadow;
-
-    public void setActionBarShadowVisible(boolean visible) {
-        actionBarShadow.setVisibility(visible ? View.VISIBLE : View.GONE);
-//    For navigation drawer
+    //    For navigation drawer
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
 
     @Bind(R.id.nav_view)
     NavigationView navigationView;
-
-
-
-    public void setActionBarShadowVisibile(boolean visibile) {
-        actionBarShadow.setVisibility(visibile ? View.VISIBLE : View.GONE);
+    public void setActionBarShadowVisible(boolean visible) {
+        actionBarShadow.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
     @Override
