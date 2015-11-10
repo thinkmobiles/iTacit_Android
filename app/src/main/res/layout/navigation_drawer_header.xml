@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/nav_header_height"
+    android:paddingLeft="@dimen/header_horizontal_margin"
+    android:paddingRight="@dimen/header_horizontal_margin"
+    android:paddingBottom="@dimen/header_vertical_margin"
+    android:paddingTop="@dimen/header_vertical_margin"
+    android:background="@color/drawer_item_checked">
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add_photo"
+        android:background="@null"
+        android:layout_alignTop="@+id/imageView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/imageButton"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/sym_def_app_icon"
+            android:id="@+id/imageView"
+            android:layout_marginTop="@dimen/header_vertical_margin"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/nav_header_vertical_spacing"
+            android:text="Android Studio"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/bg_light"
+            android:id="@+id/textView2"
+            android:layout_above="@+id/textView"
+            android:layout_alignRight="@+id/imageButton"
+            android:layout_alignEnd="@+id/imageButton"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="android.studio@android.com"
+            android:id="@+id/textView"
+            android:textColor="@color/bg_light"
+            android:layout_alignParentBottom="true"
+            android:layout_alignLeft="@+id/imageView"
+            android:layout_alignStart="@+id/imageView"/>
+
+    </RelativeLayout>
+
+
+
+
