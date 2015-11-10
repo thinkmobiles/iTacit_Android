@@ -12,4 +12,9 @@
     <color name="btn_blue">#00AEEF</color>
     <color name="chips_bg">#f5f6f9</color>
     <color name="chips_btn">#E7E7EA</color>
+
+    <!-- Colors for navigation drawer-->
+    <color name="drawer_item_checked">#599ff9</color>
+    <color name="drawer_item_default">#2e2e2e</color>
+
 </resources>
