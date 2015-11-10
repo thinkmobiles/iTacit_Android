@@ -19,7 +19,7 @@ import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
 import com.itacit.healthcare.presentation.news.NewsActivity;
 import com.itacit.healthcare.presentation.news.adapters.NewsAdapter;
-import com.itacit.healthcare.presentation.news.mapper.NewsModelMapper;
+import com.itacit.healthcare.presentation.news.mappers.NewsMapper;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
 import com.itacit.healthcare.presentation.news.models.NewsSearch;
 import com.itacit.healthcare.presentation.news.presenters.NewsFeedPresenter;
@@ -83,7 +83,7 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 
 	@Override
 	protected NewsFeedPresenter createPresenter() {
-		return new NewsFeedPresenter(new GetNewsUseCase(0, 100), new NewsModelMapper());
+		return new NewsFeedPresenter(new GetNewsUseCase(0, 100), new NewsMapper());
 	}
 
 	@Override

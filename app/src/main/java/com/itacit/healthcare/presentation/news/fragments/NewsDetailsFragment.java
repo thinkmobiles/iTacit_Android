@@ -18,8 +18,8 @@ import com.itacit.healthcare.data.network.interceptors.AuthInterceptor;
 import com.itacit.healthcare.domain.interactor.GetAuthorsUseCase;
 import com.itacit.healthcare.domain.interactor.GetNewsDetailsUseCase;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
-import com.itacit.healthcare.presentation.news.mapper.AuthorModelMapper;
-import com.itacit.healthcare.presentation.news.mapper.NewsDetailsModelMapper;
+import com.itacit.healthcare.presentation.news.mappers.AuthorMapper;
+import com.itacit.healthcare.presentation.news.mappers.NewsDetailsMapper;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
 import com.itacit.healthcare.presentation.news.models.NewsDetailsModel;
 import com.itacit.healthcare.presentation.news.presenters.NewsDetailsPresenter;
@@ -92,7 +92,7 @@ public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter> 
     @Override
     protected NewsDetailsPresenter createPresenter() {
         long newsId = getArguments().getLong("newsId");
-        return new NewsDetailsPresenter(new GetNewsDetailsUseCase(newsId), new GetAuthorsUseCase(0, 10), new NewsDetailsModelMapper(), new AuthorModelMapper());
+        return new NewsDetailsPresenter(new GetNewsDetailsUseCase(newsId), new GetAuthorsUseCase(0, 10), new NewsDetailsMapper(), new AuthorMapper());
     }
 
     @Override

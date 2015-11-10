@@ -6,8 +6,8 @@ import com.itacit.healthcare.domain.interactor.GetAuthorsUseCase;
 import com.itacit.healthcare.domain.interactor.GetCategoriesUseCase;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
-import com.itacit.healthcare.presentation.news.mapper.AuthorModelMapper;
-import com.itacit.healthcare.presentation.news.mapper.CategoryModelMapper;
+import com.itacit.healthcare.presentation.news.mappers.AuthorMapper;
+import com.itacit.healthcare.presentation.news.mappers.CategoryMapper;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
 import com.itacit.healthcare.presentation.news.models.CategoryModel;
 import com.itacit.healthcare.presentation.news.models.NewsSearch;
@@ -15,7 +15,6 @@ import com.itacit.healthcare.presentation.news.views.INewsSearchView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -32,8 +31,8 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
     private GetAuthorsUseCase getAuthorsUseCase;
     private GetCategoriesUseCase getCategoriesUseCase;
     //mappers
-    private AuthorModelMapper authorMapper;
-    private CategoryModelMapper categoryMapper;
+    private AuthorMapper authorMapper;
+    private CategoryMapper categoryMapper;
     //models
     private List<AuthorModel> authorModels = new ArrayList<>();
     private List<CategoryModel> categoryModels = new ArrayList<>();
@@ -41,11 +40,11 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
     private Calendar fromDate;
     private Calendar toDate;
 
-    public NewsSearchPresenter(GetAuthorsUseCase getAuthorsUseCase, GetCategoriesUseCase getCategoriesUseCase, AuthorModelMapper authorModelMapper, CategoryModelMapper categoryModelMapper) {
+    public NewsSearchPresenter(GetAuthorsUseCase getAuthorsUseCase, GetCategoriesUseCase getCategoriesUseCase, AuthorMapper authorMapper, CategoryMapper categoryMapper) {
         this.getAuthorsUseCase = getAuthorsUseCase;
         this.getCategoriesUseCase = getCategoriesUseCase;
-        authorMapper = authorModelMapper;
-        categoryMapper = categoryModelMapper;
+        this.authorMapper = authorMapper;
+        this.categoryMapper = categoryMapper;
     }
 
     @Override

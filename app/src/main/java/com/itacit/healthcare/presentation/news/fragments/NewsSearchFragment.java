@@ -24,8 +24,8 @@ import com.itacit.healthcare.presentation.base.widgets.datePicker.DatePickerFrag
 import com.itacit.healthcare.presentation.news.NewsActivity;
 import com.itacit.healthcare.presentation.news.adapters.AuthorsAdapter;
 import com.itacit.healthcare.presentation.news.adapters.CategoriesAdapter;
-import com.itacit.healthcare.presentation.news.mapper.AuthorModelMapper;
-import com.itacit.healthcare.presentation.news.mapper.CategoryModelMapper;
+import com.itacit.healthcare.presentation.news.mappers.AuthorMapper;
+import com.itacit.healthcare.presentation.news.mappers.CategoryMapper;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
 import com.itacit.healthcare.presentation.news.models.CategoryModel;
 import com.itacit.healthcare.presentation.news.models.NewsSearch;
@@ -156,7 +156,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 
     @Override
     protected NewsSearchPresenter createPresenter() {
-        return new NewsSearchPresenter(new GetAuthorsUseCase(0, 10), new GetCategoriesUseCase(0, 10), new AuthorModelMapper(), new CategoryModelMapper());
+        return new NewsSearchPresenter(new GetAuthorsUseCase(0, 10), new GetCategoriesUseCase(0, 10), new AuthorMapper(), new CategoryMapper());
     }
 
     @Override

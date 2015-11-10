@@ -1,15 +1,15 @@
-package com.itacit.healthcare.presentation.news.mapper;
+package com.itacit.healthcare.presentation.news.mappers;
 
 import android.net.Uri;
 
 import com.itacit.healthcare.data.entries.Author;
-import com.itacit.healthcare.presentation.base.ModelMapper;
+import com.itacit.healthcare.presentation.base.mappers.ModelMapper;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
 
 /**
  * Created by root on 02.11.15.
  */
-public class AuthorModelMapper extends ModelMapper<AuthorModel, Author> {
+public class AuthorMapper extends ModelMapper<AuthorModel, Author> {
 
 	@Override
 	public AuthorModel transform(Author dataEntry) {

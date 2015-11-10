@@ -1,15 +1,15 @@
-package com.itacit.healthcare.presentation.news.mapper;
+package com.itacit.healthcare.presentation.news.mappers;
 
 import android.net.Uri;
 
 import com.itacit.healthcare.data.entries.NewsDetails;
-import com.itacit.healthcare.presentation.base.ModelMapper;
+import com.itacit.healthcare.presentation.base.mappers.ModelMapper;
 import com.itacit.healthcare.presentation.news.models.NewsDetailsModel;
 
 /**
  * Created by root on 29.10.15.
  */
-public class NewsDetailsModelMapper extends ModelMapper<NewsDetailsModel, NewsDetails> {
+public class NewsDetailsMapper extends ModelMapper<NewsDetailsModel, NewsDetails> {
     @Override
     public NewsDetailsModel transform(NewsDetails dataEntry) {
         NewsDetailsModel newsDetailsModel = new NewsDetailsModel();

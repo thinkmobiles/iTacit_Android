@@ -42,6 +42,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
     @Bind(R.id.nav_view)
     NavigationView navigationView;
+
     public void setActionBarShadowVisible(boolean visible) {
         actionBarShadow.setVisibility(visible ? View.VISIBLE : View.GONE);
     }

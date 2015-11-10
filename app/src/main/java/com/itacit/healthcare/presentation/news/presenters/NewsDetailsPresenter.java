@@ -5,8 +5,8 @@ import com.itacit.healthcare.data.entries.NewsDetails;
 import com.itacit.healthcare.domain.interactor.GetAuthorsUseCase;
 import com.itacit.healthcare.domain.interactor.GetNewsDetailsUseCase;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
-import com.itacit.healthcare.presentation.news.mapper.AuthorModelMapper;
-import com.itacit.healthcare.presentation.news.mapper.NewsDetailsModelMapper;
+import com.itacit.healthcare.presentation.news.mappers.AuthorMapper;
+import com.itacit.healthcare.presentation.news.mappers.NewsDetailsMapper;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
 import com.itacit.healthcare.presentation.news.models.NewsDetailsModel;
 import com.itacit.healthcare.presentation.news.views.INewsDetailsView;
@@ -21,11 +21,11 @@ import rx.Subscriber;
 public class NewsDetailsPresenter extends BasePresenter<INewsDetailsView> implements INewsDetailsPresenter {
     private GetNewsDetailsUseCase newsDetailsUseCase;
     private GetAuthorsUseCase getAuthorsUseCase;
-    private NewsDetailsModelMapper dataMapper;
-    private AuthorModelMapper authorMapper;
+    private NewsDetailsMapper dataMapper;
+    private AuthorMapper authorMapper;
     private NewsDetails newsDetails;
 
-    public NewsDetailsPresenter(GetNewsDetailsUseCase newsDetailsUseCase, GetAuthorsUseCase getAuthorsUseCase, NewsDetailsModelMapper dataMapper, AuthorModelMapper authorMapper) {
+    public NewsDetailsPresenter(GetNewsDetailsUseCase newsDetailsUseCase, GetAuthorsUseCase getAuthorsUseCase, NewsDetailsMapper dataMapper, AuthorMapper authorMapper) {
         this.newsDetailsUseCase = newsDetailsUseCase;
         this.getAuthorsUseCase = getAuthorsUseCase;
         this.dataMapper = dataMapper;
