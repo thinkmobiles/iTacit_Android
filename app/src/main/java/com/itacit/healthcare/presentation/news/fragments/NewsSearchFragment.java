@@ -44,7 +44,7 @@ import rx.Observable;
  * Created by root on 21.10.15.
  */
 public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, NewsActivity> implements INewsSearchView,
-        AuthorsAdapter.OnAuthorsItemSelectedListener, CategoriesAdapter.OnCategoriesItemSelectedListener {
+        AuthorsAdapter.OnAuthorsItemSelectedListener, CategoriesAdapter.OnCategoriesItemSelectedListener, View.OnClickListener {
     @Bind(R.id.sv_root_FNS)                     ScrollView rootSv;
     @Bind(R.id.et_serch_FNS)                    FiltersEditText searchFiltersEt;
     @Bind(R.id.tv_count_author_FNS)             TextView tvCountAuthor;
@@ -141,6 +141,10 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
 
     @Override
     protected void setUpActionBar(ActionBar actionBar) {
+
+        switchToolbarIndicator(false);
+
+        actionBar.setHomeAsUpIndicator(R.drawable.btn_back);
         activity.setActionBarShadowVisible(true);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(R.string.title_news_filter);
@@ -148,6 +152,11 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDefaultDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void switchToolbarIndicator(boolean enable) {
+        toggle.setDrawerIndicatorEnabled(enable);
+        toggle.setToolbarNavigationClickListener(this);
     }
 
     @Override
@@ -331,5 +340,10 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
     @Override
     public void onCategoriesDeselected(long categoryId) {
         presenter.unselectCategoryFilterById(categoryId);
+    }
+
+    @Override
+    public void onClick(View v) {
+        activity.switchContent(NewsFeedFragment.class, false);
     }
 }

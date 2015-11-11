@@ -34,7 +34,6 @@ import butterknife.OnClick;
 import rx.Observable;
 import rx.subjects.BehaviorSubject;
 
-
 /**
  * Created by root on 13.10.15.
  */
@@ -61,11 +60,17 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsAc
 
 	@Override
 	protected void setUpActionBar(ActionBar actionBar) {
-		//actionBar.setHomeAsUpIndicator(R.drawable.btn_back);
+
+        switchToolbarIndicator(true);
+
 		activity.setActionBarShadowVisible(false);
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setTitle(R.string.title_news_feed);
 	}
+
+    private void switchToolbarIndicator(boolean enable) {
+        toggle.setDrawerIndicatorEnabled(enable);
+    }
 
 	@Override
 	protected int getLayoutRes() {

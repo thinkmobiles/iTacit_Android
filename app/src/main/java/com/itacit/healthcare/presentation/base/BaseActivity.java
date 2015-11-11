@@ -14,6 +14,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -26,7 +27,6 @@ import java.lang.reflect.InvocationTargetException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
 
 /**
  * Created by root on 20.10.15.
@@ -43,6 +43,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     @Bind(R.id.nav_view)
     NavigationView navigationView;
 
+    ActionBarDrawerToggle toggle;
+
     public void setActionBarShadowVisible(boolean visible) {
         actionBarShadow.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
@@ -55,8 +57,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         setSupportActionBar(toolbar);
 
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle = new ActionBarDrawerToggle(
+                this,
+                drawerLayout,
+                toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
+
         drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -68,6 +75,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     public void setTitle(@NonNull String title) {
         toolbar.setTitle(title);
     }
+
+    public ActionBarDrawerToggle getToggle() {return toggle;}
 
     public static void hideKeyboard(Context ctx) {
         InputMethodManager inputManager = (InputMethodManager) ctx
@@ -130,13 +139,21 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         int count = getFragmentManager().getBackStackEntryCount();
 
-        if (count == 0) {
-            super.onBackPressed();
-            //additional code
-        } else {
-            getFragmentManager().popBackStack();
-        }
+        if (count == 0 && drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else
 
+            if (count != 0 && drawerLayout.isDrawerOpen(GravityCompat.START)){
+                drawerLayout.closeDrawer(GravityCompat.START);
+            } else
+
+                if (count != 0 && !drawerLayout.isDrawerOpen(GravityCompat.START)){
+                    getFragmentManager().popBackStack();
+                } else
+
+                    if(count == 0){
+                        super.onBackPressed();
+                    }
     }
 
     @Override
@@ -144,20 +161,20 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_dashboard) {
-            // Handle the camera action
-        } else if (id == R.id.nav_news) {
-
-        } else if (id == R.id.nav_message) {
-
-        } else if (id == R.id.nav_training) {
-
-        } else if (id == R.id.nav_log_out) {
-
+        switch(id){
+            case R.id.nav_dashboard:
+                break;
+            case R.id.nav_news:
+                break;
+            case R.id.nav_message:
+                break;
+            case R.id.nav_training:
+                break;
+            case R.id.nav_log_out:
+                break;
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 }

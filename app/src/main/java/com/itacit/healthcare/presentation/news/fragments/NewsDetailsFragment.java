@@ -34,7 +34,7 @@ import butterknife.Bind;
 /**
  * Created by root on 21.10.15.
  */
-public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter, NewsActivity> implements INewsDetailsView {
+public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter, NewsActivity> implements INewsDetailsView, View.OnClickListener {
     @Bind(R.id.iv_headline_FND)     ImageView ivHeadline;
     @Bind(R.id.tv_title_FND)        TextView tvTitle;
     @Bind(R.id.tv_article_FND)      TextView tvArticle;
@@ -76,6 +76,10 @@ public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter, 
 
     @Override
     protected void setUpActionBar(ActionBar actionBar) {
+
+        switchToolbarIndicator(false);
+
+        actionBar.setHomeAsUpIndicator(R.drawable.btn_back);
         activity.setActionBarShadowVisible(true);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(R.string.title_news_feed);
@@ -83,6 +87,11 @@ public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter, 
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDefaultDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void switchToolbarIndicator(boolean enable) {
+        toggle.setDrawerIndicatorEnabled(enable);
+        toggle.setToolbarNavigationClickListener(this);
     }
 
     @Override
@@ -119,6 +128,11 @@ public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter, 
 //				.fit()
 //				.into(ivAuthorIcon);
         tvPosition.setText(authorModel.getRole());
+    }
+
+    @Override
+    public void onClick(View v) {
+        activity.switchContent(NewsFeedFragment.class, false);
     }
 
     public class CircleTransformation implements com.squareup.picasso.Transformation {
