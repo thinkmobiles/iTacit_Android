@@ -4,6 +4,7 @@ import com.itacit.healthcare.data.entries.Author;
 import com.itacit.healthcare.data.entries.Category;
 import com.itacit.healthcare.data.entries.News;
 import com.itacit.healthcare.data.entries.NewsDetails;
+import com.itacit.healthcare.data.network.AccessTokenHandler;
 import com.itacit.healthcare.data.network.request.ListRequest;
 import com.itacit.healthcare.data.network.response.ListResponse;
 
@@ -22,7 +23,7 @@ public class NewsService {
 
     public static NewsApi getApi() {
         if (api == null) {
-            api = ServiceGenerator.createService(NewsApi.class, AuthService.getAccessToken());
+            api = ServiceGenerator.createService(NewsApi.class, AccessTokenHandler.getAccessToken());
         }
 
         return api;

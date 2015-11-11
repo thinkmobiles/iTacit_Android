@@ -1,6 +1,10 @@
 package com.itacit.healthcare.data.network.services;
 
 import com.itacit.healthcare.data.entries.AccessToken;
+import com.itacit.healthcare.data.network.AccessTokenHandler;
+import com.itacit.healthcare.global.bus.RxBus;
+import com.itacit.healthcare.global.errors.AuthError;
+import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
@@ -19,36 +23,30 @@ public abstract class AuthService {
     private static final String GRANT_TYPE_PASS = "password";
     private static final String GRANT_TYPE_TOKEN = "refresh_token";
 
-    private static AccessToken accessToken;
     private static AuthApi authApi;
-
 
     private static AuthApi getService() {
         if (authApi == null) authApi = ServiceGenerator.createService(AuthApi.class);
         return authApi;
     }
 
-    public static AccessToken getAccessToken() {
-        return accessToken;
-    }
-
     public static Observable<Boolean> login(String userName, String password) {
          return getService().login(CLIENT_ID, userName, password, GRANT_TYPE_PASS)
                 .flatMap(t -> {
-                    accessToken = t;
+                    AccessTokenHandler.setAccessToken(t);
                     return Observable.just(true);
                 });
     }
 
     public static AccessToken refreshToken() {
         Call<AccessToken> tokenCall = getService().refreshToken(CLIENT_ID,
-                GRANT_TYPE_TOKEN, accessToken.getRefreshToken());
+                GRANT_TYPE_TOKEN, AccessTokenHandler.getAccessToken().getRefreshToken());
         try {
-            accessToken = tokenCall.execute().body();
+            AccessTokenHandler.setAccessToken(tokenCall.execute().body());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return accessToken;
+        return AccessTokenHandler.getAccessToken();
     }
 
     public interface AuthApi {
