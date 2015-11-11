@@ -2,9 +2,6 @@ package com.itacit.healthcare.data.network.services;
 
 import com.itacit.healthcare.data.entries.AccessToken;
 import com.itacit.healthcare.data.network.AccessTokenHandler;
-import com.itacit.healthcare.global.bus.RxBus;
-import com.itacit.healthcare.global.errors.AuthError;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
@@ -25,13 +22,13 @@ public abstract class AuthService {
 
     private static AuthApi authApi;
 
-    private static AuthApi getService() {
+    private static AuthApi getApi() {
         if (authApi == null) authApi = ServiceGenerator.createService(AuthApi.class);
         return authApi;
     }
 
     public static Observable<Boolean> login(String userName, String password) {
-         return getService().login(CLIENT_ID, userName, password, GRANT_TYPE_PASS)
+         return getApi().login(CLIENT_ID, userName, password, GRANT_TYPE_PASS)
                 .flatMap(t -> {
                     AccessTokenHandler.setAccessToken(t);
                     return Observable.just(true);
@@ -39,7 +36,7 @@ public abstract class AuthService {
     }
 
     public static AccessToken refreshToken() {
-        Call<AccessToken> tokenCall = getService().refreshToken(CLIENT_ID,
+        Call<AccessToken> tokenCall = getApi().refreshToken(CLIENT_ID,
                 GRANT_TYPE_TOKEN, AccessTokenHandler.getAccessToken().getRefreshToken());
         try {
             AccessTokenHandler.setAccessToken(tokenCall.execute().body());
