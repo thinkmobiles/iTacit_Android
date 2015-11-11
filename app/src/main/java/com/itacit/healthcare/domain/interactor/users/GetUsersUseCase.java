@@ -1,8 +1,9 @@
-package com.itacit.healthcare.domain.interactor;
+package com.itacit.healthcare.domain.interactor.users;
 
 import com.itacit.healthcare.data.entries.User;
 import com.itacit.healthcare.data.network.response.ListResponse;
 import com.itacit.healthcare.data.network.services.UsersService;
+import com.itacit.healthcare.domain.interactor.GetListUseCase;
 
 import rx.Observable;
 

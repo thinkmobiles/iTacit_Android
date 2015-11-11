@@ -14,8 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.itacit.healthcare.R;
-import com.itacit.healthcare.domain.interactor.GetAuthorsUseCase;
-import com.itacit.healthcare.domain.interactor.GetCategoriesUseCase;
+import com.itacit.healthcare.domain.interactor.news.GetAuthorsUseCase;
+import com.itacit.healthcare.domain.interactor.news.GetCategoriesUseCase;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.WrapChildsLayotManager;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;

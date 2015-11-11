@@ -8,12 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.ArrayAdapter;
 
 import com.itacit.healthcare.R;
-import com.itacit.healthcare.domain.interactor.GetNewsUseCase;
+import com.itacit.healthcare.domain.interactor.news.GetNewsUseCase;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;

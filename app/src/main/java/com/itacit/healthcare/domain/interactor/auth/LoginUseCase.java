@@ -1,6 +1,7 @@
-package com.itacit.healthcare.domain.interactor;
+package com.itacit.healthcare.domain.interactor.auth;
 
 import com.itacit.healthcare.data.network.services.AuthService;
+import com.itacit.healthcare.domain.interactor.UseCase;
 
 import rx.Observable;
 
