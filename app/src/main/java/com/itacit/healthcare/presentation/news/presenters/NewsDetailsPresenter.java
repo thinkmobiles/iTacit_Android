@@ -39,11 +39,11 @@ public class NewsDetailsPresenter extends BasePresenter<INewsDetailsView> implem
     }
 
     private void setAuthorsRole(List<Author> authors) {
-
         for (Author author : authors) {
             if (author.getId().equals(newsDetails.getAuthorId())) {
                 AuthorModel authorModel = authorMapper.transform(author);
                 if(getView() != null) getView().showAuthorDetails(authorModel);
+                break;
             }
         }
     }
