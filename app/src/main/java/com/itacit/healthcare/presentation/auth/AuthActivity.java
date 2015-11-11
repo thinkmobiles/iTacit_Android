@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.LoginUseCase;
 import com.itacit.healthcare.presentation.base.BaseActivity;
+import com.itacit.healthcare.presentation.messages.MessagesActivity;
 import com.itacit.healthcare.presentation.news.NewsActivity;
 
 import rx.Subscriber;
@@ -36,7 +37,7 @@ public class AuthActivity extends BaseActivity {
 
             @Override
             public void onNext(Boolean success) {
-                startActivity(new Intent(AuthActivity.this, NewsActivity.class));
+                startActivity(new Intent(AuthActivity.this, MessagesActivity.class));
             }
         });
     }

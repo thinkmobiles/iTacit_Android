@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@android:color/white"
+              android:orientation="vertical">
+
+
+	<RelativeLayout
+		android:id="@+id/rl_recipients_FMN"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		>
+
+		<TextView
+			android:id="@+id/tv_label_to_FMN"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:layout_centerVertical="true"
+			android:layout_marginLeft="16dp"
+			android:text="@string/message_to"
+			android:textColor="@color/gray_light"
+			android:textSize="@dimen/text_margin"/>
+
+		<ImageButton
+			android:id="@+id/ib_add_FMN"
+			android:layout_width="48dp"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_alignParentTop="true"
+			android:layout_centerVertical="true"
+			android:layout_marginBottom="@dimen/main_margin"
+			android:background="@android:color/white"
+			android:padding="5dp"
+			android:src="@drawable/btn_more"/>
+
+		<com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText
+			android:id="@+id/et_recipients_FMN"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_toLeftOf="@id/ib_add_FMN"
+			android:layout_toRightOf="@id/tv_label_to_FMN"
+			android:background="@null"
+			android:lineSpacingExtra="10dp"
+			android:minHeight="50dp"
+			android:paddingLeft="5dp"
+			android:textColor="@color/gray_dark"
+			android:textSize="13sp"
+			/>
+
+		<View
+			android:id="@+id/line_separator_FMN"
+			style="@style/line_separator"
+			android:layout_below="@+id/et_recipients_FMN"/>
+
+	</RelativeLayout>
+
+	<RelativeLayout
+		android:id="@+id/rl_topic_FMN"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		>
+
+		<TextView
+			android:id="@+id/tv_label_topic_FMN"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:layout_centerVertical="true"
+			android:layout_marginLeft="16dp"
+			android:text="@string/message_topic"
+			android:textColor="@color/gray_light"
+			android:textSize="@dimen/text_margin"/>
+
+
+		<EditText
+			android:id="@+id/et_topic_FMN"
+			android:layout_width="match_parent"
+			android:layout_height="50dp"
+			android:layout_toRightOf="@id/tv_label_topic_FMN"
+			android:background="@null"
+			android:gravity="center_vertical"
+			android:paddingLeft="5dp"
+			android:textAlignment="gravity"
+			android:textColor="@color/gray_dark"
+			android:textSize="13sp"/>
+
+		<View
+			android:id="@+id/line_separator2_FMN"
+			style="@style/line_separator"
+			android:layout_below="@+id/et_topic_FMN"
+			/>
+
+	</RelativeLayout>
+
+	<RelativeLayout
+		android:id="@+id/rl_date_FMN"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:visibility="gone">
+
+		<TextView
+			android:id="@+id/tv_label_date_FMN"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:layout_centerVertical="true"
+			android:layout_marginLeft="16dp"
+			android:text="@string/message_date_request"
+			android:textColor="@color/gray_light"
+			android:textSize="@dimen/text_margin"/>
+
+		<ImageButton
+			android:id="@+id/ib_clear_FMN"
+			android:layout_width="48dp"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_alignParentTop="true"
+			android:layout_centerVertical="true"
+			android:layout_marginBottom="@dimen/main_margin"
+			android:background="@android:color/white"
+			android:padding="5dp"
+			android:src="@drawable/btn_close"/>
+
+		<EditText
+			android:id="@+id/et_date_FMN"
+			android:layout_width="match_parent"
+			android:layout_height="50dp"
+			android:layout_toRightOf="@id/tv_label_date_FMN"
+			android:background="@null"
+			android:gravity="center_vertical"
+			android:paddingLeft="5dp"
+			android:textAlignment="center"
+			android:textColor="@color/gray_dark"
+			android:textSize="13sp"/>
+
+		<View
+			android:id="@+id/line_separator3_FMN"
+			style="@style/line_separator"
+			android:layout_below="@+id/et_date_FMN"
+			/>
+
+	</RelativeLayout>
+
+	<EditText
+		android:id="@+id/et_message_body_FMN"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:ems="10"
+		android:gravity="top"
+		android:hint="@string/message_hint"
+		android:inputType="textMultiLine"
+		android:padding="@dimen/text_margin"
+		android:textColor="@color/gray_light"
+		android:textColorHint="@color/gray_light"
+		android:textSize="16sp"/>
+</LinearLayout>
