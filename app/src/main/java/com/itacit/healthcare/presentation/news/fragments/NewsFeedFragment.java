@@ -34,11 +34,10 @@ import butterknife.OnClick;
 import rx.Observable;
 import rx.subjects.BehaviorSubject;
 
-
 /**
  * Created by root on 13.10.15.
  */
-public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implements INewsFeedView {
+public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implements INewsFeedView{
 	@Bind(R.id.et_search_FN)				FiltersEditText searchNewsView;
 	@Bind(R.id.recycler_view_FN)			RecyclerView newsRecyclerView;
 
@@ -66,15 +65,22 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 
 	@Override
 	protected void setUpActionBar(ActionBar actionBar) {
-		actionBar.setHomeAsUpIndicator(R.drawable.btn_back);
+
+        switchToolbarIndicator(true);
+
+//		actionBar.setHomeAsUpIndicator(R.drawable.btn_back);
 		activity.setActionBarShadowVisible(false);
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setTitle(R.string.title_news_feed);
 
-		actionBar.setDisplayShowHomeEnabled(true);
-		actionBar.setDefaultDisplayHomeAsUpEnabled(true);
-		actionBar.setDisplayHomeAsUpEnabled(true);
+//		actionBar.setDisplayShowHomeEnabled(true);
+//		actionBar.setDefaultDisplayHomeAsUpEnabled(true);
+//		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
+
+    private void switchToolbarIndicator(boolean enable) {
+        toggle.setDrawerIndicatorEnabled(enable);
+    }
 
 	@Override
 	protected int getLayoutRes() {

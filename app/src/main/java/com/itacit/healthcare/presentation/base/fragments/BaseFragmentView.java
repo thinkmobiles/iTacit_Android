@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +22,13 @@ import butterknife.ButterKnife;
 public abstract class BaseFragmentView<P extends IPresenter> extends Fragment implements IView {
     protected P presenter;
     protected BaseActivity activity;
+    protected ActionBarDrawerToggle toggle;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (BaseActivity) getActivity();
+        toggle = activity.getToggle();
         setHasOptionsMenu(true);
     }
 
