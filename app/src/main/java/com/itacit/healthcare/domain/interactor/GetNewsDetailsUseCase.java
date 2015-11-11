@@ -8,17 +8,18 @@ import rx.Observable;
 /**
  * Created by root on 29.10.15.
  */
-public class GetNewsDetailsUseCase extends UseCase<NewsDetails> {
-    private String arcticleId;
+public class GetNewsDetailsUseCase extends GetItemUseCase<NewsDetails> {
+    private static final String BODY_FIELD = "body";
 
-    public GetNewsDetailsUseCase(long arcticleId) {
-        this.arcticleId = String.valueOf(arcticleId);
+    public GetNewsDetailsUseCase(int id) {
+        super(id);
+        setRequestFields(DEFAULT_FIELDS, BODY_FIELD);
     }
 
     @Override
-    protected Observable buildUseCaseObservable() {
+    protected Observable<NewsDetails> buildUseCaseObservable() {
         return NewsService.getApi()
-                .getNewsDetails(arcticleId)
+                .getNewsDetails(request)
                 .filter(r -> r != null);
     }
 }
