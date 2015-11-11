@@ -2,8 +2,8 @@ package com.itacit.healthcare.presentation.news.presenters;
 
 import com.itacit.healthcare.data.entries.Author;
 import com.itacit.healthcare.data.entries.Category;
-import com.itacit.healthcare.domain.interactor.GetAuthorsUseCase;
-import com.itacit.healthcare.domain.interactor.GetCategoriesUseCase;
+import com.itacit.healthcare.domain.interactor.news.GetAuthorsUseCase;
+import com.itacit.healthcare.domain.interactor.news.GetCategoriesUseCase;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.news.mappers.AuthorMapper;

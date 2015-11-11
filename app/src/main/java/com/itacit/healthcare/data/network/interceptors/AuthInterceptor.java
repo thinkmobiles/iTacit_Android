@@ -1,5 +1,6 @@
 package com.itacit.healthcare.data.network.interceptors;
 
+import com.itacit.healthcare.data.network.AccessTokenHandler;
 import com.itacit.healthcare.data.network.services.AuthService;
 import com.itacit.healthcare.global.bus.RxBus;
 import com.itacit.healthcare.global.errors.AuthError;
@@ -19,11 +20,6 @@ public class AuthInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request original = chain.request();
-        if (AuthService.getAccessToken() == null) {
-            Response resp = chain.proceed(original);
-            RxBus.getInstance().send(new AuthError(resp.message()));
-            return resp;
-        }
 
         final Request request = addTokenHeader(original);
         Response response = chain.proceed(request);
@@ -41,7 +37,7 @@ public class AuthInterceptor implements Interceptor {
         Request.Builder builder = original.newBuilder();
 
         return builder
-                .header(AUTH_HEADER, AuthService.getAccessToken().getTokenType() + " " + AuthService.getAccessToken().getAccessToken())
+                .header(AUTH_HEADER, AccessTokenHandler.getAccessToken().getTokenType() + " " + AccessTokenHandler.getAccessToken().getAccessToken())
                 .method(original.method(), original.body())
                 .build();
     }

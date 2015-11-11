@@ -14,8 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.itacit.healthcare.R;
-import com.itacit.healthcare.domain.interactor.GetAuthorsUseCase;
-import com.itacit.healthcare.domain.interactor.GetCategoriesUseCase;
+import com.itacit.healthcare.domain.interactor.news.GetAuthorsUseCase;
+import com.itacit.healthcare.domain.interactor.news.GetCategoriesUseCase;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.WrapChildsLayotManager;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
@@ -43,8 +43,8 @@ import rx.Observable;
 /**
  * Created by root on 21.10.15.
  */
-public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> implements INewsSearchView,
-        AuthorsAdapter.OnAuthorsItemSelectedListener, CategoriesAdapter.OnCategoriesItemSelectedListener {
+public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, NewsActivity> implements INewsSearchView,
+        AuthorsAdapter.OnAuthorsItemSelectedListener, CategoriesAdapter.OnCategoriesItemSelectedListener, View.OnClickListener {
     @Bind(R.id.sv_root_FNS)                     ScrollView rootSv;
     @Bind(R.id.et_serch_FNS)                    FiltersEditText searchFiltersEt;
     @Bind(R.id.tv_count_author_FNS)             TextView tvCountAuthor;
@@ -58,6 +58,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 
 	private AuthorsAdapter authorsAdapter;
 	private CategoriesAdapter categoriesAdapter;
+
 
     @OnClick(R.id.ib_clear_FNS)
     void onClearFilters() {
@@ -88,7 +89,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
     void searchNews() {
         if (presenter.isDateValid()) {
             NewsSearch search = presenter.getNewsSearch();
-            ((NewsActivity) activity).getSearchNews().onNext(search);
+            activity.getSearchNews().onNext(search);
             activity.switchContent(NewsFeedFragment.class, false);
         }
     }
@@ -140,6 +141,9 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 
     @Override
     protected void setUpActionBar(ActionBar actionBar) {
+        switchToolbarIndicator(false, this);
+
+        actionBar.setHomeAsUpIndicator(R.drawable.btn_back);
         activity.setActionBarShadowVisible(true);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(R.string.title_news_filter);
@@ -330,5 +334,10 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
     @Override
     public void onCategoriesDeselected(long categoryId) {
         presenter.unselectCategoryFilterById(categoryId);
+    }
+
+    @Override
+    public void onClick(View v) {
+        activity.switchContent(NewsFeedFragment.class, false);
     }
 }

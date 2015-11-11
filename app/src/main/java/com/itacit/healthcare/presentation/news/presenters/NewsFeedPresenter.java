@@ -1,7 +1,7 @@
 package com.itacit.healthcare.presentation.news.presenters;
 
 import com.itacit.healthcare.data.entries.News;
-import com.itacit.healthcare.domain.interactor.GetNewsUseCase;
+import com.itacit.healthcare.domain.interactor.news.GetNewsUseCase;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
 import com.itacit.healthcare.presentation.news.mappers.NewsMapper;
 import com.itacit.healthcare.presentation.news.models.NewsModel;

@@ -1,8 +1,9 @@
-package com.itacit.healthcare.domain.interactor;
+package com.itacit.healthcare.domain.interactor.news;
 
 import com.itacit.healthcare.data.entries.Author;
 import com.itacit.healthcare.data.network.services.NewsService;
 import com.itacit.healthcare.data.network.response.ListResponse;
+import com.itacit.healthcare.domain.interactor.GetListUseCase;
 
 import java.util.List;
 

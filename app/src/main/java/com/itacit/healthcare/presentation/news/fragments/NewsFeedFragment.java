@@ -8,12 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.ArrayAdapter;
 
 import com.itacit.healthcare.R;
-import com.itacit.healthcare.domain.interactor.GetNewsUseCase;
+import com.itacit.healthcare.domain.interactor.news.GetNewsUseCase;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
@@ -34,11 +32,10 @@ import butterknife.OnClick;
 import rx.Observable;
 import rx.subjects.BehaviorSubject;
 
-
 /**
  * Created by root on 13.10.15.
  */
-public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implements INewsFeedView {
+public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsActivity> implements INewsFeedView {
 	@Bind(R.id.et_search_FN)				FiltersEditText searchNewsView;
 	@Bind(R.id.recycler_view_FN)			RecyclerView newsRecyclerView;
 
@@ -47,12 +44,7 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 
 	@OnClick(R.id.ib_clear_FN)
 	void clearSearch() {
-		searchNewsView.setOnTouchListener(new View.OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				return false;
-			}
-		});
+		searchNewsView.setOnTouchListener((v, event) -> false);
 		searchNewsView.removeFilters();
 		presenter.loadNews();
 	}
@@ -66,14 +58,11 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 
 	@Override
 	protected void setUpActionBar(ActionBar actionBar) {
-		actionBar.setHomeAsUpIndicator(R.drawable.btn_back);
-		activity.setActionBarShadowVisible(false);
+        switchToolbarIndicator(true, null);
+
+		activity.setActionBarShadowVisible(true);
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setTitle(R.string.title_news_feed);
-
-		actionBar.setDisplayShowHomeEnabled(true);
-		actionBar.setDefaultDisplayHomeAsUpEnabled(true);
-		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override
@@ -119,22 +108,15 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 
     @Override
     public void showFilters(List<Filter> filters) {
-		searchNewsView.post(new Runnable() {
-			@Override
-			public void run() {
-				searchNewsView.setOnTouchListener(new View.OnTouchListener() {
-					@Override
-					public boolean onTouch(View v, MotionEvent event) {
-						return true;
-					}
-				});
+		searchNewsView.post(() -> {
+			// disable touch
+            searchNewsView.setOnTouchListener((v, event) -> true);
 
-				for (Filter filter : filters) {
-					searchNewsView.addFilter(filter, false);
-				}
-				searchNewsView.scrollTo(0,0);
-			}
-		});
+            for (Filter filter : filters) {
+                searchNewsView.addFilter(filter, false);
+            }
+            searchNewsView.scrollTo(0,0);
+        });
     }
 
     @Override
@@ -168,6 +150,6 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 
     @Override
     public BehaviorSubject<NewsSearch> getNewsSearch() {
-        return ((NewsActivity)activity).getSearchNews();
+        return activity.getSearchNews();
     }
 }

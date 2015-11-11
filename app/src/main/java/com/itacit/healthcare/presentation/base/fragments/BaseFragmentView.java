@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +20,16 @@ import butterknife.ButterKnife;
 /**
  * Created by root on 13.10.15.
  */
-public abstract class BaseFragmentView<P extends IPresenter> extends Fragment implements IView {
+public abstract class BaseFragmentView<P extends IPresenter, A extends BaseActivity> extends Fragment implements IView {
     protected P presenter;
-    protected BaseActivity activity;
+    private ActionBarDrawerToggle toggle;
+    protected A activity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity = (BaseActivity) getActivity();
+        activity = (A) getActivity();
+        toggle = activity.getToggle();
         setHasOptionsMenu(true);
     }
 
@@ -37,10 +41,15 @@ public abstract class BaseFragmentView<P extends IPresenter> extends Fragment im
         return view;
     }
 
+    protected void switchToolbarIndicator(boolean enable, @Nullable View.OnClickListener listener) {
+        toggle.setDrawerIndicatorEnabled(enable);
+        toggle.setToolbarNavigationClickListener(listener);
+    }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setUpActionBar(((BaseActivity)getActivity()).getSupportActionBar());
+        setUpActionBar(activity.getSupportActionBar());
         setUpView();
         if (presenter == null) {
             presenter = createPresenter();
