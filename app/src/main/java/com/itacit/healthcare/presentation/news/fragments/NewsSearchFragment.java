@@ -43,7 +43,7 @@ import rx.Observable;
 /**
  * Created by root on 21.10.15.
  */
-public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> implements INewsSearchView,
+public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, NewsActivity> implements INewsSearchView,
         AuthorsAdapter.OnAuthorsItemSelectedListener, CategoriesAdapter.OnCategoriesItemSelectedListener {
     @Bind(R.id.sv_root_FNS)                     ScrollView rootSv;
     @Bind(R.id.et_serch_FNS)                    FiltersEditText searchFiltersEt;
@@ -58,6 +58,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 
 	private AuthorsAdapter authorsAdapter;
 	private CategoriesAdapter categoriesAdapter;
+
 
     @OnClick(R.id.ib_clear_FNS)
     void onClearFilters() {
@@ -88,7 +89,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
     void searchNews() {
         if (presenter.isDateValid()) {
             NewsSearch search = presenter.getNewsSearch();
-            ((NewsActivity) activity).getSearchNews().onNext(search);
+            activity.getSearchNews().onNext(search);
             activity.switchContent(NewsFeedFragment.class, false);
         }
     }

@@ -18,14 +18,14 @@ import butterknife.ButterKnife;
 /**
  * Created by root on 13.10.15.
  */
-public abstract class BaseFragmentView<P extends IPresenter> extends Fragment implements IView {
+public abstract class BaseFragmentView<P extends IPresenter, A extends BaseActivity> extends Fragment implements IView {
     protected P presenter;
-    protected BaseActivity activity;
+    protected A activity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity = (BaseActivity) getActivity();
+        activity = (A) getActivity();
         setHasOptionsMenu(true);
     }
 

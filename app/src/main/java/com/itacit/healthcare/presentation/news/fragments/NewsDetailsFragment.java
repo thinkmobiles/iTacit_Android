@@ -18,6 +18,7 @@ import com.itacit.healthcare.data.network.interceptors.AuthInterceptor;
 import com.itacit.healthcare.domain.interactor.GetAuthorsUseCase;
 import com.itacit.healthcare.domain.interactor.GetNewsDetailsUseCase;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
+import com.itacit.healthcare.presentation.news.NewsActivity;
 import com.itacit.healthcare.presentation.news.mappers.AuthorMapper;
 import com.itacit.healthcare.presentation.news.mappers.NewsDetailsMapper;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
@@ -33,7 +34,7 @@ import butterknife.Bind;
 /**
  * Created by root on 21.10.15.
  */
-public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter> implements INewsDetailsView {
+public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter, NewsActivity> implements INewsDetailsView {
     @Bind(R.id.iv_headline_FND)     ImageView ivHeadline;
     @Bind(R.id.tv_title_FND)        TextView tvTitle;
     @Bind(R.id.tv_article_FND)      TextView tvArticle;
