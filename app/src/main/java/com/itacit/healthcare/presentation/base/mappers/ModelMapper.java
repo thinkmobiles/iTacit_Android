@@ -1,4 +1,4 @@
-package com.itacit.healthcare.presentation.base;
+package com.itacit.healthcare.presentation.base.mappers;
 
 import java.util.ArrayList;
 import java.util.Collection;

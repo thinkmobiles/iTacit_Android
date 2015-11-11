@@ -19,7 +19,7 @@ import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
 import com.itacit.healthcare.presentation.news.NewsActivity;
 import com.itacit.healthcare.presentation.news.adapters.NewsAdapter;
-import com.itacit.healthcare.presentation.news.mapper.NewsModelMapper;
+import com.itacit.healthcare.presentation.news.mappers.NewsMapper;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
 import com.itacit.healthcare.presentation.news.models.NewsSearch;
 import com.itacit.healthcare.presentation.news.presenters.NewsFeedPresenter;
@@ -37,7 +37,7 @@ import rx.subjects.BehaviorSubject;
 /**
  * Created by root on 13.10.15.
  */
-public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implements INewsFeedView{
+public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsActivity> implements INewsFeedView {
 	@Bind(R.id.et_search_FN)				FiltersEditText searchNewsView;
 	@Bind(R.id.recycler_view_FN)			RecyclerView newsRecyclerView;
 
@@ -46,12 +46,7 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 
 	@OnClick(R.id.ib_clear_FN)
 	void clearSearch() {
-		searchNewsView.setOnTouchListener(new View.OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				return false;
-			}
-		});
+		searchNewsView.setOnTouchListener((v, event) -> false);
 		searchNewsView.removeFilters();
 		presenter.loadNews();
 	}
@@ -68,14 +63,9 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 
         switchToolbarIndicator(true);
 
-//		actionBar.setHomeAsUpIndicator(R.drawable.btn_back);
 		activity.setActionBarShadowVisible(false);
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setTitle(R.string.title_news_feed);
-
-//		actionBar.setDisplayShowHomeEnabled(true);
-//		actionBar.setDefaultDisplayHomeAsUpEnabled(true);
-//		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
     private void switchToolbarIndicator(boolean enable) {
@@ -89,7 +79,7 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 
 	@Override
 	protected NewsFeedPresenter createPresenter() {
-		return new NewsFeedPresenter(new GetNewsUseCase(0, 100), new NewsModelMapper());
+		return new NewsFeedPresenter(new GetNewsUseCase(0, 100), new NewsMapper());
 	}
 
 	@Override
@@ -125,22 +115,15 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 
     @Override
     public void showFilters(List<Filter> filters) {
-		searchNewsView.post(new Runnable() {
-			@Override
-			public void run() {
-				searchNewsView.setOnTouchListener(new View.OnTouchListener() {
-					@Override
-					public boolean onTouch(View v, MotionEvent event) {
-						return true;
-					}
-				});
+		searchNewsView.post(() -> {
+			// disable touch
+            searchNewsView.setOnTouchListener((v, event) -> true);
 
-				for (Filter filter : filters) {
-					searchNewsView.addFilter(filter, false);
-				}
-				searchNewsView.scrollTo(0,0);
-			}
-		});
+            for (Filter filter : filters) {
+                searchNewsView.addFilter(filter, false);
+            }
+            searchNewsView.scrollTo(0,0);
+        });
     }
 
     @Override
@@ -174,6 +157,6 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter> implem
 
     @Override
     public BehaviorSubject<NewsSearch> getNewsSearch() {
-        return ((NewsActivity)activity).getSearchNews();
+        return activity.getSearchNews();
     }
 }

@@ -36,7 +36,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     Toolbar toolbar;
     @Bind(R.id.action_bar_shadow)
     View actionBarShadow;
-
     //    For navigation drawer
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
@@ -66,7 +65,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 R.string.navigation_drawer_close);
 
         drawerLayout.setDrawerListener(toggle);
-
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);

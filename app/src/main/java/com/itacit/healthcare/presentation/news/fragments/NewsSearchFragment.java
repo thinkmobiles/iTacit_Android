@@ -24,8 +24,8 @@ import com.itacit.healthcare.presentation.base.widgets.datePicker.DatePickerFrag
 import com.itacit.healthcare.presentation.news.NewsActivity;
 import com.itacit.healthcare.presentation.news.adapters.AuthorsAdapter;
 import com.itacit.healthcare.presentation.news.adapters.CategoriesAdapter;
-import com.itacit.healthcare.presentation.news.mapper.AuthorModelMapper;
-import com.itacit.healthcare.presentation.news.mapper.CategoryModelMapper;
+import com.itacit.healthcare.presentation.news.mappers.AuthorMapper;
+import com.itacit.healthcare.presentation.news.mappers.CategoryMapper;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
 import com.itacit.healthcare.presentation.news.models.CategoryModel;
 import com.itacit.healthcare.presentation.news.models.NewsSearch;
@@ -43,7 +43,7 @@ import rx.Observable;
 /**
  * Created by root on 21.10.15.
  */
-public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> implements INewsSearchView,
+public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, NewsActivity> implements INewsSearchView,
         AuthorsAdapter.OnAuthorsItemSelectedListener, CategoriesAdapter.OnCategoriesItemSelectedListener, View.OnClickListener {
     @Bind(R.id.sv_root_FNS)                     ScrollView rootSv;
     @Bind(R.id.et_serch_FNS)                    FiltersEditText searchFiltersEt;
@@ -58,6 +58,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 
 	private AuthorsAdapter authorsAdapter;
 	private CategoriesAdapter categoriesAdapter;
+
 
     @OnClick(R.id.ib_clear_FNS)
     void onClearFilters() {
@@ -88,7 +89,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
     void searchNews() {
         if (presenter.isDateValid()) {
             NewsSearch search = presenter.getNewsSearch();
-            ((NewsActivity) activity).getSearchNews().onNext(search);
+            activity.getSearchNews().onNext(search);
             activity.switchContent(NewsFeedFragment.class, false);
         }
     }
@@ -165,7 +166,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter> im
 
     @Override
     protected NewsSearchPresenter createPresenter() {
-        return new NewsSearchPresenter(new GetAuthorsUseCase(0, 10), new GetCategoriesUseCase(0, 10), new AuthorModelMapper(), new CategoryModelMapper());
+        return new NewsSearchPresenter(new GetAuthorsUseCase(0, 10), new GetCategoriesUseCase(0, 10), new AuthorMapper(), new CategoryMapper());
     }
 
     @Override

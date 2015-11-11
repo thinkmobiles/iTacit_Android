@@ -9,7 +9,7 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,15 +21,18 @@
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"/>
 
-        <View
-            android:id="@+id/action_bar_shadow"
-            style="@style/shadow_bottom"/>
-
         <FrameLayout
             android:id="@+id/content"
+            android:layout_below="@id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-    </LinearLayout>
+
+        <View
+            android:id="@+id/action_bar_shadow"
+            android:layout_below="@id/toolbar"
+            style="@style/shadow_bottom"/>
+
+    </RelativeLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
