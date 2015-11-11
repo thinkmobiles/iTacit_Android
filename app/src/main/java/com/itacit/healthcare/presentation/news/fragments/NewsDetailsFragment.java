@@ -76,8 +76,7 @@ public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter, 
 
     @Override
     protected void setUpActionBar(ActionBar actionBar) {
-
-        switchToolbarIndicator(false);
+        switchToolbarIndicator(false, this);
 
         actionBar.setHomeAsUpIndicator(R.drawable.btn_back);
         activity.setActionBarShadowVisible(true);
@@ -87,11 +86,6 @@ public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter, 
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDefaultDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-    }
-
-    private void switchToolbarIndicator(boolean enable) {
-        toggle.setDrawerIndicatorEnabled(enable);
-        toggle.setToolbarNavigationClickListener(this);
     }
 
     @Override

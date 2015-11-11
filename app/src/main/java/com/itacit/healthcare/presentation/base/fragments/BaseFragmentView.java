@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseFragmentView<P extends IPresenter, A extends BaseActivity> extends Fragment implements IView {
     protected P presenter;
-    protected ActionBarDrawerToggle toggle;
+    private ActionBarDrawerToggle toggle;
     protected A activity;
 
     @Override
@@ -40,10 +40,15 @@ public abstract class BaseFragmentView<P extends IPresenter, A extends BaseActiv
         return view;
     }
 
+    protected void switchToolbarIndicator(boolean enable, @Nullable View.OnClickListener listener) {
+        toggle.setDrawerIndicatorEnabled(enable);
+        toggle.setToolbarNavigationClickListener(listener);
+    }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setUpActionBar(((BaseActivity)getActivity()).getSupportActionBar());
+        setUpActionBar(activity.getSupportActionBar());
         setUpView();
         if (presenter == null) {
             presenter = createPresenter();

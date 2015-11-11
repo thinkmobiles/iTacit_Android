@@ -141,8 +141,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
 
     @Override
     protected void setUpActionBar(ActionBar actionBar) {
-
-        switchToolbarIndicator(false);
+        switchToolbarIndicator(false, this);
 
         actionBar.setHomeAsUpIndicator(R.drawable.btn_back);
         activity.setActionBarShadowVisible(true);
@@ -152,11 +151,6 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDefaultDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-    }
-
-    private void switchToolbarIndicator(boolean enable) {
-        toggle.setDrawerIndicatorEnabled(enable);
-        toggle.setToolbarNavigationClickListener(this);
     }
 
     @Override
