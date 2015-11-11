@@ -8,6 +8,7 @@ import android.graphics.Shader;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.Html;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -79,7 +80,7 @@ public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter, 
 
         switchToolbarIndicator(false);
 
-        actionBar.setHomeAsUpIndicator(R.drawable.btn_back);
+//        actionBar.setHomeAsUpIndicator(R.drawable.btn_back);
         activity.setActionBarShadowVisible(true);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(R.string.title_news_feed);
@@ -87,6 +88,7 @@ public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter, 
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDefaultDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayUseLogoEnabled(false);
     }
 
     private void switchToolbarIndicator(boolean enable) {
