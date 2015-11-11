@@ -37,7 +37,7 @@ public class AuthActivity extends BaseActivity {
 
             @Override
             public void onNext(Boolean success) {
-                startActivity(new Intent(AuthActivity.this, MessagesActivity.class));
+                startActivity(new Intent(AuthActivity.this, NewsActivity.class));
             }
         });
     }
