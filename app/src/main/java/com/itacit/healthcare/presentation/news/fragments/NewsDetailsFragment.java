@@ -16,8 +16,8 @@ import android.widget.TextView;
 
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.data.network.interceptors.AuthInterceptor;
-import com.itacit.healthcare.domain.interactor.GetAuthorsUseCase;
-import com.itacit.healthcare.domain.interactor.GetNewsDetailsUseCase;
+import com.itacit.healthcare.domain.interactor.news.GetAuthorsUseCase;
+import com.itacit.healthcare.domain.interactor.news.GetNewsDetailsUseCase;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.news.NewsActivity;
 import com.itacit.healthcare.presentation.news.mappers.AuthorMapper;
@@ -77,8 +77,7 @@ public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter, 
 
     @Override
     protected void setUpActionBar(ActionBar actionBar) {
-
-        switchToolbarIndicator(false);
+        switchToolbarIndicator(false, this);
 
 //        actionBar.setHomeAsUpIndicator(R.drawable.btn_back);
         activity.setActionBarShadowVisible(true);
@@ -91,11 +90,6 @@ public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter, 
         actionBar.setDisplayUseLogoEnabled(false);
     }
 
-    private void switchToolbarIndicator(boolean enable) {
-        toggle.setDrawerIndicatorEnabled(enable);
-        toggle.setToolbarNavigationClickListener(this);
-    }
-
     @Override
     protected int getLayoutRes() {
         return R.layout.fragment_news_details;
@@ -104,7 +98,7 @@ public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter, 
     @Override
     protected NewsDetailsPresenter createPresenter() {
         long newsId = getArguments().getLong("newsId");
-        return new NewsDetailsPresenter(new GetNewsDetailsUseCase(newsId), new GetAuthorsUseCase(0, 10), new NewsDetailsMapper(), new AuthorMapper());
+        return new NewsDetailsPresenter(new GetNewsDetailsUseCase((int)newsId), new GetAuthorsUseCase(0, 10), new NewsDetailsMapper(), new AuthorMapper());
     }
 
     @Override

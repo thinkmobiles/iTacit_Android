@@ -39,7 +39,7 @@ public abstract class UseCase<T> {
   /**
    * Builds an {@link Observable} which will be used when executing the current {@link UseCase}.
    */
-  protected abstract Observable buildUseCaseObservable();
+  protected abstract Observable<T> buildUseCaseObservable();
 
   /**
    * Executes the current use case.
