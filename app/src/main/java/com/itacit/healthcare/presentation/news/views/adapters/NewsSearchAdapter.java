@@ -1,4 +1,4 @@
-package com.itacit.healthcare.presentation.news.adapters;
+package com.itacit.healthcare.presentation.news.views.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.itacit.healthcare.R;
-import com.itacit.healthcare.presentation.news.models.CategoryModel;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
 
 import java.util.List;
