@@ -20,12 +20,12 @@ import rx.Subscriber;
 public class NewsFeedPresenter extends BasePresenter<NewsFeedView> {
     public static final int SEARCH_TEXT_MIN_LENGTH = 3;
     private GetNewsUseCase getNewsUseCase;
-    private NewsMapper dataMapper;
+    private NewsMapper newsMapper;
     public List<NewsModel> newsModels;
 
-    public NewsFeedPresenter(GetNewsUseCase newsUseCase, NewsMapper newsModelDataMapper) {
+    public NewsFeedPresenter(GetNewsUseCase newsUseCase, NewsMapper newsMapper) {
         getNewsUseCase = newsUseCase;
-        dataMapper = newsModelDataMapper;
+        this.newsMapper = newsMapper;
     }
 
     @Override
@@ -76,7 +76,7 @@ public class NewsFeedPresenter extends BasePresenter<NewsFeedView> {
 
         @Override
         public void onNext(List<News> newses) {
-	        newsModels = dataMapper.transform(newses);
+	        newsModels = newsMapper.transform(newses);
         }
     }
 }
