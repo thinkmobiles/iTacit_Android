@@ -1,4 +1,4 @@
-package com.itacit.healthcare.presentation.news.models;
+package com.itacit.healthcare.presentation.messages.models;
 
 import android.net.Uri;
 

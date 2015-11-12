@@ -19,6 +19,7 @@
     <dimen name="btn_search_height">42dp</dimen>
     <dimen name="author_img_size">40dp</dimen>
     <dimen name="margin_sides">16dp</dimen>
+    <dimen name="check_icon_size">16dp</dimen>
     <dimen name="margin_news_details">28dp</dimen>
     <dimen name="news_thumb_size">100dp</dimen>
     <dimen name="news_item_category_margin_top">56dp</dimen>
