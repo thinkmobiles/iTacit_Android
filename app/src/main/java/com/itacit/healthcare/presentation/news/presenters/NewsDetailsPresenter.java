@@ -9,7 +9,7 @@ import com.itacit.healthcare.presentation.news.mappers.AuthorMapper;
 import com.itacit.healthcare.presentation.news.mappers.NewsDetailsMapper;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
 import com.itacit.healthcare.presentation.news.models.NewsDetailsModel;
-import com.itacit.healthcare.presentation.news.views.INewsDetailsView;
+import com.itacit.healthcare.presentation.news.views.NewsDetailsView;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import rx.Subscriber;
 /**
  * Created by root on 26.10.15.
  */
-public class NewsDetailsPresenter extends BasePresenter<INewsDetailsView> implements INewsDetailsPresenter {
+public class NewsDetailsPresenter extends BasePresenter<NewsDetailsView> {
     private GetNewsDetailsUseCase newsDetailsUseCase;
     private GetAuthorsUseCase getAuthorsUseCase;
     private NewsDetailsMapper dataMapper;
@@ -48,7 +48,6 @@ public class NewsDetailsPresenter extends BasePresenter<INewsDetailsView> implem
         }
     }
 
-    @Override
     public void loadNewsDetails() {
         newsDetailsUseCase.execute(new NewDetailsSubscriber());
     }

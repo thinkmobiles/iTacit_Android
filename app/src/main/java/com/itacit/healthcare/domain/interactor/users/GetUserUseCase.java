@@ -17,6 +17,6 @@ public class GetUserUseCase extends GetItemUseCase<User> {
 
     @Override
     protected Observable<User> buildUseCaseObservable() {
-        return UsersService.getApi().getUser(request);
+        return UsersService.getApi().getUser(requestBody);
     }
 }

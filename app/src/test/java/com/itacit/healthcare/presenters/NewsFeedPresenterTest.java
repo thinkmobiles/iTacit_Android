@@ -3,7 +3,7 @@ package com.itacit.healthcare.presenters;
 import com.itacit.healthcare.domain.interactor.news.GetNewsUseCase;
 import com.itacit.healthcare.presentation.news.mappers.NewsMapper;
 import com.itacit.healthcare.presentation.news.presenters.NewsFeedPresenter;
-import com.itacit.healthcare.presentation.news.views.INewsFeedView;
+import com.itacit.healthcare.presentation.news.views.NewsFeedView;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,13 +26,13 @@ public class NewsFeedPresenterTest {
     private String LONG_TEXT = "longText";
     private String SHORT_TEXT = "AA";
 
-    INewsFeedView newsFeedView;
+    NewsFeedView newsFeedView;
     GetNewsUseCase getNewsUseCase;
     NewsMapper newsMapper;
 
     @Before
     public void setUp() {
-        newsFeedView = mock(INewsFeedView.class);
+        newsFeedView = mock(NewsFeedView.class);
         getNewsUseCase = mock(GetNewsUseCase.class);
         newsMapper = mock(NewsMapper.class);
     }
@@ -46,6 +46,7 @@ public class NewsFeedPresenterTest {
         when(newsFeedView.getNewsSearchTextObs()).thenReturn(observable);
         presenter.attachView(newsFeedView);
         verify(getNewsUseCase).execute(isA(Subscriber.class), eq(LONG_TEXT));
+        verify(newsFeedView).showProgress();
     }
 
     @Test
@@ -57,11 +58,11 @@ public class NewsFeedPresenterTest {
         when(newsFeedView.getNewsSearchTextObs()).thenReturn(observable);
         presenter.attachView(newsFeedView);
         verify(getNewsUseCase, never()).execute(isA(Subscriber.class), anyString());
+        verify(newsFeedView, never()).showProgress();
     }
 
-    @Test
-    public void shouldMapNewsModels() {
 
-        NewsFeedPresenter presenter = new NewsFeedPresenter(getNewsUseCase, newsMapper);
-    }
+
+
+
 }

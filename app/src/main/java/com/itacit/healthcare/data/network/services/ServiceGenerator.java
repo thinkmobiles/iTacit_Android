@@ -15,9 +15,6 @@ import retrofit.RxJavaCallAdapterFactory;
 public class ServiceGenerator {
     public static String BASE_URL = "https://mobilesandbox.itacit.com";
 
-    // FIXME
-    // Logic of service creation must be changed
-
     public static Retrofit.Builder builder = new Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())

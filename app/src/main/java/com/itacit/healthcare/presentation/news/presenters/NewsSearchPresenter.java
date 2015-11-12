@@ -11,7 +11,7 @@ import com.itacit.healthcare.presentation.news.mappers.CategoryMapper;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
 import com.itacit.healthcare.presentation.news.models.CategoryModel;
 import com.itacit.healthcare.presentation.news.models.NewsSearch;
-import com.itacit.healthcare.presentation.news.views.INewsSearchView;
+import com.itacit.healthcare.presentation.news.views.NewsSearchView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,7 +25,8 @@ import rx.Subscriber;
 /**
  * Created by root on 26.10.15.
  */
-public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implements INewsSearchPresenter {
+public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
+    public enum DateType {From, To}
     public static final int TIMEOUT = 1;
     //interactors
     private GetAuthorsUseCase getAuthorsUseCase;
@@ -63,7 +64,6 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
         return Observable.empty();
     }
 
-    @Override
     public NewsSearch getNewsSearch() {
         List<Filter> filters = new ArrayList<>();
         if (getView() != null) filters = getView().getFilters();
@@ -71,12 +71,10 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
         return new NewsSearch(filters, fromDate, toDate);
     }
 
-    @Override
     public void getAuthors(String query) {
         getAuthorsUseCase.execute(new GetAuthorsSubscriber(), query);
     }
 
-    @Override
     public void getCategories(String query) {
         getCategoriesUseCase.execute(new GetCategoriesSubscriber(), query);
     }
@@ -91,7 +89,6 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
 	}
 
 
-	@Override
     public void selectAuthorFilterById(long id) {
         for (AuthorModel authorModel : authorModels) {
             if (authorModel.getId() == id) {
@@ -110,7 +107,6 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
         }
     }
 
-    @Override
     public void selectCategoryFilterById(long id) {
         for (CategoryModel categoryModel : categoryModels) {
             if (categoryModel.getId() == id) {
@@ -129,7 +125,6 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
         }
     }
 
-    @Override
     public void onDateSelected(DateType dateType, int year, int monthOfYear, int dayOfMonth) {
         Calendar calendar = null;
         switch (dateType) {
@@ -143,11 +138,10 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
 
         if (getView() != null) {
             getView().showDate(dateType,
-                    INewsSearchView.dateFormat.format(calendar.getTime()));
+                    NewsSearchView.dateFormat.format(calendar.getTime()));
         }
     }
 
-    @Override
     public void onDateClear(DateType dateType) {
         if (getView() != null) getView().resetDate(dateType);
         switch (dateType) {
@@ -160,7 +154,6 @@ public class NewsSearchPresenter extends BasePresenter<INewsSearchView> implemen
         }
     }
 
-    @Override
     public boolean isDateValid() {
         if (fromDate == null && toDate == null) {
             return true;

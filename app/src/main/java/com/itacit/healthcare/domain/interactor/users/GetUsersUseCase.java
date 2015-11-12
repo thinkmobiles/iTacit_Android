@@ -17,6 +17,6 @@ public class GetUsersUseCase extends GetListUseCase<User> {
 
     @Override
     protected Observable<ListResponse<User>> request() {
-        return UsersService.getApi().getUsersList(listRequest);
+        return UsersService.getApi().getUsersList(requestBody);
     }
 }

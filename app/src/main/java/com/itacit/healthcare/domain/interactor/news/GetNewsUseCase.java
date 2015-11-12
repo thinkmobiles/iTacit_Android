@@ -111,7 +111,7 @@ public class GetNewsUseCase extends GetListUseCase<News> {
 
     @Override
     protected Observable<ListResponse<News>> request() {
-        return NewsService.getApi().getNews(listRequest);
+        return NewsService.getApi().getNews(requestBody);
     }
 
 }

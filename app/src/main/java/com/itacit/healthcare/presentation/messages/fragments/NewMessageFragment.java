@@ -14,14 +14,14 @@ import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
 import com.itacit.healthcare.presentation.messages.MessagesActivity;
 import com.itacit.healthcare.presentation.messages.presenters.NewMessagePresenter;
-import com.itacit.healthcare.presentation.messages.views.INewMessageView;
+import com.itacit.healthcare.presentation.messages.views.NewMessageView;
 
 import butterknife.Bind;
 
 /**
  * Created by root on 11.11.15.
  */
-public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, MessagesActivity> implements INewMessageView {
+public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, MessagesActivity> implements NewMessageView {
 	@Bind(R.id.ib_add_FMN)
 	ImageButton ibAddRecipient;
 	@Bind(R.id.et_recipients_FMN)
