@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.auth.LoginUseCase;
 import com.itacit.healthcare.presentation.base.BaseActivity;
+import com.itacit.healthcare.presentation.messages.MessagesActivity;
 import com.itacit.healthcare.presentation.news.NewsActivity;
 
 import rx.Subscriber;
