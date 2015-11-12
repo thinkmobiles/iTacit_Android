@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -19,6 +20,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.itacit.healthcare.R;
+import com.itacit.healthcare.presentation.messages.MessagesActivity;
+import com.itacit.healthcare.presentation.news.NewsActivity;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -163,8 +166,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             case R.id.nav_dashboard:
                 break;
             case R.id.nav_news:
+                startActivity(new Intent(getApplicationContext(), NewsActivity.class));
                 break;
             case R.id.nav_message:
+                startActivity(new Intent(getApplicationContext(), MessagesActivity.class));
                 break;
             case R.id.nav_training:
                 break;
