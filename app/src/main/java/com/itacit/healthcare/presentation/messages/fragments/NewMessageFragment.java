@@ -1,13 +1,10 @@
 package com.itacit.healthcare.presentation.messages.fragments;
 
-import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -17,15 +14,14 @@ import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
 import com.itacit.healthcare.presentation.messages.MessagesActivity;
 import com.itacit.healthcare.presentation.messages.presenters.NewMessagePresenter;
-import com.itacit.healthcare.presentation.messages.views.INewMessageView;
+import com.itacit.healthcare.presentation.messages.views.NewMessageView;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by root on 11.11.15.
  */
-public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, MessagesActivity> implements INewMessageView {
+public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, MessagesActivity> implements NewMessageView {
 	@Bind(R.id.ib_add_FMN)
 	ImageButton ibAddRecipient;
 	@Bind(R.id.et_recipients_FMN)

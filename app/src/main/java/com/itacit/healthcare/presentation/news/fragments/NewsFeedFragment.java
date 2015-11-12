@@ -21,7 +21,7 @@ import com.itacit.healthcare.presentation.news.mappers.NewsMapper;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
 import com.itacit.healthcare.presentation.news.models.NewsSearch;
 import com.itacit.healthcare.presentation.news.presenters.NewsFeedPresenter;
-import com.itacit.healthcare.presentation.news.views.INewsFeedView;
+import com.itacit.healthcare.presentation.news.views.NewsFeedView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ import rx.subjects.BehaviorSubject;
 /**
  * Created by root on 13.10.15.
  */
-public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsActivity> implements INewsFeedView {
+public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsActivity> implements NewsFeedView {
 	@Bind(R.id.et_search_FN)				FiltersEditText searchNewsView;
 	@Bind(R.id.recycler_view_FN)			RecyclerView newsRecyclerView;
 

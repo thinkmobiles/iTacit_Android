@@ -6,21 +6,21 @@ import android.support.annotation.Nullable;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.itacit.healthcare.presentation.base.BaseActivity;
-import com.itacit.healthcare.presentation.base.presenters.IPresenter;
-import com.itacit.healthcare.presentation.base.views.IView;
+import com.itacit.healthcare.presentation.base.presenters.Presenter;
+import com.itacit.healthcare.presentation.base.views.View;
 
 import butterknife.ButterKnife;
+import rx.Scheduler;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by root on 13.10.15.
  */
-public abstract class BaseFragmentView<P extends IPresenter, A extends BaseActivity> extends Fragment implements IView {
+public abstract class BaseFragmentView<P extends Presenter, A extends BaseActivity> extends Fragment implements View {
     protected P presenter;
     private ActionBarDrawerToggle toggle;
     protected A activity;
@@ -35,19 +35,19 @@ public abstract class BaseFragmentView<P extends IPresenter, A extends BaseActiv
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(getLayoutRes(), container, false);
+    public android.view.View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        android.view.View view = inflater.inflate(getLayoutRes(), container, false);
         ButterKnife.bind(this, view);
         return view;
     }
 
-    protected void switchToolbarIndicator(boolean enable, @Nullable View.OnClickListener listener) {
+    protected void switchToolbarIndicator(boolean enable, @Nullable android.view.View.OnClickListener listener) {
         toggle.setDrawerIndicatorEnabled(enable);
         toggle.setToolbarNavigationClickListener(listener);
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(android.view.View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setUpActionBar(activity.getSupportActionBar());
         setUpView();
@@ -63,6 +63,11 @@ public abstract class BaseFragmentView<P extends IPresenter, A extends BaseActiv
         super.onDestroyView();
         presenter.detachView();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    public Scheduler getUiThreadScheduler() {
+        return AndroidSchedulers.mainThread();
     }
 
     protected abstract void setUpView();

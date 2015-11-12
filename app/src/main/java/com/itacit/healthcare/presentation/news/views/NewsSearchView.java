@@ -1,6 +1,6 @@
 package com.itacit.healthcare.presentation.news.views;
 
-import com.itacit.healthcare.presentation.base.views.IView;
+import com.itacit.healthcare.presentation.base.views.View;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
 import com.itacit.healthcare.presentation.news.models.CategoryModel;
@@ -10,12 +10,12 @@ import java.util.List;
 
 import rx.Observable;
 
-import static com.itacit.healthcare.presentation.news.presenters.INewsSearchPresenter.DateType;
+import static com.itacit.healthcare.presentation.news.presenters.NewsSearchPresenter.*;
 
 /**
  * Created by root on 21.10.15.
  */
-public interface INewsSearchView extends IView {
+public interface NewsSearchView extends View {
 	SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
 
 	void showDate(DateType dateType, String toDate);
