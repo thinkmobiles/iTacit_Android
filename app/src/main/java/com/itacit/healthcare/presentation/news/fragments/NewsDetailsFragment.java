@@ -79,7 +79,7 @@ public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter, 
     protected void setUpActionBar(ActionBar actionBar) {
         switchToolbarIndicator(false, this);
 
-//        actionBar.setHomeAsUpIndicator(R.drawable.btn_back);
+        actionBar.setHomeAsUpIndicator(null);
         activity.setActionBarShadowVisible(true);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(R.string.title_news_feed);
