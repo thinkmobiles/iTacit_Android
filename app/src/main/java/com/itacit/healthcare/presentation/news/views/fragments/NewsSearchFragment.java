@@ -1,4 +1,4 @@
-package com.itacit.healthcare.presentation.news.fragments;
+package com.itacit.healthcare.presentation.news.views.fragments;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
@@ -21,9 +21,9 @@ import com.itacit.healthcare.presentation.base.widgets.WrapChildsLayotManager;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
 import com.itacit.healthcare.presentation.base.widgets.datePicker.DatePickerFragment;
-import com.itacit.healthcare.presentation.news.NewsActivity;
-import com.itacit.healthcare.presentation.news.adapters.AuthorsAdapter;
-import com.itacit.healthcare.presentation.news.adapters.CategoriesAdapter;
+import com.itacit.healthcare.presentation.news.views.activity.NewsActivity;
+import com.itacit.healthcare.presentation.news.views.adapters.AuthorsAdapter;
+import com.itacit.healthcare.presentation.news.views.adapters.CategoriesAdapter;
 import com.itacit.healthcare.presentation.news.mappers.AuthorMapper;
 import com.itacit.healthcare.presentation.news.mappers.CategoryMapper;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;

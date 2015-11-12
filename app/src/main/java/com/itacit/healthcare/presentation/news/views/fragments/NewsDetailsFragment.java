@@ -1,4 +1,4 @@
-package com.itacit.healthcare.presentation.news.fragments;
+package com.itacit.healthcare.presentation.news.views.fragments;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -14,7 +14,7 @@ import com.itacit.healthcare.domain.interactor.news.GetAuthorsUseCase;
 import com.itacit.healthcare.domain.interactor.news.GetNewsDetailsUseCase;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.picasso.CircleTransformation;
-import com.itacit.healthcare.presentation.news.NewsActivity;
+import com.itacit.healthcare.presentation.news.views.activity.NewsActivity;
 import com.itacit.healthcare.presentation.news.mappers.AuthorMapper;
 import com.itacit.healthcare.presentation.news.mappers.NewsDetailsMapper;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;

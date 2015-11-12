@@ -30,7 +30,6 @@ public class NewsDetailsPresenter extends BasePresenter<NewsDetailsView> {
         this.getAuthorsUseCase = getAuthorsUseCase;
         this.dataMapper = dataMapper;
         this.authorMapper = authorMapper;
-
     }
 
     private void showDetailsOnView(NewsDetails newsDetails) {

@@ -41,7 +41,9 @@ public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
     private Calendar fromDate;
     private Calendar toDate;
 
-    public NewsSearchPresenter(GetAuthorsUseCase getAuthorsUseCase, GetCategoriesUseCase getCategoriesUseCase, AuthorMapper authorMapper, CategoryMapper categoryMapper) {
+    public NewsSearchPresenter(GetAuthorsUseCase getAuthorsUseCase,
+                               GetCategoriesUseCase getCategoriesUseCase,
+                               AuthorMapper authorMapper, CategoryMapper categoryMapper) {
         this.getAuthorsUseCase = getAuthorsUseCase;
         this.getCategoriesUseCase = getCategoriesUseCase;
         this.authorMapper = authorMapper;
@@ -87,7 +89,6 @@ public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
 				break;
 		}
 	}
-
 
     public void selectAuthorFilterById(long id) {
         for (AuthorModel authorModel : authorModels) {
