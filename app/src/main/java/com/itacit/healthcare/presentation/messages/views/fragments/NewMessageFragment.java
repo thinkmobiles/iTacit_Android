@@ -1,4 +1,4 @@
-package com.itacit.healthcare.presentation.messages.fragments;
+package com.itacit.healthcare.presentation.messages.views.fragments;
 
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
@@ -14,11 +14,11 @@ import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.users.GetUsersUseCase;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
-import com.itacit.healthcare.presentation.messages.MessagesActivity;
+import com.itacit.healthcare.presentation.messages.views.activity.MessagesActivity;
 import com.itacit.healthcare.presentation.messages.presenters.NewMessagePresenter;
 import com.itacit.healthcare.presentation.messages.views.NewMessageView;
-import com.itacit.healthcare.presentation.news.mappers.UserMapper;
-import com.itacit.healthcare.presentation.news.models.UserModel;
+import com.itacit.healthcare.presentation.messages.mappers.UserMapper;
+import com.itacit.healthcare.presentation.messages.models.UserModel;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
 import java.util.ArrayList;

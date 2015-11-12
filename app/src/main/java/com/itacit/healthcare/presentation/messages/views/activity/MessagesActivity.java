@@ -1,10 +1,10 @@
-package com.itacit.healthcare.presentation.messages;
+package com.itacit.healthcare.presentation.messages.views.activity;
 
 import android.os.Bundle;
 
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.presentation.base.BaseActivity;
-import com.itacit.healthcare.presentation.messages.fragments.NewMessageFragment;
+import com.itacit.healthcare.presentation.messages.views.fragments.NewMessageFragment;
 
 /**
  * Created by root on 11.11.15.

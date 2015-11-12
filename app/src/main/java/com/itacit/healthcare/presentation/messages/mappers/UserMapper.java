@@ -1,10 +1,10 @@
-package com.itacit.healthcare.presentation.news.mappers;
+package com.itacit.healthcare.presentation.messages.mappers;
 
 import android.net.Uri;
 
 import com.itacit.healthcare.data.entries.User;
 import com.itacit.healthcare.presentation.base.mappers.ModelMapper;
-import com.itacit.healthcare.presentation.news.models.UserModel;
+import com.itacit.healthcare.presentation.messages.models.UserModel;
 
 /**
  * Created by root on 12.11.15.

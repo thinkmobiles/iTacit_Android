@@ -4,8 +4,8 @@ import com.itacit.healthcare.data.entries.User;
 import com.itacit.healthcare.domain.interactor.users.GetUsersUseCase;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
 import com.itacit.healthcare.presentation.messages.views.NewMessageView;
-import com.itacit.healthcare.presentation.news.mappers.UserMapper;
-import com.itacit.healthcare.presentation.news.models.UserModel;
+import com.itacit.healthcare.presentation.messages.mappers.UserMapper;
+import com.itacit.healthcare.presentation.messages.models.UserModel;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
