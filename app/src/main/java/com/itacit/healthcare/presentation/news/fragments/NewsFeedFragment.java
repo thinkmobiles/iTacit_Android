@@ -60,7 +60,7 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsAc
 	protected void setUpActionBar(ActionBar actionBar) {
         switchToolbarIndicator(true, null);
 
-		activity.setActionBarShadowVisible(true);
+		activity.setActionBarShadowVisible(false);
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setTitle(R.string.title_news_feed);
 	}

@@ -1,8 +1,8 @@
 package com.itacit.healthcare.presenters;
 
-import com.itacit.healthcare.domain.interactor.GetAuthorsUseCase;
-import com.itacit.healthcare.domain.interactor.GetCategoriesUseCase;
-import com.itacit.healthcare.domain.interactor.GetNewsUseCase;
+
+import com.itacit.healthcare.domain.interactor.news.GetAuthorsUseCase;
+import com.itacit.healthcare.domain.interactor.news.GetCategoriesUseCase;
 import com.itacit.healthcare.presentation.news.mappers.AuthorMapper;
 import com.itacit.healthcare.presentation.news.mappers.CategoryMapper;
 import com.itacit.healthcare.presentation.news.mappers.NewsMapper;

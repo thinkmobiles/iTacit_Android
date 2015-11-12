@@ -9,6 +9,7 @@
         <item name="colorControlNormal">@color/text_dark_grey</item>
     </style>
 
+
     <style name="textCategory">
         <item name="android:layout_gravity">left</item>
         <item name="android:textColor">@color/gray_light</item>
