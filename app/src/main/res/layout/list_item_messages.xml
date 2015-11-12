@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:orientation="horizontal"
+                android:paddingTop="14dp">
+
+    <com.github.siyamed.shapeimageview.CircularImageView
+        android:id="@+id/iv_headline_LIM"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:siBorderWidth="1dp"
+        app:siBorderColor="@android:color/black"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/margin_sides"
+        android:src="@android:drawable/sym_def_app_icon"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_messages_info_LIM"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/iv_headline_LIM"
+        android:layout_marginLeft="@dimen/margin_sides"
+        android:layout_marginRight="@dimen/margin_sides"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_name_LIM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="John Carson"
+            android:ellipsize="end"
+            style="@style/textArticle"/>
+
+        <TextView
+            android:id="@+id/tv_last_time_response_LIM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="12 min ago"
+            android:textSize="10sp"
+            android:layout_alignTop="@+id/tv_number_response_LIM"
+            android:layout_toStartOf="@+id/tv_number_response_LIM"/>
+
+        <TextView
+            android:id="@+id/tv_number_response_LIM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="12"
+            android:background="@drawable/bg_tv_number_response"
+            android:textColor="@color/btn_blue"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:layout_marginLeft="5dp"
+            android:layout_above="@+id/tv_position_LIM"
+            android:layout_alignParentEnd="true"/>
+
+        <TextView
+            android:id="@+id/tv_position_LIM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/textCategory"
+            tools:text="General manager/Department"
+            android:layout_marginTop="8dp"
+            android:layout_below="@+id/tv_name_LIM"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:id="@+id/tv_subject_LIM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/textContent"
+            tools:text="Lorem ipsum dolor"
+            android:layout_marginTop="8dp"
+            android:layout_below="@+id/tv_position_LIM"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:id="@+id/tv_content_LIM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/tv_subject_LIM"
+            android:maxLines="2"
+            tools:text="Lorem ipsum dolor sit amet, nam cu paulo utamur voluptua, mei id phaedrum reprimique. Cum postulant consequuntur in. Id magna recteque sea, usu te aperiri scriptorem"
+            style="@style/textContent"/>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray_light"
+        android:layout_marginTop="16dp"
+        android:layout_below="@id/rl_messages_info_LIM"/>
+
+</RelativeLayout>
