@@ -1,13 +1,10 @@
 package com.itacit.healthcare.presentation.messages.fragments;
 
-import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -20,7 +17,6 @@ import com.itacit.healthcare.presentation.messages.presenters.NewMessagePresente
 import com.itacit.healthcare.presentation.messages.views.INewMessageView;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by root on 11.11.15.
@@ -64,7 +60,7 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 
 	@Override
 	protected NewMessagePresenter createPresenter() {
-		return new NewMessagePresenter();
+		return new NewMessagePresenter(getUsersUseCase, userMapper);
 	}
 
 	@Override
