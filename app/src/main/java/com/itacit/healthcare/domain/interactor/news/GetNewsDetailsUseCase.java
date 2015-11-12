@@ -20,7 +20,7 @@ public class GetNewsDetailsUseCase extends GetItemUseCase<NewsDetails> {
     @Override
     protected Observable<NewsDetails> buildUseCaseObservable() {
         return NewsService.getApi()
-                .getNewsDetails(request)
+                .getNewsDetails(requestBody)
                 .filter(r -> r != null);
     }
 }

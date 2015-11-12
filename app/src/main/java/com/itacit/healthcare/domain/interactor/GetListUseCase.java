@@ -12,22 +12,22 @@ import rx.Subscriber;
  * Created by Nerevar on 10/29/2015.
  */
 public abstract class GetListUseCase<T> extends UseCase<List<T>> {
-    protected ListRequest listRequest;
+    protected ListRequest requestBody;
 
     public GetListUseCase(int startIndex, int rowCounts) {
-        listRequest = new ListRequest();
-        listRequest.setStartIndex(startIndex);
-        listRequest.setRowCount(rowCounts);
+        requestBody = new ListRequest();
+        requestBody.setStartIndex(startIndex);
+        requestBody.setRowCount(rowCounts);
     }
 
     public void execute(Subscriber<List<T>> useCaseSubscriber, String query) {
-        listRequest.setQuery(query);
+        requestBody.setQuery(query);
         super.execute(useCaseSubscriber);
     }
 
     @Override
     public void execute(Subscriber<List<T>> useCaseSubscriber) {
-        listRequest.setQuery(null);
+        requestBody.setQuery(null);
         super.execute(useCaseSubscriber);
     }
 
