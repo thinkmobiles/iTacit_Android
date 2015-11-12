@@ -7,4 +7,15 @@ import com.itacit.healthcare.presentation.messages.views.MessagesFeedView;
  * Created by Den on 12.11.15.
  */
 public class MessagesFeedPresenter extends BasePresenter<MessagesFeedView> {
+
+    public MessagesFeedPresenter() {
+
+    }
+
+    @Override
+    protected void onViewAttach() {
+        if (getView()!= null) {
+
+        }
+    }
 }
