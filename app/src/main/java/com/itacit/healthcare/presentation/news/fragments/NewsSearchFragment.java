@@ -29,9 +29,8 @@ import com.itacit.healthcare.presentation.news.mappers.CategoryMapper;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
 import com.itacit.healthcare.presentation.news.models.CategoryModel;
 import com.itacit.healthcare.presentation.news.models.NewsSearch;
-import com.itacit.healthcare.presentation.news.presenters.INewsSearchPresenter.DateType;
 import com.itacit.healthcare.presentation.news.presenters.NewsSearchPresenter;
-import com.itacit.healthcare.presentation.news.views.INewsSearchView;
+import com.itacit.healthcare.presentation.news.views.NewsSearchView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
 import java.util.List;
@@ -40,10 +39,12 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import rx.Observable;
 
+import static com.itacit.healthcare.presentation.news.presenters.NewsSearchPresenter.DateType;
+
 /**
  * Created by root on 21.10.15.
  */
-public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, NewsActivity> implements INewsSearchView,
+public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, NewsActivity> implements NewsSearchView,
         AuthorsAdapter.OnAuthorsItemSelectedListener, CategoriesAdapter.OnCategoriesItemSelectedListener, View.OnClickListener {
     @Bind(R.id.sv_root_FNS)                     ScrollView rootSv;
     @Bind(R.id.et_serch_FNS)                    FiltersEditText searchFiltersEt;

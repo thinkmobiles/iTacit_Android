@@ -9,10 +9,10 @@ public abstract class GetItemUseCase<T> extends UseCase<T> {
     protected static final String DEFAULT_FIELDS = "DEFAULT";
     private static final String COMBINE_CHAR = "|";
 
-    protected ItemRequest request = new ItemRequest();
+    protected ItemRequest requestBody = new ItemRequest();
 
     public GetItemUseCase(int id) {
-        request.setId(id);
+        requestBody.setId(id);
     }
 
     protected void setRequestFields(String... fields) {
@@ -25,6 +25,6 @@ public abstract class GetItemUseCase<T> extends UseCase<T> {
             requestFields += field;
         }
 
-        request.setFields(requestFields);
+        requestBody.setFields(requestFields);
     }
 }

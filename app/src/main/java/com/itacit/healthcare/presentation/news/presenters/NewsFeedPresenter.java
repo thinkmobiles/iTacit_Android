@@ -6,18 +6,18 @@ import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
 import com.itacit.healthcare.presentation.news.mappers.NewsMapper;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
 import com.itacit.healthcare.presentation.news.models.NewsSearch;
-import com.itacit.healthcare.presentation.news.views.INewsFeedView;
+import com.itacit.healthcare.presentation.news.views.NewsFeedView;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
+
 
 /**
  * Created by root on 13.10.15.
  */
-public class NewsFeedPresenter extends BasePresenter<INewsFeedView> implements INewsFeedPresenter {
+public class NewsFeedPresenter extends BasePresenter<NewsFeedView> {
     public static final int SEARCH_TEXT_MIN_LENGTH = 3;
     private GetNewsUseCase getNewsUseCase;
     private NewsMapper dataMapper;
@@ -34,7 +34,7 @@ public class NewsFeedPresenter extends BasePresenter<INewsFeedView> implements I
             compositeSubscription.add(getView().getNewsSearchTextObs()
                     .filter(text -> text.length() >= SEARCH_TEXT_MIN_LENGTH)
                     .debounce(1, TimeUnit.SECONDS)
-                    .observeOn(AndroidSchedulers.mainThread())
+                    .observeOn(getView().getUiThreadScheduler())
                     .subscribe(this::searchNews));
 
             compositeSubscription.add(getView().getNewsSearch().subscribe(this::searchNews));
@@ -52,13 +52,11 @@ public class NewsFeedPresenter extends BasePresenter<INewsFeedView> implements I
         if(getView() != null) getView().showNews(newsModels);
     }
 
-    @Override
     public void loadNews() {
         if (getView() != null) getView().showProgress();
         getNewsUseCase.execute(new NewsListSubscriber());
     }
 
-    @Override
     public void searchNews(String query) {
         getNewsUseCase.execute(new NewsListSubscriber(), query);
     }

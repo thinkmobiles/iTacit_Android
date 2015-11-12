@@ -27,7 +27,7 @@ public class GetAuthorsUseCase extends GetListUseCase<Author> {
 
     @Override
     protected Observable<ListResponse<Author>> request() {
-        return NewsService.getApi().getAuthors(listRequest);
+        return NewsService.getApi().getAuthors(requestBody);
     }
 
 }

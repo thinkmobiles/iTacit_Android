@@ -2,7 +2,7 @@ package com.itacit.healthcare.presentation.base.presenters;
 
 import android.support.annotation.Nullable;
 
-import com.itacit.healthcare.presentation.base.views.IView;
+import com.itacit.healthcare.presentation.base.views.View;
 
 import java.lang.ref.WeakReference;
 
@@ -11,7 +11,7 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by root on 13.10.15.
  */
-public abstract class BasePresenter<V extends IView> implements IPresenter<V> {
+public abstract class BasePresenter<V extends View> implements Presenter<V> {
     private WeakReference<V> viewRef;
     protected CompositeSubscription compositeSubscription;
 

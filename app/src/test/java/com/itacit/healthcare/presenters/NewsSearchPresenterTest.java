@@ -5,20 +5,15 @@ import com.itacit.healthcare.domain.interactor.news.GetAuthorsUseCase;
 import com.itacit.healthcare.domain.interactor.news.GetCategoriesUseCase;
 import com.itacit.healthcare.presentation.news.mappers.AuthorMapper;
 import com.itacit.healthcare.presentation.news.mappers.CategoryMapper;
-import com.itacit.healthcare.presentation.news.mappers.NewsMapper;
 import com.itacit.healthcare.presentation.news.presenters.NewsSearchPresenter;
-import com.itacit.healthcare.presentation.news.views.INewsFeedView;
-import com.itacit.healthcare.presentation.news.views.INewsSearchView;
+import com.itacit.healthcare.presentation.news.views.NewsSearchView;
 
 import org.junit.Before;
 import org.junit.Test;
-import static org.mockito.Matchers.anyString;
+
 import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import static org.mockito.Mockito.mock;
 
@@ -27,7 +22,7 @@ import static org.mockito.Mockito.mock;
  */
 public class NewsSearchPresenterTest {
 
-	INewsSearchView newsSearchView;
+	NewsSearchView newsSearchView;
 	GetAuthorsUseCase getAuthorsUseCase;
 	GetCategoriesUseCase getCategoriesUseCase;
 	AuthorMapper authorMapper;
@@ -36,7 +31,7 @@ public class NewsSearchPresenterTest {
 
 	@Before
 	public void setUp() {
-		newsSearchView = mock(INewsSearchView.class);
+		newsSearchView = mock(NewsSearchView.class);
 		getAuthorsUseCase = mock(GetAuthorsUseCase.class);
 		getCategoriesUseCase = mock(GetCategoriesUseCase.class);
 		authorMapper = mock(AuthorMapper.class);

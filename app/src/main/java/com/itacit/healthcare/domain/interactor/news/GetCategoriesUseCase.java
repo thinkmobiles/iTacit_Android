@@ -28,7 +28,7 @@ public class GetCategoriesUseCase extends GetListUseCase<Category> {
 
     @Override
     protected Observable<ListResponse<Category>> request() {
-        return NewsService.getApi().getCategories(listRequest);
+        return NewsService.getApi().getCategories(requestBody);
     }
 
 }
