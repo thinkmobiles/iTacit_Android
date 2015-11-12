@@ -17,6 +17,7 @@ import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText
 import com.itacit.healthcare.presentation.messages.views.activity.MessagesActivity;
 import com.itacit.healthcare.presentation.messages.presenters.NewMessagePresenter;
 import com.itacit.healthcare.presentation.messages.views.NewMessageView;
+import com.itacit.healthcare.presentation.news.views.fragments.NewsFeedFragment;
 import com.itacit.healthcare.presentation.messages.mappers.UserMapper;
 import com.itacit.healthcare.presentation.messages.models.UserModel;
 import com.jakewharton.rxbinding.widget.RxTextView;
@@ -30,7 +31,8 @@ import rx.Observable;
 /**
  * Created by root on 11.11.15.
  */
-public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, MessagesActivity> implements NewMessageView {
+
+public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, MessagesActivity> implements NewMessageView, View.OnClickListener {
 	@Bind(R.id.ib_add_FMN)          ImageButton ibAddRecipient;
 	@Bind(R.id.et_recipients_FMN)   FiltersEditText etRecipientsView;
 	@Bind(R.id.et_topic_FMN)        EditText etTopic;
@@ -46,6 +48,8 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 
 	@Override
 	protected void setUpActionBar(ActionBar actionBar) {
+		switchToolbarIndicator(false, this);
+
 		activity.setActionBarShadowVisible(true);
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setTitle(R.string.title_new_message);
@@ -90,7 +94,6 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 				return super.onOptionsItemSelected(item);
 		}
 	}
-
 	@Override
 	public void showUsers(List<UserModel> users) {
 
@@ -104,5 +107,10 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 	@Override
 	public Observable<String> getUsersSearchTextObs() {
 		return RxTextView.textChangeEvents(etRecipientsView).map(e -> etRecipientsView.getInputText());
+	}
+
+	@Override
+	public void onClick(View v) {
+        activity.switchContent(NewsFeedFragment.class, false);
 	}
 }
