@@ -1,10 +1,10 @@
-package com.itacit.healthcare.presentation.news;
+package com.itacit.healthcare.presentation.news.views.activity;
 
 import android.os.Bundle;
 
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.presentation.base.BaseActivity;
-import com.itacit.healthcare.presentation.news.fragments.NewsFeedFragment;
+import com.itacit.healthcare.presentation.news.views.fragments.NewsFeedFragment;
 import com.itacit.healthcare.presentation.news.models.NewsSearch;
 
 import rx.subjects.BehaviorSubject;

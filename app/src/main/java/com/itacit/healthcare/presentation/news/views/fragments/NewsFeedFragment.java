@@ -1,4 +1,4 @@
-package com.itacit.healthcare.presentation.news.fragments;
+package com.itacit.healthcare.presentation.news.views.fragments;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -15,8 +15,8 @@ import com.itacit.healthcare.domain.interactor.news.GetNewsUseCase;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
-import com.itacit.healthcare.presentation.news.NewsActivity;
-import com.itacit.healthcare.presentation.news.adapters.NewsAdapter;
+import com.itacit.healthcare.presentation.news.views.activity.NewsActivity;
+import com.itacit.healthcare.presentation.news.views.adapters.NewsAdapter;
 import com.itacit.healthcare.presentation.news.mappers.NewsMapper;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
 import com.itacit.healthcare.presentation.news.models.NewsSearch;
