@@ -14,7 +14,7 @@ import rx.Subscriber;
 public abstract class GetListUseCase<T> extends UseCase<List<T>> {
     protected ListRequest requestBody;
 
-    public GetListUseCase(int startIndex, int rowCounts) {
+    public GetListUseCase(Integer startIndex, Integer rowCounts) {
         requestBody = new ListRequest();
         requestBody.setStartIndex(startIndex);
         requestBody.setRowCount(rowCounts);

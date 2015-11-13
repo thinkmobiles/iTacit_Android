@@ -14,15 +14,18 @@ public class HealthcareApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        RxBus.getInstance().toObserverable().filter(o -> o instanceof AuthError).subscribe( o -> {
-            Intent startActivity = new Intent();
-            startActivity.setClass(HealthcareApp.this, AuthActivity.class);
-            startActivity.setAction(AuthActivity.class.getName());
-            startActivity.setFlags(
-                    Intent.FLAG_ACTIVITY_NEW_TASK
-                            | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-            startActivity(startActivity);
-        });
+        RxBus.getInstance().toObserverable().filter(o -> o instanceof AuthError).map(o ->(AuthError) o)
+                .subscribe(this::onAuthError);
+    }
+
+    private void onAuthError(AuthError error) {
+        Intent startActivity = new Intent();
+        startActivity.setClass(HealthcareApp.this, AuthActivity.class);
+        startActivity.setAction(AuthActivity.class.getName());
+        startActivity.setFlags(
+                Intent.FLAG_ACTIVITY_NEW_TASK
+                        | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+        startActivity(startActivity);
     }
 
 }
