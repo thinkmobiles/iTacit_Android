@@ -50,6 +50,7 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 	protected void setUpActionBar(ActionBar actionBar) {
 		switchToolbarIndicator(false, this);
 
+		actionBar.setHomeAsUpIndicator(null);
 		activity.setActionBarShadowVisible(true);
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setTitle(R.string.title_new_message);

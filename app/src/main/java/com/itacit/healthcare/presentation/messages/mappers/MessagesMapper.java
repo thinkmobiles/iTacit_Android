@@ -14,9 +14,10 @@ public class MessagesMapper extends ModelMapper<MessagesModel, Message> {
     public MessagesModel transform(Message dataEntry) {
         MessagesModel messagesModel = new MessagesModel();
         try {
-            long id = dataEntry.getId() != null ? Long.parseLong(dataEntry.getId()) : 0;
-            if (id == 0) return null;
-            messagesModel.setId(id);
+            if (dataEntry.getId() == null || dataEntry.getId().isEmpty()) {
+                return null;
+            }
+            messagesModel.setId(dataEntry.getId());
 
             messagesModel.setHeadlineUri(Uri.parse(dataEntry.getSenderImageUrl() != null ? dataEntry.getSenderImageUrl() : ""));
 

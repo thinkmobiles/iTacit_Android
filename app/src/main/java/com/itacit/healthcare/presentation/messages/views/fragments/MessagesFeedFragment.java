@@ -17,6 +17,7 @@ import com.itacit.healthcare.presentation.messages.views.adapters.MessagesAdapte
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * Created by Den on 12.11.15.
@@ -27,6 +28,10 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
 
     private MessagesAdapter messagesAdapter;
 
+    @OnClick(R.id.fab_button_FMF)
+    void addNewMessage(){
+        activity.switchContent(NewMessageFragment.class, false);
+    }
 
     @Override
     protected void setUpView() {

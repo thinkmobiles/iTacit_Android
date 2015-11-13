@@ -69,11 +69,6 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         holder.contentTv.setText(Html.fromHtml(messagesModel.getContent()));
     }
 
-    @Override
-    public long getItemId(int position) {
-        return messages.get(position).getId();
-    }
-
     public void setOnNewsItemSelectedListener(OnNewsItemSelectedListener listener) {
         this.newsItemSelectedListener = listener;
     }
@@ -86,7 +81,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @Bind(R.id.iv_headline_LIM)
         ImageView headlineIv;
-        @Bind(R.id.tv_name_LIM)
+        @Bind(R.id.tv_sender_name_LIM)
         TextView senderNameTv;
         @Bind(R.id.tv_last_time_response_LIM)
         TextView lastTimeResponseTv;

@@ -34,6 +34,21 @@
         android:scrollbars="vertical"
         android:layout_below="@+id/rl_messages_header_FNF"/>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_button_FMF"
+        android:layout_gravity="right|bottom"
+        app:fabSize="normal"
+        app:borderWidth="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_menu_edit"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp"
+        app:rippleColor="@android:color/white"/>
+
     <View
         android:id="@+id/shadow_line_FMF"
         style="@style/shadow_bottom"

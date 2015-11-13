@@ -7,7 +7,7 @@ import android.net.Uri;
  */
 public class MessagesModel {
 
-    private long id;
+    private String id;
     private Uri headlineUri;
     private String senderName;
     private String lastTimeResponse;
@@ -16,11 +16,11 @@ public class MessagesModel {
     private String subject;
     private String content;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long _id) {
+    public void setId(String _id) {
         id = _id;
     }
 
