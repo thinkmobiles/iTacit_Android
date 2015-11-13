@@ -18,6 +18,8 @@ public class MessagesMapper extends ModelMapper<MessagesModel, Message> {
             if (id == 0) return null;
             messagesModel.setId(id);
 
+            messagesModel.setHeadlineUri(Uri.parse(dataEntry.getSenderImageUrl() != null ? dataEntry.getSenderImageUrl() : ""));
+
             messagesModel.setSenderName(dataEntry.getSenderNameFull() != null ? dataEntry.getSenderNameFull() : "");
             messagesModel.setLastTimeResponse(dataEntry.getSendDateTime() != null ? dataEntry.getSendDateTime() : "");
 //            messagesModel.setNumberOfResponse(dataEntry.get() != null ? dataEntry.() : "");

@@ -68,8 +68,6 @@ dependencies {
     compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
     //Image loading and transformation
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.github.siyamed:android-shape-imageview:0.9.+@aar'
-
     //Dependency Injection
     compile 'com.google.dagger:dagger:2.0.2'
     apt 'com.google.dagger:dagger-compiler:2.0.2'

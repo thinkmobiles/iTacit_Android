@@ -7,16 +7,15 @@
                 android:orientation="horizontal"
                 android:paddingTop="14dp">
 
-    <com.github.siyamed.shapeimageview.CircularImageView
+    <ImageView
         android:id="@+id/iv_headline_LIM"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        app:siBorderWidth="0.5dp"
-        app:siBorderColor="@color/gray_light"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="16dp"
-        android:src="@android:drawable/sym_def_app_icon"/>
+        android:src="@android:drawable/sym_def_app_icon"
+        android:background="@null"/>
 
     <RelativeLayout
         android:id="@+id/rl_messages_info_LIM"

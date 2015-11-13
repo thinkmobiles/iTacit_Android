@@ -7,8 +7,8 @@ import android.net.Uri;
  */
 public class MessagesModel {
 
-//    private Uri headlineUri;
     private long id;
+    private Uri headlineUri;
     private String senderName;
     private String lastTimeResponse;
     private String numberOfResponse;
@@ -22,6 +22,14 @@ public class MessagesModel {
 
     public void setId(long _id) {
         id = _id;
+    }
+
+    public Uri getHeadlineUri() {
+        return headlineUri;
+    }
+
+    public void setHeadlineUri(Uri _headlineUri) {
+        headlineUri = _headlineUri;
     }
 
     public String getSenderName() {
