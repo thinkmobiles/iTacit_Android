@@ -31,7 +31,7 @@ import rx.Observable;
 /**
  * Created by root on 11.11.15.
  */
-public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, MessagesActivity> implements NewMessageView {
+public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, MessagesActivity> implements NewMessageView, UsersAdapter.OnUsersItemSelectedListener {
 	@Bind(R.id.ib_add_FMN)          ImageButton ibAddRecipient;
 	@Bind(R.id.et_recipients_FMN)   FiltersEditText etRecipientsView;
 	@Bind(R.id.et_topic_FMN)        EditText etTopic;
@@ -108,5 +108,15 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 	@Override
 	public Observable<String> getUsersSearchTextObs() {
 		return RxTextView.textChangeEvents(etRecipientsView).map(e -> etRecipientsView.getInputText());
+	}
+
+	@Override
+	public void onUsersSelected(String userId) {
+
+	}
+
+	@Override
+	public void onUsersDeselected(String userId) {
+
 	}
 }

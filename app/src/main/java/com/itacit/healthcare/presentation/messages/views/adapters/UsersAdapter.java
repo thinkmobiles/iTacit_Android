@@ -32,7 +32,9 @@ public class UsersAdapter extends BaseAdapter implements Filterable {
 	private Context context;
 	private Picasso picasso;
 	private List<UserModel> users;
+	private List<String> selectedUsersIds = new ArrayList<>();
 	private UserFilter mFilter;
+	private OnUsersItemSelectedListener usersItemSelectedListener;
 
 	public UsersAdapter(Context context, List<UserModel> users) {
 		this.context = context;
@@ -56,8 +58,9 @@ public class UsersAdapter extends BaseAdapter implements Filterable {
 
 	@Override
 	public long getItemId(int position) {
-		return users.get(position).getId();
+		return position;
 	}
+
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -83,8 +86,18 @@ public class UsersAdapter extends BaseAdapter implements Filterable {
 		viewHolder.view.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
-				viewHolder.ivCheck.setImageResource(R.drawable.ic_check);
+				boolean isSelected = selectedUsersIds.contains(userModel.getId());
+				int resFilter;
+				if (isSelected) {
+					selectedUsersIds.remove(userModel.getId());
+					usersItemSelectedListener.onUsersSelected(userModel.getId());
+					resFilter = R.drawable.ic_check;
+				} else {
+					selectedUsersIds.add(userModel.getId());
+					usersItemSelectedListener.onUsersDeselected(userModel.getId());
+					resFilter = R.drawable.abc_btn_radio_to_on_mtrl_000;
+				}
+				viewHolder.ivCheck.setImageResource(resFilter);
 			}
 		});
 
@@ -112,6 +125,11 @@ public class UsersAdapter extends BaseAdapter implements Filterable {
 			ButterKnife.bind(this, itemView);
 			view = itemView;
 		}
+	}
+
+	public interface OnUsersItemSelectedListener {
+		void onUsersSelected(String userId);
+		void onUsersDeselected(String userId);
 	}
 
 	private class UserFilter extends Filter {

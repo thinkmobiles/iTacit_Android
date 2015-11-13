@@ -30,7 +30,6 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 	public CategoriesAdapter(Context context, List<CategoryModel> categories) {
 		this.context = context;
 		this.categories = categories;
-		setHasStableIds(true);
 	}
 
 	@Override
