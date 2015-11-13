@@ -90,11 +90,11 @@ public class UsersAdapter extends BaseAdapter implements Filterable {
 				int resFilter;
 				if (isSelected) {
 					selectedUsersIds.remove(userModel.getId());
-					usersItemSelectedListener.onUsersSelected(userModel.getId());
+//					usersItemSelectedListener.onUsersSelected(userModel.getId());
 					resFilter = R.drawable.ic_check;
 				} else {
 					selectedUsersIds.add(userModel.getId());
-					usersItemSelectedListener.onUsersDeselected(userModel.getId());
+//					usersItemSelectedListener.onUsersDeselected(userModel.getId());
 					resFilter = R.drawable.abc_btn_radio_to_on_mtrl_000;
 				}
 				viewHolder.ivCheck.setImageResource(resFilter);
