@@ -24,7 +24,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
 	private Context context;
 	private List<CategoryModel> categories;
-	private List<Long> selectedCategoriesIds = new ArrayList<>();
+	private List<String> selectedCategoriesIds = new ArrayList<>();
 	private OnCategoriesItemSelectedListener categoriesItemSelectedListener;
 
 	public CategoriesAdapter(Context context, List<CategoryModel> categories) {
@@ -68,14 +68,10 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 		}
 	}
 
-	public List<Long> getSelectedCategoriesIds() {
+	public List<String> getSelectedCategoriesIds() {
 		return selectedCategoriesIds;
 	}
 
-	@Override
-	public long getItemId(int position) {
-		return categories.get(position).getId();
-	}
 
 	@Override
 	public int getItemCount() {
@@ -103,7 +99,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 	}
 
 	public interface OnCategoriesItemSelectedListener {
-		void onCategoriesSelected(long categoryId);
-		void onCategoriesDeselected(long categoryId);
+		void onCategoriesSelected(String categoryId);
+		void onCategoriesDeselected(String categoryId);
 	}
 }

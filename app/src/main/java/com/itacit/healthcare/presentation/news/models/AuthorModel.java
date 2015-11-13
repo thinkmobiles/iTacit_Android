@@ -7,16 +7,16 @@ import android.net.Uri;
  */
 public class AuthorModel {
 
-	private long id;
+	private String id;
 	private String fullName;
 	private String role;
 	private Uri imageUri;
 
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

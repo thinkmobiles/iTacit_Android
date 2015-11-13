@@ -13,6 +13,8 @@ import com.itacit.healthcare.presentation.base.BaseActivity;
 import com.itacit.healthcare.presentation.base.presenters.Presenter;
 import com.itacit.healthcare.presentation.base.views.View;
 
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
@@ -21,6 +23,7 @@ import rx.android.schedulers.AndroidSchedulers;
  * Created by root on 13.10.15.
  */
 public abstract class BaseFragmentView<P extends Presenter, A extends BaseActivity> extends Fragment implements View {
+    @Inject
     protected P presenter;
     private ActionBarDrawerToggle toggle;
     protected A activity;

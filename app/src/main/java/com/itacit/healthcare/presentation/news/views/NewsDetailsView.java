@@ -1,7 +1,7 @@
 package com.itacit.healthcare.presentation.news.views;
 
 import com.itacit.healthcare.presentation.base.views.View;
-import com.itacit.healthcare.presentation.news.models.AuthorModel;
+import com.itacit.healthcare.presentation.messages.models.UserModel;
 import com.itacit.healthcare.presentation.news.models.NewsDetailsModel;
 
 /**
@@ -9,5 +9,5 @@ import com.itacit.healthcare.presentation.news.models.NewsDetailsModel;
  */
 public interface NewsDetailsView extends View {
     void showNewsDetails(NewsDetailsModel newsDetails);
-    void showAuthorDetails(AuthorModel authorModel);
+    void showAuthorDetails(UserModel authorModel);
 }

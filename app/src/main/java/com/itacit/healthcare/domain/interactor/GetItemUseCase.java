@@ -11,7 +11,7 @@ public abstract class GetItemUseCase<T> extends UseCase<T> {
 
     protected ItemRequest requestBody = new ItemRequest();
 
-    public GetItemUseCase(int id) {
+    public GetItemUseCase(String id) {
         requestBody.setId(id);
     }
 
