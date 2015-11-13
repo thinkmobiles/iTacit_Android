@@ -16,9 +16,10 @@ import rx.subjects.BehaviorSubject;
 public interface NewsFeedView extends View {
     void showNews(List<NewsModel> news);
     void showFilters(List<Filter> filters);
+    void hideFilters();
     void showProgress();
     void hideProgress();
-    void showNewsItemDetails(long newsId);
+    void showNewsItemDetails(String newsId);
     Observable<String> getNewsSearchTextObs();
     BehaviorSubject<NewsSearch> getNewsSearch();
 }

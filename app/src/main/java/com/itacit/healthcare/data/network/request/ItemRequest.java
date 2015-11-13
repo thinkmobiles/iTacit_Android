@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 public class ItemRequest {
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private String id;
     @SerializedName("fields")
     @Expose
     private String fields;
@@ -23,11 +23,11 @@ public class ItemRequest {
     @Expose
     private Integer rowCount;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

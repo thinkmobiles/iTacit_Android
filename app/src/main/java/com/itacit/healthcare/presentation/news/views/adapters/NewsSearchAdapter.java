@@ -44,11 +44,6 @@ public class NewsSearchAdapter extends RecyclerView.Adapter<NewsSearchAdapter.Vi
 	}
 
 	@Override
-	public long getItemId(int position) {
-		return news.get(position).getId();
-	}
-
-	@Override
 	public int getItemCount() {
 		return news.size();
 	}

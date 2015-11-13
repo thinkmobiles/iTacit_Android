@@ -36,6 +36,7 @@ import rx.subjects.Subject;
  */
 public class FiltersEditText extends AutoCompleteTextView {
 
+    public static final String MORE_CHIP = "moreChip";
     private final Subject<Filter, Filter> mChipRemovedSubject = PublishSubject.create();
     private final float mChipHeightDp = 32;
     private final float mBgPaddingLeftDp = 12;
@@ -80,8 +81,8 @@ public class FiltersEditText extends AutoCompleteTextView {
         CharSequence chip;
         if (width > getWidth() && showMore) {
             //Todo create more chips
-            removeFilter(new Filter(-1, "+" + String.valueOf(moreChips) + "...", Filter.FilterType.Author ));
-            chip = createChip(new Filter(-1, "+" + String.valueOf(++moreChips) + "...", Filter.FilterType.Author), false);
+            removeFilter(new Filter(MORE_CHIP, "+" + String.valueOf(moreChips) + "...", Filter.FilterType.Author ));
+            chip = createChip(new Filter(MORE_CHIP, "+" + String.valueOf(++moreChips) + "...", Filter.FilterType.Author), false);
         } else {
             chip = createChip(filter, showDelete);
         }

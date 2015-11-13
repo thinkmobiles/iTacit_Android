@@ -5,17 +5,17 @@ package com.itacit.healthcare.presentation.base.widgets.chipsView;
  */
 public class Filter {
     public enum FilterType {Author, Category}
-    private final long id;
+    private final String id;
     private final String visibleText;
     private final FilterType filterType;
 
-    public Filter(long id, String visibleText, FilterType filterType) {
+    public Filter(String id, String visibleText, FilterType filterType) {
         this.id = id;
         this.visibleText = visibleText;
         this.filterType = filterType;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
@@ -35,7 +35,7 @@ public class Filter {
                 return false;
             }
 
-            if (other.getId() != id) {
+            if (other.getId().equals(id)) {
                 return false;
             }
 

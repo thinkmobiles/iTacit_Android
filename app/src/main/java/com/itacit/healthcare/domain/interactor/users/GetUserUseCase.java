@@ -11,7 +11,7 @@ import rx.Observable;
  */
 public class GetUserUseCase extends GetItemUseCase<User> {
 
-    public GetUserUseCase(int id) {
+    public GetUserUseCase(String id) {
         super(id);
     }
 

@@ -7,19 +7,28 @@ import com.google.gson.annotations.SerializedName;
  * Created by root on 21.10.15.
  */
 public class News {
-
-    @SerializedName("categoryName")
+    //Default fields
+    @SerializedName("id")
     @Expose
-    private String categoryName;
+    private String id;
     @SerializedName("headline")
     @Expose
     private String headline;
     @SerializedName("summary")
     @Expose
     private String summary;
+    @SerializedName("categoryId")
+    @Expose
+    private String categoryId;
+    @SerializedName("categoryName")
+    @Expose
+    private String categoryName;
     @SerializedName("authorId")
     @Expose
     private String authorId;
+    @SerializedName("authorName")
+    @Expose
+    private String authorName;
     @SerializedName("startDate")
     @Expose
     private String startDate;
@@ -32,189 +41,126 @@ public class News {
     @SerializedName("headlineImageAssetId")
     @Expose
     private String headlineImageAssetId;
-    @SerializedName("authorName")
+    @SerializedName("resultSetRowId")
     @Expose
-    private String authorName;
-    @SerializedName("id")
+    private String resultSetRowId;
+    //Additional Fields
+    @SerializedName("body")
     @Expose
-    private String id;
-    /**
-     *
-     * @return
-     * The categoryName
-     */
-    public String getCategoryName() {
-        return categoryName;
-    }
+    private String body;
+    @SerializedName("author")
+    @Expose
+    private User author;
 
-    /**
-     *
-     * @param categoryName
-     * The categoryName
-     */
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
-
-    /**
-     *
-     * @return
-     * The headline
-     */
-    public String getHeadline() {
-        return headline;
-    }
-
-    /**
-     *
-     * @param headline
-     * The headline
-     */
-    public void setHeadline(String headline) {
-        this.headline = headline;
-    }
-
-    /**
-     *
-     * @return
-     * The summary
-     */
-    public String getSummary() {
-        return summary;
-    }
-
-    /**
-     *
-     * @param summary
-     * The summary
-     */
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
-    /**
-     *
-     * @return
-     * The authorId
-     */
-    public String getAuthorId() {
-        return authorId;
-    }
-
-    /**
-     *
-     * @param authorId
-     * The authorId
-     */
-    public void setAuthorId(String authorId) {
-        this.authorId = authorId;
-    }
-
-    /**
-     *
-     * @return
-     * The startDate
-     */
-    public String getStartDate() {
-        return startDate;
-    }
-
-    /**
-     *
-     * @param startDate
-     * The startDate
-     */
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
-    }
-
-    /**
-     *
-     * @return
-     * The endDate
-     */
-    public String getEndDate() {
-        return endDate;
-    }
-
-    /**
-     *
-     * @param endDate
-     * The endDate
-     */
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
-    }
-
-    /**
-     *
-     * @return
-     * The headlineImageUrl
-     */
-    public String getHeadlineImageUrl() {
-        return headlineImageUrl;
-    }
-
-    /**
-     *
-     * @param headlineImageUrl
-     * The headlineImageUrl
-     */
-    public void setHeadlineImageUrl(String headlineImageUrl) {
-        this.headlineImageUrl = headlineImageUrl;
-    }
-
-    /**
-     *
-     * @return
-     * The headlineImageAssetId
-     */
-    public String getHeadlineImageAssetId() {
-        return headlineImageAssetId;
-    }
-
-    /**
-     *
-     * @param headlineImageAssetId
-     * The headlineImageAssetId
-     */
-    public void setHeadlineImageAssetId(String headlineImageAssetId) {
-        this.headlineImageAssetId = headlineImageAssetId;
-    }
-
-    /**
-     *
-     * @return
-     * The authorName
-     */
-    public String getAuthorName() {
-        return authorName;
-    }
-
-    /**
-     *
-     * @param authorName
-     * The authorName
-     */
-    public void setAuthorName(String authorName) {
-        this.authorName = authorName;
-    }
-
-    /**
-     *
-     * @return
-     * The articleId
-     */
     public String getId() {
         return id;
     }
 
-    /**
-     *
-     * @param id
-     * The articleId
-     */
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getHeadline() {
+        return headline;
+    }
+
+    public void setHeadline(String headline) {
+        this.headline = headline;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(String authorId) {
+        this.authorId = authorId;
+    }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getHeadlineImageUrl() {
+        return headlineImageUrl;
+    }
+
+    public void setHeadlineImageUrl(String headlineImageUrl) {
+        this.headlineImageUrl = headlineImageUrl;
+    }
+
+    public String getHeadlineImageAssetId() {
+        return headlineImageAssetId;
+    }
+
+    public void setHeadlineImageAssetId(String headlineImageAssetId) {
+        this.headlineImageAssetId = headlineImageAssetId;
+    }
+
+    public String getResultSetRowId() {
+        return resultSetRowId;
+    }
+
+    public void setResultSetRowId(String resultSetRowId) {
+        this.resultSetRowId = resultSetRowId;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
     }
 }

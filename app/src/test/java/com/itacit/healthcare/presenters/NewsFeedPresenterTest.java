@@ -33,6 +33,7 @@ public class NewsFeedPresenterTest {
     @Before
     public void setUp() {
         newsFeedView = mock(NewsFeedView.class);
+        //when(newsFeedView.getUiThreadScheduler()).thenReturn()
         getNewsUseCase = mock(GetNewsUseCase.class);
         newsMapper = mock(NewsMapper.class);
     }
@@ -60,9 +61,4 @@ public class NewsFeedPresenterTest {
         verify(getNewsUseCase, never()).execute(isA(Subscriber.class), anyString());
         verify(newsFeedView, never()).showProgress();
     }
-
-
-
-
-
 }

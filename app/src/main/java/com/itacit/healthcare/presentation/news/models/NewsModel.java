@@ -6,11 +6,19 @@ import android.net.Uri;
  * Created by root on 20.10.15.
  */
 public class NewsModel {
-    private long id;
+    private String id;
     private Uri headlineUri;
     private String startDate;
     private String categoryName;
     private String headline;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public Uri getHeadlineUri() {
         return headlineUri;
@@ -42,13 +50,5 @@ public class NewsModel {
 
     public void setHeadline(String headline) {
         this.headline = headline;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 }

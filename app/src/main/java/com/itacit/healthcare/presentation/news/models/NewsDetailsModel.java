@@ -2,18 +2,29 @@ package com.itacit.healthcare.presentation.news.models;
 
 import android.net.Uri;
 
+import com.itacit.healthcare.data.entries.Author;
+import com.itacit.healthcare.presentation.messages.models.UserModel;
+
 /**
  * Created by root on 29.10.15.
  */
 public class NewsDetailsModel {
-    private long articleId;
+    private String id;
     private Uri headlineUri;
     private String startDate;
     private String categoryName;
     private String headline;
     private String body;
-    private String authorName;
-    private String authorId;
+    private UserModel author;
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public Uri getHeadlineUri() {
         return headlineUri;
@@ -47,14 +58,6 @@ public class NewsDetailsModel {
         this.headline = headline;
     }
 
-    public long getArticleId() {
-        return articleId;
-    }
-
-    public void setArticleId(long articleId) {
-        this.articleId = articleId;
-    }
-
     public String getBody() {
         return body;
     }
@@ -63,19 +66,11 @@ public class NewsDetailsModel {
         this.body = body;
     }
 
-    public String getAuthorName() {
-        return authorName;
+    public UserModel getAuthor() {
+        return author;
     }
 
-    public void setAuthorName(String authorName) {
-        this.authorName = authorName;
-    }
-
-    public String getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(String authorId) {
-        this.authorId = authorId;
+    public void setAuthor(UserModel author) {
+        this.author = author;
     }
 }

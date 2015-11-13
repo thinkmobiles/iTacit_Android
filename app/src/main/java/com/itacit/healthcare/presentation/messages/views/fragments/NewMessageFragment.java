@@ -63,7 +63,7 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 
 	@Override
 	protected NewMessagePresenter createPresenter() {
-		return new NewMessagePresenter(new GetUsersUseCase(0,100), new UserMapper());
+		return new NewMessagePresenter(new GetUsersUseCase(0, 100), new UserMapper());
 	}
 
 	@Override
