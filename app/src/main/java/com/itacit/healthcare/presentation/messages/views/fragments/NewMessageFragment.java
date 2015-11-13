@@ -19,6 +19,7 @@ import com.itacit.healthcare.presentation.messages.presenters.NewMessagePresente
 import com.itacit.healthcare.presentation.messages.views.NewMessageView;
 import com.itacit.healthcare.presentation.messages.mappers.UserMapper;
 import com.itacit.healthcare.presentation.messages.models.UserModel;
+import com.itacit.healthcare.presentation.messages.views.adapters.UsersAdapter;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
 import java.util.ArrayList;
@@ -98,7 +99,10 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 		for(UserModel userModel : users) {
 			names.add(userModel.getFullName());
 		}
-		etRecipientsView.setAdapter(new ArrayAdapter<>(activity, R.layout.list_item_search_news, names));
+
+		UsersAdapter usersAdapter = new UsersAdapter(getActivity(), users);
+		etRecipientsView.setAdapter(usersAdapter);
+		usersAdapter.getFilter().filter(etRecipientsView.getInputText());
 	}
 
 	@Override
