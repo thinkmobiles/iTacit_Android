@@ -15,13 +15,13 @@ import com.itacit.healthcare.domain.interactor.news.GetNewsUseCase;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
-import com.itacit.healthcare.presentation.news.views.activity.NewsActivity;
-import com.itacit.healthcare.presentation.news.views.adapters.NewsAdapter;
 import com.itacit.healthcare.presentation.news.mappers.NewsMapper;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
 import com.itacit.healthcare.presentation.news.models.NewsSearch;
 import com.itacit.healthcare.presentation.news.presenters.NewsFeedPresenter;
 import com.itacit.healthcare.presentation.news.views.NewsFeedView;
+import com.itacit.healthcare.presentation.news.views.activity.NewsActivity;
+import com.itacit.healthcare.presentation.news.views.adapters.NewsAdapter;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
 import java.util.ArrayList;
@@ -44,9 +44,7 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsAc
 
 	@OnClick(R.id.ib_clear_FN)
 	void clearSearch() {
-		searchNewsView.setOnTouchListener((v, event) -> false);
-		searchNewsView.removeFilters();
-		presenter.loadNews();
+		presenter.clearNewsSearch();
 	}
 
 	@Override
@@ -119,7 +117,13 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsAc
         });
     }
 
-    @Override
+	@Override
+	public void hideFilters() {
+		searchNewsView.setOnTouchListener((v, event) -> false);
+		searchNewsView.removeFilters();
+	}
+
+	@Override
     public void showProgress() {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(getActivity());

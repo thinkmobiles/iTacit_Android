@@ -28,6 +28,13 @@ public class NewsFeedPresenter extends BasePresenter<NewsFeedView> {
         this.newsMapper = newsMapper;
     }
 
+    public void clearNewsSearch() {
+        if (getView() != null) {
+            getView().hideFilters();
+            getView().getNewsSearch().onNext(new NewsSearch());
+        }
+    }
+
     @Override
     protected void onViewAttach() {
         if (getView()!= null) {
@@ -50,11 +57,6 @@ public class NewsFeedPresenter extends BasePresenter<NewsFeedView> {
 
     private void showNewsOnView() {
         if(getView() != null) getView().showNews(newsModels);
-    }
-
-    public void loadNews() {
-        if (getView() != null) getView().showProgress();
-        getNewsUseCase.execute(new NewsListSubscriber());
     }
 
     public void searchNews(String query) {
