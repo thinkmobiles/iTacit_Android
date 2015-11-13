@@ -28,7 +28,7 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.ViewHold
 
 	private Context context;
 	private List<AuthorModel> authors;
-	private List<Long> selectedAuthorsIds = new ArrayList<>();
+	private List<String> selectedAuthorsIds = new ArrayList<>();
 	private Picasso picasso;
 	private OnAuthorsItemSelectedListener authorsItemSelectedListener;
 
@@ -80,13 +80,8 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.ViewHold
 		}
 	}
 
-	public List<Long> getSelectedAuthorsIds() {
+	public List<String> getSelectedAuthorsIds() {
 		return selectedAuthorsIds;
-	}
-
-	@Override
-	public long getItemId(int position) {
-		return authors.get(position).getId();
 	}
 
 	@Override
@@ -120,7 +115,7 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.ViewHold
 	}
 
 	public interface OnAuthorsItemSelectedListener {
-		void onAuthorsSelected(long authorId);
-		void onAuthorsDeselected(long authorId);
+		void onAuthorsSelected(String authorId);
+		void onAuthorsDeselected(String authorId);
 	}
 }

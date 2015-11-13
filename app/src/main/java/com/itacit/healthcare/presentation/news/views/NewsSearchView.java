@@ -26,8 +26,8 @@ public interface NewsSearchView extends View {
 	void resetDate(DateType dateType);
 	void showInvalidDateWarning();
 	void showSelectDateWarning();
-	void unselectAuthor(long id);
-	void unselectCategory(long id);
+	void unselectAuthor(String id);
+	void unselectCategory(String id);
 	Observable<String> getSearchTextObs();
 	Observable<Filter> getFilterRemovedObs();
 	List<Filter> getFilters();

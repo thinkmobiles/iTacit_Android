@@ -137,9 +137,9 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsAc
 	}
 
 	@Override
-	public void showNewsItemDetails(long newsId) {
+	public void showNewsItemDetails(String newsId) {
 		Bundle args = new Bundle(1);
-		args.putLong(NewsDetailsFragment.NEWS_ID, newsId);
+		args.putString(NewsDetailsFragment.NEWS_ID, newsId);
 		activity.switchContent(NewsDetailsFragment.class, true, args);
 	}
 

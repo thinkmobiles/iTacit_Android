@@ -18,7 +18,7 @@ public interface NewsFeedView extends View {
     void showFilters(List<Filter> filters);
     void showProgress();
     void hideProgress();
-    void showNewsItemDetails(long newsId);
+    void showNewsItemDetails(String newsId);
     Observable<String> getNewsSearchTextObs();
     BehaviorSubject<NewsSearch> getNewsSearch();
 }

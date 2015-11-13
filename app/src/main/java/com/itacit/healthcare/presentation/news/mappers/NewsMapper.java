@@ -13,19 +13,15 @@ public class NewsMapper extends ModelMapper<NewsModel, News> {
     @Override
     public NewsModel transform(News dataEntry) {
         NewsModel newsModel = new NewsModel();
-        try {
-            long id = dataEntry.getId() != null ? Long.parseLong(dataEntry.getId()) : 0;
-            if (id == 0) return null;
-            newsModel.setId(id);
-
-            newsModel.setHeadline(dataEntry.getHeadline() != null ? dataEntry.getHeadline() : "");
-            newsModel.setCategoryName(dataEntry.getCategoryName() != null ? dataEntry.getCategoryName() : "");
-            newsModel.setHeadlineUri(Uri.parse(dataEntry.getHeadlineImageUrl() != null ? dataEntry.getHeadlineImageUrl() : ""));
-            newsModel.setStartDate(dataEntry.getStartDate() != null ? dataEntry.getStartDate() : "");
-            return newsModel;
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
+        if (dataEntry.getId() == null || dataEntry.getId().isEmpty()) {
+            return null;
         }
-        return null;
+        newsModel.setId(dataEntry.getId());
+
+        newsModel.setHeadline(dataEntry.getHeadline() != null ? dataEntry.getHeadline() : "");
+        newsModel.setCategoryName(dataEntry.getCategoryName() != null ? dataEntry.getCategoryName() : "");
+        newsModel.setHeadlineUri(Uri.parse(dataEntry.getHeadlineImageUrl() != null ? dataEntry.getHeadlineImageUrl() : ""));
+        newsModel.setStartDate(dataEntry.getStartDate() != null ? dataEntry.getStartDate() : "");
+        return newsModel;
     }
 }

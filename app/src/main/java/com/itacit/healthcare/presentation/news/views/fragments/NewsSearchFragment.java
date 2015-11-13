@@ -175,13 +175,13 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
 	}
 
 	@Override
-	public void unselectAuthor(long id) {
+	public void unselectAuthor(String id) {
 		authorsAdapter.getSelectedAuthorsIds().remove(id);
 		authorsAdapter.notifyDataSetChanged();
 	}
 
 	@Override
-	public void unselectCategory(long id) {
+	public void unselectCategory(String id) {
         categoriesAdapter.getSelectedCategoriesIds().remove(id);
 		categoriesAdapter.notifyDataSetChanged();
 	}
@@ -318,22 +318,22 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
     }
 
     @Override
-    public void onAuthorsSelected(long authorId) {
+    public void onAuthorsSelected(String authorId) {
         presenter.selectAuthorFilterById(authorId);
     }
 
     @Override
-    public void onAuthorsDeselected(long authorId) {
+    public void onAuthorsDeselected(String authorId) {
         presenter.unselectAuthorFilterById(authorId);
     }
 
     @Override
-    public void onCategoriesSelected(long categoryId) {
+    public void onCategoriesSelected(String categoryId) {
         presenter.selectCategoryFilterById(categoryId);
     }
 
     @Override
-    public void onCategoriesDeselected(long categoryId) {
+    public void onCategoriesDeselected(String categoryId) {
         presenter.unselectCategoryFilterById(categoryId);
     }
 

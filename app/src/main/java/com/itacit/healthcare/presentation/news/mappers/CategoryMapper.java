@@ -13,15 +13,11 @@ public class CategoryMapper extends ModelMapper<CategoryModel, Category> {
 	public CategoryModel transform(Category dataEntry) {
 
 		CategoryModel categoryModel = new CategoryModel();
-	try {
-		long id = dataEntry.getId() != null ? Long.parseLong(dataEntry.getId()) : 0;
-		if (id == 0) return null;
-		categoryModel.setId(id);
+		if (dataEntry.getId() == null || dataEntry.getId().isEmpty()) {
+			return null;
+		}
+		categoryModel.setId(dataEntry.getId());
 		categoryModel.setName(dataEntry.getName() != null ? dataEntry.getName() : "");
 		return categoryModel;
-	} catch (NumberFormatException e) {
-		e.printStackTrace();
-	}
-		return null;
 	}
 }

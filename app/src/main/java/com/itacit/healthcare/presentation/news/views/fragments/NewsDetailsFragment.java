@@ -10,14 +10,12 @@ import android.widget.TextView;
 
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.data.network.interceptors.AuthInterceptor;
-import com.itacit.healthcare.domain.interactor.news.GetAuthorsUseCase;
 import com.itacit.healthcare.domain.interactor.news.GetNewsDetailsUseCase;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.picasso.CircleTransformation;
+import com.itacit.healthcare.presentation.messages.models.UserModel;
 import com.itacit.healthcare.presentation.news.views.activity.NewsActivity;
-import com.itacit.healthcare.presentation.news.mappers.AuthorMapper;
 import com.itacit.healthcare.presentation.news.mappers.NewsDetailsMapper;
-import com.itacit.healthcare.presentation.news.models.AuthorModel;
 import com.itacit.healthcare.presentation.news.models.NewsDetailsModel;
 import com.itacit.healthcare.presentation.news.presenters.NewsDetailsPresenter;
 import com.itacit.healthcare.presentation.news.views.NewsDetailsView;
@@ -93,8 +91,8 @@ public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter, 
 
     @Override
     protected NewsDetailsPresenter createPresenter() {
-        long newsId = getArguments().getLong("newsId");
-        return new NewsDetailsPresenter(new GetNewsDetailsUseCase((int)newsId), new GetAuthorsUseCase(0, 10), new NewsDetailsMapper(), new AuthorMapper());
+        String newsId = getArguments().getString("newsId");
+        return new NewsDetailsPresenter(new GetNewsDetailsUseCase(newsId), new NewsDetailsMapper());
     }
 
     @Override
@@ -104,21 +102,15 @@ public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter, 
         tvArticle.setText(Html.fromHtml(newsDetails.getBody()));
         tvCategory.setText(newsDetails.getCategoryName());
         tvTime.setText(newsDetails.getStartDate());
-        tvAuthorName.setText(newsDetails.getAuthorName());
-
-//		test
-        picasso.load(newsDetails.getHeadlineUri())
-                .transform(new CircleTransformation())
-                .fit()
-                .into(ivAuthorIcon);
-    }
+   }
 
     @Override
-    public void showAuthorDetails(AuthorModel authorModel) {
-//		picasso.load(authorModel.getImageUri())
-//				.transform(new CircleTransformation(100, 1))
-//				.fit()
-//				.into(ivAuthorIcon);
+    public void showAuthorDetails(UserModel authorModel) {
+		picasso.load(authorModel.getImageUri())
+				.transform(new CircleTransformation())
+				.fit()
+				.into(ivAuthorIcon);
+        tvAuthorName.setText(authorModel.getFullName());
         tvPosition.setText(authorModel.getRole());
     }
 

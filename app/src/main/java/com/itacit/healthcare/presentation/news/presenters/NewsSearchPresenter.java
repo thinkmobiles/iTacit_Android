@@ -90,36 +90,36 @@ public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
 		}
 	}
 
-    public void selectAuthorFilterById(long id) {
+    public void selectAuthorFilterById(String id) {
         for (AuthorModel authorModel : authorModels) {
-            if (authorModel.getId() == id) {
+            if (authorModel.getId().equals(id)) {
                 Filter filter = new Filter(id, authorModel.getFullName(), Filter.FilterType.Author);
                 if (getView() != null) getView().addFilter(filter);
             }
         }
     }
 
-    public void unselectAuthorFilterById(long id) {
+    public void unselectAuthorFilterById(String id) {
         for (AuthorModel authorModel : authorModels) {
-            if (authorModel.getId() == id) {
+            if (authorModel.getId().equals(id)) {
                 Filter filter = new Filter(id, authorModel.getFullName(), Filter.FilterType.Author);
                 if (getView() != null) getView().removeFilter(filter);
             }
         }
     }
 
-    public void selectCategoryFilterById(long id) {
+    public void selectCategoryFilterById(String id) {
         for (CategoryModel categoryModel : categoryModels) {
-            if (categoryModel.getId() == id) {
+            if (categoryModel.getId().equals(id)) {
                 Filter filter = new Filter(id, categoryModel.getName(), Filter.FilterType.Category);
                 if (getView() != null) getView().addFilter(filter);
             }
         }
     }
 
-    public void unselectCategoryFilterById(long id) {
+    public void unselectCategoryFilterById(String id) {
         for (CategoryModel categoryModel : categoryModels) {
-            if (categoryModel.getId() == id) {
+            if (categoryModel.getId().equals(id)) {
                 Filter filter = new Filter(id, categoryModel.getName(), Filter.FilterType.Category);
                 if (getView() != null) getView().removeFilter(filter);
             }
