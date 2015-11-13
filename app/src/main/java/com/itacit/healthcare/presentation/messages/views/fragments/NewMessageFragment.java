@@ -111,6 +111,6 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 
 	@Override
 	public void onClick(View v) {
-        activity.switchContent(NewsFeedFragment.class, false);
+        activity.switchContent(MessagesFeedFragment.class, false);
 	}
 }

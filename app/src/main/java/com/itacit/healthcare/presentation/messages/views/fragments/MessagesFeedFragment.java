@@ -1,21 +1,22 @@
 package com.itacit.healthcare.presentation.messages.views.fragments;
 
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.itacit.healthcare.R;
+import com.itacit.healthcare.domain.interactor.messages.GetMessagesUseCase;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
-import com.itacit.healthcare.presentation.messages.models.UserModel;
+import com.itacit.healthcare.presentation.messages.mappers.MessagesMapper;
+import com.itacit.healthcare.presentation.messages.models.MessagesModel;
 import com.itacit.healthcare.presentation.messages.presenters.MessagesFeedPresenter;
 import com.itacit.healthcare.presentation.messages.views.MessagesFeedView;
-import com.itacit.healthcare.presentation.messages.views.NewMessageView;
 import com.itacit.healthcare.presentation.messages.views.activity.MessagesActivity;
 import com.itacit.healthcare.presentation.messages.views.adapters.MessagesAdapter;
 
 import java.util.List;
 
 import butterknife.Bind;
-import rx.Observable;
 
 /**
  * Created by Den on 12.11.15.
@@ -29,7 +30,8 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
 
     @Override
     protected void setUpView() {
-
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        messagesRecyclerView.setLayoutManager(layoutManager);
     }
 
     @Override
@@ -38,17 +40,23 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
 
         activity.setActionBarShadowVisible(false);
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(R.string.title_news_feed);
+        actionBar.setTitle(R.string.title_messages_feed);
     }
 
     @Override
     protected int getLayoutRes() {
-        return 0;
+        return R.layout.fragment_messages_feed;
     }
 
     @Override
     protected MessagesFeedPresenter createPresenter() {
-        return null;
+        return new MessagesFeedPresenter(new GetMessagesUseCase(0,100), new MessagesMapper());
     }
 
+    @Override
+    public void showMessages(List<MessagesModel> messages) {
+        messagesAdapter = new MessagesAdapter(getActivity(), messages);
+        messagesRecyclerView.setAdapter(messagesAdapter);
+//        messagesAdapter.setOnNewsItemSelectedListener(this::showNewsItemDetails);
+    }
 }

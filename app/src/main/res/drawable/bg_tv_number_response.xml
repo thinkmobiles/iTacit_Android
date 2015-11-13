@@ -4,6 +4,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <stroke
         android:width="0.5dp" android:color="@color/btn_blue"/>
-    <solid android:color="@color/chips_bg"/>
-    <size android:height="16dp" android:width="16dp"/>
+    <solid android:color="@null"/>
+    <!--<size android:height="16dp" android:width="16dp"/>-->
 </shape>

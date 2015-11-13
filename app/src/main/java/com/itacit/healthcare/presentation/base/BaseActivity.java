@@ -20,8 +20,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.itacit.healthcare.R;
-import com.itacit.healthcare.presentation.messages.MessagesActivity;
-import com.itacit.healthcare.presentation.news.NewsActivity;
+import com.itacit.healthcare.presentation.messages.views.activity.MessagesActivity;
+import com.itacit.healthcare.presentation.news.views.activity.NewsActivity;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -56,7 +56,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         setContentView(getLayoutRes());
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-
 
         toggle = new ActionBarDrawerToggle(
                 this,

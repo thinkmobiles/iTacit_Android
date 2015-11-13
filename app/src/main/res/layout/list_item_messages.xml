@@ -9,13 +9,13 @@
 
     <com.github.siyamed.shapeimageview.CircularImageView
         android:id="@+id/iv_headline_LIM"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:siBorderWidth="1dp"
-        app:siBorderColor="@android:color/black"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:siBorderWidth="0.5dp"
+        app:siBorderColor="@color/gray_light"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="@dimen/margin_sides"
+        android:layout_marginLeft="16dp"
         android:src="@android:drawable/sym_def_app_icon"/>
 
     <RelativeLayout
@@ -23,8 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/iv_headline_LIM"
-        android:layout_marginLeft="@dimen/margin_sides"
-        android:layout_marginRight="@dimen/margin_sides"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:orientation="vertical">
 
         <TextView
@@ -41,16 +41,18 @@
             android:layout_height="wrap_content"
             tools:text="12 min ago"
             android:textSize="10sp"
+            android:gravity="center_horizontal"
             android:layout_alignTop="@+id/tv_number_response_LIM"
             android:layout_toStartOf="@+id/tv_number_response_LIM"/>
 
         <TextView
             android:id="@+id/tv_number_response_LIM"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="12"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            tools:text="11"
             android:background="@drawable/bg_tv_number_response"
             android:textColor="@color/btn_blue"
+            android:foregroundGravity=""
             android:gravity="center"
             android:textSize="12sp"
             android:layout_marginLeft="5dp"
@@ -81,7 +83,7 @@
             android:id="@+id/tv_content_LIM"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:layout_below="@id/tv_subject_LIM"
             android:maxLines="2"
             tools:text="Lorem ipsum dolor sit amet, nam cu paulo utamur voluptua, mei id phaedrum reprimique. Cum postulant consequuntur in. Id magna recteque sea, usu te aperiri scriptorem"
