@@ -2,7 +2,6 @@ package com.itacit.healthcare.presentation.news.views.fragments;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -46,8 +45,7 @@ import static com.itacit.healthcare.presentation.news.presenters.NewsSearchPrese
 /**
  * Created by root on 21.10.15.
  */
-public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, NewsActivity> implements NewsSearchView,
-        View.OnClickListener, FilterSelectionListener {
+public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, NewsActivity> implements NewsSearchView, FilterSelectionListener {
     @Bind(R.id.sv_root_FNS)                     ScrollView rootSv;
     @Bind(R.id.et_serch_FNS)                    FiltersEditText searchFiltersEt;
     @Bind(R.id.tv_count_author_FNS)             TextView tvCountAuthor;
@@ -110,17 +108,6 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                activity.switchContent(NewsFeedFragment.class, false);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
     protected void setUpView() {
         searchFiltersEt.setShowMore(false);
         preventRootScroll(authorsRv);
@@ -144,7 +131,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
 
     @Override
     protected void setUpActionBar(ActionBar actionBar) {
-        switchToolbarIndicator(false, this);
+        switchToolbarIndicator(false, v -> activity.switchContent(NewsFeedFragment.class, false));
 
         actionBar.setHomeAsUpIndicator(null);
         activity.setActionBarShadowVisible(true);
@@ -318,11 +305,6 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
     @Override
     public void hideFilter(Filter filter) {
         searchFiltersEt.removeFilter(filter);
-    }
-
-    @Override
-    public void onClick(View v) {
-        activity.switchContent(NewsFeedFragment.class, false);
     }
 
     @Override
