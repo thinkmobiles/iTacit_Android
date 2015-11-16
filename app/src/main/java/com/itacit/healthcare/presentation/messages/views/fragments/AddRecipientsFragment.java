@@ -6,7 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -33,6 +36,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import rx.Observable;
 
 /**
@@ -49,7 +53,26 @@ public class AddRecipientsFragment extends BaseFragmentView<AddRecipientsPresent
     @Bind(R.id.tv_business_count_FAR)       TextView businessCountTv;
     @Bind(R.id.tv_role_count_FAR)           TextView roleCountTv;
     @Bind(R.id.tv_group_count_FAR)          TextView groupCountTv;
+    @Bind(R.id.iv_jobs_expand_FAR)          ImageView jobsExpandIv;
+    @Bind(R.id.iv_business_expand_FAR)      ImageView businessExpandIv;
+    @Bind(R.id.iv_role_expand_FAR)          ImageView roleExpandIv;
+    @Bind(R.id.iv_group_expand_FAR)         ImageView groupExpandIv;
 
+
+    @OnClick({R.id.iv_jobs_expand_FAR, R.id.iv_group_expand_FAR, R.id.iv_business_expand_FAR})
+    void onExpandView(View view) {
+        switch (view.getId()) {
+            case R.id.iv_jobs_expand_FAR:
+                toggleListVisibility(jobsRv, jobsExpandIv);
+                break;
+            case R.id.iv_group_expand_FAR:
+                toggleListVisibility(groupsRv, groupExpandIv);
+                break;
+            case R.id.iv_business_expand_FAR:
+                toggleListVisibility(businessRv, businessExpandIv);
+                break;
+        }
+    }
 
     @Override
     public Observable<String> getSearchRecipientsInput() {
@@ -81,8 +104,58 @@ public class AddRecipientsFragment extends BaseFragmentView<AddRecipientsPresent
     protected void setUpView() {
         jobsRv.setLayoutManager( new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         businessRv.setLayoutManager( new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
-        groupsRv.setLayoutManager( new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
-        rolesRv.setLayoutManager( new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
+        groupsRv.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
+        rolesRv.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
+    }
+
+    private void toggleListVisibility(RecyclerView recyclerView, ImageView expandIv) {
+        if (recyclerView.getVisibility() == View.GONE) {
+            Animation animShow = AnimationUtils.loadAnimation(getActivity(),
+                    R.anim.anim_show);
+            animShow.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                    expandIv.setImageResource(R.drawable.ic_drop);
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            recyclerView.setVisibility(View.VISIBLE);
+            recyclerView.startAnimation(animShow);
+
+        } else {
+            Animation animHide = AnimationUtils.loadAnimation(getActivity(),
+                    R.anim.anim_hide);
+            animHide.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    expandIv.setImageResource(R.drawable.ic_drop_hide);
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+
+                    recyclerView.setVisibility(View.GONE);
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+
+            recyclerView.startAnimation(animHide);
+        }
     }
 
     @Override
