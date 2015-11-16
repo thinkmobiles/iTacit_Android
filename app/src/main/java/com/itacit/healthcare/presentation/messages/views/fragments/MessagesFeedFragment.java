@@ -6,6 +6,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TableLayout;
 import android.widget.Toast;
@@ -20,6 +23,7 @@ import com.itacit.healthcare.presentation.messages.views.MessagesFeedView;
 import com.itacit.healthcare.presentation.messages.views.activity.MessagesActivity;
 import com.itacit.healthcare.presentation.messages.views.adapters.MessagesAdapter;
 import com.itacit.healthcare.presentation.news.views.fragments.NewsDetailsFragment;
+import com.itacit.healthcare.presentation.news.views.fragments.NewsSearchFragment;
 
 import java.util.List;
 
@@ -85,6 +89,23 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_search_fmf, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_search_FMFM:
+                Toast.makeText(getActivity(),"Search",Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void showMessages(List<MessagesModel> messages) {
         messagesAdapter = new MessagesAdapter(getActivity(), messages);
         messagesRecyclerView.setAdapter(messagesAdapter);
@@ -92,7 +113,6 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
         messagesAdapter.setOnMessagesItemSelectedListener(this::showMessagesItemDetails);
     }
 
-//    @Override
     public void showMessagesItemDetails(String messageId) {
 //        Bundle args = new Bundle(1);
 //        args.putString(MessageResponseFragment.Message_ID, messageId);
