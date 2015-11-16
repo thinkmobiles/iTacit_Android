@@ -4,13 +4,15 @@ import com.itacit.healthcare.presentation.base.views.View;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
 import com.itacit.healthcare.presentation.news.models.CategoryModel;
+import com.itacit.healthcare.presentation.news.models.NewsSearch;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 
 import rx.Observable;
+import rx.subjects.BehaviorSubject;
 
-import static com.itacit.healthcare.presentation.news.presenters.NewsSearchPresenter.*;
+import static com.itacit.healthcare.presentation.news.presenters.NewsSearchPresenter.DateType;
 
 /**
  * Created by root on 21.10.15.
@@ -30,5 +32,6 @@ public interface NewsSearchView extends View {
 	void unselectCategory(String id);
 	Observable<String> getSearchTextObs();
 	Observable<Filter> getFilterRemovedObs();
+	BehaviorSubject<NewsSearch> getNewsSearch();
 	List<Filter> getFilters();
 }

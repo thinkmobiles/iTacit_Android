@@ -39,15 +39,21 @@
 			android:id="@+id/et_recipients_FMN"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:singleLine="true"
 			android:layout_toLeftOf="@id/ib_add_FMN"
 			android:layout_toRightOf="@id/tv_label_to_FMN"
+			android:dropDownAnchor="@id/rl_recipients_FMN"
+			android:dropDownHeight="230dp"
+			android:dropDownWidth="match_parent"
+			android:popupBackground="@android:color/white"
 			android:background="@null"
 			android:lineSpacingExtra="10dp"
 			android:minHeight="50dp"
 			android:paddingLeft="5dp"
 			android:textColor="@color/gray_dark"
 			android:textSize="13sp"
-			/>
+			android:paddingBottom="5dp"
+		    android:gravity="bottom"/>
 
 		<View
 			android:id="@+id/line_separator_FMN"

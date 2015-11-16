@@ -40,7 +40,6 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.ViewHold
 		picasso = new Picasso.Builder(context)
 				.downloader(new OkHttpDownloader(picassoClient))
 				.build();
-		setHasStableIds(true);
 	}
 
 	@Override

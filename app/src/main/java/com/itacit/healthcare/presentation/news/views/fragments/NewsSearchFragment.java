@@ -21,9 +21,6 @@ import com.itacit.healthcare.presentation.base.widgets.WrapChildsLayotManager;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
 import com.itacit.healthcare.presentation.base.widgets.datePicker.DatePickerFragment;
-import com.itacit.healthcare.presentation.news.views.activity.NewsActivity;
-import com.itacit.healthcare.presentation.news.views.adapters.AuthorsAdapter;
-import com.itacit.healthcare.presentation.news.views.adapters.CategoriesAdapter;
 import com.itacit.healthcare.presentation.news.mappers.AuthorMapper;
 import com.itacit.healthcare.presentation.news.mappers.CategoryMapper;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
@@ -31,6 +28,9 @@ import com.itacit.healthcare.presentation.news.models.CategoryModel;
 import com.itacit.healthcare.presentation.news.models.NewsSearch;
 import com.itacit.healthcare.presentation.news.presenters.NewsSearchPresenter;
 import com.itacit.healthcare.presentation.news.views.NewsSearchView;
+import com.itacit.healthcare.presentation.news.views.activity.NewsActivity;
+import com.itacit.healthcare.presentation.news.views.adapters.AuthorsAdapter;
+import com.itacit.healthcare.presentation.news.views.adapters.CategoriesAdapter;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
 import java.util.List;
@@ -38,6 +38,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 import rx.Observable;
+import rx.subjects.BehaviorSubject;
 
 import static com.itacit.healthcare.presentation.news.presenters.NewsSearchPresenter.DateType;
 
@@ -195,6 +196,11 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
 	public Observable<Filter> getFilterRemovedObs() {
 		return searchFiltersEt.getChipRemovedSubject();
 	}
+
+    @Override
+    public BehaviorSubject<NewsSearch> getNewsSearch() {
+        return null;
+    }
 
     @Override
     public List<Filter> getFilters() {

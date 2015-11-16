@@ -19,6 +19,7 @@ import com.itacit.healthcare.presentation.messages.presenters.NewMessagePresente
 import com.itacit.healthcare.presentation.messages.views.NewMessageView;
 import com.itacit.healthcare.presentation.messages.mappers.UserMapper;
 import com.itacit.healthcare.presentation.messages.models.UserModel;
+import com.itacit.healthcare.presentation.messages.views.adapters.UsersAdapter;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ import rx.Observable;
 /**
  * Created by root on 11.11.15.
  */
-public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, MessagesActivity> implements NewMessageView {
+public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, MessagesActivity> implements NewMessageView, UsersAdapter.OnUsersItemSelectedListener {
 	@Bind(R.id.ib_add_FMN)          ImageButton ibAddRecipient;
 	@Bind(R.id.et_recipients_FMN)   FiltersEditText etRecipientsView;
 	@Bind(R.id.et_topic_FMN)        EditText etTopic;
@@ -98,11 +99,24 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 		for(UserModel userModel : users) {
 			names.add(userModel.getFullName());
 		}
-		etRecipientsView.setAdapter(new ArrayAdapter<>(activity, R.layout.list_item_search_news, names));
+
+		UsersAdapter usersAdapter = new UsersAdapter(getActivity(), users);
+		etRecipientsView.setAdapter(usersAdapter);
+		usersAdapter.getFilter().filter(etRecipientsView.getInputText());
 	}
 
 	@Override
 	public Observable<String> getUsersSearchTextObs() {
 		return RxTextView.textChangeEvents(etRecipientsView).map(e -> etRecipientsView.getInputText());
+	}
+
+	@Override
+	public void onUsersSelected(String userId) {
+
+	}
+
+	@Override
+	public void onUsersDeselected(String userId) {
+
 	}
 }
