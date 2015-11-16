@@ -40,7 +40,7 @@ public class MessagesFeedPresenter extends BasePresenter<MessagesFeedView> imple
     }
 
     private void showMessagesOnView() {
-        if(getView() != null) getView().showMessages(messagesModels);
+        actOnView(v -> v.showMessages(messagesModels));
     }
 
     @Override

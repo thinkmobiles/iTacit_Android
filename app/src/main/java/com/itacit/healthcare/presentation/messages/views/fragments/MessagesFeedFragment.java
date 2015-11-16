@@ -135,37 +135,32 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
     public void onTabReselected(TabLayout.Tab tab) {
         checkTabSelected(tab);
     }
+
     public void setOnTabItemSelectedListener(OnTabItemSelectedListener listener) {
         this.tabItemSelectedListener = listener;
     }
 
     private void checkTabSelected(TabLayout.Tab tab) {
-        switch (tab.getPosition()) {
-            case 0:
-                if (tabItemSelectedListener != null) {
-                    tabItemSelectedListener.onTabItemSelected(GetMessagesUseCase.Filter.ALL.toString());
-                }
-                break;
-            case 1:
-                if (tabItemSelectedListener != null) {
-                    tabItemSelectedListener.onTabItemSelected(GetMessagesUseCase.Filter.ACT.toString());
-                }
-                break;
-            case 2:
-                if (tabItemSelectedListener != null) {
-                    tabItemSelectedListener.onTabItemSelected(GetMessagesUseCase.Filter.WAITING.toString());
-                }
-                break;
-            case 3:
-                if (tabItemSelectedListener != null) {
-                    tabItemSelectedListener.onTabItemSelected(GetMessagesUseCase.Filter.SENT.toString());
-                }
-                break;
-            case 4:
-                if (tabItemSelectedListener != null) {
-                    tabItemSelectedListener.onTabItemSelected(GetMessagesUseCase.Filter.INBOX.toString());
-                }
-                break;
+        String filter = null;
+        if (tabItemSelectedListener != null) {
+            switch (tab.getPosition()) {
+                case 0:
+                    filter = GetMessagesUseCase.Filter.ALL.toString();
+                    break;
+                case 1:
+                    filter = GetMessagesUseCase.Filter.ACT.toString();
+                    break;
+                case 2:
+                    filter = GetMessagesUseCase.Filter.WAITING.toString();
+                    break;
+                case 3:
+                    filter = GetMessagesUseCase.Filter.SENT.toString();
+                    break;
+                case 4:
+                    filter = GetMessagesUseCase.Filter.INBOX.toString();
+                    break;
+            }
+            tabItemSelectedListener.onTabItemSelected(filter);
         }
     }
 

@@ -32,7 +32,7 @@ public class MessagesMapper extends ModelMapper<MessagesModel, Message> {
             messagesModel.setSenderRoleName(dataEntry.getSenderRoleName() != null ? dataEntry.getSenderRoleName() : "");
             messagesModel.setSubject(dataEntry.getSubject() != null ? dataEntry.getSubject() : "");
             messagesModel.setBody(dataEntry.getBody() != null ? dataEntry.getBody() : "");
-            messagesModel.setReadRequiredYn(dataEntry.getReadRequiredYn() != null ? dataEntry.getReadRequiredYn() : "");
+            messagesModel.setReadRequiredYn(dataEntry.getReadRequiredYn().equals("Y") ? true : false);
             messagesModel.setLastTimeResponse(dataEntry.getSendDateTime() != null ? getLastTimeResponse(dataEntry.getSendDateTime()) : "");
             messagesModel.setReadRequiredDate(dataEntry.getReadRequiredDate() != null ? convertData(dataEntry.getReadRequiredDate()) : "");
 

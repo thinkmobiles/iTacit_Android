@@ -86,7 +86,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
             holder.numberOfResponseTv.setVisibility(View.INVISIBLE);
         }
 
-        if(messagesModel.getReadRequiredYn().equals("Y")){
+        if(messagesModel.getReadRequiredYn()){
             holder.readRequiredDateTv.setVisibility(View.VISIBLE);
             holder.readRequiredDateTv.setText("The must be read by " + messagesModel.getReadRequiredDate());
         }else {
@@ -94,7 +94,6 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         }
 
         holder.lastTimeResponseTv.setText(messagesModel.getLastTimeResponse());
-
     }
 
     @Override

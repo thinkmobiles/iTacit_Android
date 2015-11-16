@@ -15,7 +15,7 @@ public class MessagesModel {
     private String senderRoleName;
     private String subject;
     private String body;
-    private String readRequiredYn;
+    private boolean readRequiredYn;
     private String readRequiredDate;
 
     public String getId() {
@@ -82,11 +82,11 @@ public class MessagesModel {
         body = _body;
     }
 
-    public String getReadRequiredYn() {
+    public boolean getReadRequiredYn() {
         return readRequiredYn;
     }
 
-    public void setReadRequiredYn(String _readRequiredYn) {
+    public void setReadRequiredYn(boolean _readRequiredYn) {
         readRequiredYn = _readRequiredYn;
     }
 
