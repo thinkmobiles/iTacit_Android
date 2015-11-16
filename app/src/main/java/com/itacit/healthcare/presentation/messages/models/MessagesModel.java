@@ -11,10 +11,12 @@ public class MessagesModel {
     private Uri headlineUri;
     private String senderName;
     private String lastTimeResponse;
-    private String numberOfResponse;
-    private String senderPosition;
+    private Integer numberOfResponse;
+    private String senderRoleName;
     private String subject;
-    private String content;
+    private String body;
+    private String readRequiredYn;
+    private String readRequiredDate;
 
     public String getId() {
         return id;
@@ -48,20 +50,20 @@ public class MessagesModel {
         lastTimeResponse = _lastTimeResponse;
     }
 
-    public String getNumberOfResponse() {
+    public Integer getNumberOfResponse() {
         return numberOfResponse;
     }
 
-    public void setNumberOfResponse(String _numberOfResponse) {
+    public void setNumberOfResponse(Integer _numberOfResponse) {
         numberOfResponse = _numberOfResponse;
     }
 
-    public String getSenderPosition() {
-        return senderPosition;
+    public String getSenderRoleName() {
+        return senderRoleName;
     }
 
-    public void setSenderPosition(String _senderPosition) {
-        senderPosition = _senderPosition;
+    public void setSenderRoleName(String _senderRoleName) {
+        senderRoleName = _senderRoleName;
     }
 
     public String getSubject() {
@@ -72,11 +74,27 @@ public class MessagesModel {
         subject = _subject;
     }
 
-    public String getContent() {
-        return content;
+    public String getBody() {
+        return body;
     }
 
-    public void setContent(String _content) {
-        content = _content;
+    public void setBody(String _body) {
+        body = _body;
+    }
+
+    public String getReadRequiredYn() {
+        return readRequiredYn;
+    }
+
+    public void setReadRequiredYn(String _readRequiredYn) {
+        readRequiredYn = _readRequiredYn;
+    }
+
+    public String getReadRequiredDate() {
+        return readRequiredDate;
+    }
+
+    public void setReadRequiredDate(String _readRequiredDate) {
+        readRequiredDate = _readRequiredDate;
     }
 }

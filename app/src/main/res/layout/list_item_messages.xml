@@ -51,15 +51,15 @@
             tools:text="11"
             android:background="@drawable/bg_tv_number_response"
             android:textColor="@color/btn_blue"
-            android:foregroundGravity=""
             android:gravity="center"
+            android:visibility="invisible"
             android:textSize="12sp"
             android:layout_marginLeft="5dp"
-            android:layout_above="@+id/tv_position_LIM"
+            android:layout_above="@+id/tv_sender_role_LIM"
             android:layout_alignParentEnd="true"/>
 
         <TextView
-            android:id="@+id/tv_position_LIM"
+            android:id="@+id/tv_sender_role_LIM"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/textCategory"
@@ -75,11 +75,11 @@
             style="@style/textContent"
             tools:text="Lorem ipsum dolor"
             android:layout_marginTop="8dp"
-            android:layout_below="@+id/tv_position_LIM"
+            android:layout_below="@+id/tv_sender_role_LIM"
             android:layout_alignParentStart="true"/>
 
         <TextView
-            android:id="@+id/tv_content_LIM"
+            android:id="@+id/tv_body_LIM"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -87,6 +87,20 @@
             android:maxLines="2"
             tools:text="Lorem ipsum dolor sit amet, nam cu paulo utamur voluptua, mei id phaedrum reprimique. Cum postulant consequuntur in. Id magna recteque sea, usu te aperiri scriptorem"
             style="@style/textContent"/>
+
+        <TextView
+            android:id="@+id/tv_read_required_date_LIM"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            tools:text="The must be read by Oct.15,2015"
+            android:gravity="center"
+            android:textSize="10sp"
+            android:visibility="gone"
+            android:textColor="@android:color/white"
+            android:background="@color/btn_blue"
+            android:layout_below="@+id/tv_body_LIM"
+            android:layout_centerHorizontal="true"/>
 
     </RelativeLayout>
 

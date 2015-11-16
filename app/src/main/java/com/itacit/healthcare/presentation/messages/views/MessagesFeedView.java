@@ -16,4 +16,6 @@ import rx.subjects.BehaviorSubject;
  */
 public interface MessagesFeedView extends View {
     void showMessages(List<MessagesModel> messages);
+//    void showMessagesItemDetails(String messageId);
+
 }
