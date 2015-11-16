@@ -8,6 +8,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/rl_news_header_FNF"
+        android:paddingBottom="@dimen/layout_search_margin"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
         android:focusable="true"
         android:layout_marginBottom="10dp"
         android:focusableInTouchMode="true">
@@ -41,13 +45,13 @@
             android:layout_toRightOf="@+id/ib_search_FNF"
             android:background="@android:color/white"
             android:textSize="14sp"
-            android:dropDownAnchor="@id/rl_news_header_FNF"
+            android:dropDownAnchor="@id/rl_messages_header_FNF"
             android:dropDownHeight="150dp"
             android:dropDownWidth="match_parent"
             android:popupBackground="@android:color/white"
             android:layout_centerVertical="true"
-            android:nextFocusUp="@id/rl_news_header_FNF"
-            android:nextFocusLeft="@id/rl_news_header_FNF"
+            android:nextFocusUp="@id/rl_messages_header_FNF"
+            android:nextFocusLeft="@id/rl_messages_header_FNF"
             android:hint="@string/search_hint"/>
 
     </RelativeLayout>
@@ -56,12 +60,12 @@
         android:id="@+id/recycler_view_FNF"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/rl_news_header_FNF"
+        android:layout_below="@id/rl_messages_header_FNF"
         android:background="@android:color/white"
         android:scrollbars="vertical"/>
 
     <View
         android:id="@+id/shadow_line_FNF"
-        android:layout_below="@id/rl_news_header_FNF"
+        android:layout_below="@id/rl_messages_header_FNF"
         style="@style/shadow_bottom" />
 </RelativeLayout>
