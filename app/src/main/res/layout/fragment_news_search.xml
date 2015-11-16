@@ -180,7 +180,6 @@
                     android:layout_centerVertical="true"
                     android:padding="5dp"
                     android:src="@drawable/ic_drop"/>
-                android:paddingLeft="@dimen/main_margin"/>
 
             </RelativeLayout>
 

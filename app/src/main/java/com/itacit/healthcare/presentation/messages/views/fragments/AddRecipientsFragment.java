@@ -6,8 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -17,6 +15,7 @@ import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.groups.GetBusinessUseCase;
 import com.itacit.healthcare.domain.interactor.groups.GetGroupsUseCase;
 import com.itacit.healthcare.domain.interactor.groups.GetJobsUseCase;
+import com.itacit.healthcare.global.utils.AndroidUtils;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.messages.mappers.BusinessMapper;
 import com.itacit.healthcare.presentation.messages.mappers.GroupMapper;
@@ -63,13 +62,13 @@ public class AddRecipientsFragment extends BaseFragmentView<AddRecipientsPresent
     void onExpandView(View view) {
         switch (view.getId()) {
             case R.id.iv_jobs_expand_FAR:
-                toggleListVisibility(jobsRv, jobsExpandIv);
+                AndroidUtils.toggleListVisibility(jobsRv, jobsExpandIv);
                 break;
             case R.id.iv_group_expand_FAR:
-                toggleListVisibility(groupsRv, groupExpandIv);
+                AndroidUtils.toggleListVisibility(groupsRv, groupExpandIv);
                 break;
             case R.id.iv_business_expand_FAR:
-                toggleListVisibility(businessRv, businessExpandIv);
+                AndroidUtils.toggleListVisibility(businessRv, businessExpandIv);
                 break;
         }
     }
@@ -106,56 +105,6 @@ public class AddRecipientsFragment extends BaseFragmentView<AddRecipientsPresent
         businessRv.setLayoutManager( new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         groupsRv.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         rolesRv.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
-    }
-
-    private void toggleListVisibility(RecyclerView recyclerView, ImageView expandIv) {
-        if (recyclerView.getVisibility() == View.GONE) {
-            Animation animShow = AnimationUtils.loadAnimation(getActivity(),
-                    R.anim.anim_show);
-            animShow.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-
-                    expandIv.setImageResource(R.drawable.ic_drop);
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-            recyclerView.setVisibility(View.VISIBLE);
-            recyclerView.startAnimation(animShow);
-
-        } else {
-            Animation animHide = AnimationUtils.loadAnimation(getActivity(),
-                    R.anim.anim_hide);
-            animHide.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-                    expandIv.setImageResource(R.drawable.ic_drop_hide);
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-
-                    recyclerView.setVisibility(View.GONE);
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-
-            recyclerView.startAnimation(animHide);
-        }
     }
 
     @Override
