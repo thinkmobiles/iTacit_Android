@@ -3,7 +3,7 @@ package com.itacit.healthcare.data.entries;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class BusinessUnit {
+public class Business {
 
     @SerializedName("parentName")
     @Expose
