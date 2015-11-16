@@ -27,5 +27,11 @@ public class GroupsService {
     public interface GroupsApi {
         @POST("/mobile/1.0/organization/businessUnit")
         Observable<ListResponse<BusinessUnit>> getBusinessUnits(@Body ListRequest requestBody);
+
+        @POST("/mobile/1.0/organization/jobClassification")
+        Observable<ListResponse<Object>> getJobClassifications(@Body ListRequest requestBody);
+
+        @POST("/mobile/1.0/organization/permissionGroup")
+        Observable<ListResponse<Object>> getPermissionGroups(@Body ListRequest requestBody);
     }
 }
