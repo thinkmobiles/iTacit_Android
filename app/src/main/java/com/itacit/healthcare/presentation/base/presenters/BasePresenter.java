@@ -37,6 +37,10 @@ public abstract class BasePresenter<V extends View> implements Presenter<V> {
         }
     }
 
+    public void actOnView(ActionOnView<V> action) {
+        if (getView() != null) action.act(getView());
+    }
+
     @Nullable
     public V getView() {
         return viewRef == null ? null : viewRef.get();
@@ -44,4 +48,8 @@ public abstract class BasePresenter<V extends View> implements Presenter<V> {
 
     protected void onViewAttach() {}
     protected void onViewDetach() {}
+
+    public interface ActionOnView<V> {
+        void act(V view);
+    }
 }

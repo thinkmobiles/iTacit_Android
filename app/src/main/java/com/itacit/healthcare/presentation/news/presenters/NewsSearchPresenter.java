@@ -22,6 +22,8 @@ import java.util.concurrent.TimeUnit;
 import rx.Observable;
 import rx.Subscriber;
 
+import static com.itacit.healthcare.presentation.base.widgets.chipsView.Filter.FilterType;
+
 /**
  * Created by root on 26.10.15.
  */
@@ -83,47 +85,52 @@ public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
 
 	public void removeFilter(Filter filter) {
 		switch (filter.getFilterType()) {
-			case Author: if (getView() != null) getView().unselectAuthor(filter.getId());
+			case Author:
+                actOnView(v -> v.unselectAuthor(filter.getId()));
 				break;
-			case Category: if (getView() != null) getView().unselectCategory(filter.getId());
+			case Category:
+                actOnView(v -> v.unselectCategory(filter.getId()));
 				break;
 		}
 	}
 
-    public void selectAuthorFilterById(String id) {
-        for (AuthorModel authorModel : authorModels) {
-            if (authorModel.getId().equals(id)) {
-                Filter filter = new Filter(id, authorModel.getFullName(), Filter.FilterType.Author);
-                if (getView() != null) getView().addFilter(filter);
-            }
+    private Filter createFilter(String filterId, FilterType filterType) {
+        Filter filter = null;
+        switch (filterType) {
+            case Author:
+                for (AuthorModel authorModel : authorModels) {
+                    if (authorModel.getId().equals(filterId)) {
+                        filter = new Filter(filterId,
+                                authorModel.getFullName(), FilterType.Author);
+                    }
+                }
+                break;
+            case Category:
+                for (CategoryModel categoryModel : categoryModels) {
+                    if (categoryModel.getId().equals(filterId)) {
+                        filter = new Filter(filterId,
+                                categoryModel.getName(), FilterType.Category);
+                    }
+                }
+                break;
         }
+        return filter;
+    }
+
+    public void selectAuthorFilterById(String id) {
+        actOnView(v -> v.addFilter(createFilter(id, FilterType.Author)));
     }
 
     public void unselectAuthorFilterById(String id) {
-        for (AuthorModel authorModel : authorModels) {
-            if (authorModel.getId().equals(id)) {
-                Filter filter = new Filter(id, authorModel.getFullName(), Filter.FilterType.Author);
-                if (getView() != null) getView().removeFilter(filter);
-            }
-        }
+        actOnView(v -> v.removeFilter(createFilter(id, FilterType.Author)));
     }
 
     public void selectCategoryFilterById(String id) {
-        for (CategoryModel categoryModel : categoryModels) {
-            if (categoryModel.getId().equals(id)) {
-                Filter filter = new Filter(id, categoryModel.getName(), Filter.FilterType.Category);
-                if (getView() != null) getView().addFilter(filter);
-            }
-        }
+        actOnView(v -> v.addFilter(createFilter(id, FilterType.Category)));
     }
 
     public void unselectCategoryFilterById(String id) {
-        for (CategoryModel categoryModel : categoryModels) {
-            if (categoryModel.getId().equals(id)) {
-                Filter filter = new Filter(id, categoryModel.getName(), Filter.FilterType.Category);
-                if (getView() != null) getView().removeFilter(filter);
-            }
-        }
+        actOnView(v -> v.removeFilter(createFilter(id, FilterType.Category)));
     }
 
     public void onDateSelected(DateType dateType, int year, int monthOfYear, int dayOfMonth) {
@@ -136,15 +143,12 @@ public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
                 calendar = toDate = new GregorianCalendar(year, monthOfYear, dayOfMonth);
                 break;
         }
-
-        if (getView() != null) {
-            getView().showDate(dateType,
-                    NewsSearchView.dateFormat.format(calendar.getTime()));
-        }
+        String date = NewsSearchView.dateFormat.format(calendar.getTime());
+        actOnView(v -> v.showDate(dateType, date));
     }
 
     public void onDateClear(DateType dateType) {
-        if (getView() != null) getView().resetDate(dateType);
+        actOnView(v -> v.resetDate(dateType));
         switch (dateType) {
             case From:
                 fromDate = null;
@@ -161,7 +165,7 @@ public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
         }
 
         if (fromDate == null) {
-            if (getView() != null) getView().showSelectDateWarning();
+            actOnView(NewsSearchView::showSelectDateWarning);
             return false;
         }
 
@@ -170,7 +174,7 @@ public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
         }
 
         if (fromDate.getTime().after(toDate.getTime())) {
-            if (getView() != null) getView().showInvalidDateWarning();
+            actOnView(NewsSearchView::showInvalidDateWarning);
             return false;
         }
         return true;

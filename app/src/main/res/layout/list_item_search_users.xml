@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+              android:layout_height="wrap_content"
+              android:background="@android:color/white">
 
 
     <ImageView
@@ -25,6 +26,7 @@
             android:id="@+id/tv_name_LISU"
             android:textSize="16sp"
             android:textColor="@color/gray_dark"
+            android:layout_marginTop="10dp"
             android:layout_marginLeft="@dimen/text_margin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,10 +36,13 @@
             android:id="@+id/tv_role_LISU"
             android:textSize="14sp"
             android:layout_below="@id/tv_name_LISU"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
             android:layout_alignLeft="@id/tv_name_LISU"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:ellipsize="end"
             tools:text="Director, Sendsone Retirement"/>
 
     </RelativeLayout>
@@ -48,9 +53,15 @@
         android:layout_height="@dimen/check_icon_size"
         android:layout_gravity="center_vertical"
         android:layout_marginRight="@dimen/margin_sides"
+        android:layout_marginLeft="@dimen/margin_sides"
         android:scaleType="centerCrop"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:src="@drawable/abc_btn_radio_to_on_mtrl_000"/>
+
+	<View
+		android:id="@+id/line_separator_FMN"
+		style="@style/line_separator"
+		android:layout_alignParentBottom="true"/>
 </RelativeLayout>
