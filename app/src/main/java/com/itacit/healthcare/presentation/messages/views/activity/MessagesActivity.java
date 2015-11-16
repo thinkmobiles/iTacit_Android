@@ -9,6 +9,7 @@ import com.itacit.healthcare.presentation.messages.presenters.MessagesFeedPresen
 import com.itacit.healthcare.presentation.messages.views.fragments.MessagesFeedFragment;
 import com.itacit.healthcare.presentation.messages.views.fragments.NewMessageFragment;
 import com.itacit.healthcare.presentation.news.models.NewsSearch;
+import com.itacit.healthcare.presentation.messages.views.fragments.AddRecipientsFragment;
 
 import rx.subjects.BehaviorSubject;
 
@@ -24,6 +25,6 @@ public class MessagesActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		switchContent(MessagesFeedFragment.class, false);
+		switchContent(AddRecipientsFragment.class, false);
 	}
 }

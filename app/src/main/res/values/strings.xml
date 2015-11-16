@@ -30,4 +30,9 @@
     <!-- Menu -->
     <string name="send">Send</string>
     <string name="set_date">Set Date</string>
+    <string name="job_class">Job Classification</string>
+    <string name="business_unit">Business Unit</string>
+    <string name="role">Role</string>
+    <string name="group">Group</string>
+    <string name="add_recipients">Add Recipients</string>
 </resources>

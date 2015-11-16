@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:background="@android:color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rl_recipients_header_FAR"
+        android:layout_marginBottom="10dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <ImageButton
+            android:id="@+id/ib_search_FAR"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@color/bg_grey"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/layout_search_margin"
+            android:src="@drawable/ic_search"/>
+
+        <ImageButton
+            android:id="@+id/ib_clear_FAR"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/layout_search_margin"
+            android:background="@color/bg_grey"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_del_search"
+            android:visibility="visible"/>
+
+        <EditText
+            android:id="@+id/et_search_FAR"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:singleLine="true"
+            android:layout_toLeftOf="@id/ib_clear_FAR"
+            android:layout_toRightOf="@+id/ib_search_FAR"
+            android:background="@color/bg_grey"
+            android:textSize="14sp"
+
+            android:dropDownAnchor="@id/rl_recipients_header_FAR"
+            android:dropDownHeight="150dp"
+            android:dropDownWidth="match_parent"
+            android:popupBackground="@android:color/white"
+            android:layout_centerVertical="true"
+            android:nextFocusUp="@id/rl_recipients_header_FAR"
+            android:nextFocusLeft="@id/rl_recipients_header_FAR"
+            android:hint="@string/search_hint"/>
+
+    </RelativeLayout>
+    <ScrollView
+        android:id="@+id/sv_content_FAR"
+        android:layout_below="@id/rl_recipients_header_FAR"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/main_margin"
+            android:paddingRight="@dimen/main_margin">
+
+            <RelativeLayout
+                android:id="@+id/rl_job_FAR"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_top_margin">
+
+                <RelativeLayout
+                    android:id="@+id/rl_job_title_FAR"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/tv_job_title_FAR"
+                        style="@style/labelFilter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/job_class"/>
+
+                    <TextView
+                        android:id="@+id/tv_job_count_FAR"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/iv_jobs_expand_FAR"
+                        tools:text="3"/>
+
+                    <ImageView
+                        android:id="@id/iv_jobs_expand_FAR"
+                        android:layout_width="48dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:src="@drawable/ic_drop"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rl_job_title_FAR">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_jobs_FAR"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/main_margin"
+                        android:background="@android:color/white"/>
+                    <View
+                        android:layout_below="@id/rv_jobs_FAR"
+                        style="@style/line_separator"
+                        android:layout_marginTop="15dp"/>
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_business_FAR"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_top_margin">
+
+                <RelativeLayout
+                    android:id="@+id/rl_business_title_FAR"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/tv_business_title_FAR"
+                        style="@style/labelFilter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/business_unit"/>
+
+                    <TextView
+                        android:id="@+id/tv_business_count_FAR"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/iv_business_expand_FAR"
+                        tools:text="3"/>
+
+                    <ImageView
+                        android:id="@id/iv_business_expand_FAR"
+                        android:layout_width="48dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:src="@drawable/ic_drop"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rl_business_title_FAR">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_business_FAR"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/main_margin"
+                        android:background="@android:color/white"/>
+                    <View
+                        android:layout_below="@id/rv_business_FAR"
+                        style="@style/line_separator"
+                        android:layout_marginTop="15dp"/>
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_role_FAR"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_top_margin">
+
+                <RelativeLayout
+                    android:id="@+id/rl_role_title_FAR"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/tv_role_title_FAR"
+                        style="@style/labelFilter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/role"/>
+
+                    <TextView
+                        android:id="@+id/tv_role_count_FAR"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/iv_role_expand_FAR"
+                        tools:text="3"/>
+
+                    <ImageView
+                        android:id="@id/iv_role_expand_FAR"
+                        android:layout_width="48dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:src="@drawable/ic_drop"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rl_role_title_FAR">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_role_FAR"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/main_margin"
+                        android:background="@android:color/white"/>
+                    <View
+                        android:layout_below="@id/rv_role_FAR"
+                        style="@style/line_separator"
+                        android:layout_marginTop="15dp"/>
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_group_FAR"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_top_margin">
+
+                <RelativeLayout
+                    android:id="@+id/rl_group_title_FAR"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/tv_group_title_FAR"
+                        style="@style/labelFilter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/group"/>
+
+                    <TextView
+                        android:id="@+id/tv_group_count_FAR"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/iv_group_expand_FAR"
+                        tools:text="3"/>
+
+                    <ImageView
+                        android:id="@id/iv_group_expand_FAR"
+                        android:layout_width="48dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:src="@drawable/ic_drop"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rl_group_title_FAR">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_group_FAR"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/main_margin"
+                        android:background="@android:color/white"/>
+                    <View
+                        android:layout_below="@id/rv_group_FAR"
+                        style="@style/line_separator"
+                        android:layout_marginTop="15dp"/>
+                </RelativeLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+    <View
+        android:id="@+id/shadow_line_FAR"
+        android:layout_below="@id/rl_recipients_header_FAR"
+        style="@style/shadow_bottom" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>

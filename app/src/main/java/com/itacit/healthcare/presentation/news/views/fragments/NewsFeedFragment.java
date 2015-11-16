@@ -36,13 +36,13 @@ import rx.subjects.BehaviorSubject;
  * Created by root on 13.10.15.
  */
 public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsActivity> implements NewsFeedView {
-	@Bind(R.id.et_search_FN)				FiltersEditText searchNewsView;
-	@Bind(R.id.recycler_view_FN)			RecyclerView newsRecyclerView;
+	@Bind(R.id.et_search_FNF)				FiltersEditText searchNewsView;
+	@Bind(R.id.recycler_view_FNF)			RecyclerView newsRecyclerView;
 
 	private NewsAdapter newsAdapter;
 	private ProgressDialog progressDialog;
 
-	@OnClick(R.id.ib_clear_FN)
+	@OnClick(R.id.ib_clear_FNF)
 	void clearSearch() {
 		presenter.clearNewsSearch();
 	}

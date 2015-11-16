@@ -1,6 +1,8 @@
 package com.itacit.healthcare.data.network.services;
 
-import com.itacit.healthcare.data.entries.BusinessUnit;
+import com.itacit.healthcare.data.entries.Business;
+import com.itacit.healthcare.data.entries.Group;
+import com.itacit.healthcare.data.entries.JobClassification;
 import com.itacit.healthcare.data.network.AccessTokenHandler;
 import com.itacit.healthcare.data.network.request.ListRequest;
 import com.itacit.healthcare.data.network.response.ListResponse;
@@ -26,12 +28,12 @@ public class GroupsService {
 
     public interface GroupsApi {
         @POST("/mobile/1.0/organization/businessUnit")
-        Observable<ListResponse<BusinessUnit>> getBusinessUnits(@Body ListRequest requestBody);
+        Observable<ListResponse<Business>> getBusinessUnits(@Body ListRequest requestBody);
 
         @POST("/mobile/1.0/organization/jobClassification")
-        Observable<ListResponse<Object>> getJobClassifications(@Body ListRequest requestBody);
+        Observable<ListResponse<JobClassification>> getJobClassifications(@Body ListRequest requestBody);
 
         @POST("/mobile/1.0/organization/permissionGroup")
-        Observable<ListResponse<Object>> getPermissionGroups(@Body ListRequest requestBody);
+        Observable<ListResponse<Group>> getPermissionGroups(@Body ListRequest requestBody);
     }
 }

@@ -7,16 +7,17 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/rl_news_header_FN"
+        android:id="@+id/rl_news_header_FNF"
         android:paddingBottom="@dimen/layout_search_margin"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:focusable="true"
+        android:layout_marginBottom="10dp"
         android:focusableInTouchMode="true">
 
         <ImageButton
-            android:id="@+id/ib_search_FN"
+            android:id="@+id/ib_search_FNF"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="@android:color/white"
@@ -25,7 +26,7 @@
             android:src="@drawable/ic_search"/>
 
         <ImageButton
-            android:id="@+id/ib_clear_FN"
+            android:id="@+id/ib_clear_FNF"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_alignParentRight="true"
@@ -36,35 +37,35 @@
             android:visibility="visible"/>
 
         <com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText
-            android:id="@+id/et_search_FN"
+            android:id="@+id/et_search_FNF"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:singleLine="true"
-            android:layout_toLeftOf="@id/ib_clear_FN"
-            android:layout_toRightOf="@+id/ib_search_FN"
+            android:layout_toLeftOf="@id/ib_clear_FNF"
+            android:layout_toRightOf="@+id/ib_search_FNF"
             android:background="@android:color/white"
             android:textSize="14sp"
-            android:dropDownAnchor="@id/rl_news_header_FN"
+            android:dropDownAnchor="@id/rl_news_header_FNF"
             android:dropDownHeight="150dp"
             android:dropDownWidth="match_parent"
             android:popupBackground="@android:color/white"
             android:layout_centerVertical="true"
-            android:nextFocusUp="@id/rl_news_header_FN"
-            android:nextFocusLeft="@id/rl_news_header_FN"
+            android:nextFocusUp="@id/rl_news_header_FNF"
+            android:nextFocusLeft="@id/rl_news_header_FNF"
             android:hint="@string/search_hint"/>
 
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_FN"
+        android:id="@+id/recycler_view_FNF"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/rl_news_header_FN"
+        android:layout_below="@id/rl_news_header_FNF"
         android:background="@android:color/white"
         android:scrollbars="vertical"/>
 
     <View
-        android:id="@+id/shadow_line_FN"
-        android:layout_below="@id/rl_news_header_FN"
+        android:id="@+id/shadow_line_FNF"
+        android:layout_below="@id/rl_news_header_FNF"
         style="@style/shadow_bottom" />
 </RelativeLayout>

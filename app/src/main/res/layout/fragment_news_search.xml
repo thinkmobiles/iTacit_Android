@@ -125,14 +125,14 @@
                 android:layout_marginRight="@dimen/main_margin"
                 android:background="@android:color/white"/>
 
+                <View
+                    android:layout_below="@id/recycler_view_authors_FNS"
+                    style="@style/line_separator"
+                    android:layout_marginRight="@dimen/main_margin"
+                    android:layout_marginTop="15dp"/>
             </RelativeLayout>
         </RelativeLayout>
 
-	    <View
-		        android:id="@+id/line_separator2_FNS"
-		        style="@style/line_separator"
-		        android:layout_marginRight="@dimen/main_margin"
-		        android:layout_marginTop="15dp"/>
 
         <RelativeLayout
             android:id="@+id/rl_category_FNS"

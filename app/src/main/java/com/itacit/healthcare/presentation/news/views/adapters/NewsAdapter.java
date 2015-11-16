@@ -74,14 +74,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.iv_headline_LIN)
-        ImageView headlineIv;
-        @Bind(R.id.tv_headline_LIN)
-        TextView headlineTv;
-        @Bind(R.id.tv_category_LIN)
-        TextView categoryTv;
-        @Bind(R.id.tv_time_LIN)
-        TextView timeTv;
+        @Bind(R.id.iv_headline_LIN)         ImageView headlineIv;
+        @Bind(R.id.tv_headline_LIN)         TextView headlineTv;
+        @Bind(R.id.tv_category_LIN)         TextView categoryTv;
+        @Bind(R.id.tv_time_LIN)             TextView timeTv;
+
         View view;
 
         public ViewHolder(View itemView) {
