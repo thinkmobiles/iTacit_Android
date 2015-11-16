@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.users.GetUsersUseCase;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
+import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
 import com.itacit.healthcare.presentation.messages.views.activity.MessagesActivity;
 import com.itacit.healthcare.presentation.messages.presenters.NewMessagePresenter;
@@ -39,6 +40,8 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 	@Bind(R.id.et_date_FMN)         EditText etConfirmationDate;
 	@Bind(R.id.rl_date_FMN)         RelativeLayout rlConfirmationDate;
 	@Bind(R.id.et_message_body_FMN) EditText etMessageBody;
+
+	private UsersAdapter usersAdapter;
 
 	@Override
 	protected void setUpView() {
@@ -100,9 +103,29 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 			names.add(userModel.getFullName());
 		}
 
-		UsersAdapter usersAdapter = new UsersAdapter(getActivity(), users);
+		usersAdapter = new UsersAdapter(getActivity(), users);
+		for (Filter filter : etRecipientsView.getSelectedFilters()) {
+			usersAdapter.getSelectedUsersIds().add(filter.getId());
+		}
 		etRecipientsView.setAdapter(usersAdapter);
 		usersAdapter.getFilter().filter(etRecipientsView.getInputText());
+		usersAdapter.setOnUsersItemSelectedListener(this);
+	}
+
+	@Override
+	public void addFilter(Filter filter) {
+		etRecipientsView.addFilter(filter, true);
+	}
+
+	@Override
+	public void removeFilter(Filter filter) {
+		etRecipientsView.removeFilter(filter);
+	}
+
+	@Override
+	public void unselectUser(String id) {
+		usersAdapter.getSelectedUsersIds().remove(id);
+		usersAdapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -111,12 +134,17 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 	}
 
 	@Override
-	public void onUsersSelected(String userId) {
+	public Observable<Filter> getFilterRemovedObs() {
+		return etRecipientsView.getChipRemovedSubject();
+	}
 
+	@Override
+	public void onUsersSelected(String userId) {
+		presenter.selectUserFilterById(userId);
 	}
 
 	@Override
 	public void onUsersDeselected(String userId) {
-
+		presenter.unselectUserFilterById(userId);
 	}
 }

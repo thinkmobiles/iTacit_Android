@@ -61,6 +61,10 @@ public class UsersAdapter extends BaseAdapter implements Filterable {
 		return position;
 	}
 
+	public List<String> getSelectedUsersIds() {
+		return selectedUsersIds;
+	}
+
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -83,21 +87,25 @@ public class UsersAdapter extends BaseAdapter implements Filterable {
 		viewHolder.tvName.setText(userModel.getFullName());
 		String role = userModel.getRole() + ", " + userModel.getBusinessName();
 		viewHolder.tvRole.setText(role);
+		int resFilter;
+		if (selectedUsersIds.contains(userModel.getId())) {
+			resFilter = R.drawable.ic_check;
+		} else {
+			resFilter = R.drawable.abc_btn_radio_to_on_mtrl_000;
+		}
+		viewHolder.ivCheck.setImageResource(resFilter);
 		viewHolder.view.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				boolean isSelected = selectedUsersIds.contains(userModel.getId());
-				int resFilter;
+
 				if (isSelected) {
 					selectedUsersIds.remove(userModel.getId());
-//					usersItemSelectedListener.onUsersSelected(userModel.getId());
-					resFilter = R.drawable.ic_check;
+					usersItemSelectedListener.onUsersDeselected(userModel.getId());
 				} else {
 					selectedUsersIds.add(userModel.getId());
-//					usersItemSelectedListener.onUsersDeselected(userModel.getId());
-					resFilter = R.drawable.abc_btn_radio_to_on_mtrl_000;
+					usersItemSelectedListener.onUsersSelected(userModel.getId());
 				}
-				viewHolder.ivCheck.setImageResource(resFilter);
 			}
 		});
 
@@ -111,6 +119,10 @@ public class UsersAdapter extends BaseAdapter implements Filterable {
 			mFilter = new UserFilter();
 		}
 		return mFilter;
+	}
+
+	public void setOnUsersItemSelectedListener(OnUsersItemSelectedListener listener) {
+		this.usersItemSelectedListener = listener;
 	}
 
 	public static class ViewHolder {
