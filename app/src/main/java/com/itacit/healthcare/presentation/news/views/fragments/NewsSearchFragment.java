@@ -2,7 +2,6 @@ package com.itacit.healthcare.presentation.news.views.fragments;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -15,8 +14,8 @@ import android.widget.Toast;
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.news.GetAuthorsUseCase;
 import com.itacit.healthcare.domain.interactor.news.GetCategoriesUseCase;
+import com.itacit.healthcare.global.utils.AndroidUtils;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
-import com.itacit.healthcare.presentation.base.widgets.WrapChildsLayotManager;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
 import com.itacit.healthcare.presentation.base.widgets.datePicker.DatePickerFragment;
@@ -32,6 +31,8 @@ import com.itacit.healthcare.presentation.news.views.adapters.AuthorsAdapter;
 import com.itacit.healthcare.presentation.news.views.adapters.CategoriesAdapter;
 import com.itacit.healthcare.presentation.news.views.adapters.FilterSelectionListener;
 import com.jakewharton.rxbinding.widget.RxTextView;
+
+import org.solovyev.android.views.llm.LinearLayoutManager;
 
 import java.util.List;
 
@@ -110,23 +111,9 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
     @Override
     protected void setUpView() {
         searchFiltersEt.setShowMore(false);
-        preventRootScroll(authorsRv);
-        preventRootScroll(categoriesRv);
-        preventRootScroll(searchFiltersEt);
-        authorsRv.setLayoutManager(new WrapChildsLayotManager(activity));
-        categoriesRv.setLayoutManager(new WrapChildsLayotManager(activity));
-    }
-
-    private void preventRootScroll(View view) {
-        view.setOnTouchListener((v, event) -> {
-            rootSv.requestDisallowInterceptTouchEvent(true);
-            switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                case MotionEvent.ACTION_UP:
-                    rootSv.requestDisallowInterceptTouchEvent(false);
-                    break;
-            }
-            return false;
-        });
+        AndroidUtils.preventRootScroll(authorsRv, rootSv);
+        authorsRv.setLayoutManager(new LinearLayoutManager(activity, android.support.v7.widget.LinearLayoutManager.VERTICAL, false));
+        categoriesRv.setLayoutManager(new LinearLayoutManager(activity, android.support.v7.widget.LinearLayoutManager.VERTICAL, false));
     }
 
     @Override
@@ -187,7 +174,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
 
     @Override
     public BehaviorSubject<NewsSearch> getNewsSearch() {
-        return null;
+        return activity.getSearchNews();
     }
 
     @Override

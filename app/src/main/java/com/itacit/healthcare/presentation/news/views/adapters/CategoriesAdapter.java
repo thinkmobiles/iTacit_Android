@@ -81,11 +81,8 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder{
-
-		@Bind(R.id.iv_filter_IAF)
-		ImageView ivFilter;
-		@Bind(R.id.tv_name_IAF)
-		TextView tvName;
+		@Bind(R.id.iv_filter_IAF)		ImageView ivFilter;
+		@Bind(R.id.tv_name_IAF)			TextView tvName;
 
 		public View view;
 

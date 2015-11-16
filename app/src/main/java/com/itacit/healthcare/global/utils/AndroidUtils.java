@@ -3,6 +3,9 @@ package com.itacit.healthcare.global.utils;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ScrollView;
 
 /**
  * Created by root on 26.10.15.
@@ -35,4 +38,16 @@ public final class AndroidUtils {
             float dp = px / (metrics.densityDpi / 160f);
             return dp;
         }
+
+    public static void preventRootScroll(View view, ScrollView rootSv) {
+        view.setOnTouchListener((v, event) -> {
+            rootSv.requestDisallowInterceptTouchEvent(true);
+            switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                case MotionEvent.ACTION_UP:
+                    rootSv.requestDisallowInterceptTouchEvent(false);
+                    break;
+            }
+            return false;
+        });
+    }
 }

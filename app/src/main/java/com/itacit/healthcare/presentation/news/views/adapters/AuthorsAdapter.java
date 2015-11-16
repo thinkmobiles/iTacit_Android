@@ -92,18 +92,12 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.ViewHold
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder {
-
-		@Bind(R.id.iv_filter_IAF)
-		ImageView ivFilter;
-		@Bind(R.id.iv_icon_IAF)
-		ImageView ivIcon;
-		@Bind(R.id.tv_name_IAF)
-		TextView tvName;
-		@Bind(R.id.tv_position_IAF)
-		TextView tvPosition;
+		@Bind(R.id.iv_filter_IAF)		ImageView ivFilter;
+		@Bind(R.id.iv_icon_IAF)			ImageView ivIcon;
+		@Bind(R.id.tv_name_IAF)			TextView tvName;
+		@Bind(R.id.tv_position_IAF)		TextView tvPosition;
 
 		public View view;
-
 
 		public ViewHolder(View itemView) {
 			super(itemView);

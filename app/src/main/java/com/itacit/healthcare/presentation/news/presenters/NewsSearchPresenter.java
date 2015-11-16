@@ -54,9 +54,13 @@ public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
 
     @Override
     protected void onViewAttach() {
-        compositeSubscription.add(getSearchObs().subscribe(this::getAuthors, e -> e.printStackTrace()));
-        compositeSubscription.add(getSearchObs().subscribe(this::getCategories, e -> e.printStackTrace()));
-        compositeSubscription.add(getView().getFilterRemovedObs().subscribe(this::removeFilter, e -> e.printStackTrace()));
+        compositeSubscription.add(getSearchObs().subscribe(this::requestFilters));
+        compositeSubscription.add(getView().getFilterRemovedObs().subscribe(this::removeFilter));
+    }
+
+    private void requestFilters(String query) {
+        getAuthorsUseCase.execute(new GetAuthorsSubscriber(), query);
+        getCategoriesUseCase.execute(new GetCategoriesSubscriber(), query);
     }
 
     private Observable<String> getSearchObs() {
@@ -73,14 +77,6 @@ public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
         if (getView() != null) filters = getView().getFilters();
 
         return new NewsSearch(filters, fromDate, toDate);
-    }
-
-    public void getAuthors(String query) {
-        getAuthorsUseCase.execute(new GetAuthorsSubscriber(), query);
-    }
-
-    public void getCategories(String query) {
-        getCategoriesUseCase.execute(new GetCategoriesSubscriber(), query);
     }
 
 	public void removeFilter(Filter filter) {
