@@ -8,7 +8,10 @@ import com.itacit.healthcare.presentation.messages.views.NewMessageView;
 import com.itacit.healthcare.presentation.messages.mappers.UserMapper;
 import com.itacit.healthcare.presentation.messages.models.UserModel;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
+import com.itacit.healthcare.presentation.news.views.NewsSearchView;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -70,6 +73,18 @@ public class NewMessagePresenter extends BasePresenter<NewMessageView> {
 
 	public void removeFilter(Filter filter) {
 			if (getView() != null) getView().unselectUser(filter.getId());
+	}
+
+	public void onDateSelected() {
+		Calendar calendar = Calendar.getInstance();
+
+		String date = NewMessageView.dateFormat.format(calendar.getTime());
+		actOnView(v -> v.addDate(date));
+	}
+
+	public void onDateClear() {
+		actOnView(v -> v.resetDate());
+
 	}
 
 	private final class UsersListSubscriber extends Subscriber<List<User>> {

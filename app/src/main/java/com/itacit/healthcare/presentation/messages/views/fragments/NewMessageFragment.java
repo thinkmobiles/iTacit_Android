@@ -14,6 +14,7 @@ import com.itacit.healthcare.domain.interactor.users.GetUsersUseCase;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
+import com.itacit.healthcare.presentation.base.widgets.datePicker.DatePickerFragment;
 import com.itacit.healthcare.presentation.messages.views.activity.MessagesActivity;
 import com.itacit.healthcare.presentation.messages.presenters.NewMessagePresenter;
 import com.itacit.healthcare.presentation.messages.views.NewMessageView;
@@ -88,13 +89,20 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 			case R.id.action_send:
 				return true;
 			case R.id.action_set_date:
-				rlConfirmationDate.setVisibility(View.VISIBLE);
+				showDatePicker();
+
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
 	}
 
+	void showDatePicker() {
+		DatePickerFragment fromDatePicker = new DatePickerFragment((datePicker, year, monthOfYear, dayOfMonth) ->
+				presenter.onDateSelected(),
+				() -> presenter.onDateClear());
+		fromDatePicker.show(getFragmentManager(), "DatePicker");
+	}
 	@Override
 	public void showUsers(List<UserModel> users) {
 
@@ -110,6 +118,17 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 		etRecipientsView.setAdapter(usersAdapter);
 		usersAdapter.getFilter().filter(etRecipientsView.getInputText());
 		usersAdapter.setOnUsersItemSelectedListener(this);
+	}
+
+	@Override
+	public void addDate(String date) {
+		rlConfirmationDate.setVisibility(View.VISIBLE);
+		etConfirmationDate.setText(date);
+	}
+
+	@Override
+	public void resetDate() {
+
 	}
 
 	@Override
