@@ -17,15 +17,17 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static com.itacit.healthcare.presentation.base.widgets.chipsView.Filter.FilterType;
+
 /**
  * Created by root on 02.11.15.
  */
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.ViewHolder> {
-
+	private final FilterType filterType = FilterType.Category;
 	private Context context;
 	private List<CategoryModel> categories;
 	private List<String> selectedCategoriesIds = new ArrayList<>();
-	private OnCategoriesItemSelectedListener categoriesItemSelectedListener;
+	private FilterSelectionListener categoriesListener;
 
 	public CategoriesAdapter(Context context, List<CategoryModel> categories) {
 		this.context = context;
@@ -42,22 +44,19 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
 		CategoryModel categoryModel = categories.get(position);
-		holder.view.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				boolean isSelected = selectedCategoriesIds.contains(categoryModel.getId());
-				if (isSelected) {
-					selectedCategoriesIds.remove(categoryModel.getId());
-					categoriesItemSelectedListener.onCategoriesDeselected(categoryModel.getId());
-				} else {
-					selectedCategoriesIds.add(categoryModel.getId());
-					categoriesItemSelectedListener.onCategoriesSelected(categoryModel.getId());
-				}
+		holder.view.setOnClickListener(v -> {
+            boolean isSelected = selectedCategoriesIds.contains(categoryModel.getId());
+            if (isSelected) {
+                selectedCategoriesIds.remove(categoryModel.getId());
+                categoriesListener.onFilterDeselected(categoryModel.getId(), filterType);
+            } else {
+                selectedCategoriesIds.add(categoryModel.getId());
+                categoriesListener.onFilterSelected(categoryModel.getId(), filterType);
+            }
 
-				isSelected = !isSelected;
-				holder.ivFilter.setVisibility(isSelected ? View.VISIBLE : View.INVISIBLE);
-			}
-		});
+            isSelected = !isSelected;
+            holder.ivFilter.setVisibility(isSelected ? View.VISIBLE : View.INVISIBLE);
+        });
 
 		holder.tvName.setText(categoryModel.getName());
 		if (selectedCategoriesIds.contains(categoryModel.getId())) {
@@ -77,8 +76,8 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 		return categories.size();
 	}
 
-	public void setOnCategoriesItemSelectedListener(OnCategoriesItemSelectedListener listener) {
-		this.categoriesItemSelectedListener = listener;
+	public void setItemSelectionListener(FilterSelectionListener listener) {
+		categoriesListener = listener;
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -95,10 +94,5 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 			ButterKnife.bind(this, itemView);
 			view = itemView;
 		}
-	}
-
-	public interface OnCategoriesItemSelectedListener {
-		void onCategoriesSelected(String categoryId);
-		void onCategoriesDeselected(String categoryId);
 	}
 }

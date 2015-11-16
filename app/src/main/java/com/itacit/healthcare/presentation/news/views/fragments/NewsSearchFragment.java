@@ -31,6 +31,7 @@ import com.itacit.healthcare.presentation.news.views.NewsSearchView;
 import com.itacit.healthcare.presentation.news.views.activity.NewsActivity;
 import com.itacit.healthcare.presentation.news.views.adapters.AuthorsAdapter;
 import com.itacit.healthcare.presentation.news.views.adapters.CategoriesAdapter;
+import com.itacit.healthcare.presentation.news.views.adapters.FilterSelectionListener;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
 import java.util.List;
@@ -46,7 +47,7 @@ import static com.itacit.healthcare.presentation.news.presenters.NewsSearchPrese
  * Created by root on 21.10.15.
  */
 public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, NewsActivity> implements NewsSearchView,
-        AuthorsAdapter.OnAuthorsItemSelectedListener, CategoriesAdapter.OnCategoriesItemSelectedListener, View.OnClickListener {
+        View.OnClickListener, FilterSelectionListener {
     @Bind(R.id.sv_root_FNS)                     ScrollView rootSv;
     @Bind(R.id.et_serch_FNS)                    FiltersEditText searchFiltersEt;
     @Bind(R.id.tv_count_author_FNS)             TextView tvCountAuthor;
@@ -208,9 +209,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
     }
 
     private void toggleListVisibility(RecyclerView recyclerView, ImageView expandIv) {
-
         if (recyclerView.getVisibility() == View.GONE) {
-
 	        Animation animShow = AnimationUtils.loadAnimation(getActivity(),
 			        R.anim.anim_show);
 	        animShow.setAnimationListener(new Animation.AnimationListener() {
@@ -256,12 +255,10 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
 	        });
 
 	        recyclerView.startAnimation(animHide);
-
         }
     }
 
     private Button selectDateView(DateType dateType) {
-
 	    Button btn = null;
         switch (dateType) {
             case From:  btn = tvDateFrom;
@@ -298,7 +295,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
             authorsAdapter.getSelectedAuthorsIds().add(filter.getId());
         }
         authorsRv.setAdapter(authorsAdapter);
-        authorsAdapter.setOnAuthorsItemSelectedListener(this);
+        authorsAdapter.setItemSelectionListener(this);
         tvCountAuthor.setText(String.valueOf(authors.size()));
     }
 
@@ -309,42 +306,32 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
             categoriesAdapter.getSelectedCategoriesIds().add(filter.getId());
         }
         categoriesRv.setAdapter(categoriesAdapter);
-        categoriesAdapter.setOnCategoriesItemSelectedListener(this);
+        categoriesAdapter.setItemSelectionListener(this);
         tvCountCategory.setText(String.valueOf(categories.size()));
     }
 
     @Override
-    public void addFilter(Filter filter) {
+    public void showFilter(Filter filter) {
         searchFiltersEt.addFilter(filter, true);
     }
 
     @Override
-    public void removeFilter(Filter filter) {
+    public void hideFilter(Filter filter) {
         searchFiltersEt.removeFilter(filter);
-    }
-
-    @Override
-    public void onAuthorsSelected(String authorId) {
-        presenter.selectAuthorFilterById(authorId);
-    }
-
-    @Override
-    public void onAuthorsDeselected(String authorId) {
-        presenter.unselectAuthorFilterById(authorId);
-    }
-
-    @Override
-    public void onCategoriesSelected(String categoryId) {
-        presenter.selectCategoryFilterById(categoryId);
-    }
-
-    @Override
-    public void onCategoriesDeselected(String categoryId) {
-        presenter.unselectCategoryFilterById(categoryId);
     }
 
     @Override
     public void onClick(View v) {
         activity.switchContent(NewsFeedFragment.class, false);
+    }
+
+    @Override
+    public void onFilterSelected(String filterId, Filter.FilterType type) {
+        presenter.selectFilter(filterId, type);
+    }
+
+    @Override
+    public void onFilterDeselected(String filterId, Filter.FilterType type) {
+        presenter.unselectFilter(filterId, type);
     }
 }

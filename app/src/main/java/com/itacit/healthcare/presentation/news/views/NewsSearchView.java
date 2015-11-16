@@ -23,8 +23,8 @@ public interface NewsSearchView extends View {
 	void showDate(DateType dateType, String toDate);
 	void showAuthors(List<AuthorModel> authors);
 	void showCategories(List<CategoryModel> categories);
-	void addFilter(Filter filter);
-	void removeFilter(Filter filter);
+	void showFilter(Filter filter);
+	void hideFilter(Filter filter);
 	void resetDate(DateType dateType);
 	void showInvalidDateWarning();
 	void showSelectDateWarning();

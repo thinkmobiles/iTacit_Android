@@ -21,16 +21,18 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static com.itacit.healthcare.presentation.base.widgets.chipsView.Filter.FilterType;
+
 /**
  * Created by root on 02.11.15.
  */
 public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.ViewHolder> {
-
+	private final FilterType filterType = FilterType.Author;
 	private Context context;
 	private List<AuthorModel> authors;
 	private List<String> selectedAuthorsIds = new ArrayList<>();
 	private Picasso picasso;
-	private OnAuthorsItemSelectedListener authorsItemSelectedListener;
+	private FilterSelectionListener authorsItemSelectedListener;
 
 	public AuthorsAdapter(Context context, List<AuthorModel> authors) {
 		this.context = context;
@@ -54,22 +56,19 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.ViewHold
 
 		AuthorModel authorModel = authors.get(position);
 		picasso.load(authorModel.getImageUri()).into(holder.ivIcon);
-		holder.view.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				boolean isSelected = selectedAuthorsIds.contains(authorModel.getId());
-				if (isSelected) {
-					selectedAuthorsIds.remove(authorModel.getId());
-					authorsItemSelectedListener.onAuthorsDeselected(authorModel.getId());
-				} else {
-					selectedAuthorsIds.add(authorModel.getId());
-					authorsItemSelectedListener.onAuthorsSelected(authorModel.getId());
-				}
+		holder.view.setOnClickListener(v -> {
+            boolean isSelected = selectedAuthorsIds.contains(authorModel.getId());
+            if (isSelected) {
+                selectedAuthorsIds.remove(authorModel.getId());
+                authorsItemSelectedListener.onFilterDeselected(authorModel.getId(), filterType);
+            } else {
+                selectedAuthorsIds.add(authorModel.getId());
+                authorsItemSelectedListener.onFilterSelected(authorModel.getId(), filterType);
+            }
 
-				isSelected = !isSelected;
-				holder.ivFilter.setVisibility(isSelected ? View.VISIBLE : View.INVISIBLE);
-			}
-		});
+            isSelected = !isSelected;
+            holder.ivFilter.setVisibility(isSelected ? View.VISIBLE : View.INVISIBLE);
+        });
 		holder.tvName.setText(authorModel.getFullName());
 		holder.tvPosition.setText(authorModel.getRole());
 		if (selectedAuthorsIds.contains(authorModel.getId())) {
@@ -88,7 +87,7 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.ViewHold
 		return authors.size();
 	}
 
-	public void setOnAuthorsItemSelectedListener(OnAuthorsItemSelectedListener listener) {
+	public void setItemSelectionListener(FilterSelectionListener listener) {
 		this.authorsItemSelectedListener = listener;
 	}
 
@@ -111,10 +110,5 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.ViewHold
 			ButterKnife.bind(this, itemView);
 			view = itemView;
 		}
-	}
-
-	public interface OnAuthorsItemSelectedListener {
-		void onAuthorsSelected(String authorId);
-		void onAuthorsDeselected(String authorId);
 	}
 }

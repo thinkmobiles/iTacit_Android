@@ -95,42 +95,32 @@ public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
 	}
 
     private Filter createFilter(String filterId, FilterType filterType) {
-        Filter filter = null;
+        String filterText = "";
         switch (filterType) {
             case Author:
                 for (AuthorModel authorModel : authorModels) {
                     if (authorModel.getId().equals(filterId)) {
-                        filter = new Filter(filterId,
-                                authorModel.getFullName(), FilterType.Author);
+                        filterText = authorModel.getFullName();
                     }
                 }
                 break;
             case Category:
                 for (CategoryModel categoryModel : categoryModels) {
                     if (categoryModel.getId().equals(filterId)) {
-                        filter = new Filter(filterId,
-                                categoryModel.getName(), FilterType.Category);
+                        filterText = categoryModel.getName();
                     }
                 }
                 break;
         }
-        return filter;
+        return new Filter(filterId, filterText, filterType);
     }
 
-    public void selectAuthorFilterById(String id) {
-        actOnView(v -> v.addFilter(createFilter(id, FilterType.Author)));
+    public void selectFilter(String id, FilterType filterType) {
+        actOnView(v -> v.showFilter(createFilter(id, filterType)));
     }
 
-    public void unselectAuthorFilterById(String id) {
-        actOnView(v -> v.removeFilter(createFilter(id, FilterType.Author)));
-    }
-
-    public void selectCategoryFilterById(String id) {
-        actOnView(v -> v.addFilter(createFilter(id, FilterType.Category)));
-    }
-
-    public void unselectCategoryFilterById(String id) {
-        actOnView(v -> v.removeFilter(createFilter(id, FilterType.Category)));
+    public void unselectFilter(String id, FilterType filterType) {
+        actOnView(v -> v.hideFilter(createFilter(id, filterType)));
     }
 
     public void onDateSelected(DateType dateType, int year, int monthOfYear, int dayOfMonth) {

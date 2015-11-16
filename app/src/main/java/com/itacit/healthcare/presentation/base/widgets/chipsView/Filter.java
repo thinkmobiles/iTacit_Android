@@ -35,7 +35,7 @@ public class Filter {
                 return false;
             }
 
-            if (other.getId().equals(id)) {
+            if (!other.getId().equals(id)) {
                 return false;
             }
 
