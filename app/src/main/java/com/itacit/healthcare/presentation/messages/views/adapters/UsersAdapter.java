@@ -148,6 +148,9 @@ public class UsersAdapter extends BaseAdapter implements Filterable {
 		@Override
 		protected FilterResults performFiltering(CharSequence prefix) {
 			FilterResults results = new FilterResults();
+			if (prefix == null) {
+				return results;
+			}
 			prefix = prefix.toString().toLowerCase();
 			List<UserModel> filteredUsers = new ArrayList<>();
 			for (UserModel user : users) {
