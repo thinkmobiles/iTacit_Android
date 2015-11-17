@@ -33,7 +33,7 @@
 			android:layout_marginBottom="@dimen/main_margin"
 			android:background="@android:color/white"
 			android:padding="5dp"
-			android:src="@drawable/btn_more"/>
+			android:src="@drawable/btn_add"/>
 
 		<com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText
 			android:id="@+id/et_recipients_FMN"
@@ -127,7 +127,7 @@
 			android:layout_marginBottom="@dimen/main_margin"
 			android:background="@android:color/white"
 			android:padding="5dp"
-			android:src="@drawable/btn_close"/>
+			android:src="@drawable/btn_del_circle"/>
 
 		<EditText
 			android:id="@+id/et_date_FMN"
@@ -137,9 +137,9 @@
 			android:background="@null"
 			android:gravity="center_vertical"
 			android:paddingLeft="5dp"
-			android:textAlignment="center"
 			android:textColor="@color/gray_dark"
-			android:textSize="13sp"/>
+			android:textSize="13sp"
+			android:layout_toLeftOf="@+id/ib_clear_FMN"/>
 
 		<View
 			android:id="@+id/line_separator3_FMN"
