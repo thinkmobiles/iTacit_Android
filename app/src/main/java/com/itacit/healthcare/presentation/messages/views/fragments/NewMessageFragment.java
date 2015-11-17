@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import rx.Observable;
 
 /**
@@ -127,8 +128,10 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 	}
 
 	@Override
+	@OnClick(R.id.ib_clear_FMN)
 	public void resetDate() {
-
+		etConfirmationDate.setText("");
+		rlConfirmationDate.setVisibility(View.GONE);
 	}
 
 	@Override
