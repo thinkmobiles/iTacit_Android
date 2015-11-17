@@ -13,7 +13,7 @@
             android:title="News"/>
         <item
             android:id="@+id/nav_message"
-            android:icon="@drawable/ic_mail"
+            android:icon="@drawable/ic_mail_black"
             android:title="Messages"/>
         <item
             android:id="@+id/nav_training"
