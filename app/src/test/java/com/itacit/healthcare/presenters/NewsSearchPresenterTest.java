@@ -11,10 +11,6 @@ import com.itacit.healthcare.presentation.news.views.NewsSearchView;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-
 import static org.mockito.Mockito.mock;
 
 /**
@@ -42,8 +38,7 @@ public class NewsSearchPresenterTest {
 	public void shouldAddFilter() {
 		NewsSearchPresenter presenter = new NewsSearchPresenter(getAuthorsUseCase, getCategoriesUseCase, authorMapper, categoryMapper);
 		presenter.attachView(newsSearchView);
-		presenter.selectAuthorFilterById(ID);
-//		verify(newsSearchView).addFilter(eq());
+
 
 	}
 }
