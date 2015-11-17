@@ -97,6 +97,7 @@ public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
                 for (AuthorModel authorModel : authorModels) {
                     if (authorModel.getId().equals(filterId)) {
                         filterText = authorModel.getFullName();
+                        break;
                     }
                 }
                 break;
@@ -104,6 +105,7 @@ public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
                 for (CategoryModel categoryModel : categoryModels) {
                     if (categoryModel.getId().equals(filterId)) {
                         filterText = categoryModel.getName();
+                        break;
                     }
                 }
                 break;

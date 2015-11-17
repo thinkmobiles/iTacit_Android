@@ -89,7 +89,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
     void searchNews() {
         if (presenter.isDateValid()) {
             NewsSearch search = presenter.getNewsSearch();
-            activity.getSearchNews().onNext(search);
+            activity.getNewsSearchSubj().onNext(search);
             activity.switchContent(NewsFeedFragment.class, false);
         }
     }
@@ -171,8 +171,8 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
 	}
 
     @Override
-    public BehaviorSubject<NewsSearch> getNewsSearch() {
-        return activity.getSearchNews();
+    public BehaviorSubject<NewsSearch> getNewsSearchSubj() {
+        return activity.getNewsSearchSubj();
     }
 
     @Override
