@@ -4,8 +4,8 @@ import android.os.Bundle;
 
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.presentation.base.BaseActivity;
-import com.itacit.healthcare.presentation.news.views.fragments.NewsFeedFragment;
 import com.itacit.healthcare.presentation.news.models.NewsSearch;
+import com.itacit.healthcare.presentation.news.views.fragments.NewsFeedFragment;
 
 import rx.subjects.BehaviorSubject;
 
@@ -24,11 +24,11 @@ public class NewsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        searchNews = BehaviorSubject.create(new NewsSearch());
+        searchNews = BehaviorSubject.create();
         switchContent(NewsFeedFragment.class, false);
     }
 
-    public BehaviorSubject<NewsSearch> getSearchNews() {
+    public BehaviorSubject<NewsSearch> getNewsSearchSubj() {
         return searchNews;
     }
 }

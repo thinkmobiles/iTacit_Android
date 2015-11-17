@@ -295,8 +295,27 @@
         android:id="@+id/shadow_line_FAR"
         android:layout_below="@id/rl_recipients_header_FAR"
         style="@style/shadow_bottom" />
-    <Button
+    <LinearLayout
+        android:id="@+id/ll_add_recipients_FAR"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"/>
+        android:background="@color/btn_blue"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_alignParentBottom="true">
+        <ImageView
+            android:id="@+id/iv_user_FAR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_del_search"
+            android:layout_marginRight="10dp"/>
+        <TextView
+            android:id="@+id/tv_count_recipients_FAR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@android:color/white"
+            tools:text="16"/>
+    </LinearLayout>
 </RelativeLayout>

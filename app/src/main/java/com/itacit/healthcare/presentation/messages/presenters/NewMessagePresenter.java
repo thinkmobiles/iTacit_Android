@@ -4,14 +4,12 @@ import com.itacit.healthcare.data.entries.User;
 import com.itacit.healthcare.domain.interactor.users.GetUsersUseCase;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
-import com.itacit.healthcare.presentation.messages.views.NewMessageView;
 import com.itacit.healthcare.presentation.messages.mappers.UserMapper;
+import com.itacit.healthcare.presentation.messages.models.RecipientsModel;
 import com.itacit.healthcare.presentation.messages.models.UserModel;
-import com.itacit.healthcare.presentation.news.models.AuthorModel;
-import com.itacit.healthcare.presentation.news.views.NewsSearchView;
+import com.itacit.healthcare.presentation.messages.views.NewMessageView;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -21,11 +19,12 @@ import rx.Subscriber;
  * Created by root on 11.11.15.
  */
 public class NewMessagePresenter extends BasePresenter<NewMessageView> {
-
 	public static final int SEARCH_TEXT_MIN_LENGTH = 3;
 	private GetUsersUseCase getUsersUseCase;
 	private UserMapper userMapper;
 	private List<UserModel> userModels;
+
+	private RecipientsModel recipients = new RecipientsModel();
 
 	public NewMessagePresenter(GetUsersUseCase getUsersUseCase, UserMapper userMapper) {
 		this.getUsersUseCase = getUsersUseCase;
@@ -41,7 +40,12 @@ public class NewMessagePresenter extends BasePresenter<NewMessageView> {
 					.observeOn(getView().getUiThreadScheduler())
 					.subscribe(this::searchUsers));
 
-			compositeSubscription.add(getView().getFilterRemovedObs().subscribe(this::removeFilter, e -> e.printStackTrace()));
+			compositeSubscription.add(getView().getFilterRemovedObs().subscribe(this::removeRecipient));
+
+			compositeSubscription.add(getView().getSelectedRecipientsSubj().subscribe(recipientsModel -> {
+				this.recipients = recipientsModel;
+				//todo show users by id
+			}));
 		}
 	}
 
@@ -53,25 +57,29 @@ public class NewMessagePresenter extends BasePresenter<NewMessageView> {
 		if(getView() != null) getView().showUsers(userModels);
 	}
 
-	public void selectUserFilterById(String id) {
+	public void selectRecipient(String id) {
 		for (UserModel userModel : userModels) {
 			if (userModel.getId().equals(id)) {
 				Filter filter = new Filter(id, userModel.getFullName(), Filter.FilterType.Author);
 				if (getView() != null) getView().addFilter(filter);
+				recipients.addRecipient(id, RecipientsModel.RecipientType.User);
+				break;
 			}
 		}
 	}
 
-	public void unselectUserFilterById(String id) {
+	public void unselectRecipient(String id) {
 		for (UserModel userModel : userModels) {
 			if (userModel.getId().equals(id)) {
 				Filter filter = new Filter(id, userModel.getFullName(), Filter.FilterType.Author);
 				if (getView() != null) getView().removeFilter(filter);
+				recipients.removeRecipient(id, RecipientsModel.RecipientType.User);
+				break;
 			}
 		}
 	}
 
-	public void removeFilter(Filter filter) {
+	public void removeRecipient(Filter filter) {
 			if (getView() != null) getView().unselectUser(filter.getId());
 	}
 
@@ -85,6 +93,13 @@ public class NewMessagePresenter extends BasePresenter<NewMessageView> {
 	public void onDateClear() {
 		actOnView(v -> v.resetDate());
 
+	}
+
+	public void addRecipients() {
+		actOnView(view -> {
+			view.getSelectedRecipientsSubj().onNext(recipients);
+			view.navigateToAddRecipients();
+		});
 	}
 
 	private final class UsersListSubscriber extends Subscriber<List<User>> {

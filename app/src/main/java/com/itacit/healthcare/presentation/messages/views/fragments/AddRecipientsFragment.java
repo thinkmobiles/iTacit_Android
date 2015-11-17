@@ -23,6 +23,8 @@ import com.itacit.healthcare.presentation.messages.mappers.JobMapper;
 import com.itacit.healthcare.presentation.messages.models.BusinessModel;
 import com.itacit.healthcare.presentation.messages.models.GroupModel;
 import com.itacit.healthcare.presentation.messages.models.JobModel;
+import com.itacit.healthcare.presentation.messages.models.RecipientModel;
+import com.itacit.healthcare.presentation.messages.models.RecipientsModel;
 import com.itacit.healthcare.presentation.messages.presenters.AddRecipientsPresenter;
 import com.itacit.healthcare.presentation.messages.views.AddRecipientsView;
 import com.itacit.healthcare.presentation.messages.views.activity.MessagesActivity;
@@ -37,6 +39,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
+import rx.subjects.BehaviorSubject;
 
 /**
  * Created by root on 16.11.15.
@@ -56,6 +59,7 @@ public class AddRecipientsFragment extends BaseFragmentView<AddRecipientsPresent
     @Bind(R.id.iv_business_expand_FAR)      ImageView businessExpandIv;
     @Bind(R.id.iv_role_expand_FAR)          ImageView roleExpandIv;
     @Bind(R.id.iv_group_expand_FAR)         ImageView groupExpandIv;
+    @Bind(R.id.tv_count_recipients_FAR)     TextView selectRecipientsCountTv;
 
 
     @OnClick({R.id.iv_jobs_expand_FAR, R.id.iv_group_expand_FAR, R.id.iv_business_expand_FAR})
@@ -73,43 +77,60 @@ public class AddRecipientsFragment extends BaseFragmentView<AddRecipientsPresent
         }
     }
 
+    @OnClick(R.id.ll_add_recipients_FAR)
+    void addRecipients() {
+        presenter.selectRecipients();
+    }
+
     @Override
     public Observable<String> getSearchRecipientsInput() {
         return RxTextView.textChangeEvents(searchRecipientsEt).map(e -> e.text().toString());
     }
 
-    @Override
-    public void showBusiness(List<BusinessModel> business) {
-        RecipientAdapter adapter = new RecipientAdapter(activity, business, R.layout.list_item_recipient);
-        businessRv.setAdapter(adapter);
-        businessCountTv.setText(String.valueOf(business.size()));
+    private void showRecipients(List<? extends RecipientModel> models, RecyclerView recyclerView, TextView itemsCountTv,
+                                final RecipientsModel.RecipientType type) {
+        RecipientAdapter adapter = new RecipientAdapter(activity, models, R.layout.list_item_recipient, presenter, type);
+        recyclerView.setAdapter(adapter);
+        itemsCountTv.setText(String.valueOf(models.size()));
+        adapter.setRecipientSelectionListener(presenter::onRecipientClick);
     }
 
     @Override
-    public void showJobs(List<JobModel> models) {
-        RecipientAdapter adapter = new RecipientAdapter(activity, models, R.layout.list_item_recipient);
-        jobsRv.setAdapter(adapter);
-        jobCountTv.setText(String.valueOf(models.size()));
+    public void showBusiness(List<BusinessModel> business) {
+        showRecipients(business, businessRv, businessCountTv, RecipientsModel.RecipientType.Business);
+    }
+
+    @Override
+    public void showJobs(List<JobModel> jobs) {
+        showRecipients(jobs, jobsRv, jobCountTv, RecipientsModel.RecipientType.Job);
     }
 
     @Override
     public void showGroups(List<GroupModel> groups) {
-        RecipientAdapter adapter = new RecipientAdapter(activity, groups, R.layout.list_item_recipient);
-        groupsRv.setAdapter(adapter);
-        groupCountTv.setText(String.valueOf(groups.size()));
+        showRecipients(groups, groupsRv, groupCountTv, RecipientsModel.RecipientType.Group);
+    }
+
+    @Override
+    public void showSelectedRecipientsCount(int count) {
+        selectRecipientsCountTv.setText(String.valueOf(count));
+    }
+
+    @Override
+    public BehaviorSubject<RecipientsModel> getSelectedRecipientsSubj() {
+        return activity.getSelectedRecipientsSubj();
     }
 
     @Override
     protected void setUpView() {
-        jobsRv.setLayoutManager( new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
-        businessRv.setLayoutManager( new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
+        jobsRv.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
+        businessRv.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         groupsRv.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         rolesRv.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
     }
 
     @Override
     protected void setUpActionBar(ActionBar actionBar) {
-        switchToolbarIndicator(false, null);
+        switchToolbarIndicator(false, v -> activity.switchContent(NewMessageFragment.class, false));
 
         actionBar.setHomeAsUpIndicator(null);
         activity.setActionBarShadowVisible(false);

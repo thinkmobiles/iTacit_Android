@@ -15,11 +15,8 @@ import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
 import com.itacit.healthcare.presentation.base.widgets.datePicker.DatePickerFragment;
-import com.itacit.healthcare.presentation.messages.views.activity.MessagesActivity;
-import com.itacit.healthcare.presentation.messages.presenters.NewMessagePresenter;
-import com.itacit.healthcare.presentation.messages.views.NewMessageView;
-import com.itacit.healthcare.presentation.news.views.fragments.NewsFeedFragment;
 import com.itacit.healthcare.presentation.messages.mappers.UserMapper;
+import com.itacit.healthcare.presentation.messages.models.RecipientsModel;
 import com.itacit.healthcare.presentation.messages.models.UserModel;
 import com.itacit.healthcare.presentation.messages.presenters.NewMessagePresenter;
 import com.itacit.healthcare.presentation.messages.views.NewMessageView;
@@ -33,11 +30,13 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 import rx.Observable;
+import rx.subjects.BehaviorSubject;
 
 /**
  * Created by root on 11.11.15.
  */
-public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, MessagesActivity> implements NewMessageView, UsersAdapter.OnUsersItemSelectedListener, View.OnClickListener {
+public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, MessagesActivity>
+		implements NewMessageView, UsersAdapter.OnUsersItemSelectedListener {
 	@Bind(R.id.ib_add_FMN)          ImageButton ibAddRecipient;
 	@Bind(R.id.et_recipients_FMN)   FiltersEditText etRecipientsView;
 	@Bind(R.id.et_topic_FMN)        EditText etTopic;
@@ -48,6 +47,12 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 
 	private UsersAdapter usersAdapter;
 
+	@OnClick(R.id.ib_add_FMN)
+	void addRecipients() {
+		presenter.addRecipients();
+	}
+
+
 	@Override
 	protected void setUpView() {
 
@@ -55,7 +60,7 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 
 	@Override
 	protected void setUpActionBar(ActionBar actionBar) {
-		switchToolbarIndicator(false, this);
+		switchToolbarIndicator(false, v -> activity.switchContent(MessagesFeedFragment.class, false));
 
 		actionBar.setHomeAsUpIndicator(null);
 		activity.setActionBarShadowVisible(true);
@@ -104,6 +109,12 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 				() -> presenter.onDateClear());
 		fromDatePicker.show(getFragmentManager(), "DatePicker");
 	}
+
+	@Override
+	public void navigateToAddRecipients() {
+		activity.switchContent(AddRecipientsFragment.class, false);
+	}
+
 	@Override
 	public void showUsers(List<UserModel> users) {
 
@@ -157,22 +168,22 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 	}
 
 	@Override
-	public void onClick(View v) {
-        activity.switchContent(MessagesFeedFragment.class, false);
-	}
-
-	@Override
 	public Observable<Filter> getFilterRemovedObs() {
 		return etRecipientsView.getChipRemovedSubject();
 	}
 
 	@Override
+	public BehaviorSubject<RecipientsModel> getSelectedRecipientsSubj() {
+		return activity.getSelectedRecipientsSubj();
+	}
+
+	@Override
 	public void onUsersSelected(String userId) {
-		presenter.selectUserFilterById(userId);
+		presenter.selectRecipient(userId);
 	}
 
 	@Override
 	public void onUsersDeselected(String userId) {
-		presenter.unselectUserFilterById(userId);
+		presenter.unselectRecipient(userId);
 	}
 }

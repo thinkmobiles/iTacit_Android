@@ -154,6 +154,6 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsAc
 
     @Override
     public BehaviorSubject<NewsSearch> getNewsSearch() {
-        return activity.getSearchNews();
+        return activity.getNewsSearchSubj();
     }
 }

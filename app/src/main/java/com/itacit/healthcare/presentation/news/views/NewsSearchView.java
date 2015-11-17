@@ -32,6 +32,6 @@ public interface NewsSearchView extends View {
 	void unselectCategory(String id);
 	Observable<String> getSearchTextObs();
 	Observable<Filter> getFilterRemovedObs();
-	BehaviorSubject<NewsSearch> getNewsSearch();
+	BehaviorSubject<NewsSearch> getNewsSearchSubj();
 	List<Filter> getFilters();
 }

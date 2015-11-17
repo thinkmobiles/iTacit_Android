@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.presentation.messages.models.RecipientModel;
+import com.itacit.healthcare.presentation.messages.models.RecipientsModel;
+import com.itacit.healthcare.presentation.messages.presenters.AddRecipientsPresenter;
 
 import java.util.List;
 
@@ -21,14 +23,19 @@ import butterknife.ButterKnife;
  * Created by root on 16.11.15.
  */
 public class RecipientAdapter extends RecyclerView.Adapter<RecipientAdapter.RecipientViewHolder> {
+    private final AddRecipientsPresenter presenter;
+    private final RecipientsModel.RecipientType recipientType;
     private Context context;
     private List<? extends RecipientModel> models;
     private int layoutId;
+    private RecipientClickListener recipientListener;
 
-    public RecipientAdapter(Context context, List<? extends RecipientModel> models, @LayoutRes int layoutId) {
+    public RecipientAdapter(Context context, List<? extends RecipientModel> models, @LayoutRes int layoutId, AddRecipientsPresenter presenter, RecipientsModel.RecipientType type) {
         this.context = context;
         this.layoutId = layoutId;
         this.models = models;
+        this.presenter = presenter;
+        recipientType = type;
     }
 
     @Override
@@ -41,6 +48,17 @@ public class RecipientAdapter extends RecyclerView.Adapter<RecipientAdapter.Reci
     @Override
     public void onBindViewHolder(RecipientViewHolder holder, int position) {
         RecipientModel model = models.get(position);
+
+        holder.view.setOnClickListener(v -> {
+            if (recipientListener == null) {
+                return;
+            }
+
+            recipientListener.onRecipientClick(model.getId(), recipientType);
+            holder.checkIv.setVisibility(presenter.isRecipientSelected(model.getId(), recipientType) ? View.VISIBLE : View.INVISIBLE);
+        });
+
+        holder.checkIv.setVisibility(presenter.isRecipientSelected(model.getId(), recipientType) ? View.VISIBLE : View.INVISIBLE);
         holder.titleTv.setText(model.getTitle());
     }
 
@@ -49,13 +67,23 @@ public class RecipientAdapter extends RecyclerView.Adapter<RecipientAdapter.Reci
         return models.size();
     }
 
+    public void setRecipientSelectionListener(RecipientClickListener recipientClickListener) {
+        recipientListener = recipientClickListener;
+    }
+
     public static class RecipientViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.tv_title)        TextView titleTv;
         @Bind(R.id.iv_check)        ImageView checkIv;
+        View view;
 
         public RecipientViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            view = itemView;
         }
+    }
+
+    public interface RecipientClickListener {
+        void onRecipientClick(String id, RecipientsModel.RecipientType recipientType);
     }
 }

@@ -13,6 +13,7 @@ import com.itacit.healthcare.presentation.messages.mappers.JobMapper;
 import com.itacit.healthcare.presentation.messages.models.BusinessModel;
 import com.itacit.healthcare.presentation.messages.models.GroupModel;
 import com.itacit.healthcare.presentation.messages.models.JobModel;
+import com.itacit.healthcare.presentation.messages.models.RecipientsModel;
 import com.itacit.healthcare.presentation.messages.views.AddRecipientsView;
 import com.itacit.healthcare.presentation.news.presenters.NewsFeedPresenter;
 
@@ -21,6 +22,8 @@ import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
 import rx.Subscriber;
+
+import static com.itacit.healthcare.presentation.messages.models.RecipientsModel.RecipientType;
 
 /**
  * Created by root on 16.11.15.
@@ -40,6 +43,8 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
     private List<GroupModel> groupModels;
     private List<JobModel> jobModels;
 
+    private RecipientsModel recipients = new RecipientsModel();
+
     public AddRecipientsPresenter(GetBusinessUseCase getBusinessUseCase, GetJobsUseCase getJobsUseCase,
                                   GetGroupsUseCase getGroupsUseCase, GroupMapper groupMapper,
                                   BusinessMapper businessMapper, JobMapper jobMapper) {
@@ -55,6 +60,29 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
     protected void onViewAttach() {
         super.onViewAttach();
         compositeSubscription.add(getSearchRecipientsObs().subscribe(this::getRecipients));
+        compositeSubscription.add(getView().getSelectedRecipientsSubj().subscribe(recipientsModel -> {
+            this.recipients = recipientsModel;
+            actOnView(view -> view.showSelectedRecipientsCount(recipientsModel.getRecipientsCount()));
+        }));
+    }
+
+
+    public boolean isRecipientSelected(String id, RecipientType type) {
+        return recipients.contains(id, type);
+    }
+
+    public void selectRecipients() {
+        actOnView(view -> view.getSelectedRecipientsSubj().onNext(recipients));
+    }
+
+    public void onRecipientClick(String id, RecipientType type) {
+        if (isRecipientSelected(id, type)) {
+            recipients.removeRecipient(id, type);
+        } else {
+            recipients.addRecipient(id, type);
+        }
+
+        actOnView(view -> view.showSelectedRecipientsCount(recipients.getRecipientsCount()));
     }
 
     private Observable<String> getSearchRecipientsObs() {
@@ -122,6 +150,4 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
             jobModels = jobMapper.transform(jobClassifications);
         }
     }
-
-
 }
