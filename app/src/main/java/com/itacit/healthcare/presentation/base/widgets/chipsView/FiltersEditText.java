@@ -17,7 +17,6 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.AutoCompleteTextView;
-import android.widget.MultiAutoCompleteTextView;
 
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.global.utils.AndroidUtils;
@@ -351,7 +350,7 @@ public class FiltersEditText extends AutoCompleteTextView {
 
     private VisibleFilterChip findChip(final int offset) {
         final VisibleFilterChip[] chips = getText().getSpans(0, getText().length(), VisibleFilterChip.class);
-        // Find the chip that contains this offset.
+        // Find the chip that containsRecipient this offset.
         for (int i = 0; i < chips.length; i++) {
             final VisibleFilterChip chip = chips[i];
             final int start = getChipStart(chip);

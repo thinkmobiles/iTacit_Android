@@ -1,5 +1,7 @@
 package com.itacit.healthcare.presentation.messages.presenters;
 
+import android.support.annotation.NonNull;
+
 import com.itacit.healthcare.data.entries.Business;
 import com.itacit.healthcare.data.entries.Group;
 import com.itacit.healthcare.data.entries.JobClassification;
@@ -20,7 +22,6 @@ import com.itacit.healthcare.presentation.news.presenters.NewsFeedPresenter;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import rx.Observable;
 import rx.Subscriber;
 
 import static com.itacit.healthcare.presentation.messages.models.RecipientsModel.PredefinedRecipients;
@@ -58,12 +59,16 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
     }
 
     @Override
-    protected void onViewAttach() {
-        super.onViewAttach();
-        compositeSubscription.add(getSearchRecipientsObs().subscribe(this::getRecipients));
-        compositeSubscription.add(getView().getSelectedRecipientsSubj().subscribe(recipientsModel -> {
+    protected void onAttachedView(@NonNull AddRecipientsView view) {
+        compositeSubscription.add(view.getSearchRecipientsInput()
+                .filter(t -> t.length() >= NewsFeedPresenter.SEARCH_TEXT_MIN_LENGTH)
+                .debounce(TIMEOUT, TimeUnit.SECONDS)
+                .subscribe(this::getRecipients));
+
+        compositeSubscription.add(view.getSelectedRecipientsSubj().subscribe(recipientsModel -> {
             this.recipients = recipientsModel;
-            actOnView(view -> view.showSelectedRecipientsCount(recipientsModel.getRecipientsCount()));
+
+            actOnView(v -> v.showSelectedRecipientsCount(recipientsModel.getRecipientsCount()));
         }));
     }
 
@@ -73,7 +78,7 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
 
 
     public boolean isRecipientSelected(String id, RecipientType type) {
-        return recipients.contains(id, type);
+        return recipients.containsRecipient(id, type);
     }
 
     public void selectRecipients() {
@@ -100,15 +105,6 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
         }
 
         actOnView(view -> view.showSelectedRecipientsCount(recipients.getRecipientsCount()));
-    }
-
-    private Observable<String> getSearchRecipientsObs() {
-        if (getView() != null) {
-            return getView().getSearchRecipientsInput()
-                    .filter(t -> t.length() >= NewsFeedPresenter.SEARCH_TEXT_MIN_LENGTH)
-                    .debounce(TIMEOUT, TimeUnit.SECONDS);
-        }
-        return Observable.empty();
     }
 
     private void getRecipients(String query) {

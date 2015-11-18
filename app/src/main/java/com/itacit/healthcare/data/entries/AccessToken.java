@@ -51,7 +51,7 @@ public class AccessToken {
      * The tokenType
      */
     public String getTokenType() {
-        if ( !Character.isUpperCase(tokenType.charAt(0))) {
+        if (!Character.isUpperCase(tokenType.charAt(0))) {
             tokenType = Character.toString(tokenType.charAt(0)).toUpperCase()
                     + tokenType.substring(1);
         }

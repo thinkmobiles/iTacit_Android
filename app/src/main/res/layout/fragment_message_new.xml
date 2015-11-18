@@ -44,6 +44,7 @@
 			android:dropDownWidth="match_parent"
 			android:popupBackground="@android:color/white"
 			android:background="@null"
+			android:maxLines="2"
 			android:layout_marginTop="10dp"
 			android:lineSpacingExtra="10dp"
 			android:paddingLeft="5dp"

@@ -24,27 +24,7 @@ public class GetMessagesUseCase extends GetListUseCase<Message> {
         return MessagesService.getApi().getMessages(requestBody);
     }
 
-    public void execute(Subscriber<List<Message>> useCaseSubscriber, Filter filter) {
-        super.execute(useCaseSubscriber, filter.toString());
-    }
-
-    public enum  Filter {
-        ALL("ALL"),
-        ACT("ACT"),
-        WAITING("WAITING"),
-        DONE("DONE"),
-        INBOX("INBOX"),
-        SENT("SENT"),
-        ARCHIVE("ARCHIVE");
-
-        private final String filter;
-        Filter(String filter) {
-            this.filter = filter;
-        }
-
-        @Override
-        public String toString() {
-            return filter;
-        }
+    public void execute(Subscriber<List<Message>> useCaseSubscriber, String filter) {
+        super.execute(useCaseSubscriber, filter);
     }
 }

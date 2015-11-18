@@ -1,5 +1,7 @@
 package com.itacit.healthcare.presentation.news.presenters;
 
+import android.support.annotation.NonNull;
+
 import com.itacit.healthcare.data.entries.News;
 import com.itacit.healthcare.domain.interactor.news.GetNewsUseCase;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
@@ -36,30 +38,32 @@ public class NewsFeedPresenter extends BasePresenter<NewsFeedView> {
     }
 
     @Override
-    protected void onViewAttach() {
-        if (getView()!= null) {
-            compositeSubscription.add(getView().getNewsSearchTextObs()
-                    .filter(text -> text.length() >= SEARCH_TEXT_MIN_LENGTH)
-                    .debounce(1, TimeUnit.SECONDS)
-                    .observeOn(getView().getUiThreadScheduler())
-                    .subscribe(this::searchNews));
+    protected void onAttachedView(@NonNull NewsFeedView view) {
+        compositeSubscription.add(view.getNewsSearchTextObs()
+                .filter(text -> text.length() >= SEARCH_TEXT_MIN_LENGTH)
+                .debounce(1, TimeUnit.SECONDS)
+                .observeOn(view.getUiThreadScheduler())
+                .subscribe(this::searchNews));
 
-            compositeSubscription.add(getView().getNewsSearch().subscribe(this::searchNews));
-        }
+        compositeSubscription.add(view.getNewsSearch().subscribe(this::searchNews));
     }
 
     private void searchNews(NewsSearch search) {
         if (search.getFilters() != null) {
-            if (getView() != null) getView().showFilters(search.getFilters());
+            actOnView(view -> view.showFilters(search.getFilters()));
         }
+
+        actOnView(NewsFeedView::showProgress);
         getNewsUseCase.execute(new NewsListSubscriber(), search);
     }
 
-    private void showNewsOnView() {
-        if(getView() != null) getView().showNews(newsModels);
+    private void showNewsOnView(List<News> newses) {
+        newsModels = newsMapper.transform(newses);
+        actOnView(view -> view.showNews(newsModels));
     }
 
     public void searchNews(String query) {
+        actOnView(NewsFeedView::showProgress);
         getNewsUseCase.execute(new NewsListSubscriber(), query);
     }
 
@@ -67,18 +71,16 @@ public class NewsFeedPresenter extends BasePresenter<NewsFeedView> {
 
         @Override
         public void onCompleted() {
-            if(getView() != null) getView().hideProgress();
-	        showNewsOnView();
+            actOnView(NewsFeedView::hideProgress);
         }
-
         @Override
         public void onError(Throwable e) {
-            if(getView() != null) getView().hideProgress();
+            actOnView(NewsFeedView::hideProgress);
         }
 
         @Override
         public void onNext(List<News> newses) {
-	        newsModels = newsMapper.transform(newses);
+            showNewsOnView(newses);
         }
     }
 }
