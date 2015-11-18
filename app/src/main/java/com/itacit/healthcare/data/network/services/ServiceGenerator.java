@@ -2,7 +2,6 @@ package com.itacit.healthcare.data.network.services;
 
 import com.itacit.healthcare.data.network.interceptors.AuthInterceptor;
 import com.itacit.healthcare.data.network.interceptors.Logger;
-import com.itacit.healthcare.data.entries.AccessToken;
 import com.squareup.okhttp.OkHttpClient;
 
 import retrofit.GsonConverterFactory;
@@ -21,15 +20,14 @@ public class ServiceGenerator {
             .addCallAdapterFactory(RxJavaCallAdapterFactory.create());
 
     public static <S> S createService(Class<S> serviceClass) {
-        return createService(serviceClass, null);
+        return createService(serviceClass, false);
     }
 
-    public static <S> S createService(Class<S> serviceClass, AccessToken accessToken) {
+    public static <S> S createService(Class<S> serviceClass, boolean requireAuth) {
         OkHttpClient client = new OkHttpClient();
-        if (accessToken != null) {
+        if (requireAuth){
             client.interceptors().add(new AuthInterceptor());
         }
-
         client.interceptors().add(new Logger());
         Retrofit retrofit = builder.client(client).build();
         return retrofit.create(serviceClass);

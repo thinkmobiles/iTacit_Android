@@ -3,11 +3,9 @@ package com.itacit.healthcare.data.network.services;
 import com.itacit.healthcare.data.entries.Author;
 import com.itacit.healthcare.data.entries.Category;
 import com.itacit.healthcare.data.entries.News;
-import com.itacit.healthcare.data.network.AccessTokenHandler;
 import com.itacit.healthcare.data.network.request.ItemRequest;
 import com.itacit.healthcare.data.network.request.ListRequest;
 import com.itacit.healthcare.data.network.response.ListResponse;
-
 
 import retrofit.http.Body;
 import retrofit.http.POST;
@@ -21,7 +19,7 @@ public class NewsService {
 
     public static NewsApi getApi() {
         if (api == null) {
-            api = ServiceGenerator.createService(NewsApi.class, AccessTokenHandler.getAccessToken());
+            api = ServiceGenerator.createService(NewsApi.class, true);
         }
 
         return api;

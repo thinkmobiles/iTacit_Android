@@ -1,7 +1,6 @@
 package com.itacit.healthcare.data.network.services;
 
 import com.itacit.healthcare.data.entries.User;
-import com.itacit.healthcare.data.network.AccessTokenHandler;
 import com.itacit.healthcare.data.network.request.ItemRequest;
 import com.itacit.healthcare.data.network.request.ListRequest;
 import com.itacit.healthcare.data.network.response.ListResponse;
@@ -18,7 +17,7 @@ public class UsersService {
 
     public static UsersApi getApi() {
         if (api == null) {
-            api = ServiceGenerator.createService(UsersApi.class, AccessTokenHandler.getAccessToken());
+            api = ServiceGenerator.createService(UsersApi.class, true);
         }
 
         return api;

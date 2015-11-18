@@ -109,6 +109,11 @@ public class AddRecipientsFragment extends BaseFragmentView<AddRecipientsPresent
         }
     }
 
+    @OnClick(R.id.ib_clear_FAR)
+    void clearSearch() {
+        searchRecipientsEt.setText("");
+    }
+
     @OnClick(R.id.ll_add_recipients_FAR)
     void addRecipients() {
         presenter.selectRecipients();

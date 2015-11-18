@@ -1,7 +1,6 @@
 package com.itacit.healthcare.data.network.services;
 
 import com.itacit.healthcare.data.entries.Message;
-import com.itacit.healthcare.data.network.AccessTokenHandler;
 import com.itacit.healthcare.data.network.request.CreateMessageRequest;
 import com.itacit.healthcare.data.network.request.ListRequest;
 import com.itacit.healthcare.data.network.response.ListResponse;
@@ -18,8 +17,7 @@ public class MessagesService {
 
     public static MessagesApi getApi() {
         if (api == null) {
-            api = ServiceGenerator.createService(MessagesApi.class,
-                    AccessTokenHandler.getAccessToken());
+            api = ServiceGenerator.createService(MessagesApi.class, true);
         }
 
         return api;
