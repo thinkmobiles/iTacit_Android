@@ -3,10 +3,13 @@ package com.itacit.healthcare.data.entries;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /**
  * Created by root on 12.11.15.
  */
 public class Message {
+    //Default fields
     @SerializedName("id")
     @Expose
     private String id;
@@ -52,6 +55,13 @@ public class Message {
     @SerializedName("resultSetRowId")
     @Expose
     private Integer resultSetRowId;
+    //Additional Fields
+    @SerializedName("sender")
+    @Expose
+    private User sender;
+    @SerializedName("recipients")
+    @Expose
+    private List<User> recipients;
 
     public String getId() {
         return id;

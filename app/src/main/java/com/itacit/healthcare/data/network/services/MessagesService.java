@@ -1,7 +1,12 @@
 package com.itacit.healthcare.data.network.services;
 
 import com.itacit.healthcare.data.entries.Message;
+import com.itacit.healthcare.data.entries.News;
+import com.itacit.healthcare.data.entries.Reply;
+import com.itacit.healthcare.data.entries.User;
+import com.itacit.healthcare.data.network.AccessTokenHandler;
 import com.itacit.healthcare.data.network.request.CreateMessageRequest;
+import com.itacit.healthcare.data.network.request.ItemRequest;
 import com.itacit.healthcare.data.network.request.ListRequest;
 import com.itacit.healthcare.data.network.response.ListResponse;
 
@@ -29,5 +34,11 @@ public class MessagesService {
 
         @POST("/mobile/1.0/messaging/message/new")
         Observable<Integer> createMessage(@Body CreateMessageRequest request);
+
+        @POST("/mobile/1.0/messaging/reply")
+        Observable<ListResponse<Reply>> getListReplies(@Body ListRequest request);
+
+//        @POST("/mobile/1.0/messaging/message")
+//        Observable<Object> getItemReplies(@Body ItemRequest request);
     }
 }

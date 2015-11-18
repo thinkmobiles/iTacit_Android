@@ -40,9 +40,13 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
     private MessagesAdapter messagesAdapter;
     private ProgressDialog progressDialog;
 
+    @OnClick(R.id.fab_button_FMF)
+    void addNewMessage(){
+        activity.switchContent(NewMessageFragment.class, false);
+    }
+
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void setUpView() {
         tabLayout.addTab(tabLayout.newTab().setText("All \n1").setTag(MessagesFilter.ALL));
         tabLayout.addTab(tabLayout.newTab().setText("Act on \n2").setTag(MessagesFilter.ACT));
         tabLayout.addTab(tabLayout.newTab().setText("Waiting \n3").setTag(MessagesFilter.WAITING));
@@ -51,15 +55,6 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
 
         tabLayout.setOnTabSelectedListener(this);
 
-    }
-
-    @OnClick(R.id.fab_button_FMF)
-    void addNewMessage(){
-        activity.switchContent(NewMessageFragment.class, false);
-    }
-
-    @Override
-    protected void setUpView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         messagesRecyclerView.setLayoutManager(layoutManager);
     }
@@ -126,9 +121,9 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
     }
 
     public void showMessagesItemDetails(String messageId) {
-//        Bundle args = new Bundle(1);
-//        args.putString(MessageResponseFragment.Message_ID, messageId);
-//        activity.switchContent(MessageResponseFragment.class, true, args);
+        Bundle args = new Bundle(1);
+        args.putString(MessageRepliesFragment.Message_ID, messageId);
+        activity.switchContent(MessageRepliesFragment.class, true, args);
         Toast.makeText(getActivity(),messageId,Toast.LENGTH_SHORT).show();
 
     }

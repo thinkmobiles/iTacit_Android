@@ -21,6 +21,7 @@ public class MessagesActivity extends BaseActivity {
         recipients = BehaviorSubject.create(new RecipientsModel());
         super.onCreate(savedInstanceState);
         switchContent(AddRecipientsFragment.class, false);
+//		switchContent(MessagesFeedFragment.class, false);
     }
 
     @Override

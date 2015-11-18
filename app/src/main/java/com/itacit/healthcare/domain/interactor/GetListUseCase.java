@@ -14,6 +14,9 @@ import rx.Subscriber;
 public abstract class GetListUseCase<T> extends UseCase<List<T>> {
     protected ListRequest requestBody;
 
+    protected static final String DEFAULT_FIELDS = "DEFAULT";
+    private static final String COMBINE_CHAR = "|";
+
     public GetListUseCase(Integer startIndex, Integer rowCounts) {
         requestBody = new ListRequest();
         requestBody.setStartIndex(startIndex);
@@ -23,6 +26,24 @@ public abstract class GetListUseCase<T> extends UseCase<List<T>> {
     public void execute(Subscriber<List<T>> useCaseSubscriber, String query) {
         requestBody.setQuery(query);
         super.execute(useCaseSubscriber);
+    }
+
+    protected void setRequestFields(String... fields) {
+        String requestFields = "";
+        for (String field : fields) {
+            if (!requestFields.isEmpty()) {
+                requestFields += COMBINE_CHAR;
+            }
+            requestFields += field;
+        }
+
+        requestBody.setFields(requestFields);
+    }
+
+    protected void setSortField(String sortField){
+        if(sortField != null){
+            requestBody.setSort(sortField);
+        }
     }
 
     @Override
