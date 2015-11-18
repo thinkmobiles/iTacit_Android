@@ -60,10 +60,6 @@ public class RepliesAdapter extends RecyclerView.Adapter<RepliesAdapter.ViewHold
                 .fit()
                 .into(holder.headlineIv);
 
-        Log.d("WWW", " img:" + repliesModel.getSenderImageUri() +
-                "\n role: " + repliesModel.getSenderRoleName() +
-                "\n id: " + repliesModel.getId());
-
         holder.senderNameTv.setText(repliesModel.getSenderNameFull());
         holder.senderRoleNameTv.setText(repliesModel.getSenderRoleName());
         holder.bodyTv.setText(Html.fromHtml(repliesModel.getBody()));

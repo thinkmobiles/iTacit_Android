@@ -69,8 +69,7 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
     protected MessageRepliesPresenter createPresenter() {
         String messageId = getArguments().getString(Message_ID);
         return new MessageRepliesPresenter(new ListRepliesMapper(),
-                new GetListRepliesUseCase(0,100),
-                this, messageId);
+                new GetListRepliesUseCase(0,100),messageId);
     }
 
     @Override

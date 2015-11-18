@@ -1,5 +1,6 @@
 package com.itacit.healthcare.presentation.messages.presenters;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.itacit.healthcare.data.entries.Reply;
@@ -27,19 +28,15 @@ public class MessageRepliesPresenter extends BasePresenter<MessageRepliesView> {
 
     public MessageRepliesPresenter(ListRepliesMapper listRepliesMapper,
                                    GetListRepliesUseCase getListRepliesUseCase,
-                                   MessageRepliesFragment messageRepliesFragment,
                                    String messageId) {
         this.dataMapper = listRepliesMapper;
         this.getListRepliesUseCase = getListRepliesUseCase;
-        this.messageRepliesFragment = messageRepliesFragment;
         this.messageId = messageId;
     }
 
     @Override
-    protected void onViewAttach() {
-        if (getView()!= null) {
+    protected void onAttachedView(@NonNull MessageRepliesView view) {
             getListRepliesUseCase.execute(new RepliesListSubscriber(), messageId);
-        }
     }
 
     private void showRepliesOnView() {
