@@ -25,6 +25,8 @@ public class MessagesActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		switchContent(AddRecipientsFragment.class, false);
+//		switchContent(AddRecipientsFragment.class, false);
+		switchContent(MessagesFeedFragment.class, false);
+
 	}
 }

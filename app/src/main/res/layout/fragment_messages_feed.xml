@@ -53,6 +53,6 @@
     <View
         android:id="@+id/shadow_line_FMF"
         style="@style/shadow_bottom"
-        android:layout_below="@+id/rl_news_header_FN"
+        android:layout_below="@+id/rl_messages_header_FMF"
         android:layout_alignParentStart="true"/>
 </RelativeLayout>

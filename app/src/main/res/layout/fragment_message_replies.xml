@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rl_messages_replies_header_FMR"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <TextView
+            android:id="@+id/tv_subject_FMR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Subject"/>
+
+        <TextView
+            android:id="@+id/tv_body_FMR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="3"
+            android:ellipsize="marquee"
+            android:singleLine="false"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_below="@+id/tv_subject_FMR"
+            android:text="Hi make this a very long string that wraps at least 4 lines, seriously make it really really long so it gets cut off at the fourth line not joke.  Just do it! Hi make this a very long string that wraps at least 4 lines, seriously make it really really long so it gets cut off at the fourth line not joke.  Just do it!"/>
+
+        <TextView
+            android:id="@+id/tv_request_for_confirmation_FMR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/btn_blue"
+            android:layout_marginTop="10dp"
+            android:visibility="visible"
+            android:text="Please confirm this"
+            android:layout_below="@+id/tv_body_FMR"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/tv_response_for_confirmation_FMR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_request_for_confirmation_FMR"
+            android:text="I HAVE READ THIS"
+            android:visibility="visible"
+            android:layout_marginTop="8dp"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/tv_number_people_shared_FMR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_del_search"
+            android:text="13"
+            android:layout_below="@+id/tv_response_for_confirmation_FMR"/>
+
+        <TextView
+            android:id="@+id/tv_number_people_read_FMR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_del_search"
+            android:text="15"
+            android:layout_marginLeft="8dp"
+            android:layout_alignTop="@+id/tv_number_people_shared_FMR"
+            android:layout_toEndOf="@+id/tv_number_people_shared_FMR"/>
+
+        <TextView
+            android:id="@+id/tv_number_attachment_FMR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_del_search"
+            android:text="17"
+            android:layout_marginLeft="8dp"
+            android:layout_alignTop="@+id/tv_number_people_read_FMR"
+            android:layout_toEndOf="@+id/tv_number_people_read_FMR"/>
+
+        <TextView
+            android:id="@+id/tv_reply_to_sender_FMR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_del_search"
+            android:text="to Author"
+            android:layout_marginLeft="8dp"
+            android:layout_below="@+id/tv_response_for_confirmation_FMR"
+            android:layout_alignParentEnd="true"
+            />
+
+        <TextView
+            android:id="@+id/ib_reply_all_FMR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_del_search"
+            android:text="to all"
+            android:layout_marginLeft="8dp"
+            android:layout_below="@+id/tv_response_for_confirmation_FMR"
+            android:layout_toStartOf="@+id/tv_reply_to_sender_FMR"/>
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_FMR"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:scrollbars="vertical"
+        android:layout_below="@+id/rl_messages_replies_header_FMR"/>
+
+    <View
+        android:id="@+id/shadow_line_FMR"
+        style="@style/shadow_bottom"
+        android:layout_below="@+id/rl_messages_replies_header_FMR"
+        android:layout_alignParentStart="true"/>
+</RelativeLayout>

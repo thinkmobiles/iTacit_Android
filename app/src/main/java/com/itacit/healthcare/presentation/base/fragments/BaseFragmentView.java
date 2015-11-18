@@ -52,11 +52,11 @@ public abstract class BaseFragmentView<P extends Presenter, A extends BaseActivi
     @Override
     public void onViewCreated(android.view.View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setUpActionBar(activity.getSupportActionBar());
-        setUpView();
         if (presenter == null) {
             presenter = createPresenter();
         }
+        setUpActionBar(activity.getSupportActionBar());
+        setUpView();
         presenter.attachView(this);
     }
 

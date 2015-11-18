@@ -40,23 +40,9 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
     RecyclerView messagesRecyclerView;
     @Bind(R.id.tab_layout_FMF)
     TabLayout tabLayout;
-    View view;
 
     private MessagesAdapter messagesAdapter;
     private OnTabItemSelectedListener tabItemSelectedListener;
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        tabLayout.addTab(tabLayout.newTab().setText("All \n1"));
-        tabLayout.addTab(tabLayout.newTab().setText("Act on \n2"));
-        tabLayout.addTab(tabLayout.newTab().setText("Waiting \n3"));
-        tabLayout.addTab(tabLayout.newTab().setText("To my \n4"));
-        tabLayout.addTab(tabLayout.newTab().setText("For me \n5"));
-
-        tabLayout.setOnTabSelectedListener(this);
-
-    }
 
     @OnClick(R.id.fab_button_FMF)
     void addNewMessage(){
@@ -65,6 +51,14 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
 
     @Override
     protected void setUpView() {
+        tabLayout.addTab(tabLayout.newTab().setText("All \n1"));
+        tabLayout.addTab(tabLayout.newTab().setText("Act on \n2"));
+        tabLayout.addTab(tabLayout.newTab().setText("Waiting \n3"));
+        tabLayout.addTab(tabLayout.newTab().setText("To my \n4"));
+        tabLayout.addTab(tabLayout.newTab().setText("For me \n5"));
+
+        tabLayout.setOnTabSelectedListener(this);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         messagesRecyclerView.setLayoutManager(layoutManager);
     }
@@ -114,9 +108,9 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
     }
 
     public void showMessagesItemDetails(String messageId) {
-//        Bundle args = new Bundle(1);
-//        args.putString(MessageResponseFragment.Message_ID, messageId);
-//        activity.switchContent(MessageResponseFragment.class, true, args);
+        Bundle args = new Bundle(1);
+        args.putString(MessageRepliesFragment.Message_ID, messageId);
+        activity.switchContent(MessageRepliesFragment.class, true, args);
         Toast.makeText(getActivity(),messageId,Toast.LENGTH_SHORT).show();
 
     }
