@@ -15,7 +15,6 @@ import rx.subjects.BehaviorSubject;
 public class NewsActivity extends BaseActivity {
     private BehaviorSubject<NewsSearch> searchNews;
 
-
     @Override
     protected int getLayoutRes() {
         return R.layout.activity_news;
@@ -24,7 +23,7 @@ public class NewsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        searchNews = BehaviorSubject.create();
+        searchNews = BehaviorSubject.create(new NewsSearch());
         switchContent(NewsFeedFragment.class, false);
     }
 

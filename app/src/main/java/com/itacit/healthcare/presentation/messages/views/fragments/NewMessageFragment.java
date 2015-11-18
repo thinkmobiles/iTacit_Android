@@ -18,9 +18,9 @@ import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
 import com.itacit.healthcare.presentation.base.widgets.datePicker.DatePickerFragment;
 import com.itacit.healthcare.presentation.messages.mappers.UserMapper;
-import com.itacit.healthcare.presentation.messages.models.RecipientsModel;
 import com.itacit.healthcare.presentation.messages.models.UserModel;
 import com.itacit.healthcare.presentation.messages.presenters.NewMessagePresenter;
+import com.itacit.healthcare.presentation.messages.views.MessageStorage;
 import com.itacit.healthcare.presentation.messages.views.NewMessageView;
 import com.itacit.healthcare.presentation.messages.views.activity.MessagesActivity;
 import com.itacit.healthcare.presentation.messages.views.adapters.UsersAdapter;
@@ -32,7 +32,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 import rx.Observable;
-import rx.subjects.BehaviorSubject;
 
 /**
  * Created by root on 11.11.15.
@@ -56,7 +55,6 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 
     @Override
     protected void setUpView() {
-
     }
 
     @Override
@@ -116,8 +114,8 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 
     void showDatePicker() {
         DatePickerFragment fromDatePicker = new DatePickerFragment((datePicker, year, monthOfYear, dayOfMonth) ->
-                presenter.onDateSelected(),
-                () -> presenter.onDateClear());
+                presenter.onDateSelected(year, monthOfYear, dayOfMonth),
+                presenter::onDateClear);
         fromDatePicker.show(getFragmentManager(), "DatePicker");
     }
 
@@ -183,8 +181,8 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
     }
 
     @Override
-    public BehaviorSubject<RecipientsModel> getSelectedRecipientsSubj() {
-        return activity.getSelectedRecipientsSubj();
+    public MessageStorage getMessageStorage() {
+        return activity;
     }
 
     @Override

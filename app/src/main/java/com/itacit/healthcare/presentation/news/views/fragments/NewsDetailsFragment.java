@@ -46,7 +46,6 @@ public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter, 
         picasso = new Picasso.Builder(activity)
                 .downloader(new OkHttpDownloader(picassoClient))
                 .build();
-        presenter.loadNewsDetails();
     }
 
     @Override

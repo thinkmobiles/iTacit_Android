@@ -7,6 +7,7 @@ import com.itacit.healthcare.presentation.messages.models.CreateMessageModel;
 import com.itacit.healthcare.presentation.messages.models.RecipientsModel;
 import com.itacit.healthcare.presentation.messages.models.RecipientsModel.RecipientType;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +20,7 @@ import rx.Subscriber;
  * Created by Nerevar on 11/12/2015.
  */
 public class CreateMessageUseCase extends UseCase<Integer> {
+	private SimpleDateFormat simpleFormatter = new SimpleDateFormat("yyyy-mm-dd");
 	private CreateMessageRequest requestBody;
 
 	public void execute(Subscriber<Integer> subscriber,
@@ -37,23 +39,29 @@ public class CreateMessageUseCase extends UseCase<Integer> {
 		List<Map<String, String>> recipients = new ArrayList<>();
 		RecipientsModel recipientsModel = model.getRecipients();
 		//UserIds
-		if (recipientsModel.getRecipients().containsKey(RecipientType.User)) {
-			List<String> usersIds = recipientsModel.getRecipients().get(RecipientType.User);
-			for (String userid : usersIds) {
+		if (recipientsModel.getIds().containsKey(RecipientType.User)) {
+			List<String> usersIds = recipientsModel.getIds().get(RecipientType.User);
+			for (String userId : usersIds) {
 				Map<String, String> userIdRow = new HashMap<>();
-				userIdRow.put(USER_ID, userid);
+				userIdRow.put(USER_ID, userId);
 				recipients.add(userIdRow);
 			}
 		}
 		//BusinessIds
-		if (recipientsModel.getRecipients().containsKey(RecipientType.Business)) {
-			List<String> businessIds = recipientsModel.getRecipients().get(RecipientType.Business);
+		if (recipientsModel.getIds().containsKey(RecipientType.Business)) {
+			List<String> businessIds = recipientsModel.getIds().get(RecipientType.Business);
 			for (String businessId : businessIds) {
 				Map<String, String> businessIdRow = new HashMap<>();
 				businessIdRow.put(USER_ID, businessId);
 				recipients.add(businessIdRow);
 			}
 		}
+
+		if (model.isReadRequired()) {
+			requestBody.setReadRequiredYn("YES");
+			requestBody.setReadRequiredDate(simpleFormatter.format(model.getReadRequiredDate()));
+		}
+
 
 		requestBody.setRecipients(recipients);
 		return requestBody;

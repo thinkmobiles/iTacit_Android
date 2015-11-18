@@ -6,11 +6,11 @@ import java.util.Date;
  * Created by root on 17.11.15.
  */
 public class CreateMessageModel {
-    private RecipientsModel recipients;
+    private RecipientsModel recipients = new RecipientsModel();
     private String subject;
     private String body;
-    private Boolean readRequire;
-    private Date date;
+    private Boolean readRequired;
+    private Date readRequiredDate;
 
     public RecipientsModel getRecipients() {
         return recipients;
@@ -36,11 +36,19 @@ public class CreateMessageModel {
         this.body = body;
     }
 
-    public Boolean getReadRequire() {
-        return readRequire;
+    public Boolean isReadRequired() {
+        return readRequired;
     }
 
-    public void setReadRequire(Boolean readRequire) {
-        this.readRequire = readRequire;
+    public void setReadRequired(Boolean readRequired) {
+        this.readRequired = readRequired;
+    }
+
+    public Date getReadRequiredDate() {
+        return readRequiredDate;
+    }
+
+    public void setReadRequiredDate(Date readRequiredDate) {
+        this.readRequiredDate = readRequiredDate;
     }
 }

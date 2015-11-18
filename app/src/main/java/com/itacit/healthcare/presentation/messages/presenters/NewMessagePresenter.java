@@ -11,9 +11,11 @@ import com.itacit.healthcare.presentation.messages.mappers.UserMapper;
 import com.itacit.healthcare.presentation.messages.models.CreateMessageModel;
 import com.itacit.healthcare.presentation.messages.models.RecipientsModel;
 import com.itacit.healthcare.presentation.messages.models.UserModel;
+import com.itacit.healthcare.presentation.messages.views.MessageStorage;
 import com.itacit.healthcare.presentation.messages.views.NewMessageView;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -29,9 +31,12 @@ public class NewMessagePresenter extends BasePresenter<NewMessageView> {
 	private UserMapper userMapper;
 	private List<UserModel> userModels;
 
-	private RecipientsModel recipients = new RecipientsModel();
+	private CreateMessageModel messageModel;
+	private MessageStorage messageStorage;
 
-	public NewMessagePresenter(GetUsersUseCase getUsersUseCase, CreateMessageUseCase createMessageUseCase, UserMapper userMapper) {
+
+	public NewMessagePresenter(GetUsersUseCase getUsersUseCase,
+							   CreateMessageUseCase createMessageUseCase, UserMapper userMapper) {
 		this.getUsersUseCase = getUsersUseCase;
 		this.createMessageUseCase = createMessageUseCase;
 		this.userMapper = userMapper;
@@ -46,11 +51,8 @@ public class NewMessagePresenter extends BasePresenter<NewMessageView> {
 				.subscribe(this::searchUsers));
 
 		compositeSubscription.add(view.getFilterRemovedObs().subscribe(this::removeRecipient));
-
-		compositeSubscription.add(view.getSelectedRecipientsSubj().subscribe(recipientsModel -> {
-			this.recipients = recipientsModel;
-			//todo show users by id
-		}));
+		messageStorage = view.getMessageStorage();
+		messageModel = messageStorage.getMessage();
 	}
 
 	public void searchUsers(String query) {
@@ -65,8 +67,8 @@ public class NewMessagePresenter extends BasePresenter<NewMessageView> {
 		for (UserModel userModel : userModels) {
 			if (userModel.getId().equals(id)) {
 				Filter filter = new Filter(id, userModel.getFullName(), Filter.FilterType.Author);
-				if (getView() != null) getView().addFilter(filter);
-				recipients.addRecipient(id, RecipientsModel.RecipientType.User);
+				actOnView(view -> view.addFilter(filter));
+				messageModel.getRecipients().addRecipient(id, RecipientsModel.RecipientType.User);
 				break;
 			}
 		}
@@ -76,32 +78,33 @@ public class NewMessagePresenter extends BasePresenter<NewMessageView> {
 		for (UserModel userModel : userModels) {
 			if (userModel.getId().equals(id)) {
 				Filter filter = new Filter(id, userModel.getFullName(), Filter.FilterType.Author);
-				if (getView() != null) getView().removeFilter(filter);
-				recipients.removeRecipient(id, RecipientsModel.RecipientType.User);
+				actOnView(view -> view.removeFilter(filter));
+				messageModel.getRecipients().removeRecipient(id, RecipientsModel.RecipientType.User);
 				break;
 			}
 		}
 	}
 
 	public void removeRecipient(Filter filter) {
-			if (getView() != null) getView().unselectUser(filter.getId());
+		actOnView(view -> view.unselectUser(filter.getId()));
 	}
 
-	public void onDateSelected() {
-		Calendar calendar = Calendar.getInstance();
-
+	public void onDateSelected(int year, int month, int day) {
+		Calendar calendar = new GregorianCalendar(year, month, day);
+		messageModel.setReadRequired(true);
+		messageModel.setReadRequiredDate(calendar.getTime());
 		String date = NewMessageView.dateFormat.format(calendar.getTime());
 		actOnView(v -> v.showDate(date));
 	}
 
 	public void onDateClear() {
-		actOnView(v -> v.resetDate());
-
+		messageModel.setReadRequired(false);
+		actOnView(NewMessageView::resetDate);
 	}
 
 	public void addRecipients() {
 		actOnView(view -> {
-			view.getSelectedRecipientsSubj().onNext(recipients);
+			messageStorage.pushCreateMessage(messageModel);
 			view.navigateToAddRecipients();
 		});
 	}
@@ -112,10 +115,9 @@ public class NewMessagePresenter extends BasePresenter<NewMessageView> {
 			return;
 		}
 
-		CreateMessageModel messageModel = new CreateMessageModel();
-		messageModel.setRecipients(recipients);
 		messageModel.setSubject(subject);
 		messageModel.setBody(body);
+
 		createMessageUseCase.execute(new Subscriber<Integer>() {
 			@Override
 			public void onCompleted() {
@@ -136,7 +138,8 @@ public class NewMessagePresenter extends BasePresenter<NewMessageView> {
 
 	private boolean isMessageValid(String subject, String body) {
 		return !subject.isEmpty() &&
-				!(recipients.getRecipients().isEmpty() && recipients.getPredefined().isEmpty()) &&
+				!(messageModel.getRecipients().getIds().isEmpty() &&
+						messageModel.getRecipients().getPredefined().isEmpty()) &&
 				!body.isEmpty();
 	}
 

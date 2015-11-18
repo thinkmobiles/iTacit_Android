@@ -24,9 +24,9 @@ import com.itacit.healthcare.presentation.messages.models.BusinessModel;
 import com.itacit.healthcare.presentation.messages.models.GroupModel;
 import com.itacit.healthcare.presentation.messages.models.JobModel;
 import com.itacit.healthcare.presentation.messages.models.RecipientModel;
-import com.itacit.healthcare.presentation.messages.models.RecipientsModel;
 import com.itacit.healthcare.presentation.messages.presenters.AddRecipientsPresenter;
 import com.itacit.healthcare.presentation.messages.views.AddRecipientsView;
+import com.itacit.healthcare.presentation.messages.views.MessageStorage;
 import com.itacit.healthcare.presentation.messages.views.activity.MessagesActivity;
 import com.itacit.healthcare.presentation.messages.views.adapters.RecipientAdapter;
 import com.jakewharton.rxbinding.widget.RxTextView;
@@ -39,7 +39,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
-import rx.subjects.BehaviorSubject;
 
 import static com.itacit.healthcare.presentation.messages.models.RecipientsModel.PredefinedRecipients;
 import static com.itacit.healthcare.presentation.messages.models.RecipientsModel.RecipientType;
@@ -68,8 +67,6 @@ public class AddRecipientsFragment extends BaseFragmentView<AddRecipientsPresent
     @Bind(R.id.iv_coworkers_FAR)            ImageView coworkersIv;
     @Bind(R.id.iv_my_business_FAR)          ImageView myBusinessIv;
     @Bind(R.id.iv_my_job_FAR)               ImageView myJobsIv;
-
-
 
     @OnClick({R.id.rl_direct_reports_FAR, R.id.rl_indirect_reports_FAR, R.id.rl_my_business_FAR,
             R.id.rl_my_job_FAR, R.id.rl_co_workers_FAB})
@@ -153,8 +150,8 @@ public class AddRecipientsFragment extends BaseFragmentView<AddRecipientsPresent
     }
 
     @Override
-    public BehaviorSubject<RecipientsModel> getSelectedRecipientsSubj() {
-        return activity.getSelectedRecipientsSubj();
+    public MessageStorage getMessageStorage() {
+        return activity;
     }
 
     @Override

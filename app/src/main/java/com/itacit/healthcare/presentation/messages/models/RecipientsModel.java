@@ -38,7 +38,7 @@ public class RecipientsModel {
         }
     }
 
-    public HashMap<RecipientType, List<String>> getRecipients() {
+    public HashMap<RecipientType, List<String>> getIds() {
         return recipients;
     }
 
