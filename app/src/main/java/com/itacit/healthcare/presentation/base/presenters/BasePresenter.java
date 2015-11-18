@@ -1,5 +1,6 @@
 package com.itacit.healthcare.presentation.base.presenters;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.itacit.healthcare.presentation.base.views.View;
@@ -16,17 +17,17 @@ public abstract class BasePresenter<V extends View> implements Presenter<V> {
     protected CompositeSubscription compositeSubscription;
 
     @Override
-    public final void attachView(V view) {
+    public final void attachView(@NonNull V view) {
         if(compositeSubscription == null) {
             compositeSubscription = new CompositeSubscription();
         }
         viewRef = new WeakReference<>(view);
-        onViewAttach();
+        onAttachedView(view);
     }
 
     @Override
     public void detachView() {
-        onViewDetach();
+        onDetachView();
         if (compositeSubscription != null) {
             compositeSubscription.unsubscribe();
         }
@@ -46,8 +47,8 @@ public abstract class BasePresenter<V extends View> implements Presenter<V> {
         return viewRef == null ? null : viewRef.get();
     }
 
-    protected void onViewAttach() {}
-    protected void onViewDetach() {}
+    protected void onAttachedView(@NonNull V view) {}
+    protected void onDetachView() {}
 
     public interface ActionOnView<V> {
         void act(V view);

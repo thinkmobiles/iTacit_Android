@@ -1,10 +1,14 @@
 package com.itacit.healthcare.presentation.messages.presenters;
 
+import android.support.annotation.NonNull;
+
 import com.itacit.healthcare.data.entries.User;
+import com.itacit.healthcare.domain.interactor.messages.CreateMessageUseCase;
 import com.itacit.healthcare.domain.interactor.users.GetUsersUseCase;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.messages.mappers.UserMapper;
+import com.itacit.healthcare.presentation.messages.models.CreateMessageModel;
 import com.itacit.healthcare.presentation.messages.models.RecipientsModel;
 import com.itacit.healthcare.presentation.messages.models.UserModel;
 import com.itacit.healthcare.presentation.messages.views.NewMessageView;
@@ -21,32 +25,32 @@ import rx.Subscriber;
 public class NewMessagePresenter extends BasePresenter<NewMessageView> {
 	public static final int SEARCH_TEXT_MIN_LENGTH = 3;
 	private GetUsersUseCase getUsersUseCase;
+	private CreateMessageUseCase createMessageUseCase;
 	private UserMapper userMapper;
 	private List<UserModel> userModels;
 
 	private RecipientsModel recipients = new RecipientsModel();
 
-	public NewMessagePresenter(GetUsersUseCase getUsersUseCase, UserMapper userMapper) {
+	public NewMessagePresenter(GetUsersUseCase getUsersUseCase, CreateMessageUseCase createMessageUseCase, UserMapper userMapper) {
 		this.getUsersUseCase = getUsersUseCase;
+		this.createMessageUseCase = createMessageUseCase;
 		this.userMapper = userMapper;
 	}
 
 	@Override
-	protected void onViewAttach() {
-		if (getView()!= null) {
-			compositeSubscription.add(getView().getUsersSearchTextObs()
-					.filter(text -> text.length() >= SEARCH_TEXT_MIN_LENGTH)
-					.debounce(1, TimeUnit.SECONDS)
-					.observeOn(getView().getUiThreadScheduler())
-					.subscribe(this::searchUsers));
+	protected void onAttachedView(@NonNull NewMessageView view) {
+		compositeSubscription.add(view.getUsersSearchTextObs()
+				.filter(text -> text.length() >= SEARCH_TEXT_MIN_LENGTH)
+				.debounce(1, TimeUnit.SECONDS)
+				.observeOn(view.getUiThreadScheduler())
+				.subscribe(this::searchUsers));
 
-			compositeSubscription.add(getView().getFilterRemovedObs().subscribe(this::removeRecipient));
+		compositeSubscription.add(view.getFilterRemovedObs().subscribe(this::removeRecipient));
 
-			compositeSubscription.add(getView().getSelectedRecipientsSubj().subscribe(recipientsModel -> {
-				this.recipients = recipientsModel;
-				//todo show users by id
-			}));
-		}
+		compositeSubscription.add(view.getSelectedRecipientsSubj().subscribe(recipientsModel -> {
+			this.recipients = recipientsModel;
+			//todo show users by id
+		}));
 	}
 
 	public void searchUsers(String query) {
@@ -87,7 +91,7 @@ public class NewMessagePresenter extends BasePresenter<NewMessageView> {
 		Calendar calendar = Calendar.getInstance();
 
 		String date = NewMessageView.dateFormat.format(calendar.getTime());
-		actOnView(v -> v.addDate(date));
+		actOnView(v -> v.showDate(date));
 	}
 
 	public void onDateClear() {
@@ -102,8 +106,38 @@ public class NewMessagePresenter extends BasePresenter<NewMessageView> {
 		});
 	}
 
-	public void sendMessage() {
+	public void sendMessage(String subject, String body) {
+		if (!isMessageValid(subject, body)) {
+			actOnView(NewMessageView::showMessageInvalid);
+			return;
+		}
 
+		CreateMessageModel messageModel = new CreateMessageModel();
+		messageModel.setRecipients(recipients);
+		messageModel.setSubject(subject);
+		messageModel.setBody(body);
+		createMessageUseCase.execute(new Subscriber<Integer>() {
+			@Override
+			public void onCompleted() {
+
+			}
+
+			@Override
+			public void onError(Throwable e) {
+
+			}
+
+			@Override
+			public void onNext(Integer integer) {
+
+			}
+		}, messageModel);
+	}
+
+	private boolean isMessageValid(String subject, String body) {
+		return !subject.isEmpty() &&
+				!(recipients.getRecipients().isEmpty() && recipients.getPredefined().isEmpty()) &&
+				!body.isEmpty();
 	}
 
 	private final class UsersListSubscriber extends Subscriber<List<User>> {

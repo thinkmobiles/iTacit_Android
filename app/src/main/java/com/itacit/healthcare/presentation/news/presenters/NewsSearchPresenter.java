@@ -1,5 +1,7 @@
 package com.itacit.healthcare.presentation.news.presenters;
 
+import android.support.annotation.NonNull;
+
 import com.itacit.healthcare.data.entries.Author;
 import com.itacit.healthcare.data.entries.Category;
 import com.itacit.healthcare.domain.interactor.news.GetAuthorsUseCase;
@@ -53,10 +55,10 @@ public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
     }
 
     @Override
-    protected void onViewAttach() {
-        compositeSubscription.add(getSearchObs().subscribe(this::requestFilters));
-        compositeSubscription.add(getView().getFilterRemovedObs().subscribe(this::removeFilter));
-        compositeSubscription.add(getView().getNewsSearchSubj().subscribe(this::showLastData));
+    protected void onAttachedView(@NonNull NewsSearchView view) {
+        compositeSubscription.add(getSearchObs(view).subscribe(this::requestFilters));
+        compositeSubscription.add(view.getFilterRemovedObs().subscribe(this::removeFilter));
+        compositeSubscription.add(view.getNewsSearchSubj().subscribe(this::showLastData));
     }
 
     private void showLastData(NewsSearch search) {
@@ -84,13 +86,10 @@ public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
         getCategoriesUseCase.execute(new GetCategoriesSubscriber(), query);
     }
 
-    private Observable<String> getSearchObs() {
-        if (getView() != null) {
-            return getView().getSearchTextObs()
-                    .filter(t -> t.length() >= NewsFeedPresenter.SEARCH_TEXT_MIN_LENGTH)
-                    .debounce(TIMEOUT, TimeUnit.SECONDS);
-        }
-        return Observable.empty();
+    private Observable<String> getSearchObs(NewsSearchView view) {
+        return view.getSearchTextObs()
+                .filter(t -> t.length() >= NewsFeedPresenter.SEARCH_TEXT_MIN_LENGTH)
+                .debounce(TIMEOUT, TimeUnit.SECONDS);
     }
 
     public NewsSearch getNewsSearch() {

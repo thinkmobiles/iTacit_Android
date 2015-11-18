@@ -20,7 +20,9 @@ public interface NewMessageView extends View {
 
 	void navigateToAddRecipients();
 	void showUsers(List<UserModel> users);
-	void addDate(String date);
+	void showMessageInvalid();
+	String getMessageBody();
+	void showDate(String date);
 	void resetDate();
 	void addFilter(Filter filter);
 	void removeFilter(Filter filter);

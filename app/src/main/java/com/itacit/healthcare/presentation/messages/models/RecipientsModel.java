@@ -46,7 +46,7 @@ public class RecipientsModel {
         return predefined;
     }
 
-    public boolean contains(String id, RecipientType type) {
+    public boolean containsRecipient(String id, RecipientType type) {
         return recipients.containsKey(type) && recipients.get(type).contains(id);
     }
 
@@ -55,6 +55,8 @@ public class RecipientsModel {
         for (RecipientType type : recipients.keySet()) {
             sum += recipients.get(type).size();
         }
+
+        sum += predefined.size();
         return sum;
     }
 }
