@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                xmlns:tools="http://schemas.android.com/tools"
                 android:background="@android:color/white">
 
     <RelativeLayout
+        android:id="@+id/rl_recipients_header_FAR"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/rl_recipients_header_FAR"
         android:layout_marginBottom="10dp"
         android:focusable="true"
         android:focusableInTouchMode="true">
@@ -17,9 +17,9 @@
             android:id="@+id/ib_search_FAR"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:background="@color/bg_grey"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_search_margin"
+            android:background="@color/bg_grey"
             android:src="@drawable/ic_search"/>
 
         <ImageButton
@@ -27,9 +27,9 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/layout_search_margin"
             android:background="@color/bg_grey"
-            android:layout_centerVertical="true"
             android:src="@drawable/ic_del_search"
             android:visibility="visible"/>
 
@@ -37,28 +37,30 @@
             android:id="@+id/et_search_FAR"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:singleLine="true"
+            android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/ib_clear_FAR"
             android:layout_toRightOf="@+id/ib_search_FAR"
             android:background="@color/bg_grey"
-            android:textSize="14sp"
-
             android:dropDownAnchor="@id/rl_recipients_header_FAR"
+
             android:dropDownHeight="150dp"
             android:dropDownWidth="match_parent"
-            android:popupBackground="@android:color/white"
-            android:layout_centerVertical="true"
-            android:nextFocusUp="@id/rl_recipients_header_FAR"
+            android:hint="@string/search_hint"
             android:nextFocusLeft="@id/rl_recipients_header_FAR"
-            android:hint="@string/search_hint"/>
+            android:nextFocusUp="@id/rl_recipients_header_FAR"
+            android:popupBackground="@android:color/white"
+            android:singleLine="true"
+            android:textSize="14sp"/>
 
     </RelativeLayout>
+
     <ScrollView
         android:id="@+id/sv_content_FAR"
-        android:layout_below="@id/rl_recipients_header_FAR"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/rl_recipients_header_FAR"
         >
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -115,9 +117,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/main_margin"
                         android:background="@android:color/white"/>
+
                     <View
-                        android:layout_below="@id/rv_jobs_FAR"
                         style="@style/line_separator"
+                        android:layout_alignParentBottom="true"
                         android:layout_marginTop="15dp"/>
                 </RelativeLayout>
             </RelativeLayout>
@@ -171,9 +174,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/main_margin"
                         android:background="@android:color/white"/>
+
                     <View
-                        android:layout_below="@id/rv_business_FAR"
                         style="@style/line_separator"
+                        android:layout_alignParentBottom="true"
                         android:layout_marginTop="15dp"/>
                 </RelativeLayout>
             </RelativeLayout>
@@ -227,9 +231,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/main_margin"
                         android:background="@android:color/white"/>
+
                     <View
-                        android:layout_below="@id/rv_role_FAR"
                         style="@style/line_separator"
+                        android:layout_alignParentBottom="true"
                         android:layout_marginTop="15dp"/>
                 </RelativeLayout>
             </RelativeLayout>
@@ -283,39 +288,169 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/main_margin"
                         android:background="@android:color/white"/>
+
                     <View
-                        android:layout_below="@id/rv_group_FAR"
                         style="@style/line_separator"
+                        android:layout_alignParentBottom="true"
                         android:layout_marginTop="15dp"/>
                 </RelativeLayout>
             </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_direct_reports_FAR"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_top_margin">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:text="My Direct Reports"
+                    android:textAllCaps="true"/>
+
+                <ImageView
+                    android:id="@+id/iv_direct_rep_FAR"
+                    android:layout_width="48dp"
+                    android:layout_height="16dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_check"/>
+
+                <View
+                    style="@style/line_separator"
+                    android:layout_alignParentBottom="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_indirect_reports_FAR"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_top_margin">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:text="My Direct and indirect Reports"
+                    android:textAllCaps="true"/>
+
+                <ImageView
+                    android:id="@+id/iv_indirect_rep_FAR"
+                    android:layout_width="48dp"
+                    android:layout_height="16dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_check"/>
+
+                <View
+                    style="@style/line_separator"
+                    android:layout_alignParentBottom="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_co_workers_FAB"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_top_margin">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:text="My co-workers"
+                    android:textAllCaps="true"/>
+
+                <ImageView
+                    android:id="@+id/iv_coworkers_FAR"
+                    android:layout_width="48dp"
+                    android:layout_height="16dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_check"/>
+
+                <View
+                    style="@style/line_separator"
+                    android:layout_alignParentBottom="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_my_job_FAR"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_top_margin">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:text="My job classification"
+                    android:textAllCaps="true"/>
+
+                <ImageView
+                    android:id="@+id/iv_my_job_FAR"
+                    android:layout_width="48dp"
+                    android:layout_height="16dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_check"/>
+
+                <View
+                    style="@style/line_separator"
+                    android:layout_alignParentBottom="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_my_business_FAR"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_top_margin">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:text="My business unit"
+                    android:textAllCaps="true"/>
+
+                <ImageView
+                    android:id="@+id/iv_my_business_FAR"
+                    android:layout_width="48dp"
+                    android:layout_height="16dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_check"/>
+
+                <View
+                    style="@style/line_separator"
+                    android:layout_alignParentBottom="true"/>
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
+
     <View
         android:id="@+id/shadow_line_FAR"
-        android:layout_below="@id/rl_recipients_header_FAR"
-        style="@style/shadow_bottom" />
+        style="@style/shadow_bottom"
+        android:layout_below="@id/rl_recipients_header_FAR"/>
+
     <LinearLayout
         android:id="@+id/ll_add_recipients_FAR"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:background="@color/btn_blue"
-        android:orientation="horizontal"
         android:gravity="center"
-        android:padding="10dp"
-        android:layout_alignParentBottom="true">
+        android:orientation="horizontal"
+        android:padding="10dp">
+
         <ImageView
             android:id="@+id/iv_user_FAR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_del_search"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_del_search"/>
+
         <TextView
             android:id="@+id/tv_count_recipients_FAR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
             android:textColor="@android:color/white"
+            android:textSize="15sp"
             tools:text="16"/>
     </LinearLayout>
 </RelativeLayout>

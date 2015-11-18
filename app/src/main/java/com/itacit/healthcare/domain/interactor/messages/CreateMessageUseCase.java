@@ -3,7 +3,7 @@ package com.itacit.healthcare.domain.interactor.messages;
 import com.itacit.healthcare.data.network.request.CreateMessageRequest;
 import com.itacit.healthcare.data.network.services.MessagesService;
 import com.itacit.healthcare.domain.interactor.UseCase;
-import com.itacit.healthcare.presentation.news.models.CreateMessageModel;
+import com.itacit.healthcare.presentation.messages.models.CreateMessageModel;
 
 import rx.Observable;
 import rx.Subscriber;

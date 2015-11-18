@@ -32,7 +32,6 @@ public abstract class BaseFragmentView<P extends Presenter, A extends BaseActivi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (A) getActivity();
-        toggle = activity.getToggle();
         setHasOptionsMenu(true);
     }
 
@@ -57,7 +56,11 @@ public abstract class BaseFragmentView<P extends Presenter, A extends BaseActivi
         }
 
         presenter.attachView(this);
-        setUpActionBar(activity.getSupportActionBar());
+        ActionBar actionBar = activity.getSupportActionBar();
+        if (toggle == null) {
+            toggle = activity.getToggle();
+        }
+        setUpActionBar(actionBar);
         setUpView();
     }
 

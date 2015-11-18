@@ -41,6 +41,9 @@ import butterknife.OnClick;
 import rx.Observable;
 import rx.subjects.BehaviorSubject;
 
+import static com.itacit.healthcare.presentation.messages.models.RecipientsModel.PredefinedRecipients;
+import static com.itacit.healthcare.presentation.messages.models.RecipientsModel.RecipientType;
+
 /**
  * Created by root on 16.11.15.
  */
@@ -60,7 +63,36 @@ public class AddRecipientsFragment extends BaseFragmentView<AddRecipientsPresent
     @Bind(R.id.iv_role_expand_FAR)          ImageView roleExpandIv;
     @Bind(R.id.iv_group_expand_FAR)         ImageView groupExpandIv;
     @Bind(R.id.tv_count_recipients_FAR)     TextView selectRecipientsCountTv;
+    @Bind(R.id.iv_direct_rep_FAR)           ImageView directReportsIv;
+    @Bind(R.id.iv_indirect_rep_FAR)         ImageView indirectReportsIv;
+    @Bind(R.id.iv_coworkers_FAR)            ImageView coworkersIv;
+    @Bind(R.id.iv_my_business_FAR)          ImageView myBusinessIv;
+    @Bind(R.id.iv_my_job_FAR)               ImageView myJobsIv;
 
+
+
+    @OnClick({R.id.rl_direct_reports_FAR, R.id.rl_indirect_reports_FAR, R.id.rl_my_business_FAR,
+            R.id.rl_my_job_FAR, R.id.rl_co_workers_FAB})
+    void onPredefinedRecipientsClick(View view) {
+        switch (view.getId()) {
+            case R.id.rl_direct_reports_FAR:
+                presenter.predefinedClicked(PredefinedRecipients.myDirectReports);
+                break;
+            case R.id.rl_indirect_reports_FAR:
+                presenter.predefinedClicked(PredefinedRecipients.myIndirectReports);
+                break;
+            case R.id.rl_my_business_FAR:
+                presenter.predefinedClicked(PredefinedRecipients.myBusiness);
+                break;
+            case R.id.rl_my_job_FAR:
+                presenter.predefinedClicked(PredefinedRecipients.myJobs);
+                break;
+            case R.id.rl_co_workers_FAB:
+                presenter.predefinedClicked(PredefinedRecipients.myCoworkers);
+                break;
+        }
+        showSelectedRecipients();
+    }
 
     @OnClick({R.id.iv_jobs_expand_FAR, R.id.iv_group_expand_FAR, R.id.iv_business_expand_FAR})
     void onExpandView(View view) {
@@ -87,8 +119,13 @@ public class AddRecipientsFragment extends BaseFragmentView<AddRecipientsPresent
         return RxTextView.textChangeEvents(searchRecipientsEt).map(e -> e.text().toString());
     }
 
+    @Override
+    public void showBusiness(List<BusinessModel> business) {
+        showRecipients(business, businessRv, businessCountTv, RecipientType.Business);
+    }
+
     private void showRecipients(List<? extends RecipientModel> models, RecyclerView recyclerView, TextView itemsCountTv,
-                                final RecipientsModel.RecipientType type) {
+                                final RecipientType type) {
         RecipientAdapter adapter = new RecipientAdapter(activity, models, R.layout.list_item_recipient, presenter, type);
         recyclerView.setAdapter(adapter);
         itemsCountTv.setText(String.valueOf(models.size()));
@@ -96,18 +133,13 @@ public class AddRecipientsFragment extends BaseFragmentView<AddRecipientsPresent
     }
 
     @Override
-    public void showBusiness(List<BusinessModel> business) {
-        showRecipients(business, businessRv, businessCountTv, RecipientsModel.RecipientType.Business);
-    }
-
-    @Override
     public void showJobs(List<JobModel> jobs) {
-        showRecipients(jobs, jobsRv, jobCountTv, RecipientsModel.RecipientType.Job);
+        showRecipients(jobs, jobsRv, jobCountTv, RecipientType.Job);
     }
 
     @Override
     public void showGroups(List<GroupModel> groups) {
-        showRecipients(groups, groupsRv, groupCountTv, RecipientsModel.RecipientType.Group);
+        showRecipients(groups, groupsRv, groupCountTv, RecipientType.Group);
     }
 
     @Override
@@ -121,7 +153,22 @@ public class AddRecipientsFragment extends BaseFragmentView<AddRecipientsPresent
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @Override
     protected void setUpView() {
+        showSelectedRecipients();
         jobsRv.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         businessRv.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         groupsRv.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
@@ -153,17 +200,11 @@ public class AddRecipientsFragment extends BaseFragmentView<AddRecipientsPresent
                 new GetGroupsUseCase(),new GroupMapper(),new BusinessMapper(),new JobMapper());
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
+    private void showSelectedRecipients() {
+        directReportsIv.setVisibility(presenter.isRecipientSelected(PredefinedRecipients.myDirectReports) ? View.VISIBLE : View.INVISIBLE );
+        indirectReportsIv.setVisibility(presenter.isRecipientSelected(PredefinedRecipients.myIndirectReports) ? View.VISIBLE : View.INVISIBLE);
+        myBusinessIv.setVisibility(presenter.isRecipientSelected(PredefinedRecipients.myBusiness) ? View.VISIBLE : View.INVISIBLE);
+        myJobsIv.setVisibility(presenter.isRecipientSelected(PredefinedRecipients.myJobs) ? View.VISIBLE : View.INVISIBLE);
+        coworkersIv.setVisibility(presenter.isRecipientSelected(PredefinedRecipients.myCoworkers) ? View.VISIBLE : View.INVISIBLE);
     }
 }

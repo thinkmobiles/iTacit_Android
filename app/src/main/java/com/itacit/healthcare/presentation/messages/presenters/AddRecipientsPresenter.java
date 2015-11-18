@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 import rx.Observable;
 import rx.Subscriber;
 
+import static com.itacit.healthcare.presentation.messages.models.RecipientsModel.PredefinedRecipients;
 import static com.itacit.healthcare.presentation.messages.models.RecipientsModel.RecipientType;
 
 /**
@@ -66,6 +67,10 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
         }));
     }
 
+    public boolean isRecipientSelected(PredefinedRecipients predefined) {
+        return recipients.getPredefined().contains(predefined);
+    }
+
 
     public boolean isRecipientSelected(String id, RecipientType type) {
         return recipients.contains(id, type);
@@ -73,6 +78,18 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
 
     public void selectRecipients() {
         actOnView(view -> view.getSelectedRecipientsSubj().onNext(recipients));
+    }
+
+    public void selectPredefined(PredefinedRecipients predefinedRecipients) {
+        recipients.selectRecipients(predefinedRecipients);
+    }
+
+    public void predefinedClicked(PredefinedRecipients predefined) {
+        if (recipients.getPredefined().contains(predefined)) {
+            recipients.unselectRecipients(predefined);
+        } else {
+            recipients.selectRecipients(predefined);
+        }
     }
 
     public void onRecipientClick(String id, RecipientType type) {
