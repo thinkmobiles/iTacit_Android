@@ -70,7 +70,6 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
 
         picasso.load(messagesModel.getHeadlineUri())
                 .transform(new CircleTransformation())
-                .memoryPolicy(MemoryPolicy.NO_CACHE)
                 .fit()
                 .into(holder.headlineIv);
 

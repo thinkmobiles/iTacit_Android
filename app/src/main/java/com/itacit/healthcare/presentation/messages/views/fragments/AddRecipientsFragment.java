@@ -15,15 +15,19 @@ import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.groups.GetBusinessUseCase;
 import com.itacit.healthcare.domain.interactor.groups.GetGroupsUseCase;
 import com.itacit.healthcare.domain.interactor.groups.GetJobsUseCase;
+import com.itacit.healthcare.domain.interactor.groups.GetRolesUseCase;
 import com.itacit.healthcare.global.utils.AndroidUtils;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.messages.mappers.BusinessMapper;
 import com.itacit.healthcare.presentation.messages.mappers.GroupMapper;
 import com.itacit.healthcare.presentation.messages.mappers.JobMapper;
+import com.itacit.healthcare.presentation.messages.mappers.RoleMapper;
 import com.itacit.healthcare.presentation.messages.models.BusinessModel;
 import com.itacit.healthcare.presentation.messages.models.GroupModel;
 import com.itacit.healthcare.presentation.messages.models.JobModel;
 import com.itacit.healthcare.presentation.messages.models.RecipientModel;
+import com.itacit.healthcare.presentation.messages.models.RecipientsModel;
+import com.itacit.healthcare.presentation.messages.models.RoleModel;
 import com.itacit.healthcare.presentation.messages.presenters.AddRecipientsPresenter;
 import com.itacit.healthcare.presentation.messages.views.AddRecipientsView;
 import com.itacit.healthcare.presentation.messages.views.MessageStorage;
@@ -91,7 +95,7 @@ public class AddRecipientsFragment extends BaseFragmentView<AddRecipientsPresent
         showSelectedRecipients();
     }
 
-    @OnClick({R.id.iv_jobs_expand_FAR, R.id.iv_group_expand_FAR, R.id.iv_business_expand_FAR})
+    @OnClick({R.id.iv_jobs_expand_FAR, R.id.iv_group_expand_FAR, R.id.iv_business_expand_FAR, R.id.iv_role_expand_FAR})
     void onExpandView(View view) {
         switch (view.getId()) {
             case R.id.iv_jobs_expand_FAR:
@@ -103,6 +107,9 @@ public class AddRecipientsFragment extends BaseFragmentView<AddRecipientsPresent
             case R.id.iv_business_expand_FAR:
                 AndroidUtils.toggleListVisibility(businessRv, businessExpandIv);
                 break;
+	        case R.id.iv_role_expand_FAR:
+		        AndroidUtils.toggleListVisibility(rolesRv, roleExpandIv);
+		        break;
         }
     }
 
@@ -139,6 +146,10 @@ public class AddRecipientsFragment extends BaseFragmentView<AddRecipientsPresent
         showRecipients(jobs, jobsRv, jobCountTv, RecipientType.Job);
     }
 
+    @Override
+    public void showRoles(List<RoleModel> roles) {
+        showRecipients(roles, rolesRv, roleCountTv, RecipientType.Role);
+    }
     @Override
     public void showGroups(List<GroupModel> groups) {
         showRecipients(groups, groupsRv, groupCountTv, RecipientType.Group);
@@ -199,7 +210,8 @@ public class AddRecipientsFragment extends BaseFragmentView<AddRecipientsPresent
     @Override
     protected AddRecipientsPresenter createPresenter() {
         return new AddRecipientsPresenter(new GetBusinessUseCase(),new GetJobsUseCase(),
-                new GetGroupsUseCase(),new GroupMapper(),new BusinessMapper(),new JobMapper());
+                new GetGroupsUseCase(), new GetRolesUseCase(), new GroupMapper(), new RoleMapper(),
+		        new BusinessMapper(),new JobMapper());
     }
 
     private void showSelectedRecipients() {

@@ -20,6 +20,9 @@ public class ListRequest {
     @SerializedName("rowCount")
     @Expose
     private Integer rowCount;
+    @SerializedName("fields")
+    @Expose
+    private String fields;
 
     /**
      *
@@ -93,4 +96,11 @@ public class ListRequest {
         this.rowCount = rowCount;
     }
 
+    public String getFields() {
+        return fields;
+    }
+
+    public void setFields(String _fields) {
+        fields = _fields;
+    }
 }

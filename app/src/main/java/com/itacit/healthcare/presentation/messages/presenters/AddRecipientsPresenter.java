@@ -5,17 +5,22 @@ import android.support.annotation.NonNull;
 import com.itacit.healthcare.data.entries.Business;
 import com.itacit.healthcare.data.entries.Group;
 import com.itacit.healthcare.data.entries.JobClassification;
+import com.itacit.healthcare.data.entries.Role;
 import com.itacit.healthcare.domain.interactor.groups.GetBusinessUseCase;
 import com.itacit.healthcare.domain.interactor.groups.GetGroupsUseCase;
 import com.itacit.healthcare.domain.interactor.groups.GetJobsUseCase;
+import com.itacit.healthcare.domain.interactor.groups.GetRolesUseCase;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
 import com.itacit.healthcare.presentation.messages.mappers.BusinessMapper;
 import com.itacit.healthcare.presentation.messages.mappers.GroupMapper;
 import com.itacit.healthcare.presentation.messages.mappers.JobMapper;
+import com.itacit.healthcare.presentation.messages.mappers.RoleMapper;
 import com.itacit.healthcare.presentation.messages.models.BusinessModel;
 import com.itacit.healthcare.presentation.messages.models.CreateMessageModel;
 import com.itacit.healthcare.presentation.messages.models.GroupModel;
 import com.itacit.healthcare.presentation.messages.models.JobModel;
+import com.itacit.healthcare.presentation.messages.models.RecipientsModel;
+import com.itacit.healthcare.presentation.messages.models.RoleModel;
 import com.itacit.healthcare.presentation.messages.views.AddRecipientsView;
 import com.itacit.healthcare.presentation.messages.views.MessageStorage;
 import com.itacit.healthcare.presentation.news.presenters.NewsFeedPresenter;
@@ -36,28 +41,34 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
     private GetBusinessUseCase getBusinessUseCase;
     private GetJobsUseCase getJobsUseCase;
     private GetGroupsUseCase getGroupsUseCase;
+    private GetRolesUseCase getRolesUseCase;
 
     private GroupMapper groupMapper;
     private BusinessMapper businessMapper;
     private JobMapper jobMapper;
+    private RoleMapper roleMapper;
 
 
     private List<BusinessModel> businessModels;
     private List<GroupModel> groupModels;
     private List<JobModel> jobModels;
+    private List<RoleModel> roleModels;
 
     private MessageStorage messageStorage;
     private CreateMessageModel createMessageModel;
 
     public AddRecipientsPresenter(GetBusinessUseCase getBusinessUseCase, GetJobsUseCase getJobsUseCase,
-                                  GetGroupsUseCase getGroupsUseCase, GroupMapper groupMapper,
+                                  GetGroupsUseCase getGroupsUseCase, GetRolesUseCase getRolesUseCase,
+                                  GroupMapper groupMapper, RoleMapper roleMapper,
                                   BusinessMapper businessMapper, JobMapper jobMapper) {
         this.getBusinessUseCase = getBusinessUseCase;
         this.getJobsUseCase = getJobsUseCase;
         this.getGroupsUseCase = getGroupsUseCase;
+        this.getRolesUseCase = getRolesUseCase;
         this.groupMapper = groupMapper;
         this.businessMapper = businessMapper;
         this.jobMapper = jobMapper;
+        this.roleMapper = roleMapper;
     }
 
     @Override
@@ -107,6 +118,7 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
         getBusinessUseCase.execute(new GetBusinessSubscriber(), query);
         getJobsUseCase.execute(new GetJobsSubscriber(), query);
         getGroupsUseCase.execute(new GetGroupsSubscriber(), query);
+        getRolesUseCase.execute(new GetRoleSubscriber(), query);
     }
 
     private final class GetBusinessSubscriber extends Subscriber<List<Business>> {
@@ -159,4 +171,21 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
             jobModels = jobMapper.transform(jobClassifications);
         }
     }
+
+	private final class GetRoleSubscriber extends Subscriber<List<Role>> {
+
+		@Override
+		public void onCompleted() {
+			actOnView(view -> view.showRoles(roleModels));
+		}
+
+		@Override
+		public void onError(Throwable e) {
+		}
+
+		@Override
+		public void onNext(List<Role> roles) {
+			roleModels = roleMapper.transform(roles);
+		}
+	}
 }

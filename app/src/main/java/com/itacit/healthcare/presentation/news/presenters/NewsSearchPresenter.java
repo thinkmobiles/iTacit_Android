@@ -58,6 +58,27 @@ public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
     protected void onAttachedView(@NonNull NewsSearchView view) {
         compositeSubscription.add(getSearchObs(view).subscribe(this::requestFilters));
         compositeSubscription.add(view.getFilterRemovedObs().subscribe(this::removeFilter));
+        compositeSubscription.add(view.getNewsSearchSubj().subscribe(this::showLastData));
+    }
+
+    private void showLastData(NewsSearch search) {
+        List<Filter> filters = search.getFilters();
+	    fromDate = search.getDateFrom();
+	    toDate = search.getDateTo();
+
+	    if (!filters.isEmpty()) {
+			for (Filter filter : filters) {
+				actOnView(v -> v.showFilter(filter));
+			}
+	    }
+
+	    if (!(fromDate == null)) {
+		    showDateOnView(DateType.From, fromDate);
+	    }
+
+	    if (!(toDate == null)) {
+		    showDateOnView(DateType.To, toDate);
+	    }
     }
 
     private void requestFilters(String query) {
@@ -130,9 +151,13 @@ public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
                 calendar = toDate = new GregorianCalendar(year, monthOfYear, dayOfMonth);
                 break;
         }
-        String date = NewsSearchView.dateFormat.format(calendar.getTime());
-        actOnView(v -> v.showDate(dateType, date));
+	    showDateOnView(dateType, calendar);
     }
+
+	private void showDateOnView(DateType dateType, Calendar calendar ) {
+		String date = NewsSearchView.dateFormat.format(calendar.getTime());
+		actOnView(v -> v.showDate(dateType, date));
+	}
 
     public void onDateClear(DateType dateType) {
         actOnView(v -> v.resetDate(dateType));

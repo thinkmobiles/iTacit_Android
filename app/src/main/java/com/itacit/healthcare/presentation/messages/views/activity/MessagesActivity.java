@@ -25,6 +25,7 @@ public class MessagesActivity extends BaseActivity implements MessageStorage {
 
         super.onCreate(savedInstanceState);
         switchContent(AddRecipientsFragment.class, false);
+//		switchContent(MessagesFeedFragment.class, false);
     }
 
     @Override
