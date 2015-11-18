@@ -14,6 +14,7 @@
     <string name="message_topic">Topic:</string>
     <string name="message_hint">Enter your message here</string>
     <string name="message_date_request">Request Confirmation by:</string>
+    <string name="message_send_warning">Please, insert recipients and subject of message!</string>
 
     <!-- Titles -->
     <string name="title_news_feed">News</string>

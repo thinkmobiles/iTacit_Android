@@ -102,6 +102,10 @@ public class NewMessagePresenter extends BasePresenter<NewMessageView> {
 		});
 	}
 
+	public void sendMessage() {
+
+	}
+
 	private final class UsersListSubscriber extends Subscriber<List<User>> {
 
 		@Override

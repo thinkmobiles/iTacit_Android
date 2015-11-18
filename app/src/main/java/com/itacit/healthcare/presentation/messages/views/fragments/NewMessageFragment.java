@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.users.GetUsersUseCase;
@@ -52,7 +53,6 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 		presenter.addRecipients();
 	}
 
-
 	@Override
 	protected void setUpView() {
 
@@ -93,6 +93,7 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 			case android.R.id.home:
 				return true;
 			case R.id.action_send:
+				sendMessage();
 				return true;
 			case R.id.action_set_date:
 				showDatePicker();
@@ -100,6 +101,15 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
+		}
+	}
+
+	void sendMessage() {
+		if (etRecipientsView.getText().toString().isEmpty() ||
+				etTopic.getText().toString().isEmpty()) {
+			Toast.makeText(getActivity(), getResources().getText(R.string.message_send_warning), Toast.LENGTH_LONG).show();
+		} else {
+			presenter.sendMessage();
 		}
 	}
 
