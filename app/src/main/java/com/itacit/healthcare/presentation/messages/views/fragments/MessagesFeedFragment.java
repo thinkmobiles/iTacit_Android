@@ -5,12 +5,10 @@ import android.support.design.widget.TabLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TableLayout;
 import android.widget.Toast;
 
 import com.itacit.healthcare.R;
@@ -22,15 +20,11 @@ import com.itacit.healthcare.presentation.messages.presenters.MessagesFeedPresen
 import com.itacit.healthcare.presentation.messages.views.MessagesFeedView;
 import com.itacit.healthcare.presentation.messages.views.activity.MessagesActivity;
 import com.itacit.healthcare.presentation.messages.views.adapters.MessagesAdapter;
-import com.itacit.healthcare.presentation.news.views.fragments.NewsDetailsFragment;
-import com.itacit.healthcare.presentation.news.views.fragments.NewsSearchFragment;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import rx.Observable;
-import rx.Subscriber;
 
 /**
  * Created by Den on 12.11.15.
@@ -40,7 +34,6 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
     RecyclerView messagesRecyclerView;
     @Bind(R.id.tab_layout_FMF)
     TabLayout tabLayout;
-    View view;
 
     private MessagesAdapter messagesAdapter;
     private OnTabItemSelectedListener tabItemSelectedListener;

@@ -8,7 +8,19 @@ import java.util.List;
  * Created by root on 17.11.15.
  */
 public class RecipientsModel {
-       private HashMap<RecipientType, List<String>> recipients = new HashMap<>(RecipientType.values().length);
+    public enum RecipientType {Business, Job, Role, Group, User}
+    public enum PredefinedRecipients { myDirectReports, myIndirectReports, myCoworkers, myJobs, myBusiness }
+
+    private HashMap<RecipientType, List<String>> recipients = new HashMap<>(RecipientType.values().length);
+    private List<PredefinedRecipients> predefined = new ArrayList<>(PredefinedRecipients.values().length);
+
+    public void selectRecipients(PredefinedRecipients recipients) {
+        predefined.add(recipients);
+    }
+
+    public void unselectRecipients(PredefinedRecipients recipients) {
+        predefined.remove(recipients);
+    }
 
     public void addRecipient(String id, RecipientType type) {
         if (recipients.containsKey(type)) {
@@ -26,25 +38,23 @@ public class RecipientsModel {
         }
     }
 
-    public List<String> getRecipients(RecipientType type) {
-        return recipients.get(type);
+    public HashMap<RecipientType, List<String>> getRecipients() {
+        return recipients;
+    }
+
+    public List<PredefinedRecipients> getPredefined() {
+        return predefined;
     }
 
     public boolean contains(String id, RecipientType type) {
-        if (!recipients.containsKey(type)) {
-            return false;
-        } else {
-            return recipients.get(type).contains(id);
-        }
+        return recipients.containsKey(type) && recipients.get(type).contains(id);
     }
 
     public int getRecipientsCount() {
         int sum = 0;
-        for(RecipientType type : recipients.keySet()) {
+        for (RecipientType type : recipients.keySet()) {
             sum += recipients.get(type).size();
         }
         return sum;
     }
-
-    public enum RecipientType { Business, Job, Role, Group, User }
 }
