@@ -68,25 +68,30 @@ public class FiltersEditText extends AutoCompleteTextView {
     }
 
     public void addFilter(Filter filter, boolean showDelete) {
-        float width = 0;
-         for (VisibleFilterChip chip : getSortedChips()) {
-             width += getPaint().measureText(chip.getFilter().getVisibleText());
-            if (chip.getFilter().equals(filter)) return;
-        }
+        getHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                float width = 0;
+                for (VisibleFilterChip chip : getSortedChips()) {
+                    width += getPaint().measureText(chip.getFilter().getVisibleText());
+                    if (chip.getFilter().equals(filter)) return;
+                }
 
 
-        removeInputText();
-        final Editable editable = getText();
-        width += getPaint().measureText(filter.getVisibleText());
-        CharSequence chip;
-        if (width > getWidth() && showMore) {
-            //Todo create more chips
-            removeFilter(new Filter(MORE_CHIP, "+" + String.valueOf(moreChips) + "...", Filter.FilterType.Author ));
-            chip = createChip(new Filter(MORE_CHIP, "+" + String.valueOf(++moreChips) + "...", Filter.FilterType.Author), false);
-        } else {
-            chip = createChip(filter, showDelete);
-        }
-            editable.append(chip);
+                removeInputText();
+                final Editable editable = getText();
+                width += getPaint().measureText(filter.getVisibleText());
+                CharSequence chip;
+                if (width > getWidth() && showMore) {
+                    //Todo create more chips
+                    removeFilter(new Filter(MORE_CHIP, "+" + String.valueOf(moreChips) + "...", Filter.FilterType.Author));
+                    chip = createChip(new Filter(MORE_CHIP, "+" + String.valueOf(++moreChips) + "...", Filter.FilterType.Author), false);
+                } else {
+                    chip = createChip(filter, showDelete);
+                }
+                editable.append(chip);
+            }
+        });
     }
 
 
