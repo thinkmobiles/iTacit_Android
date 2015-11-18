@@ -40,23 +40,23 @@ public class GetMessagesUseCase extends GetListUseCase<Message> {
         }
     }
 
-    public enum  Filter {
-        ALL("ALL"),
-        ACT("ACT"),
-        WAITING("WAITING"),
-        DONE("DONE"),
-        INBOX("INBOX"),
-        SENT("SENT"),
-        ARCHIVE("ARCHIVE");
-
-        private final String filter;
-        Filter(String filter) {
-            this.filter = filter;
-        }
-
-        @Override
-        public String toString() {
-            return filter;
-        }
-    }
+//    public enum  Filter {
+//        ALL("ALL"),
+//        ACT("ACT"),
+//        WAITING("WAITING"),
+//        DONE("DONE"),
+//        INBOX("INBOX"),
+//        SENT("SENT"),
+//        ARCHIVE("ARCHIVE");
+//
+//        private final String filter;
+//        Filter(String filter) {
+//            this.filter = filter;
+//        }
+//
+//        @Override
+//        public String toString() {
+//            return filter;
+//        }
+//    }
 }

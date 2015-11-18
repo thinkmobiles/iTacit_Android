@@ -1,5 +1,7 @@
 package com.itacit.healthcare.presentation.messages.presenters;
 
+import android.support.annotation.NonNull;
+
 import com.itacit.healthcare.data.entries.Business;
 import com.itacit.healthcare.data.entries.Group;
 import com.itacit.healthcare.data.entries.JobClassification;
@@ -13,14 +15,17 @@ import com.itacit.healthcare.presentation.messages.mappers.JobMapper;
 import com.itacit.healthcare.presentation.messages.models.BusinessModel;
 import com.itacit.healthcare.presentation.messages.models.GroupModel;
 import com.itacit.healthcare.presentation.messages.models.JobModel;
+import com.itacit.healthcare.presentation.messages.models.RecipientsModel;
 import com.itacit.healthcare.presentation.messages.views.AddRecipientsView;
 import com.itacit.healthcare.presentation.news.presenters.NewsFeedPresenter;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import rx.Observable;
 import rx.Subscriber;
+
+import static com.itacit.healthcare.presentation.messages.models.RecipientsModel.PredefinedRecipients;
+import static com.itacit.healthcare.presentation.messages.models.RecipientsModel.RecipientType;
 
 /**
  * Created by root on 16.11.15.
@@ -40,6 +45,8 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
     private List<GroupModel> groupModels;
     private List<JobModel> jobModels;
 
+    private RecipientsModel recipients = new RecipientsModel();
+
     public AddRecipientsPresenter(GetBusinessUseCase getBusinessUseCase, GetJobsUseCase getJobsUseCase,
                                   GetGroupsUseCase getGroupsUseCase, GroupMapper groupMapper,
                                   BusinessMapper businessMapper, JobMapper jobMapper) {
@@ -52,18 +59,52 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
     }
 
     @Override
-    protected void onViewAttach() {
-        super.onViewAttach();
-        compositeSubscription.add(getSearchRecipientsObs().subscribe(this::getRecipients));
+    protected void onAttachedView(@NonNull AddRecipientsView view) {
+        compositeSubscription.add(view.getSearchRecipientsInput()
+                .filter(t -> t.length() >= NewsFeedPresenter.SEARCH_TEXT_MIN_LENGTH)
+                .debounce(TIMEOUT, TimeUnit.SECONDS)
+                .subscribe(this::getRecipients));
+
+        compositeSubscription.add(view.getSelectedRecipientsSubj().subscribe(recipientsModel -> {
+            this.recipients = recipientsModel;
+
+            actOnView(v -> v.showSelectedRecipientsCount(recipientsModel.getRecipientsCount()));
+        }));
     }
 
-    private Observable<String> getSearchRecipientsObs() {
-        if (getView() != null) {
-            return getView().getSearchRecipientsInput()
-                    .filter(t -> t.length() >= NewsFeedPresenter.SEARCH_TEXT_MIN_LENGTH)
-                    .debounce(TIMEOUT, TimeUnit.SECONDS);
+    public boolean isRecipientSelected(PredefinedRecipients predefined) {
+        return recipients.getPredefined().contains(predefined);
+    }
+
+
+    public boolean isRecipientSelected(String id, RecipientType type) {
+        return recipients.containsRecipient(id, type);
+    }
+
+    public void selectRecipients() {
+        actOnView(view -> view.getSelectedRecipientsSubj().onNext(recipients));
+    }
+
+    public void selectPredefined(PredefinedRecipients predefinedRecipients) {
+        recipients.selectRecipients(predefinedRecipients);
+    }
+
+    public void predefinedClicked(PredefinedRecipients predefined) {
+        if (recipients.getPredefined().contains(predefined)) {
+            recipients.unselectRecipients(predefined);
+        } else {
+            recipients.selectRecipients(predefined);
         }
-        return Observable.empty();
+    }
+
+    public void onRecipientClick(String id, RecipientType type) {
+        if (isRecipientSelected(id, type)) {
+            recipients.removeRecipient(id, type);
+        } else {
+            recipients.addRecipient(id, type);
+        }
+
+        actOnView(view -> view.showSelectedRecipientsCount(recipients.getRecipientsCount()));
     }
 
     private void getRecipients(String query) {
@@ -122,6 +163,4 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
             jobModels = jobMapper.transform(jobClassifications);
         }
     }
-
-
 }

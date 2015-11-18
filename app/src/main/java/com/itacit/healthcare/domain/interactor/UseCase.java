@@ -54,11 +54,9 @@ public abstract class UseCase<T> {
         .subscribe(useCaseSubscriber);
   }
 
-
   public void execute (Subscriber<T> useCaseSubscriber) {
     execute(useCaseSubscriber, Schedulers.io(), AndroidSchedulers.mainThread());
   }
-
 
   /**
    * Unsubscribes from current {@link Subscription}.

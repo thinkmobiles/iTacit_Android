@@ -17,7 +17,6 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.AutoCompleteTextView;
-import android.widget.MultiAutoCompleteTextView;
 
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.global.utils.AndroidUtils;
@@ -68,25 +67,30 @@ public class FiltersEditText extends AutoCompleteTextView {
     }
 
     public void addFilter(Filter filter, boolean showDelete) {
-        float width = 0;
-         for (VisibleFilterChip chip : getSortedChips()) {
-             width += getPaint().measureText(chip.getFilter().getVisibleText());
-            if (chip.getFilter().equals(filter)) return;
-        }
+        getHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                float width = 0;
+                for (VisibleFilterChip chip : getSortedChips()) {
+                    width += getPaint().measureText(chip.getFilter().getVisibleText());
+                    if (chip.getFilter().equals(filter)) return;
+                }
 
 
-        removeInputText();
-        final Editable editable = getText();
-        width += getPaint().measureText(filter.getVisibleText());
-        CharSequence chip;
-        if (width > getWidth() && showMore) {
-            //Todo create more chips
-            removeFilter(new Filter(MORE_CHIP, "+" + String.valueOf(moreChips) + "...", Filter.FilterType.Author ));
-            chip = createChip(new Filter(MORE_CHIP, "+" + String.valueOf(++moreChips) + "...", Filter.FilterType.Author), false);
-        } else {
-            chip = createChip(filter, showDelete);
-        }
-            editable.append(chip);
+                removeInputText();
+                final Editable editable = getText();
+                width += getPaint().measureText(filter.getVisibleText());
+                CharSequence chip;
+                if (width > getWidth() && showMore) {
+                    //Todo create more chips
+                    removeFilter(new Filter(MORE_CHIP, "+" + String.valueOf(moreChips) + "...", Filter.FilterType.Author));
+                    chip = createChip(new Filter(MORE_CHIP, "+" + String.valueOf(++moreChips) + "...", Filter.FilterType.Author), false);
+                } else {
+                    chip = createChip(filter, showDelete);
+                }
+                editable.append(chip);
+            }
+        });
     }
 
 
@@ -351,7 +355,7 @@ public class FiltersEditText extends AutoCompleteTextView {
 
     private VisibleFilterChip findChip(final int offset) {
         final VisibleFilterChip[] chips = getText().getSpans(0, getText().length(), VisibleFilterChip.class);
-        // Find the chip that contains this offset.
+        // Find the chip that containsRecipient this offset.
         for (int i = 0; i < chips.length; i++) {
             final VisibleFilterChip chip = chips[i];
             final int start = getChipStart(chip);

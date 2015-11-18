@@ -3,8 +3,6 @@ package com.itacit.healthcare.presentation.news.views.fragments;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -91,7 +89,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
     void searchNews() {
         if (presenter.isDateValid()) {
             NewsSearch search = presenter.getNewsSearch();
-            activity.getSearchNews().onNext(search);
+            activity.getNewsSearchSubj().onNext(search);
             activity.switchContent(NewsFeedFragment.class, false);
         }
     }
@@ -100,10 +98,10 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
     void onExpandClick(View view) {
         switch (view.getId()) {
             case R.id.iv_expand_author_FNS:
-                toggleListVisibility(authorsRv, ivExpandAuthor);
+                AndroidUtils.toggleListVisibility(authorsRv, ivExpandAuthor);
                 break;
             case R.id.iv_expand_category_FNS:
-                toggleListVisibility(categoriesRv, ivExpandCategory);
+                AndroidUtils.toggleListVisibility(categoriesRv, ivExpandCategory);
                 break;
         }
     }
@@ -173,63 +171,13 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
 	}
 
     @Override
-    public BehaviorSubject<NewsSearch> getNewsSearch() {
-        return activity.getSearchNews();
+    public BehaviorSubject<NewsSearch> getNewsSearchSubj() {
+        return activity.getNewsSearchSubj();
     }
 
     @Override
     public List<Filter> getFilters() {
         return searchFiltersEt.getSelectedFilters();
-    }
-
-    private void toggleListVisibility(RecyclerView recyclerView, ImageView expandIv) {
-        if (recyclerView.getVisibility() == View.GONE) {
-	        Animation animShow = AnimationUtils.loadAnimation(getActivity(),
-			        R.anim.anim_show);
-	        animShow.setAnimationListener(new Animation.AnimationListener() {
-		        @Override
-		        public void onAnimationStart(Animation animation) {
-
-			        expandIv.setImageResource(R.drawable.ic_drop);
-		        }
-
-		        @Override
-		        public void onAnimationEnd(Animation animation) {
-
-		        }
-
-		        @Override
-		        public void onAnimationRepeat(Animation animation) {
-
-		        }
-	        });
-	        recyclerView.setVisibility(View.VISIBLE);
-	        recyclerView.startAnimation(animShow);
-
-        } else {
-	        Animation animHide = AnimationUtils.loadAnimation(getActivity(),
-			        R.anim.anim_hide);
-	        animHide.setAnimationListener(new Animation.AnimationListener() {
-		        @Override
-		        public void onAnimationStart(Animation animation) {
-			        expandIv.setImageResource(R.drawable.ic_drop_hide);
-		        }
-
-		        @Override
-		        public void onAnimationEnd(Animation animation) {
-
-			        recyclerView.setVisibility(View.GONE);
-
-		        }
-
-		        @Override
-		        public void onAnimationRepeat(Animation animation) {
-
-		        }
-	        });
-
-	        recyclerView.startAnimation(animHide);
-        }
     }
 
     private Button selectDateView(DateType dateType) {

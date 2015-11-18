@@ -2,8 +2,8 @@ package com.itacit.healthcare.presentation.base.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.LayoutInflater;
@@ -32,7 +32,6 @@ public abstract class BaseFragmentView<P extends Presenter, A extends BaseActivi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (A) getActivity();
-        toggle = activity.getToggle();
         setHasOptionsMenu(true);
     }
 
@@ -55,9 +54,14 @@ public abstract class BaseFragmentView<P extends Presenter, A extends BaseActivi
         if (presenter == null) {
             presenter = createPresenter();
         }
-        setUpActionBar(activity.getSupportActionBar());
-        setUpView();
+
         presenter.attachView(this);
+        ActionBar actionBar = activity.getSupportActionBar();
+        if (toggle == null) {
+            toggle = activity.getToggle();
+        }
+        setUpActionBar(actionBar);
+        setUpView();
     }
 
 

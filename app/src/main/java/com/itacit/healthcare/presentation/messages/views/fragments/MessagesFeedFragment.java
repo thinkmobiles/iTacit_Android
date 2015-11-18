@@ -1,16 +1,15 @@
 package com.itacit.healthcare.presentation.messages.views.fragments;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TableLayout;
 import android.widget.Toast;
 
 import com.itacit.healthcare.R;
@@ -22,27 +21,24 @@ import com.itacit.healthcare.presentation.messages.presenters.MessagesFeedPresen
 import com.itacit.healthcare.presentation.messages.views.MessagesFeedView;
 import com.itacit.healthcare.presentation.messages.views.activity.MessagesActivity;
 import com.itacit.healthcare.presentation.messages.views.adapters.MessagesAdapter;
-import com.itacit.healthcare.presentation.news.views.fragments.NewsDetailsFragment;
-import com.itacit.healthcare.presentation.news.views.fragments.NewsSearchFragment;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import rx.Observable;
-import rx.Subscriber;
+
+import static com.itacit.healthcare.presentation.messages.presenters.MessagesFeedPresenter.MessagesFilter;
 
 /**
  * Created by Den on 12.11.15.
  */
-public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter, MessagesActivity> implements MessagesFeedView, TabLayout.OnTabSelectedListener {
-    @Bind(R.id.recycler_view_FMF)
-    RecyclerView messagesRecyclerView;
-    @Bind(R.id.tab_layout_FMF)
-    TabLayout tabLayout;
+public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter, MessagesActivity>
+        implements MessagesFeedView, TabLayout.OnTabSelectedListener {
+    @Bind(R.id.recycler_view_FMF)   RecyclerView messagesRecyclerView;
+    @Bind(R.id.tab_layout_FMF)      TabLayout tabLayout;
 
     private MessagesAdapter messagesAdapter;
-    private OnTabItemSelectedListener tabItemSelectedListener;
+    private ProgressDialog progressDialog;
 
     @OnClick(R.id.fab_button_FMF)
     void addNewMessage(){
@@ -51,11 +47,11 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
 
     @Override
     protected void setUpView() {
-        tabLayout.addTab(tabLayout.newTab().setText("All \n1"));
-        tabLayout.addTab(tabLayout.newTab().setText("Act on \n2"));
-        tabLayout.addTab(tabLayout.newTab().setText("Waiting \n3"));
-        tabLayout.addTab(tabLayout.newTab().setText("To my \n4"));
-        tabLayout.addTab(tabLayout.newTab().setText("For me \n5"));
+        tabLayout.addTab(tabLayout.newTab().setText("All \n1").setTag(MessagesFilter.ALL));
+        tabLayout.addTab(tabLayout.newTab().setText("Act on \n2").setTag(MessagesFilter.ACT));
+        tabLayout.addTab(tabLayout.newTab().setText("Waiting \n3").setTag(MessagesFilter.WAITING));
+        tabLayout.addTab(tabLayout.newTab().setText("To my \n4").setTag(MessagesFilter.SENT));
+        tabLayout.addTab(tabLayout.newTab().setText("For me \n5").setTag(MessagesFilter.INBOX));
 
         tabLayout.setOnTabSelectedListener(this);
 
@@ -79,7 +75,7 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
 
     @Override
     protected MessagesFeedPresenter createPresenter() {
-        return new MessagesFeedPresenter(new GetMessagesUseCase(0,100), new MessagesMapper(),this);
+        return new MessagesFeedPresenter(new GetMessagesUseCase(0,100), new MessagesMapper());
     }
 
     @Override
@@ -107,6 +103,23 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
         messagesAdapter.setOnMessagesItemSelectedListener(this::showMessagesItemDetails);
     }
 
+    @Override
+    public void showProgress() {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setMessage("Loading...");
+            progressDialog.setCancelable(true);
+        }
+        progressDialog.show();
+    }
+
+    @Override
+    public void hideProgress() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.hide();
+        }
+    }
+
     public void showMessagesItemDetails(String messageId) {
         Bundle args = new Bundle(1);
         args.putString(MessageRepliesFragment.Message_ID, messageId);
@@ -130,36 +143,7 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
         checkTabSelected(tab);
     }
 
-    public void setOnTabItemSelectedListener(OnTabItemSelectedListener listener) {
-        this.tabItemSelectedListener = listener;
-    }
-
     private void checkTabSelected(TabLayout.Tab tab) {
-        String filter = null;
-        if (tabItemSelectedListener != null) {
-            switch (tab.getPosition()) {
-                case 0:
-                    filter = GetMessagesUseCase.Filter.ALL.toString();
-                    break;
-                case 1:
-                    filter = GetMessagesUseCase.Filter.ACT.toString();
-                    break;
-                case 2:
-                    filter = GetMessagesUseCase.Filter.WAITING.toString();
-                    break;
-                case 3:
-                    filter = GetMessagesUseCase.Filter.SENT.toString();
-                    break;
-                case 4:
-                    filter = GetMessagesUseCase.Filter.INBOX.toString();
-                    break;
-            }
-            tabItemSelectedListener.onTabItemSelected(filter);
-        }
+        presenter.getMessages((MessagesFilter) tab.getTag());
     }
-
-    public interface OnTabItemSelectedListener {
-        void onTabItemSelected(String filter);
-    }
-
 }

@@ -20,7 +20,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 
 /**
- * BaseRecipientChip defines an object that contains information relevant to a particular recipient.
+ * BaseRecipientChip defines an object that containsRecipient information relevant to a particular recipient.
  */
 public interface Chip {
 	/**

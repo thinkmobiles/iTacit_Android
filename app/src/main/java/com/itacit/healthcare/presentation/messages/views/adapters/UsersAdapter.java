@@ -89,9 +89,9 @@ public class UsersAdapter extends BaseAdapter implements Filterable {
 		viewHolder.tvRole.setText(role);
 		int resFilter;
 		if (selectedUsersIds.contains(userModel.getId())) {
-			resFilter = R.drawable.ic_check;
+			resFilter = R.drawable.ic_check_act;
 		} else {
-			resFilter = R.drawable.abc_btn_radio_to_on_mtrl_000;
+			resFilter = R.drawable.ic_unselect;
 		}
 		viewHolder.ivCheck.setImageResource(resFilter);
 		viewHolder.view.setOnClickListener(new View.OnClickListener() {
@@ -148,6 +148,9 @@ public class UsersAdapter extends BaseAdapter implements Filterable {
 		@Override
 		protected FilterResults performFiltering(CharSequence prefix) {
 			FilterResults results = new FilterResults();
+			if (prefix == null) {
+				return results;
+			}
 			prefix = prefix.toString().toLowerCase();
 			List<UserModel> filteredUsers = new ArrayList<>();
 			for (UserModel user : users) {

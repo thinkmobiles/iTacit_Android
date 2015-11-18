@@ -22,8 +22,7 @@ public class MessagesService {
 
     public static MessagesApi getApi() {
         if (api == null) {
-            api = ServiceGenerator.createService(MessagesApi.class,
-                    AccessTokenHandler.getAccessToken());
+            api = ServiceGenerator.createService(MessagesApi.class, true);
         }
 
         return api;

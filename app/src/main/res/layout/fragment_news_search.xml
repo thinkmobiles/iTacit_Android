@@ -83,7 +83,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="16dp"
-                    android:src="@drawable/ic_user"/>
+                    android:src="@drawable/ic_user_blue"/>
 
                 <TextView
                     android:id="@+id/tv_label_author_FNS"
@@ -180,7 +180,6 @@
                     android:layout_centerVertical="true"
                     android:padding="5dp"
                     android:src="@drawable/ic_drop"/>
-                android:paddingLeft="@dimen/main_margin"/>
 
             </RelativeLayout>
 

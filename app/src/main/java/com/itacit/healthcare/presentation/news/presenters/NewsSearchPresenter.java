@@ -1,5 +1,7 @@
 package com.itacit.healthcare.presentation.news.presenters;
 
+import android.support.annotation.NonNull;
+
 import com.itacit.healthcare.data.entries.Author;
 import com.itacit.healthcare.data.entries.Category;
 import com.itacit.healthcare.domain.interactor.news.GetAuthorsUseCase;
@@ -53,9 +55,30 @@ public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
     }
 
     @Override
-    protected void onViewAttach() {
-        compositeSubscription.add(getSearchObs().subscribe(this::requestFilters));
-        compositeSubscription.add(getView().getFilterRemovedObs().subscribe(this::removeFilter));
+    protected void onAttachedView(@NonNull NewsSearchView view) {
+        compositeSubscription.add(getSearchObs(view).subscribe(this::requestFilters));
+        compositeSubscription.add(view.getFilterRemovedObs().subscribe(this::removeFilter));
+        compositeSubscription.add(view.getNewsSearchSubj().subscribe(this::showLastData));
+    }
+
+    private void showLastData(NewsSearch search) {
+        List<Filter> filters = search.getFilters();
+	    fromDate = search.getDateFrom();
+	    toDate = search.getDateTo();
+
+	    if (!filters.isEmpty()) {
+			for (Filter filter : filters) {
+				actOnView(v -> v.showFilter(filter));
+			}
+	    }
+
+	    if (!(fromDate == null)) {
+		    showDateOnView(DateType.From, fromDate);
+	    }
+
+	    if (!(toDate == null)) {
+		    showDateOnView(DateType.To, toDate);
+	    }
     }
 
     private void requestFilters(String query) {
@@ -63,13 +86,10 @@ public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
         getCategoriesUseCase.execute(new GetCategoriesSubscriber(), query);
     }
 
-    private Observable<String> getSearchObs() {
-        if (getView() != null) {
-            return getView().getSearchTextObs()
-                    .filter(t -> t.length() >= NewsFeedPresenter.SEARCH_TEXT_MIN_LENGTH)
-                    .debounce(TIMEOUT, TimeUnit.SECONDS);
-        }
-        return Observable.empty();
+    private Observable<String> getSearchObs(NewsSearchView view) {
+        return view.getSearchTextObs()
+                .filter(t -> t.length() >= NewsFeedPresenter.SEARCH_TEXT_MIN_LENGTH)
+                .debounce(TIMEOUT, TimeUnit.SECONDS);
     }
 
     public NewsSearch getNewsSearch() {
@@ -97,6 +117,7 @@ public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
                 for (AuthorModel authorModel : authorModels) {
                     if (authorModel.getId().equals(filterId)) {
                         filterText = authorModel.getFullName();
+                        break;
                     }
                 }
                 break;
@@ -104,6 +125,7 @@ public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
                 for (CategoryModel categoryModel : categoryModels) {
                     if (categoryModel.getId().equals(filterId)) {
                         filterText = categoryModel.getName();
+                        break;
                     }
                 }
                 break;
@@ -129,9 +151,13 @@ public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
                 calendar = toDate = new GregorianCalendar(year, monthOfYear, dayOfMonth);
                 break;
         }
-        String date = NewsSearchView.dateFormat.format(calendar.getTime());
-        actOnView(v -> v.showDate(dateType, date));
+	    showDateOnView(dateType, calendar);
     }
+
+	private void showDateOnView(DateType dateType, Calendar calendar ) {
+		String date = NewsSearchView.dateFormat.format(calendar.getTime());
+		actOnView(v -> v.showDate(dateType, date));
+	}
 
     public void onDateClear(DateType dateType) {
         actOnView(v -> v.resetDate(dateType));

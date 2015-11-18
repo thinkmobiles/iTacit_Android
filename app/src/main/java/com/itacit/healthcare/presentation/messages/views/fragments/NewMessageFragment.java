@@ -8,17 +8,17 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.itacit.healthcare.R;
+import com.itacit.healthcare.domain.interactor.messages.CreateMessageUseCase;
 import com.itacit.healthcare.domain.interactor.users.GetUsersUseCase;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
-import com.itacit.healthcare.presentation.messages.views.activity.MessagesActivity;
-import com.itacit.healthcare.presentation.messages.presenters.NewMessagePresenter;
-import com.itacit.healthcare.presentation.messages.views.NewMessageView;
-import com.itacit.healthcare.presentation.news.views.fragments.NewsFeedFragment;
+import com.itacit.healthcare.presentation.base.widgets.datePicker.DatePickerFragment;
 import com.itacit.healthcare.presentation.messages.mappers.UserMapper;
+import com.itacit.healthcare.presentation.messages.models.RecipientsModel;
 import com.itacit.healthcare.presentation.messages.models.UserModel;
 import com.itacit.healthcare.presentation.messages.presenters.NewMessagePresenter;
 import com.itacit.healthcare.presentation.messages.views.NewMessageView;
@@ -30,126 +30,170 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import rx.Observable;
+import rx.subjects.BehaviorSubject;
 
 /**
  * Created by root on 11.11.15.
  */
-public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, MessagesActivity> implements NewMessageView, UsersAdapter.OnUsersItemSelectedListener, View.OnClickListener {
-	@Bind(R.id.ib_add_FMN)          ImageButton ibAddRecipient;
-	@Bind(R.id.et_recipients_FMN)   FiltersEditText etRecipientsView;
-	@Bind(R.id.et_topic_FMN)        EditText etTopic;
-	@Bind(R.id.ib_clear_FMN)        ImageButton ibClearDate;
-	@Bind(R.id.et_date_FMN)         EditText etConfirmationDate;
-	@Bind(R.id.rl_date_FMN)         RelativeLayout rlConfirmationDate;
-	@Bind(R.id.et_message_body_FMN) EditText etMessageBody;
+public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, MessagesActivity>
+        implements NewMessageView, UsersAdapter.OnUsersItemSelectedListener {
+    @Bind(R.id.ib_add_FMN)          ImageButton ibAddRecipient;
+    @Bind(R.id.et_recipients_FMN)   FiltersEditText etRecipientsView;
+    @Bind(R.id.et_topic_FMN)        EditText etTopic;
+    @Bind(R.id.ib_clear_FMN)        ImageButton ibClearDate;
+    @Bind(R.id.et_date_FMN)         EditText etConfirmationDate;
+    @Bind(R.id.rl_date_FMN)         RelativeLayout rlConfirmationDate;
+    @Bind(R.id.et_message_body_FMN) EditText etMessageBody;
 
-	private UsersAdapter usersAdapter;
+    private UsersAdapter usersAdapter;
 
-	@Override
-	protected void setUpView() {
+    @OnClick(R.id.ib_add_FMN)
+    void addRecipients() {
+        presenter.addRecipients();
+    }
 
-	}
+    @Override
+    protected void setUpView() {
 
-	@Override
-	protected void setUpActionBar(ActionBar actionBar) {
-		switchToolbarIndicator(false, this);
+    }
 
-		actionBar.setHomeAsUpIndicator(null);
-		activity.setActionBarShadowVisible(true);
-		actionBar.setDisplayShowTitleEnabled(true);
-		actionBar.setTitle(R.string.title_new_message);
+    @Override
+    protected void setUpActionBar(ActionBar actionBar) {
+        switchToolbarIndicator(false, v -> activity.switchContent(MessagesFeedFragment.class, false));
 
-		actionBar.setDisplayShowHomeEnabled(true);
-		actionBar.setDefaultDisplayHomeAsUpEnabled(true);
-		actionBar.setDisplayHomeAsUpEnabled(true);
-	}
+        actionBar.setHomeAsUpIndicator(null);
+        activity.setActionBarShadowVisible(true);
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setTitle(R.string.title_new_message);
 
-	@Override
-	protected int getLayoutRes() {
-		return R.layout.fragment_message_new;
-	}
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDefaultDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
 
-	@Override
-	protected NewMessagePresenter createPresenter() {
-		return new NewMessagePresenter(new GetUsersUseCase(0, 100), new UserMapper());
-	}
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.fragment_message_new;
+    }
 
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.menu_new_message, menu);
-	}
+    @Override
+    protected NewMessagePresenter createPresenter() {
+        return new NewMessagePresenter(new GetUsersUseCase(0, 100), new CreateMessageUseCase(), new UserMapper());
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				return true;
-			case R.id.action_send:
-				return true;
-			case R.id.action_set_date:
-				rlConfirmationDate.setVisibility(View.VISIBLE);
-				return true;
-			default:
-				return super.onOptionsItemSelected(item);
-		}
-	}
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_new_message, menu);
+    }
 
-	@Override
-	public void showUsers(List<UserModel> users) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                return true;
+            case R.id.action_send:
+                presenter.sendMessage(etTopic.getText().toString(), etMessageBody.getText().toString());
+                return true;
+            case R.id.action_set_date:
+                showDatePicker();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
-		ArrayList<String> names = new ArrayList<>(users.size());
-		for(UserModel userModel : users) {
-			names.add(userModel.getFullName());
-		}
+    @Override
+    public void showMessageInvalid() {
+        Toast.makeText(getActivity(), getResources().getText(R.string.message_send_warning), Toast.LENGTH_LONG).show();
+    }
 
-		usersAdapter = new UsersAdapter(getActivity(), users);
-		for (Filter filter : etRecipientsView.getSelectedFilters()) {
-			usersAdapter.getSelectedUsersIds().add(filter.getId());
-		}
-		etRecipientsView.setAdapter(usersAdapter);
-		usersAdapter.getFilter().filter(etRecipientsView.getInputText());
-		usersAdapter.setOnUsersItemSelectedListener(this);
-	}
+    @Override
+    public String getMessageBody() {
+        return etMessageBody.getText().toString();
+    }
 
-	@Override
-	public void addFilter(Filter filter) {
-		etRecipientsView.addFilter(filter, true);
-	}
+    void showDatePicker() {
+        DatePickerFragment fromDatePicker = new DatePickerFragment((datePicker, year, monthOfYear, dayOfMonth) ->
+                presenter.onDateSelected(),
+                () -> presenter.onDateClear());
+        fromDatePicker.show(getFragmentManager(), "DatePicker");
+    }
 
-	@Override
-	public void removeFilter(Filter filter) {
-		etRecipientsView.removeFilter(filter);
-	}
+    @Override
+    public void navigateToAddRecipients() {
+        activity.switchContent(AddRecipientsFragment.class, false);
+    }
 
-	@Override
-	public void unselectUser(String id) {
-		usersAdapter.getSelectedUsersIds().remove(id);
-		usersAdapter.notifyDataSetChanged();
-	}
+    @Override
+    public void showUsers(List<UserModel> users) {
+        ArrayList<String> names = new ArrayList<>(users.size());
+        for (UserModel userModel : users) {
+            names.add(userModel.getFullName());
+        }
 
-	@Override
-	public Observable<String> getUsersSearchTextObs() {
-		return RxTextView.textChangeEvents(etRecipientsView).map(e -> etRecipientsView.getInputText());
-	}
+        usersAdapter = new UsersAdapter(getActivity(), users);
+        for (Filter filter : etRecipientsView.getSelectedFilters()) {
+            usersAdapter.getSelectedUsersIds().add(filter.getId());
+        }
+        etRecipientsView.setAdapter(usersAdapter);
+        etRecipientsView.showDropDown();
+        usersAdapter.getFilter().filter(etRecipientsView.getInputText());
+        usersAdapter.setOnUsersItemSelectedListener(this);
+    }
 
-	@Override
-	public void onClick(View v) {
-        activity.switchContent(MessagesFeedFragment.class, false);
-	}
+    @Override
+    public void showDate(String date) {
+        rlConfirmationDate.setVisibility(View.VISIBLE);
+        etConfirmationDate.setText(date);
+    }
 
-	@Override
-	public Observable<Filter> getFilterRemovedObs() {
-		return etRecipientsView.getChipRemovedSubject();
-	}
+    @Override
+    @OnClick(R.id.ib_clear_FMN)
+    public void resetDate() {
+        etConfirmationDate.setText("");
+        rlConfirmationDate.setVisibility(View.GONE);
+    }
 
-	@Override
-	public void onUsersSelected(String userId) {
-		presenter.selectUserFilterById(userId);
-	}
+    @Override
+    public void addFilter(Filter filter) {
+        etRecipientsView.addFilter(filter, true);
+    }
 
-	@Override
-	public void onUsersDeselected(String userId) {
-		presenter.unselectUserFilterById(userId);
-	}
+    @Override
+    public void removeFilter(Filter filter) {
+        etRecipientsView.removeFilter(filter);
+    }
+
+    @Override
+    public void unselectUser(String id) {
+        usersAdapter.getSelectedUsersIds().remove(id);
+        usersAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public Observable<String> getUsersSearchTextObs() {
+        return RxTextView.textChangeEvents(etRecipientsView).map(e -> etRecipientsView.getInputText());
+    }
+
+    @Override
+    public Observable<Filter> getFilterRemovedObs() {
+        return etRecipientsView.getChipRemovedSubject();
+    }
+
+    @Override
+    public BehaviorSubject<RecipientsModel> getSelectedRecipientsSubj() {
+        return activity.getSelectedRecipientsSubj();
+    }
+
+    @Override
+    public void onUsersSelected(String userId) {
+        presenter.selectRecipient(userId);
+    }
+
+    @Override
+    public void onUsersDeselected(String userId) {
+        presenter.unselectRecipient(userId);
+    }
 }
