@@ -6,6 +6,7 @@ import com.itacit.healthcare.presentation.messages.models.BusinessModel;
 import com.itacit.healthcare.presentation.messages.models.GroupModel;
 import com.itacit.healthcare.presentation.messages.models.JobModel;
 import com.itacit.healthcare.presentation.messages.models.RecipientsModel;
+import com.itacit.healthcare.presentation.messages.models.RoleModel;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public interface AddRecipientsView extends View {
     Observable<String> getSearchRecipientsInput();
     void showBusiness(List<BusinessModel> units);
     void showJobs(List<JobModel> models);
+    void showRoles(List<RoleModel> models);
     void showGroups(List<GroupModel> groups);
     void showSelectedRecipientsCount(int count);
     BehaviorSubject<RecipientsModel> getSelectedRecipientsSubj();
