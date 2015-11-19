@@ -24,7 +24,7 @@ public class GetListRepliesUseCase extends GetListUseCase<Reply> {
 
     public GetListRepliesUseCase(Integer startIndex, Integer rowCounts) {
         super(startIndex, rowCounts);
-        setRequestFields(DEFAULT_FIELDS, SENDER, RECIPIENTS_FIELD,SUBJECT);
+//        setRequestFields(DEFAULT_FIELDS, SENDER, RECIPIENTS_FIELD,SUBJECT);
         setSortField(SORT_FIELD_REPLIES);
     }
 
