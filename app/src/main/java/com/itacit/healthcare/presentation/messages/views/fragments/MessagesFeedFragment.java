@@ -124,8 +124,6 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
         Bundle args = new Bundle(1);
         args.putString(MessageRepliesFragment.Message_ID, messageId);
         activity.switchContent(MessageRepliesFragment.class, true, args);
-        Toast.makeText(getActivity(),messageId,Toast.LENGTH_SHORT).show();
-
     }
 
     @Override

@@ -8,7 +8,7 @@ import android.net.Uri;
 public class RepliesModel {
     private String sendDateTime;
     private boolean readConfirmedYn;
-    private Uri senderImageUrl;
+    private Uri senderImageUri;
     private String body;
     private boolean replyPrivateYn;
     private String senderId;
@@ -19,6 +19,7 @@ public class RepliesModel {
     private boolean replyMethodSMSYn;
     private String id;
     private String senderImageAssetId;
+    private int responseCount;
 
     public String getSendDateTime() {
         return sendDateTime;
@@ -28,20 +29,12 @@ public class RepliesModel {
         sendDateTime = _sendDateTime;
     }
 
-    public boolean getReadConfirmedYn() {
-        return readConfirmedYn;
-    }
-
-    public void setReadConfirmedYn(boolean _readConfirmedYn) {
-        readConfirmedYn = _readConfirmedYn;
-    }
-
     public Uri getSenderImageUri() {
-        return senderImageUrl;
+        return senderImageUri;
     }
 
     public void setSenderImageUri(Uri _senderImageUrl) {
-        senderImageUrl = _senderImageUrl;
+        senderImageUri = _senderImageUrl;
     }
 
     public String getBody() {
@@ -50,14 +43,6 @@ public class RepliesModel {
 
     public void setBody(String _body) {
         body = _body;
-    }
-
-    public boolean getReplyPrivateYn() {
-        return replyPrivateYn;
-    }
-
-    public void setReplyPrivateYn(boolean _replyPrivateYn) {
-        replyPrivateYn = _replyPrivateYn;
     }
 
     public String getSenderId() {
@@ -92,22 +77,6 @@ public class RepliesModel {
         parentMessageId = _parentMessageId;
     }
 
-    public boolean getReplyMethodEmailYn() {
-        return replyMethodEmailYn;
-    }
-
-    public void setReplyMethodEmailYn(boolean _replyMethodEmailYn) {
-        replyMethodEmailYn = _replyMethodEmailYn;
-    }
-
-    public boolean getReplyMethodSMSYn() {
-        return replyMethodSMSYn;
-    }
-
-    public void setReplyMethodSMSYn(boolean _replyMethodSMSYn) {
-        replyMethodSMSYn = _replyMethodSMSYn;
-    }
-
     public String getId() {
         return id;
     }
@@ -122,5 +91,45 @@ public class RepliesModel {
 
     public void setSenderImageAssetId(String _senderImageAssetId) {
         senderImageAssetId = _senderImageAssetId;
+    }
+
+    public boolean isReadConfirmedYn() {
+        return readConfirmedYn;
+    }
+
+    public void setReadConfirmedYn(boolean _readConfirmedYn) {
+        readConfirmedYn = _readConfirmedYn;
+    }
+
+    public boolean isReplyPrivateYn() {
+        return replyPrivateYn;
+    }
+
+    public void setReplyPrivateYn(boolean _replyPrivateYn) {
+        replyPrivateYn = _replyPrivateYn;
+    }
+
+    public boolean isReplyMethodEmailYn() {
+        return replyMethodEmailYn;
+    }
+
+    public void setReplyMethodEmailYn(boolean _replyMethodEmailYn) {
+        replyMethodEmailYn = _replyMethodEmailYn;
+    }
+
+    public boolean isReplyMethodSMSYn() {
+        return replyMethodSMSYn;
+    }
+
+    public void setReplyMethodSMSYn(boolean _replyMethodSMSYn) {
+        replyMethodSMSYn = _replyMethodSMSYn;
+    }
+
+    public int getResponseCount() {
+        return responseCount;
+    }
+
+    public void setResponseCount(int _responseCount) {
+        responseCount = _responseCount;
     }
 }

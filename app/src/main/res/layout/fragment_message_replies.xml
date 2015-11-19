@@ -2,12 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:background="@android:color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/rl_messages_replies_header_FMR"
+        android:padding="@dimen/activity_horizontal_margin"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -42,30 +44,42 @@
             android:layout_below="@+id/tv_body_FMR"
             android:layout_centerHorizontal="true"/>
 
-        <TextView
+        <CheckBox
             android:id="@+id/tv_response_for_confirmation_FMR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_request_for_confirmation_FMR"
             android:text="I HAVE READ THIS"
+            android:textColor="@color/btn_blue"
             android:visibility="visible"
             android:layout_marginTop="8dp"
-            android:layout_centerHorizontal="true"/>
+            android:layout_marginBottom="8dp"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingRight="8dp"
+            android:paddingLeft="8dp"
+            android:background="@drawable/frame_checkbox_confirm"
+            android:button="@drawable/circle_checkbox_confirm"/>
 
         <TextView
             android:id="@+id/tv_number_people_shared_FMR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_del_search"
-            android:text="13"
+            android:drawableLeft="@drawable/ic_user"
+            tools:text=" 13"
+            android:gravity="bottom"
+            android:textColor="@color/btn_blue"
             android:layout_below="@+id/tv_response_for_confirmation_FMR"/>
 
         <TextView
             android:id="@+id/tv_number_people_read_FMR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_del_search"
-            android:text="15"
+            android:drawableLeft="@drawable/ic_user_compl"
+            android:text=" 15"
+            android:gravity="bottom"
+            android:textColor="@color/btn_blue"
             android:layout_marginLeft="8dp"
             android:layout_alignTop="@+id/tv_number_people_shared_FMR"
             android:layout_toEndOf="@+id/tv_number_people_shared_FMR"/>
@@ -74,8 +88,10 @@
             android:id="@+id/tv_number_attachment_FMR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_del_search"
-            android:text="17"
+            android:drawableLeft="@drawable/ic_attach"
+            android:text=" 17"
+            android:gravity="bottom"
+            android:textColor="@color/btn_blue"
             android:layout_marginLeft="8dp"
             android:layout_alignTop="@+id/tv_number_people_read_FMR"
             android:layout_toEndOf="@+id/tv_number_people_read_FMR"/>
@@ -84,8 +100,10 @@
             android:id="@+id/tv_reply_to_sender_FMR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_del_search"
-            android:text="to Author"
+            android:drawableLeft="@drawable/ic_reply"
+            android:text=" to Author"
+            android:gravity="bottom"
+            android:textColor="@color/btn_blue"
             android:layout_marginLeft="8dp"
             android:layout_below="@+id/tv_response_for_confirmation_FMR"
             android:layout_alignParentEnd="true"
@@ -95,8 +113,10 @@
             android:id="@+id/ib_reply_all_FMR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_del_search"
-            android:text="to all"
+            android:drawableLeft="@drawable/ic_reply"
+            android:text=" All"
+            android:gravity="bottom"
+            android:textColor="@color/btn_blue"
             android:layout_marginLeft="8dp"
             android:layout_below="@+id/tv_response_for_confirmation_FMR"
             android:layout_toStartOf="@+id/tv_reply_to_sender_FMR"/>

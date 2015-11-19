@@ -26,7 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:src="@drawable/ic_del_search"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_user_compl"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/iv_headline_LIMR"/>
 
@@ -45,6 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="John Carson"
+            android:gravity="bottom"
             android:ellipsize="end"
             style="@style/textArticle"/>
 
@@ -52,10 +54,11 @@
             android:id="@+id/iv_private_LIMR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_del_search"
+            android:src="@drawable/ic_private"
+            android:background="@null"
             android:visibility="visible"
             android:layout_marginLeft="8dp"
-            android:layout_alignBottom="@+id/tv_sender_name_LIMR"
+            android:layout_alignBottom="@+id/tv_last_time_response_LIMR"
             android:layout_toEndOf="@+id/tv_sender_name_LIMR"/>
 
         <TextView
@@ -67,16 +70,16 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:visibility="visible"
-            android:layout_alignBottom="@+id/iv_private_LIMR"
+            android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/iv_private_LIMR"/>
 
-        <ImageSwitcher
+        <ImageView
             android:id="@+id/iv_method_sending_LIMR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_del_search"
+            android:background="@drawable/ic_mail"
             android:visibility="visible"
-            android:layout_above="@+id/tv_sender_role_LIMR"
+            android:layout_alignBottom="@+id/iv_private_LIMR"
             android:layout_toEndOf="@+id/tv_via_LIMR"/>
 
         <TextView
@@ -98,15 +101,6 @@
             android:layout_below="@+id/tv_sender_name_LIMR"
             android:layout_alignParentStart="true"/>
 
-        <!--<TextView-->
-            <!--android:id="@+id/tv_subject_LIMR"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--style="@style/textContent"-->
-            <!--android:text="Lorem ipsum dolor"-->
-            <!--android:layout_below="@+id/tv_sender_role_LIMR"-->
-            <!--android:layout_alignParentStart="true"/>-->
-
         <TextView
             android:id="@+id/tv_body_LIMR"
             android:layout_width="wrap_content"
@@ -114,6 +108,7 @@
             android:layout_below="@id/tv_sender_role_LIMR"
             android:maxLines="2"
             android:ellipsize="marquee"
+            android:layout_marginBottom="4dp"
             tools:text="Lorem ipsum dolor sit amet, nam cu paulo utamur voluptua, mei id phaedrum reprimique. Cum postulant consequuntur in. Id magna recteque sea, usu te aperiri scriptorem"
             style="@style/textContent"/>
 
@@ -122,8 +117,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="To author"
+            android:gravity="bottom"
             android:textColor="@color/btn_blue"
-            android:drawableLeft="@drawable/ic_del_search"
+            android:drawableLeft="@drawable/ic_reply"
             android:textSize="10sp"
             android:layout_below="@+id/tv_body_LIMR"/>
 
