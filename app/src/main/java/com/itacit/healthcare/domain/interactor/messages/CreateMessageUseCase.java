@@ -16,23 +16,13 @@ import java.util.List;
 import java.util.Map;
 
 import rx.Observable;
-import rx.Subscriber;
-
-
-
 
 /**
  * Created by Nerevar on 11/12/2015.
  */
-public class CreateMessageUseCase extends UseCase<Integer> {
+public class CreateMessageUseCase extends UseCase<Integer, CreateMessageModel, CreateMessageRequest> {
 	private final SimpleDateFormat simpleFormatter = new SimpleDateFormat("yyyy-mm-dd");
-	private CreateMessageRequest requestBody;
 
-	public void execute(Subscriber<Integer> subscriber,
-	                    CreateMessageModel messageModel) {
-		requestBody = transform(messageModel);
-		execute(subscriber);
-	}
 
 	private CreateMessageRequest transform (CreateMessageModel model) {
 		CreateMessageRequest requestBody = new CreateMessageRequest();
@@ -43,7 +33,14 @@ public class CreateMessageUseCase extends UseCase<Integer> {
 		RecipientsGroupedModel recipientsGroupedModel = model.getRecipients();
 
 		for (RecipientType type : RecipientType.values()) {
-			parseRecipients(recipients, recipientsGroupedModel, type, type.toString());
+			if (recipientsGroupedModel.getGroupedRecipients().containsKey(type)) {
+				List<RecipientModel> ids = recipientsGroupedModel.getGroupedRecipients().get(type);
+				for (RecipientModel recipient : ids) {
+					Map<String, String> rowId = new HashMap<>();
+					rowId.put(type.toString(), recipient.getId());
+					recipients.add(rowId);
+				}
+			}
 		}
 
 		for (PredefinedRecipients predefinedRecipients : PredefinedRecipients.values()) {
@@ -57,25 +54,17 @@ public class CreateMessageUseCase extends UseCase<Integer> {
 			requestBody.setReadRequiredDate(simpleFormatter.format(model.getReadRequiredDate()));
 		}
 
-
 		requestBody.setRecipients(recipients);
 		return requestBody;
 	}
 
-	private void parseRecipients(List<Map<String, String>> recipients, RecipientsGroupedModel recipientsGroupedModel,
-								 RecipientType type, String fieldName) {
-		if (recipientsGroupedModel.getGroupedRecipients().containsKey(type)) {
-			List<RecipientModel> ids = recipientsGroupedModel.getGroupedRecipients().get(type);
-			for (RecipientModel recipient : ids) {
-				Map<String, String> rowId = new HashMap<>();
-				rowId.put(fieldName, recipient.getId());
-				recipients.add(rowId);
-			}
-		}
+	@Override
+	protected Observable<Integer> buildUseCaseObservable(CreateMessageRequest obsArgs) {
+		return MessagesService.getApi().createMessage(obsArgs);
 	}
 
 	@Override
-	protected Observable<Integer> buildUseCaseObservable() {
-		return MessagesService.getApi().createMessage(requestBody);
+	protected CreateMessageRequest initArgs(CreateMessageModel args) {
+		return transform(args);
 	}
 }

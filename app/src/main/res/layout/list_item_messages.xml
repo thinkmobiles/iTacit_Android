@@ -3,7 +3,6 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:orientation="horizontal"
                 android:paddingTop="14dp">
 
@@ -64,6 +63,7 @@
             android:layout_height="wrap_content"
             style="@style/textCategory"
             tools:text="General manager/Department"
+            android:singleLine="true"
             android:layout_marginTop="8dp"
             android:layout_below="@+id/tv_sender_name_LIM"
             android:layout_alignParentStart="true"/>
@@ -96,7 +96,7 @@
             tools:text="The must be read by Oct.15,2015"
             android:gravity="center"
             android:textSize="10sp"
-            android:visibility="gone"
+            android:visibility="visible"
             android:textColor="@android:color/white"
             android:background="@color/btn_blue"
             android:layout_below="@+id/tv_body_LIM"

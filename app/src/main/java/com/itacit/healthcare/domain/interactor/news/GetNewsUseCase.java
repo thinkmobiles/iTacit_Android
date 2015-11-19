@@ -1,6 +1,7 @@
 package com.itacit.healthcare.domain.interactor.news;
 
 import com.itacit.healthcare.data.entries.News;
+import com.itacit.healthcare.data.network.request.ListRequest;
 import com.itacit.healthcare.data.network.response.ListResponse;
 import com.itacit.healthcare.data.network.services.NewsService;
 import com.itacit.healthcare.domain.interactor.GetListUseCase;
@@ -8,16 +9,13 @@ import com.itacit.healthcare.domain.models.NewsSearch;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 
 import java.text.SimpleDateFormat;
-import java.util.List;
 
 import rx.Observable;
-import rx.Subscriber;
 
 /**
  * Created by root on 21.10.15.
  */
-public class GetNewsUseCase extends GetListUseCase<News> {
-
+public class GetNewsUseCase extends GetListUseCase<News, NewsSearch> {
     public static final String AUTHORS_PREFIX = "authorId:";
     public static final String CATEGORY_PREFIX = "categoryId:";
     public static final String SEARCH_PREFIX = "search:";
@@ -25,20 +23,19 @@ public class GetNewsUseCase extends GetListUseCase<News> {
 
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    public GetNewsUseCase(int startIndex, int rowCounts) {
-        super(startIndex, rowCounts);
+    @Override
+    protected Observable<ListResponse<News>> request(ListRequest requestBody) {
+        return NewsService.getApi().getNews(requestBody);
     }
 
-    public void execute(Subscriber<List<News>> useCaseSubscriber, String query) {
-        if (query == null ){
-            super.execute(useCaseSubscriber);
-        } else {
-            query = SEARCH_PREFIX + query;
-            super.execute(useCaseSubscriber, query);
-        }
+    @Override
+    protected ListRequest initArgs(NewsSearch args) {
+        ListRequest listRequest = new ListRequest();
+        listRequest.setQuery(parseSearch(args));
+        return listRequest;
     }
 
-    public void execute(Subscriber<List<News>> useCaseSubscriber, NewsSearch search) {
+    private String parseSearch(NewsSearch search) {
         String query = "";
         if (!search.getSearch().isEmpty()) {
             query = SEARCH_PREFIX + search.getSearch();
@@ -106,12 +103,6 @@ public class GetNewsUseCase extends GetListUseCase<News> {
             query += date;
         }
 
-        super.execute(useCaseSubscriber, query);
+        return query;
     }
-
-    @Override
-    protected Observable<ListResponse<News>> request() {
-        return NewsService.getApi().getNews(requestBody);
-    }
-
 }

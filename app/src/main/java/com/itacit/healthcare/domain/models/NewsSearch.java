@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by root on 06.11.15.
  */
-public class NewsSearch {
+public class NewsSearch extends GetListParams {
     private List<Filter> filters;
     private Calendar dateFrom;
     private Calendar dateTo;

@@ -64,7 +64,9 @@ public class NewsFeedPresenter extends BasePresenter<NewsFeedView> {
 
     public void searchNews(String query) {
         actOnView(NewsFeedView::showProgress);
-        getNewsUseCase.execute(new NewsListSubscriber(), query);
+        NewsSearch newsSearch = new NewsSearch();
+        newsSearch.setSearch(query);
+        getNewsUseCase.execute(new NewsListSubscriber(), newsSearch);
     }
 
     private final class NewsListSubscriber extends Subscriber<List<News>> {

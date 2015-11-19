@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.auth.LoginUseCase;
+import com.itacit.healthcare.domain.models.AuthParams;
 import com.itacit.healthcare.presentation.base.BaseActivity;
 import com.itacit.healthcare.presentation.messages.views.activity.MessagesActivity;
 
@@ -22,7 +23,7 @@ public class AuthActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        LoginUseCase loginUseCase = new LoginUseCase("ph", "ph");
+        LoginUseCase loginUseCase = new LoginUseCase();
         loginUseCase.execute(new Subscriber<Boolean>() {
             @Override
             public void onCompleted() {
@@ -38,7 +39,7 @@ public class AuthActivity extends BaseActivity {
             public void onNext(Boolean success) {
                 startActivity(new Intent(AuthActivity.this, MessagesActivity.class));
             }
-        });
+        }, new AuthParams("ph", "ph"));
     }
 
     @Override

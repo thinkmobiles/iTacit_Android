@@ -135,7 +135,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
 
     @Override
     protected NewsSearchPresenter createPresenter() {
-        return new NewsSearchPresenter(new GetAuthorsUseCase(0, 10), new GetCategoriesUseCase(0, 10), new AuthorMapper(), new CategoryMapper());
+        return new NewsSearchPresenter(new GetAuthorsUseCase(), new GetCategoriesUseCase(), new AuthorMapper(), new CategoryMapper());
     }
 
     @Override

@@ -31,7 +31,7 @@ import rx.subscriptions.Subscriptions;
  * By convention each UseCase implementation will return the result using a {@link Subscriber}
  * that will execute its job in a background thread and will post the result in the UI thread.
  */
-public abstract class UseCase<T> {
+public abstract class UseCase<T, P, A> {
 
 
   private Subscription subscription = Subscriptions.empty();
@@ -39,22 +39,30 @@ public abstract class UseCase<T> {
   /**
    * Builds an {@link Observable} which will be used when executing the current {@link UseCase}.
    */
-  protected abstract Observable<T> buildUseCaseObservable();
+  protected abstract Observable<T> buildUseCaseObservable(A obsArgs);
+  protected abstract A initArgs(P args);
+
+  public final void execute(Subscriber<T> subscriber, P args) {
+    this.subscription = this.buildUseCaseObservable(initArgs(args))
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(subscriber);
+  }
 
   /**
    * Executes the current use case.
    *
-   * @param useCaseSubscriber The guy who will be listen to the observable build with {@link #buildUseCaseObservable()}.
+   * @param useCaseSubscriber The guy who will be listen to the observable build with {@link #buildUseCaseObservable(A obsArgs)}.
    */
   @SuppressWarnings("unchecked")
-  public void execute(Subscriber<T> useCaseSubscriber, Scheduler subscribeOn, Scheduler observeOn) {
-    this.subscription = this.buildUseCaseObservable()
+  public final void execute(Subscriber<T> useCaseSubscriber, Scheduler subscribeOn, Scheduler observeOn) {
+    this.subscription = this.buildUseCaseObservable(null)
         .subscribeOn(subscribeOn)
         .observeOn(observeOn)
         .subscribe(useCaseSubscriber);
   }
 
-  public void execute (Subscriber<T> useCaseSubscriber) {
+  public final void execute (Subscriber<T> useCaseSubscriber) {
     execute(useCaseSubscriber, Schedulers.io(), AndroidSchedulers.mainThread());
   }
 

@@ -70,7 +70,7 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsAc
 
 	@Override
 	protected NewsFeedPresenter createPresenter() {
-		return new NewsFeedPresenter(new GetNewsUseCase(0, 100), new NewsMapper());
+		return new NewsFeedPresenter(new GetNewsUseCase(), new NewsMapper());
 	}
 
 	@Override
