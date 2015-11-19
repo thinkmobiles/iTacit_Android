@@ -1,11 +1,11 @@
 package com.itacit.healthcare.domain.interactor.news;
 
 import com.itacit.healthcare.data.entries.News;
-import com.itacit.healthcare.data.network.services.NewsService;
 import com.itacit.healthcare.data.network.response.ListResponse;
+import com.itacit.healthcare.data.network.services.NewsService;
 import com.itacit.healthcare.domain.interactor.GetListUseCase;
+import com.itacit.healthcare.domain.models.NewsSearch;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
-import com.itacit.healthcare.presentation.news.models.NewsSearch;
 
 import java.text.SimpleDateFormat;
 import java.util.List;

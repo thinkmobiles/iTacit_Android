@@ -14,6 +14,7 @@ import com.itacit.healthcare.R;
 import com.itacit.healthcare.data.network.interceptors.AuthInterceptor;
 import com.itacit.healthcare.presentation.base.widgets.picasso.CircleTransformation;
 import com.itacit.healthcare.presentation.messages.models.UserModel;
+import com.itacit.healthcare.presentation.messages.presenters.NewMessagePresenter;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
@@ -28,17 +29,16 @@ import butterknife.ButterKnife;
  * Created by root on 12.11.15.
  */
 public class UsersAdapter extends BaseAdapter implements Filterable {
-
+	private final NewMessagePresenter presenter;
 	private Context context;
 	private Picasso picasso;
 	private List<UserModel> users;
-	private List<String> selectedUsersIds = new ArrayList<>();
 	private UserFilter mFilter;
-	private OnUsersItemSelectedListener usersItemSelectedListener;
 
-	public UsersAdapter(Context context, List<UserModel> users) {
+	public UsersAdapter(Context context, List<UserModel> users, NewMessagePresenter presenter) {
 		this.context = context;
 		this.users = users;
+		this.presenter = presenter;
 		OkHttpClient picassoClient = new OkHttpClient();
 		picassoClient.interceptors().add(new AuthInterceptor());
 		picasso = new Picasso.Builder(context)
@@ -61,11 +61,6 @@ public class UsersAdapter extends BaseAdapter implements Filterable {
 		return position;
 	}
 
-	public List<String> getSelectedUsersIds() {
-		return selectedUsersIds;
-	}
-
-
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View view;
@@ -87,27 +82,13 @@ public class UsersAdapter extends BaseAdapter implements Filterable {
 		viewHolder.tvName.setText(userModel.getFullName());
 		String role = userModel.getRole() + ", " + userModel.getBusinessName();
 		viewHolder.tvRole.setText(role);
-		int resFilter;
-		if (selectedUsersIds.contains(userModel.getId())) {
-			resFilter = R.drawable.ic_check_act;
-		} else {
-			resFilter = R.drawable.ic_unselect;
-		}
-		viewHolder.ivCheck.setImageResource(resFilter);
-		viewHolder.view.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				boolean isSelected = selectedUsersIds.contains(userModel.getId());
-
-				if (isSelected) {
-					selectedUsersIds.remove(userModel.getId());
-					usersItemSelectedListener.onUsersDeselected(userModel.getId());
-				} else {
-					selectedUsersIds.add(userModel.getId());
-					usersItemSelectedListener.onUsersSelected(userModel.getId());
-				}
-			}
-		});
+		viewHolder.ivCheck.setImageResource(presenter.isUserSelected(userModel.getId()) ?
+				R.drawable.ic_check_act : R.drawable.ic_unselect);
+		viewHolder.view.setOnClickListener(v -> {
+			presenter.onUserClicked(userModel);
+			viewHolder.ivCheck.setImageResource(presenter.isUserSelected(userModel.getId()) ?
+					R.drawable.ic_check_act : R.drawable.ic_unselect);
+        });
 
 		return view;
 	}
@@ -119,10 +100,6 @@ public class UsersAdapter extends BaseAdapter implements Filterable {
 			mFilter = new UserFilter();
 		}
 		return mFilter;
-	}
-
-	public void setOnUsersItemSelectedListener(OnUsersItemSelectedListener listener) {
-		this.usersItemSelectedListener = listener;
 	}
 
 	public static class ViewHolder {
@@ -137,11 +114,6 @@ public class UsersAdapter extends BaseAdapter implements Filterable {
 			ButterKnife.bind(this, itemView);
 			view = itemView;
 		}
-	}
-
-	public interface OnUsersItemSelectedListener {
-		void onUsersSelected(String userId);
-		void onUsersDeselected(String userId);
 	}
 
 	private class UserFilter extends Filter {

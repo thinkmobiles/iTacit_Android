@@ -12,7 +12,7 @@ import rx.Observable;
 /**
  * Created by root on 11.11.15.
  */
-public interface NewMessageView extends View{
+public interface NewMessageView extends View {
 
 	SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
 
@@ -24,7 +24,6 @@ public interface NewMessageView extends View{
 	void resetDate();
 	void addFilter(Filter filter);
 	void removeFilter(Filter filter);
-	void unselectUser(String id);
 	Observable<String> getUsersSearchTextObs();
 	Observable<Filter> getFilterRemovedObs();
 	MessageStorage getMessageStorage();

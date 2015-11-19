@@ -1,11 +1,11 @@
-package com.itacit.healthcare.presentation.messages.models;
+package com.itacit.healthcare.domain.models;
 
 /**
  * Created by root on 16.11.15.
  */
 public class RecipientModel {
     private String id;
-    private String title;
+    private String name;
 
     public String getId() {
         return id;
@@ -15,11 +15,11 @@ public class RecipientModel {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 }

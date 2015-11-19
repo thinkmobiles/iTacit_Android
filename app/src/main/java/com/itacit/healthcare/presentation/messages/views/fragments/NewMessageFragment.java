@@ -26,7 +26,6 @@ import com.itacit.healthcare.presentation.messages.views.activity.MessagesActivi
 import com.itacit.healthcare.presentation.messages.views.adapters.UsersAdapter;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -37,7 +36,7 @@ import rx.Observable;
  * Created by root on 11.11.15.
  */
 public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, MessagesActivity>
-        implements NewMessageView, UsersAdapter.OnUsersItemSelectedListener {
+        implements NewMessageView {
     @Bind(R.id.ib_add_FMN)          ImageButton ibAddRecipient;
     @Bind(R.id.et_recipients_FMN)   FiltersEditText etRecipientsView;
     @Bind(R.id.et_topic_FMN)        EditText etTopic;
@@ -54,8 +53,7 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
     }
 
     @Override
-    protected void setUpView() {
-    }
+    protected void setUpView() {}
 
     @Override
     protected void setUpActionBar(ActionBar actionBar) {
@@ -126,19 +124,10 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 
     @Override
     public void showUsers(List<UserModel> users) {
-        ArrayList<String> names = new ArrayList<>(users.size());
-        for (UserModel userModel : users) {
-            names.add(userModel.getFullName());
-        }
-
-        usersAdapter = new UsersAdapter(getActivity(), users);
-        for (Filter filter : etRecipientsView.getSelectedFilters()) {
-            usersAdapter.getSelectedUsersIds().add(filter.getId());
-        }
+        usersAdapter = new UsersAdapter(getActivity(), users, presenter);
         etRecipientsView.setAdapter(usersAdapter);
         etRecipientsView.showDropDown();
         usersAdapter.getFilter().filter(etRecipientsView.getInputText());
-        usersAdapter.setOnUsersItemSelectedListener(this);
     }
 
     @Override
@@ -165,12 +154,6 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
     }
 
     @Override
-    public void unselectUser(String id) {
-        usersAdapter.getSelectedUsersIds().remove(id);
-        usersAdapter.notifyDataSetChanged();
-    }
-
-    @Override
     public Observable<String> getUsersSearchTextObs() {
         return RxTextView.textChangeEvents(etRecipientsView).map(e -> etRecipientsView.getInputText());
     }
@@ -183,15 +166,5 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
     @Override
     public MessageStorage getMessageStorage() {
         return activity;
-    }
-
-    @Override
-    public void onUsersSelected(String userId) {
-        presenter.selectRecipient(userId);
-    }
-
-    @Override
-    public void onUsersDeselected(String userId) {
-        presenter.unselectRecipient(userId);
     }
 }

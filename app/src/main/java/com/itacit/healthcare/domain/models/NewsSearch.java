@@ -1,9 +1,9 @@
-package com.itacit.healthcare.presentation.news.models;
+package com.itacit.healthcare.domain.models;
 
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,7 +23,7 @@ public class NewsSearch {
     }
 
     public NewsSearch() {
-
+        filters = new ArrayList<>();
     }
 
 
