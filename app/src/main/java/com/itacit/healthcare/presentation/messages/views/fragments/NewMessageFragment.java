@@ -137,6 +137,11 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
     }
 
     @Override
+    public void showDateError() {
+        Toast.makeText(activity, R.string.message_date_require_error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     @OnClick(R.id.ib_clear_FMN)
     public void resetDate() {
         etConfirmationDate.setText("");
