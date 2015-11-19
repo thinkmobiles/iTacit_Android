@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.itacit.healthcare.R;
-import com.itacit.healthcare.presentation.messages.models.RecipientModel;
-import com.itacit.healthcare.presentation.messages.models.RecipientsModel;
+import com.itacit.healthcare.domain.models.RecipientModel;
+import com.itacit.healthcare.domain.models.RecipientsGroupedModel;
 import com.itacit.healthcare.presentation.messages.presenters.AddRecipientsPresenter;
 
 import java.util.List;
@@ -24,13 +24,13 @@ import butterknife.ButterKnife;
  */
 public class RecipientAdapter extends RecyclerView.Adapter<RecipientAdapter.RecipientViewHolder> {
     private final AddRecipientsPresenter presenter;
-    private final RecipientsModel.RecipientType recipientType;
+    private final RecipientsGroupedModel.RecipientType recipientType;
     private Context context;
     private List<? extends RecipientModel> models;
     private int layoutId;
     private RecipientClickListener recipientListener;
 
-    public RecipientAdapter(Context context, List<? extends RecipientModel> models, @LayoutRes int layoutId, AddRecipientsPresenter presenter, RecipientsModel.RecipientType type) {
+    public RecipientAdapter(Context context, List<? extends RecipientModel> models, @LayoutRes int layoutId, AddRecipientsPresenter presenter, RecipientsGroupedModel.RecipientType type) {
         this.context = context;
         this.layoutId = layoutId;
         this.models = models;
@@ -54,12 +54,12 @@ public class RecipientAdapter extends RecyclerView.Adapter<RecipientAdapter.Reci
                 return;
             }
 
-            recipientListener.onRecipientClick(model.getId(), recipientType);
-            holder.checkIv.setVisibility(presenter.isRecipientSelected(model.getId(), recipientType) ? View.VISIBLE : View.INVISIBLE);
+            recipientListener.onRecipientClick(model, recipientType);
+            holder.checkIv.setVisibility(presenter.isRecipientSelected(model, recipientType) ? View.VISIBLE : View.INVISIBLE);
         });
 
-        holder.checkIv.setVisibility(presenter.isRecipientSelected(model.getId(), recipientType) ? View.VISIBLE : View.INVISIBLE);
-        holder.titleTv.setText(model.getTitle());
+        holder.checkIv.setVisibility(presenter.isRecipientSelected(model, recipientType) ? View.VISIBLE : View.INVISIBLE);
+        holder.titleTv.setText(model.getName());
     }
 
     @Override
@@ -84,6 +84,6 @@ public class RecipientAdapter extends RecyclerView.Adapter<RecipientAdapter.Reci
     }
 
     public interface RecipientClickListener {
-        void onRecipientClick(String id, RecipientsModel.RecipientType recipientType);
+        void onRecipientClick(RecipientModel recipient, RecipientsGroupedModel.RecipientType recipientType);
     }
 }

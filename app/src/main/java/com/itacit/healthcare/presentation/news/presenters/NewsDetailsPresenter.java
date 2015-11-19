@@ -1,5 +1,7 @@
 package com.itacit.healthcare.presentation.news.presenters;
 
+import android.support.annotation.NonNull;
+
 import com.itacit.healthcare.data.entries.News;
 import com.itacit.healthcare.domain.interactor.news.GetNewsDetailsUseCase;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
@@ -19,6 +21,11 @@ public class NewsDetailsPresenter extends BasePresenter<NewsDetailsView> {
     public NewsDetailsPresenter(GetNewsDetailsUseCase newsDetailsUseCase, NewsDetailsMapper dataMapper) {
         this.newsDetailsUseCase = newsDetailsUseCase;
         this.dataMapper = dataMapper;
+    }
+
+    @Override
+    protected void onAttachedView(@NonNull NewsDetailsView view) {
+        loadNewsDetails();
     }
 
     private void showDetailsOnView(News newsDetails) {

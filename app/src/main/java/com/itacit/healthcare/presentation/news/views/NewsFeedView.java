@@ -1,9 +1,9 @@
 package com.itacit.healthcare.presentation.news.views;
 
+import com.itacit.healthcare.domain.models.NewsSearch;
 import com.itacit.healthcare.presentation.base.views.View;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
-import com.itacit.healthcare.presentation.news.models.NewsSearch;
 
 import java.util.List;
 
