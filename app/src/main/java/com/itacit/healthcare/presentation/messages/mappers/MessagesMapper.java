@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -34,7 +35,8 @@ public class MessagesMapper extends ModelMapper<MessagesModel, Message> {
             messagesModel.setBody(dataEntry.getBody() != null ? dataEntry.getBody() : "");
             messagesModel.setReadRequiredYn(dataEntry.getReadRequiredYn().equals("Y") ? true : false);
             messagesModel.setLastTimeResponse(dataEntry.getSendDateTime() != null ? getLastTimeResponse(dataEntry.getSendDateTime()) : "");
-            messagesModel.setReadRequiredDate(dataEntry.getReadRequiredDate() != null ? convertData(dataEntry.getReadRequiredDate()) : "");
+            messagesModel.setReadRequiredDate(dataEntry.getReadRequiredDate() != null ?
+                    convertData(dataEntry.getReadRequiredDate(), "yyyy-MM-dd'T'HH:mm:ss", "MMM.dd,yyyy", Locale.CANADA) : "");
 
             return messagesModel;
         } catch (NumberFormatException e) {
@@ -42,18 +44,7 @@ public class MessagesMapper extends ModelMapper<MessagesModel, Message> {
         }        return null;
 
     }
-    private String convertData(String inputData){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        SimpleDateFormat output = new SimpleDateFormat("MMM.dd,yyyy", Locale.CANADA);
-        Date data = null;
-        try {
-            data = sdf.parse(inputData);
-            return output.format(data);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+
     private String getLastTimeResponse(String inputTime){
         Calendar saveData = Calendar.getInstance();
         Calendar currentData = Calendar.getInstance();
