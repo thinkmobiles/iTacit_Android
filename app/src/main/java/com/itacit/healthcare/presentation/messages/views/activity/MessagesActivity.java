@@ -6,7 +6,7 @@ import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.models.CreateMessageModel;
 import com.itacit.healthcare.presentation.base.BaseActivity;
 import com.itacit.healthcare.presentation.messages.views.MessageStorage;
-import com.itacit.healthcare.presentation.messages.views.fragments.AddRecipientsFragment;
+import com.itacit.healthcare.presentation.messages.views.fragments.MessagesFeedFragment;
 
 import java.util.Stack;
 
@@ -24,8 +24,7 @@ public class MessagesActivity extends BaseActivity implements MessageStorage {
         messageStorage.push(new CreateMessageModel());
 
         super.onCreate(savedInstanceState);
-        switchContent(AddRecipientsFragment.class, false);
-//		switchContent(MessagesFeedFragment.class, false);
+		switchContent(MessagesFeedFragment.class, false);
     }
 
     @Override
