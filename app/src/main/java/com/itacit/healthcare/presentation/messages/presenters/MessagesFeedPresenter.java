@@ -1,7 +1,5 @@
 package com.itacit.healthcare.presentation.messages.presenters;
 
-import android.support.annotation.NonNull;
-
 import com.itacit.healthcare.data.entries.Message;
 import com.itacit.healthcare.domain.interactor.messages.GetMessagesUseCase;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
@@ -26,11 +24,6 @@ public class MessagesFeedPresenter extends BasePresenter<MessagesFeedView> {
     public MessagesFeedPresenter(GetMessagesUseCase messagesUseCase, MessagesMapper messagesMapper) {
         getMessagesUseCase = messagesUseCase;
         dataMapper = messagesMapper;
-    }
-
-    @Override
-    protected void onAttachedView(@NonNull MessagesFeedView view) {
-        getMessagesUseCase.execute(new MessagesListSubscriber());
     }
 
     private void showMessagesOnView(List<Message> messages) {

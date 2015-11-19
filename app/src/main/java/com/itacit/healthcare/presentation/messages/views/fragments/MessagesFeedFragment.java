@@ -53,6 +53,8 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         messagesRecyclerView.setLayoutManager(layoutManager);
+
+        presenter.getMessages((MessagesFilter) tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).getTag());
     }
 
     @Override
