@@ -1,7 +1,6 @@
 package com.itacit.healthcare.presentation.messages.mappers;
 
 import android.net.Uri;
-import android.util.Log;
 
 import com.itacit.healthcare.data.entries.Reply;
 import com.itacit.healthcare.presentation.base.mappers.ModelMapper;
@@ -32,6 +31,7 @@ public class ListRepliesMapper extends ModelMapper<RepliesModel, Reply> {
                 repliesModel.setSenderImageUri(Uri.parse(dataEntry.getSenderImageUrl() != null ? dataEntry.getSenderImageUrl() : ""));
                 repliesModel.setSenderNameFull(dataEntry.getSenderNameFull() != null ? dataEntry.getSenderNameFull() : "");
                 repliesModel.setSenderRoleName(dataEntry.getSenderRoleName() != null ? dataEntry.getSenderRoleName() : "");
+//                repliesModel.setResponseCount(dataEntry.getResponseCount() != null ? dataEntry.getResponseCount() : 0);
             } else {
                 repliesModel.setSenderImageUri(Uri.parse(dataEntry.getSender().getImageUrl() != null ? dataEntry.getSender().getImageUrl() : ""));
                 repliesModel.setSenderNameFull(dataEntry.getSender().getNameFull() != null ? dataEntry.getSender().getNameFull() : "");

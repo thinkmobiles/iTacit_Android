@@ -2,6 +2,10 @@ package com.itacit.healthcare.presentation.messages.models;
 
 import android.net.Uri;
 
+import com.itacit.healthcare.data.entries.Recipient;
+
+import java.util.List;
+
 /**
  * Created by Den on 13.11.15.
  */
@@ -17,6 +21,8 @@ public class MessagesModel {
     private String body;
     private boolean readRequiredYn;
     private String readRequiredDate;
+    private Integer responseCount;
+    private List<Recipient> recipientsList;
 
     public String getId() {
         return id;
@@ -82,10 +88,6 @@ public class MessagesModel {
         body = _body;
     }
 
-    public boolean getReadRequiredYn() {
-        return readRequiredYn;
-    }
-
     public void setReadRequiredYn(boolean _readRequiredYn) {
         readRequiredYn = _readRequiredYn;
     }
@@ -96,5 +98,25 @@ public class MessagesModel {
 
     public void setReadRequiredDate(String _readRequiredDate) {
         readRequiredDate = _readRequiredDate;
+    }
+
+    public boolean isReadRequiredYn() {
+        return readRequiredYn;
+    }
+
+    public Integer getResponseCount() {
+        return responseCount;
+    }
+
+    public void setResponseCount(Integer _responseCount) {
+        responseCount = _responseCount;
+    }
+
+    public List<Recipient> getRecipientsList() {
+        return recipientsList;
+    }
+
+    public void setRecipientsList(List<Recipient> _recipientsList) {
+        recipientsList = _recipientsList;
     }
 }

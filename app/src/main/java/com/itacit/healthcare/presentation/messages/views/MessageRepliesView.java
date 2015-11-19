@@ -1,6 +1,7 @@
 package com.itacit.healthcare.presentation.messages.views;
 
 import com.itacit.healthcare.presentation.base.views.View;
+import com.itacit.healthcare.presentation.messages.models.MessagesModel;
 import com.itacit.healthcare.presentation.messages.models.RepliesModel;
 
 import java.util.List;
@@ -10,4 +11,5 @@ import java.util.List;
  */
 public interface MessageRepliesView extends View {
     void showListReplies(List<RepliesModel> replies);
+    void showHeaderReplies(MessagesModel messagesModel);
 }

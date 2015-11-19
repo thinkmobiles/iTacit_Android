@@ -19,7 +19,7 @@ public class RepliesModel {
     private boolean replyMethodSMSYn;
     private String id;
     private String senderImageAssetId;
-    private int responseCount;
+    private Integer responseCount;
 
     public String getSendDateTime() {
         return sendDateTime;
@@ -125,11 +125,11 @@ public class RepliesModel {
         replyMethodSMSYn = _replyMethodSMSYn;
     }
 
-    public int getResponseCount() {
+    public Integer getResponseCount() {
         return responseCount;
     }
 
-    public void setResponseCount(int _responseCount) {
+    public void setResponseCount(Integer _responseCount) {
         responseCount = _responseCount;
     }
 }

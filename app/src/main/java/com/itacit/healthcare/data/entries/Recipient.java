@@ -7,7 +7,7 @@ package com.itacit.healthcare.data.entries;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class RecipientOfRepliers {
+public class Recipient {
 
     @SerializedName("nameFull")
     @Expose

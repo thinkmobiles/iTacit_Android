@@ -3,10 +3,9 @@ package com.itacit.healthcare.data.entries;
 /**
  * Created by Den on 16.11.15.
  */
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
 
 public class Reply {
     //Default fields
@@ -52,11 +51,7 @@ public class Reply {
     //Additional fields
     @SerializedName("responseRows")
     @Expose
-    private List<RecipientOfRepliers> mRecipients;
-    @SerializedName("responseCount")
-    @Expose
-    private Integer responseCount;
-
+    private GroupRecipients groupRecipients;
     @SerializedName("sender")
     @Expose
     private Sender sender;
@@ -293,20 +288,12 @@ public class Reply {
         this.senderImageAssetId = senderImageAssetId;
     }
 
-    public List<RecipientOfRepliers> getRecipients() {
-        return mRecipients;
+    public GroupRecipients getGroupRecipients() {
+        return groupRecipients;
     }
 
-    public void setRecipients(List<RecipientOfRepliers> _recipients) {
-        mRecipients = _recipients;
-    }
-
-    public Integer getResponseCount() {
-        return responseCount;
-    }
-
-    public void setResponseCount(Integer _responseCount) {
-        responseCount = _responseCount;
+    public void setGroupRecipients(GroupRecipients _groupRecipients) {
+        groupRecipients = _groupRecipients;
     }
 
     public Sender getSender() {

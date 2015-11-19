@@ -3,8 +3,6 @@ package com.itacit.healthcare.data.entries;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 /**
  * Created by root on 12.11.15.
  */
@@ -58,10 +56,10 @@ public class Message {
     //Additional Fields
     @SerializedName("sender")
     @Expose
-    private User sender;
+    private Sender sender;
     @SerializedName("recipients")
     @Expose
-    private List<User> recipients;
+    private GroupRecipients groupRecipients;
 
     public String getId() {
         return id;
@@ -181,5 +179,21 @@ public class Message {
 
     public void setResultSetRowId(Integer resultSetRowId) {
         this.resultSetRowId = resultSetRowId;
+    }
+
+    public Sender getSender() {
+        return sender;
+    }
+
+    public void setSender(Sender _sender) {
+        sender = _sender;
+    }
+
+    public GroupRecipients getGroupRecipients() {
+        return groupRecipients;
+    }
+
+    public void setGroupRecipients(GroupRecipients _groupRecipients) {
+        groupRecipients = _groupRecipients;
     }
 }

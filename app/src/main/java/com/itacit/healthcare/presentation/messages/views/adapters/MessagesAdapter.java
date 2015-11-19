@@ -3,7 +3,6 @@ package com.itacit.healthcare.presentation.messages.views.adapters;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,15 +14,10 @@ import com.itacit.healthcare.data.network.interceptors.AuthInterceptor;
 import com.itacit.healthcare.presentation.base.widgets.picasso.CircleTransformation;
 import com.itacit.healthcare.presentation.messages.models.MessagesModel;
 import com.squareup.okhttp.OkHttpClient;
-import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -85,7 +79,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
             holder.numberOfResponseTv.setVisibility(View.INVISIBLE);
         }
 
-        if(messagesModel.getReadRequiredYn()){
+        if(messagesModel.isReadRequiredYn()){
             holder.readRequiredDateTv.setVisibility(View.VISIBLE);
             holder.readRequiredDateTv.setText("The must be read by " + messagesModel.getReadRequiredDate());
         }else {

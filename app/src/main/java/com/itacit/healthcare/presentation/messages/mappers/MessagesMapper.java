@@ -1,7 +1,6 @@
 package com.itacit.healthcare.presentation.messages.mappers;
 
 import android.net.Uri;
-import android.util.Log;
 
 import com.itacit.healthcare.data.entries.Message;
 import com.itacit.healthcare.presentation.base.mappers.ModelMapper;
@@ -12,7 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -37,6 +35,11 @@ public class MessagesMapper extends ModelMapper<MessagesModel, Message> {
             messagesModel.setLastTimeResponse(dataEntry.getSendDateTime() != null ? getLastTimeResponse(dataEntry.getSendDateTime()) : "");
             messagesModel.setReadRequiredDate(dataEntry.getReadRequiredDate() != null ?
                     convertData(dataEntry.getReadRequiredDate(), "yyyy-MM-dd'T'HH:mm:ss", "MMM.dd,yyyy", Locale.CANADA) : "");
+
+            if (dataEntry.getSender() != null){
+                messagesModel.setRecipientsList(dataEntry.getGroupRecipients().getRecipients() != null ? dataEntry.getGroupRecipients().getRecipients() : null);
+                messagesModel.setResponseCount(dataEntry.getGroupRecipients().getResponseCount() != null ? dataEntry.getGroupRecipients().getResponseCount() : 0);
+            }
 
             return messagesModel;
         } catch (NumberFormatException e) {

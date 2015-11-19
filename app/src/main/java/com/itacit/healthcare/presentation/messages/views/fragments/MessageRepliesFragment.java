@@ -6,9 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import com.itacit.healthcare.R;
+import com.itacit.healthcare.domain.interactor.messages.GetHeaderUseCase;
 import com.itacit.healthcare.domain.interactor.messages.GetListRepliesUseCase;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.messages.mappers.ListRepliesMapper;
+import com.itacit.healthcare.presentation.messages.mappers.MessagesMapper;
+import com.itacit.healthcare.presentation.messages.models.MessagesModel;
 import com.itacit.healthcare.presentation.messages.models.RepliesModel;
 import com.itacit.healthcare.presentation.messages.presenters.MessageRepliesPresenter;
 import com.itacit.healthcare.presentation.messages.views.MessageRepliesView;
@@ -69,12 +72,20 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
     protected MessageRepliesPresenter createPresenter() {
         String messageId = getArguments().getString(Message_ID);
         return new MessageRepliesPresenter(new ListRepliesMapper(),
-                new GetListRepliesUseCase(0,100),messageId);
+                new GetListRepliesUseCase(0,100),
+                new MessagesMapper(),
+                new GetHeaderUseCase(messageId),
+                messageId);
     }
 
     @Override
     public void showListReplies(List<RepliesModel> replies) {
         repliesAdapter = new RepliesAdapter(getActivity(),replies);
         repliesRecyclerView.setAdapter(repliesAdapter);
+    }
+
+    @Override
+    public void showHeaderReplies(MessagesModel messagesModel) {
+
     }
 }

@@ -17,12 +17,9 @@ public class GetMessagesUseCase extends GetListUseCase<Message> {
 
     public static final String FILTER_GROUP = "filterGroup:";
     public static final String SORT_FIELD_MESSAGES = "sendDateTime";
-    public static final String SENDER_MESSAGE = "sender";
-    public static final String RECIPIENTS_MESSAGE = "recipients";
 
     public GetMessagesUseCase(int startIndex, int rowCounts) {
         super(startIndex, rowCounts);
-//        setRequestFields(DEFAULT_FIELDS, SENDER_MESSAGE, RECIPIENTS_MESSAGE);
         setSortField(SORT_FIELD_MESSAGES);
     }
 

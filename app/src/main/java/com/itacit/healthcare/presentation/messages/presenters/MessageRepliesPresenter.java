@@ -1,15 +1,17 @@
 package com.itacit.healthcare.presentation.messages.presenters;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
+import com.itacit.healthcare.data.entries.Message;
 import com.itacit.healthcare.data.entries.Reply;
+import com.itacit.healthcare.domain.interactor.messages.GetHeaderUseCase;
 import com.itacit.healthcare.domain.interactor.messages.GetListRepliesUseCase;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
 import com.itacit.healthcare.presentation.messages.mappers.ListRepliesMapper;
+import com.itacit.healthcare.presentation.messages.mappers.MessagesMapper;
+import com.itacit.healthcare.presentation.messages.models.MessagesModel;
 import com.itacit.healthcare.presentation.messages.models.RepliesModel;
 import com.itacit.healthcare.presentation.messages.views.MessageRepliesView;
-import com.itacit.healthcare.presentation.messages.views.fragments.MessageRepliesFragment;
 
 import java.util.List;
 
@@ -20,28 +22,39 @@ import rx.Subscriber;
  */
 public class MessageRepliesPresenter extends BasePresenter<MessageRepliesView> {
     public List<RepliesModel> repliesModels;
+    public MessagesModel messagesModel;
 
     private GetListRepliesUseCase getListRepliesUseCase;
-    private ListRepliesMapper dataMapper;
-    private MessageRepliesFragment messageRepliesFragment;
+    private GetHeaderUseCase getHeaderUseCase;
+
+    private ListRepliesMapper repliesMapper;
+    private MessagesMapper messagesMapper;
+
     private String messageId;
 
     public MessageRepliesPresenter(ListRepliesMapper listRepliesMapper,
                                    GetListRepliesUseCase getListRepliesUseCase,
+                                   MessagesMapper messagesMapper,
+                                   GetHeaderUseCase getHeaderUseCase,
                                    String messageId) {
-        this.dataMapper = listRepliesMapper;
+        this.repliesMapper = listRepliesMapper;
         this.getListRepliesUseCase = getListRepliesUseCase;
+        this.messagesMapper = messagesMapper;
+        this.getHeaderUseCase = getHeaderUseCase;
         this.messageId = messageId;
     }
 
     @Override
     protected void onAttachedView(@NonNull MessageRepliesView view) {
-            getListRepliesUseCase.execute(new RepliesListSubscriber(), messageId);
+        getListRepliesUseCase.execute(new RepliesListSubscriber(), messageId);
+        getHeaderUseCase.execute(new HeaderRepliesSubscriber());
     }
 
     private void showRepliesOnView() {
         actOnView(v -> v.showListReplies(repliesModels));
     }
+
+    private void showHeaderRepliesOnView(){actOnView(v -> v.showHeaderReplies(messagesModel));}
 
     private final class RepliesListSubscriber extends Subscriber<List<Reply>> {
         @Override
@@ -55,7 +68,24 @@ public class MessageRepliesPresenter extends BasePresenter<MessageRepliesView> {
 
         @Override
         public void onNext(List<Reply> replies) {
-            repliesModels = dataMapper.transform(replies);
+            repliesModels = repliesMapper.transform(replies);
         }
     }
+
+    private final class HeaderRepliesSubscriber extends Subscriber<Message> {
+        @Override
+        public void onCompleted() {
+            showHeaderRepliesOnView();
+        }
+
+        @Override
+        public void onError(Throwable e) {
+        }
+
+        @Override
+        public void onNext(Message message) {
+            messagesModel = messagesMapper.transform(message);
+        }
+    }
+
 }
