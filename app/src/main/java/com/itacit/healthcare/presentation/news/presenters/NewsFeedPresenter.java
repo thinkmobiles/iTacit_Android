@@ -4,10 +4,10 @@ import android.support.annotation.NonNull;
 
 import com.itacit.healthcare.data.entries.News;
 import com.itacit.healthcare.domain.interactor.news.GetNewsUseCase;
+import com.itacit.healthcare.domain.models.NewsSearch;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
 import com.itacit.healthcare.presentation.news.mappers.NewsMapper;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
-import com.itacit.healthcare.presentation.news.models.NewsSearch;
 import com.itacit.healthcare.presentation.news.views.NewsFeedView;
 
 import java.util.List;
@@ -31,10 +31,10 @@ public class NewsFeedPresenter extends BasePresenter<NewsFeedView> {
     }
 
     public void clearNewsSearch() {
-        if (getView() != null) {
-            getView().hideFilters();
-            getView().getNewsSearch().onNext(new NewsSearch());
-        }
+        actOnView(view -> {
+            view.hideFilters();
+            view.getNewsSearch().onNext(new NewsSearch());
+        });
     }
 
     @Override

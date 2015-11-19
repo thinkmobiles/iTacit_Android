@@ -3,8 +3,8 @@ package com.itacit.healthcare.presentation.messages.views.activity;
 import android.os.Bundle;
 
 import com.itacit.healthcare.R;
+import com.itacit.healthcare.domain.models.CreateMessageModel;
 import com.itacit.healthcare.presentation.base.BaseActivity;
-import com.itacit.healthcare.presentation.messages.models.CreateMessageModel;
 import com.itacit.healthcare.presentation.messages.views.MessageStorage;
 import com.itacit.healthcare.presentation.messages.views.fragments.AddRecipientsFragment;
 

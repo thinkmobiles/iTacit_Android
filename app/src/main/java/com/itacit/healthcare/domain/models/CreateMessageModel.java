@@ -1,4 +1,4 @@
-package com.itacit.healthcare.presentation.messages.models;
+package com.itacit.healthcare.domain.models;
 
 import java.util.Date;
 
@@ -6,17 +6,17 @@ import java.util.Date;
  * Created by root on 17.11.15.
  */
 public class CreateMessageModel {
-    private RecipientsModel recipients = new RecipientsModel();
+    private RecipientsGroupedModel recipients = new RecipientsGroupedModel();
     private String subject;
     private String body;
-    private Boolean readRequired;
+    private Boolean readRequired = false;
     private Date readRequiredDate;
 
-    public RecipientsModel getRecipients() {
+    public RecipientsGroupedModel getRecipients() {
         return recipients;
     }
 
-    public void setRecipients(RecipientsModel recipients) {
+    public void setRecipients(RecipientsGroupedModel recipients) {
         this.recipients = recipients;
     }
 

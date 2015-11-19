@@ -10,17 +10,13 @@ import com.itacit.healthcare.domain.interactor.groups.GetBusinessUseCase;
 import com.itacit.healthcare.domain.interactor.groups.GetGroupsUseCase;
 import com.itacit.healthcare.domain.interactor.groups.GetJobsUseCase;
 import com.itacit.healthcare.domain.interactor.groups.GetRolesUseCase;
+import com.itacit.healthcare.domain.models.CreateMessageModel;
+import com.itacit.healthcare.domain.models.RecipientModel;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
 import com.itacit.healthcare.presentation.messages.mappers.BusinessMapper;
 import com.itacit.healthcare.presentation.messages.mappers.GroupMapper;
 import com.itacit.healthcare.presentation.messages.mappers.JobMapper;
 import com.itacit.healthcare.presentation.messages.mappers.RoleMapper;
-import com.itacit.healthcare.presentation.messages.models.BusinessModel;
-import com.itacit.healthcare.presentation.messages.models.CreateMessageModel;
-import com.itacit.healthcare.presentation.messages.models.GroupModel;
-import com.itacit.healthcare.presentation.messages.models.JobModel;
-import com.itacit.healthcare.presentation.messages.models.RecipientsModel;
-import com.itacit.healthcare.presentation.messages.models.RoleModel;
 import com.itacit.healthcare.presentation.messages.views.AddRecipientsView;
 import com.itacit.healthcare.presentation.messages.views.MessageStorage;
 import com.itacit.healthcare.presentation.news.presenters.NewsFeedPresenter;
@@ -30,8 +26,8 @@ import java.util.concurrent.TimeUnit;
 
 import rx.Subscriber;
 
-import static com.itacit.healthcare.presentation.messages.models.RecipientsModel.PredefinedRecipients;
-import static com.itacit.healthcare.presentation.messages.models.RecipientsModel.RecipientType;
+import static com.itacit.healthcare.domain.models.RecipientsGroupedModel.PredefinedRecipients;
+import static com.itacit.healthcare.domain.models.RecipientsGroupedModel.RecipientType;
 
 /**
  * Created by root on 16.11.15.
@@ -47,12 +43,6 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
     private BusinessMapper businessMapper;
     private JobMapper jobMapper;
     private RoleMapper roleMapper;
-
-
-    private List<BusinessModel> businessModels;
-    private List<GroupModel> groupModels;
-    private List<JobModel> jobModels;
-    private List<RoleModel> roleModels;
 
     private MessageStorage messageStorage;
     private CreateMessageModel createMessageModel;
@@ -87,9 +77,8 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
         return createMessageModel.getRecipients().getPredefined().contains(predefined);
     }
 
-
-    public boolean isRecipientSelected(String id, RecipientType type) {
-        return createMessageModel.getRecipients().containsRecipient(id, type);
+    public boolean isRecipientSelected(RecipientModel recipient, RecipientType type) {
+        return createMessageModel.getRecipients().containsRecipient(recipient.getId(), type);
     }
 
     public void selectRecipients() {
@@ -104,11 +93,15 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
         }
     }
 
-    public void onRecipientClick(String id, RecipientType type) {
-        if (isRecipientSelected(id, type)) {
-            createMessageModel.getRecipients().removeRecipient(id, type);
+    private void showRecipientsOnView(List<RecipientModel> recipients, RecipientType type) {
+        actOnView(view -> view.showRecipients(recipients, type));
+    }
+
+    public void onRecipientClick(RecipientModel recipient, RecipientType type) {
+        if (isRecipientSelected(recipient, type)) {
+            createMessageModel.getRecipients().removeRecipient(recipient, type);
         } else {
-            createMessageModel.getRecipients().addRecipient(id, type);
+            createMessageModel.getRecipients().addRecipient(recipient, type);
         }
 
         actOnView(view -> view.showSelectedRecipientsCount(createMessageModel.getRecipients().getRecipientsCount()));
@@ -125,7 +118,7 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
 
         @Override
         public void onCompleted() {
-            actOnView(view -> view.showBusiness(businessModels));
+
         }
 
         @Override
@@ -134,7 +127,7 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
 
         @Override
         public void onNext(List<Business> businesses) {
-            businessModels = businessMapper.transform(businesses);
+            showRecipientsOnView(businessMapper.transform(businesses), RecipientType.Business);
         }
     }
 
@@ -142,7 +135,6 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
 
         @Override
         public void onCompleted() {
-            actOnView(view -> view.showGroups(groupModels));
         }
 
         @Override
@@ -151,7 +143,7 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
 
         @Override
         public void onNext(List<Group> groups) {
-            groupModels = groupMapper.transform(groups);
+            showRecipientsOnView(groupMapper.transform(groups), RecipientType.Group);
         }
     }
 
@@ -159,7 +151,6 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
 
         @Override
         public void onCompleted() {
-            actOnView(view -> view.showJobs(jobModels));
         }
 
         @Override
@@ -168,16 +159,14 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
 
         @Override
         public void onNext(List<JobClassification> jobClassifications) {
-            jobModels = jobMapper.transform(jobClassifications);
+            showRecipientsOnView(jobMapper.transform(jobClassifications), RecipientType.Job);
         }
     }
 
 	private final class GetRoleSubscriber extends Subscriber<List<Role>> {
 
 		@Override
-		public void onCompleted() {
-			actOnView(view -> view.showRoles(roleModels));
-		}
+		public void onCompleted() {}
 
 		@Override
 		public void onError(Throwable e) {
@@ -185,7 +174,7 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
 
 		@Override
 		public void onNext(List<Role> roles) {
-			roleModels = roleMapper.transform(roles);
+            showRecipientsOnView(roleMapper.transform(roles), RecipientType.Role);
 		}
 	}
 }

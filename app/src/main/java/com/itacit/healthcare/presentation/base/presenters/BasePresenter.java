@@ -51,6 +51,6 @@ public abstract class BasePresenter<V extends View> implements Presenter<V> {
     protected void onDetachView() {}
 
     public interface ActionOnView<V> {
-        void act(V view);
+        void act(@NonNull V view);
     }
 }
