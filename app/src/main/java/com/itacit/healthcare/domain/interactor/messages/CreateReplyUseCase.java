@@ -12,15 +12,7 @@ import rx.Subscriber;
 /**
  * Created by root on 19.11.15.
  */
-public class CreateReplyUseCase extends UseCase<Reply> {
-
-	private CreateReplyRequest requestBody;
-
-	public void execute(Subscriber<Reply> subscriber,
-	                    CreateReplyModel replyModel) {
-		requestBody = transform(replyModel);
-		execute(subscriber);
-	}
+public class CreateReplyUseCase extends UseCase<Reply, CreateReplyModel, CreateReplyRequest> {
 
 	private CreateReplyRequest transform (CreateReplyModel model) {
 		CreateReplyRequest requestBody = new CreateReplyRequest();
@@ -32,7 +24,12 @@ public class CreateReplyUseCase extends UseCase<Reply> {
 	}
 
 	@Override
-	protected Observable<Reply> buildUseCaseObservable() {
-		return MessagesService.getApi().createReply(requestBody);
+	protected Observable<Reply> buildUseCaseObservable(CreateReplyRequest obsArgs) {
+		return MessagesService.getApi().createReply(obsArgs);
+	}
+
+	@Override
+	protected CreateReplyRequest initArgs(CreateReplyModel args) {
+		return transform(args);
 	}
 }
