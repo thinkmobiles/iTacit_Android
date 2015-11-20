@@ -26,19 +26,26 @@ public class MessagesMapper extends ModelMapper<MessagesModel, Message> {
             }
             messagesModel.setId(dataEntry.getId());
             messagesModel.setHeadlineUri(Uri.parse(dataEntry.getSenderImageUrl() != null ? dataEntry.getSenderImageUrl() : ""));
-            messagesModel.setSenderName(dataEntry.getSenderNameFull() != null ? dataEntry.getSenderNameFull() : "");
-            messagesModel.setNumberOfResponse(dataEntry.getReplyCountNew() != null ? dataEntry.getReplyCountNew() : 0);
             messagesModel.setSenderRoleName(dataEntry.getSenderRoleName() != null ? dataEntry.getSenderRoleName() : "");
+            messagesModel.setNumberOfResponse(dataEntry.getReplyCountNew() != null ? dataEntry.getReplyCountNew() : 0);
             messagesModel.setSubject(dataEntry.getSubject() != null ? dataEntry.getSubject() : "");
             messagesModel.setBody(dataEntry.getBody() != null ? dataEntry.getBody() : "");
             messagesModel.setReadRequiredYn(dataEntry.getReadRequiredYn().equals("Y") ? true : false);
-            messagesModel.setLastTimeResponse(dataEntry.getSendDateTime() != null ? getLastTimeResponse(dataEntry.getSendDateTime()) : "");
-            messagesModel.setReadRequiredDate(dataEntry.getReadRequiredDate() != null ?
-                    convertData(dataEntry.getReadRequiredDate(), "yyyy-MM-dd'T'HH:mm:ss", "MMM.dd,yyyy", Locale.CANADA) : "");
+            messagesModel.setTimeSendMessage(dataEntry.getSendDateTime() != null ? getLastTimeResponse(dataEntry.getSendDateTime()) : "");
 
             if (dataEntry.getSender() != null){
                 messagesModel.setRecipientsList(dataEntry.getGroupRecipients().getRecipients() != null ? dataEntry.getGroupRecipients().getRecipients() : null);
                 messagesModel.setResponseCount(dataEntry.getGroupRecipients().getResponseCount() != null ? dataEntry.getGroupRecipients().getResponseCount() : 0);
+                messagesModel.setFirstName(dataEntry.getSender().getNameFirst() != null ? dataEntry.getSender().getNameFirst() : "");
+                messagesModel.setLastName(dataEntry.getSender().getNameLast() != null ? dataEntry.getSender().getNameLast() : "");
+                messagesModel.setReadRequiredDate(dataEntry.getReadRequiredDate() != null ?
+                        convertData(dataEntry.getReadRequiredDate(), "yyyy-MM-dd'T'HH:mm:ss", "MMM.dd", Locale.CANADA) : "");
+
+            } else{
+                messagesModel.setSenderName(dataEntry.getSenderNameFull() != null ? dataEntry.getSenderNameFull() : "");
+                messagesModel.setReadRequiredDate(dataEntry.getReadRequiredDate() != null ?
+                        convertData(dataEntry.getReadRequiredDate(), "yyyy-MM-dd'T'HH:mm:ss", "MMM.dd,yyyy", Locale.CANADA) : "");
+
             }
 
             return messagesModel;

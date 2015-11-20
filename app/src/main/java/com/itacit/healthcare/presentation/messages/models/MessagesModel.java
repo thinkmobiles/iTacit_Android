@@ -14,7 +14,7 @@ public class MessagesModel {
     private String id;
     private Uri headlineUri;
     private String senderName;
-    private String lastTimeResponse;
+    private String timeSendMessage;
     private Integer numberOfResponse;
     private String senderRoleName;
     private String subject;
@@ -23,6 +23,8 @@ public class MessagesModel {
     private String readRequiredDate;
     private Integer responseCount;
     private List<Recipient> recipientsList;
+    private String firstName;
+    private String lastName;
 
     public String getId() {
         return id;
@@ -48,12 +50,12 @@ public class MessagesModel {
         senderName = _senderName;
     }
 
-    public String getLastTimeResponse() {
-        return lastTimeResponse;
+    public String getTimeSendMessage() {
+        return timeSendMessage;
     }
 
-    public void setLastTimeResponse(String _lastTimeResponse) {
-        lastTimeResponse = _lastTimeResponse;
+    public void setTimeSendMessage(String _timeSendMessage) {
+        timeSendMessage = _timeSendMessage;
     }
 
     public Integer getNumberOfResponse() {
@@ -119,4 +121,21 @@ public class MessagesModel {
     public void setRecipientsList(List<Recipient> _recipientsList) {
         recipientsList = _recipientsList;
     }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String _firstName) {
+        firstName = _firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String _lastName) {
+        lastName = _lastName;
+    }
+
 }

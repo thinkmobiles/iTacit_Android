@@ -10,6 +10,6 @@ import java.util.List;
  * Created by Den on 17.11.15.
  */
 public interface MessageRepliesView extends View {
-    void showListReplies(List<RepliesModel> replies);
     void showHeaderReplies(MessagesModel messagesModel);
+    void showListReplies(List<RepliesModel> replies);
 }

@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.itacit.healthcare.R;
@@ -66,6 +65,7 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
         activity.setActionBarShadowVisible(false);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(R.string.title_messages_feed);
+        actionBar.setSubtitle("");
     }
 
     @Override
@@ -121,7 +121,7 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
     }
 
     public void showMessagesItemDetails(String messageId) {
-        Bundle args = new Bundle(1);
+        Bundle args = new Bundle(2);
         args.putString(MessageRepliesFragment.Message_ID, messageId);
         activity.switchContent(MessageRepliesFragment.class, true, args);
     }

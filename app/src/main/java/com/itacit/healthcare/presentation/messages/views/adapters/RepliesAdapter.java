@@ -1,10 +1,8 @@
 package com.itacit.healthcare.presentation.messages.views.adapters;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +63,27 @@ public class RepliesAdapter extends RecyclerView.Adapter<RepliesAdapter.ViewHold
         holder.bodyTv.setText(Html.fromHtml(repliesModel.getBody()));
 
         holder.lastTimeResponseTv.setText(repliesModel.getSendDateTime());
+
+        if(repliesModel.isReplyPrivateYn()) {
+            holder.privateIv.setVisibility(View.VISIBLE);
+        }else {
+            holder.privateIv.setVisibility(View.GONE);
+        }
+
+        if(repliesModel.isReplyMethodEmailYn() && !repliesModel.isReplyMethodSMSYn()) {
+            holder.methodSendingIv.setImageResource(R.drawable.ic_mail);
+            holder.privateIv.setVisibility(View.VISIBLE);
+            holder.viaTv.setVisibility(View.VISIBLE);
+        }else if(repliesModel.isReplyMethodSMSYn() && !repliesModel.isReplyMethodEmailYn()) {
+            holder.methodSendingIv.setImageResource(R.drawable.ic_phone);
+            holder.privateIv.setVisibility(View.VISIBLE);
+            holder.viaTv.setVisibility(View.VISIBLE);
+        } else {
+            holder.privateIv.setVisibility(View.GONE);
+            holder.viaTv.setVisibility(View.GONE);
+
+        }
+
     }
 
     @Override
@@ -83,6 +102,14 @@ public class RepliesAdapter extends RecyclerView.Adapter<RepliesAdapter.ViewHold
         TextView senderRoleNameTv;
         @Bind(R.id.tv_body_LIMR)
         TextView bodyTv;
+
+        @Bind(R.id.iv_private_LIMR)
+        ImageView privateIv;
+        @Bind(R.id.iv_method_sending_LIMR)
+        ImageView methodSendingIv;
+        @Bind(R.id.tv_via_LIMR)
+        TextView viaTv;
+
         View view;
 
         public ViewHolder(View itemView) {

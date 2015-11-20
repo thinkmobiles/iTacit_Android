@@ -9,7 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/rl_messages_replies_header_FMR"
-        android:padding="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -20,28 +22,35 @@
             android:id="@+id/tv_subject_FMR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Subject"/>
+            tools:text="Subject"/>
 
-        <TextView
-            android:id="@+id/tv_body_FMR"
+        <RelativeLayout
+            android:id="@+id/rl_body_FMR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLines="3"
-            android:ellipsize="marquee"
-            android:singleLine="false"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:layout_below="@+id/tv_subject_FMR"
-            android:text="Hi make this a very long string that wraps at least 4 lines, seriously make it really really long so it gets cut off at the fourth line not joke.  Just do it! Hi make this a very long string that wraps at least 4 lines, seriously make it really really long so it gets cut off at the fourth line not joke.  Just do it!"/>
+            android:layout_below="@+id/tv_subject_FMR">
+
+            <com.itacit.healthcare.presentation.base.widgets.expandableTextView.ExpandableTextView
+                android:id="@+id/tv_body_FMR"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                tools:text="Hi make this a very long string that wraps at least 4 lines, seriously make it really really long so it gets cut off at the fourth line not joke.  Just do it! Hi make this a very long string that wraps at least 4 lines, seriously make it really really long so it gets cut off at the fourth line not joke.  Just do it!"/>
+
+        </RelativeLayout>
+
+
 
         <TextView
             android:id="@+id/tv_request_for_confirmation_FMR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/btn_blue"
-            android:layout_marginTop="10dp"
-            android:visibility="visible"
-            android:text="Please confirm this"
-            android:layout_below="@+id/tv_body_FMR"
+            android:visibility="gone"
+            android:layout_marginBottom="8dp"
+            tools:text="Please confirm this"
+            android:layout_below="@+id/rl_body_FMR"
             android:layout_centerHorizontal="true"/>
 
         <CheckBox
@@ -51,7 +60,7 @@
             android:layout_below="@+id/tv_request_for_confirmation_FMR"
             android:text="I HAVE READ THIS"
             android:textColor="@color/btn_blue"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:layout_centerHorizontal="true"
@@ -101,7 +110,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_reply"
-            android:text=" to Author"
+            tools:text=" to Author"
             android:gravity="bottom"
             android:textColor="@color/btn_blue"
             android:layout_marginLeft="8dp"
