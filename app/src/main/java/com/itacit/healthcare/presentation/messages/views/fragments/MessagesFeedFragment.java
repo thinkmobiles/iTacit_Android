@@ -38,7 +38,7 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
     private ProgressDialog progressDialog;
 
     @OnClick(R.id.fab_button_FMF)
-    void addNewMessage(){
+    void addNewMessage() {
         activity.switchContent(NewMessageFragment.class, false);
     }
 
@@ -66,8 +66,6 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(R.string.title_messages_feed);
     }
-
-
 
     @Override
     protected int getLayoutRes() {
@@ -113,7 +111,7 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
     @Override
     public void removeMessage(String messageId) {
         int position = messagesAdapter.getMessagePosition(messageId);
-        if (position > 0) {
+        if (position >= 0) {
             messagesAdapter.getMessages().remove(position);
             messagesAdapter.notifyItemRemoved(position);
         }
