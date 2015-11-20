@@ -46,7 +46,7 @@ public class MessageRepliesPresenter extends BasePresenter<MessageRepliesView> {
 
     @Override
     protected void onAttachedView(@NonNull MessageRepliesView view) {
-        getHeaderUseCase.execute(new HeaderRepliesSubscriber());
+        getHeaderUseCase.execute(new HeaderRepliesSubscriber(),messageId);
         getListRepliesUseCase.execute(new RepliesListSubscriber(), messageId);
     }
 

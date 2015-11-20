@@ -24,6 +24,7 @@ public class GetListRepliesUseCase extends GetListUseCase<Reply, String> {
     protected ListRequest initArgs(String messageId) {
         ListRequest requestBody = new ListRequest();
         requestBody.setQuery(PARENT_MESSAGE_ID + messageId);
+        requestBody.setSort(SORT_FIELD_REPLIES);
         return requestBody;
     }
 

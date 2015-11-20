@@ -1,10 +1,7 @@
 package com.itacit.healthcare.data.network.services;
 
 import com.itacit.healthcare.data.entries.Message;
-import com.itacit.healthcare.data.entries.News;
 import com.itacit.healthcare.data.entries.Reply;
-import com.itacit.healthcare.data.entries.User;
-import com.itacit.healthcare.data.network.AccessTokenHandler;
 import com.itacit.healthcare.data.network.request.CreateMessageRequest;
 import com.itacit.healthcare.data.network.request.CreateReplyRequest;
 import com.itacit.healthcare.data.network.request.ItemRequest;

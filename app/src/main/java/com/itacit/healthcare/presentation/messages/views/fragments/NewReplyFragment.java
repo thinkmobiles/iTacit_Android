@@ -1,13 +1,10 @@
 package com.itacit.healthcare.presentation.messages.views.fragments;
 
-import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,7 +15,6 @@ import com.itacit.healthcare.presentation.messages.presenters.NewReplyPresenter;
 import com.itacit.healthcare.presentation.messages.views.activity.MessagesActivity;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by root on 19.11.15.

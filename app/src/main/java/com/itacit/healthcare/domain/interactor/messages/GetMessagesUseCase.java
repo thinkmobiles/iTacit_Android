@@ -15,8 +15,6 @@ public class GetMessagesUseCase extends GetListUseCase<Message, String> {
 
     public static final String FILTER_GROUP = "filterGroup:";
     public static final String SORT_FIELD_MESSAGES = "sendDateTime";
-    public static final String SENDER_MESSAGE = "sender";
-    public static final String RECIPIENTS_MESSAGE = "recipients";
 
     @Override
     protected Observable<ListResponse<Message>> request(ListRequest requestBody) {
@@ -27,6 +25,7 @@ public class GetMessagesUseCase extends GetListUseCase<Message, String> {
     protected ListRequest initArgs(String filter) {
         ListRequest requestBody = new ListRequest();
         requestBody.setQuery(FILTER_GROUP + filter);
+        requestBody.setSort(SORT_FIELD_MESSAGES);
         return requestBody;
     }
 }

@@ -7,7 +7,6 @@ import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
@@ -17,7 +16,7 @@ import android.widget.TextView;
  */
 public class ExpandableTextView extends TextView {
 
-    private static final String ELLIPSIZE = "... ";
+    private static final String ELLIPSIZE = "...";
 
     private String mFullText;
     private int mMaxLines;
@@ -58,10 +57,7 @@ public class ExpandableTextView extends TextView {
                 obs.removeOnGlobalLayoutListener(this);
                 if (mLineCount <= mMaxLines) {
                     setText(mFullText);
-                    Log.d("WWW", " " + mLineCount + " <= " + mMaxLines);
-
                 } else {
-                    Log.d("WWW", " " + mLineCount + " > " + mMaxLines);
                     setMovementMethod(LinkMovementMethod.getInstance());
                     showLess();
                 }

@@ -7,7 +7,6 @@ import com.itacit.healthcare.domain.interactor.UseCase;
 import com.itacit.healthcare.presentation.messages.models.CreateReplyModel;
 
 import rx.Observable;
-import rx.Subscriber;
 
 /**
  * Created by root on 19.11.15.

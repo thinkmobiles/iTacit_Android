@@ -10,17 +10,10 @@ import rx.Observable;
 /**
  * Created by Den on 19.11.15.
  */
-public class GetHeaderUseCase extends GetItemUseCase<Message,Void> {
+public class GetHeaderUseCase extends GetItemUseCase<Message,String> {
 
     private static final String SENDER_FIELD = "sender";
     public static final String RECIPIENTS_MESSAGE = "recipients";
-
-    private final String id;
-
-
-    public GetHeaderUseCase(String id) {
-        this.id = id;
-    }
 
     @Override
     protected Observable<Message> buildUseCaseObservable(ItemRequest requestBody) {
@@ -28,9 +21,9 @@ public class GetHeaderUseCase extends GetItemUseCase<Message,Void> {
     }
 
     @Override
-    protected ItemRequest initArgs(Void args) {
+    protected ItemRequest initArgs(String args) {
         ItemRequest requestBody = new ItemRequest();
-        requestBody.setId(id);
+        requestBody.setId(args);
         setRequestFields(requestBody, DEFAULT_FIELDS, SENDER_FIELD, RECIPIENTS_MESSAGE);
         return requestBody;    }
 }

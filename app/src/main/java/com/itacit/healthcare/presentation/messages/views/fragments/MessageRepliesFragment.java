@@ -4,7 +4,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -80,7 +79,7 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
         return new MessageRepliesPresenter(new ListRepliesMapper(),
                 new GetListRepliesUseCase(),
                 new MessagesMapper(),
-                new GetHeaderUseCase(messageId),
+                new GetHeaderUseCase(),
                 messageId);
     }
 
@@ -91,8 +90,6 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
 
         tvSubject.setText(Html.fromHtml(messageModel.getSubject()));
         tvBody.setText(Html.fromHtml(messageModel.getBody()));
-
-        Log.d("WWW"," " + Html.fromHtml(messageModel.getBody()));
 
         if (messageModel.isReadRequiredYn()) {
             tvRequestConfirmation.setVisibility(View.VISIBLE);
