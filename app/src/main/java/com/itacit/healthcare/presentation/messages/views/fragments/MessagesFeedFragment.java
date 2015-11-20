@@ -6,17 +6,14 @@ import android.support.design.widget.TabLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.itacit.healthcare.R;
+import com.itacit.healthcare.domain.interactor.messages.ArchiveMessageUseCase;
 import com.itacit.healthcare.domain.interactor.messages.GetMessagesUseCase;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.messages.mappers.MessagesMapper;
-import com.itacit.healthcare.presentation.messages.models.MessagesModel;
+import com.itacit.healthcare.presentation.messages.models.MessageModel;
 import com.itacit.healthcare.presentation.messages.presenters.MessagesFeedPresenter;
 import com.itacit.healthcare.presentation.messages.views.MessagesFeedView;
 import com.itacit.healthcare.presentation.messages.views.activity.MessagesActivity;
@@ -57,6 +54,8 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         messagesRecyclerView.setLayoutManager(layoutManager);
+
+        presenter.getMessages((MessagesFilter) tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).getTag());
     }
 
     @Override
@@ -68,6 +67,8 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
         actionBar.setTitle(R.string.title_messages_feed);
     }
 
+
+
     @Override
     protected int getLayoutRes() {
         return R.layout.fragment_messages_feed;
@@ -75,32 +76,13 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
 
     @Override
     protected MessagesFeedPresenter createPresenter() {
-        return new MessagesFeedPresenter(new GetMessagesUseCase(0,100), new MessagesMapper());
+        return new MessagesFeedPresenter(new GetMessagesUseCase(), new MessagesMapper(), new ArchiveMessageUseCase());
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_search_fmf, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_search_FMFM:
-                Toast.makeText(getActivity(),"Search",Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    public void showMessages(List<MessagesModel> messages) {
-        messagesAdapter = new MessagesAdapter(getActivity(), messages);
+    public void showMessages(List<MessageModel> messages) {
+        messagesAdapter = new MessagesAdapter(getActivity(), messages, presenter);
         messagesRecyclerView.setAdapter(messagesAdapter);
-
-        messagesAdapter.setOnMessagesItemSelectedListener(this::showMessagesItemDetails);
     }
 
     @Override
@@ -120,12 +102,21 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
         }
     }
 
-    public void showMessagesItemDetails(String messageId) {
+    @Override
+    public void showMessageDetails(String messageId) {
         Bundle args = new Bundle(1);
         args.putString(MessageRepliesFragment.Message_ID, messageId);
         activity.switchContent(MessageRepliesFragment.class, true, args);
         Toast.makeText(getActivity(),messageId,Toast.LENGTH_SHORT).show();
+    }
 
+    @Override
+    public void removeMessage(String messageId) {
+        int position = messagesAdapter.getMessagePosition(messageId);
+        if (position > 0) {
+            messagesAdapter.getMessages().remove(position);
+            messagesAdapter.notifyItemRemoved(position);
+        }
     }
 
     @Override

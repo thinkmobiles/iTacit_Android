@@ -16,20 +16,16 @@ import com.itacit.healthcare.domain.interactor.groups.GetBusinessUseCase;
 import com.itacit.healthcare.domain.interactor.groups.GetGroupsUseCase;
 import com.itacit.healthcare.domain.interactor.groups.GetJobsUseCase;
 import com.itacit.healthcare.domain.interactor.groups.GetRolesUseCase;
+import com.itacit.healthcare.domain.models.RecipientModel;
 import com.itacit.healthcare.global.utils.AndroidUtils;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.messages.mappers.BusinessMapper;
 import com.itacit.healthcare.presentation.messages.mappers.GroupMapper;
 import com.itacit.healthcare.presentation.messages.mappers.JobMapper;
 import com.itacit.healthcare.presentation.messages.mappers.RoleMapper;
-import com.itacit.healthcare.presentation.messages.models.BusinessModel;
-import com.itacit.healthcare.presentation.messages.models.GroupModel;
-import com.itacit.healthcare.presentation.messages.models.JobModel;
-import com.itacit.healthcare.presentation.messages.models.RecipientModel;
-import com.itacit.healthcare.presentation.messages.models.RecipientsModel;
-import com.itacit.healthcare.presentation.messages.models.RoleModel;
 import com.itacit.healthcare.presentation.messages.presenters.AddRecipientsPresenter;
 import com.itacit.healthcare.presentation.messages.views.AddRecipientsView;
+import com.itacit.healthcare.presentation.messages.views.MessageStorage;
 import com.itacit.healthcare.presentation.messages.views.activity.MessagesActivity;
 import com.itacit.healthcare.presentation.messages.views.adapters.RecipientAdapter;
 import com.jakewharton.rxbinding.widget.RxTextView;
@@ -42,10 +38,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
-import rx.subjects.BehaviorSubject;
 
-import static com.itacit.healthcare.presentation.messages.models.RecipientsModel.PredefinedRecipients;
-import static com.itacit.healthcare.presentation.messages.models.RecipientsModel.RecipientType;
+import static com.itacit.healthcare.domain.models.RecipientsGroupedModel.PredefinedRecipients;
+import static com.itacit.healthcare.domain.models.RecipientsGroupedModel.RecipientType;
 
 /**
  * Created by root on 16.11.15.
@@ -71,8 +66,6 @@ public class AddRecipientsFragment extends BaseFragmentView<AddRecipientsPresent
     @Bind(R.id.iv_coworkers_FAR)            ImageView coworkersIv;
     @Bind(R.id.iv_my_business_FAR)          ImageView myBusinessIv;
     @Bind(R.id.iv_my_job_FAR)               ImageView myJobsIv;
-
-
 
     @OnClick({R.id.rl_direct_reports_FAR, R.id.rl_indirect_reports_FAR, R.id.rl_my_business_FAR,
             R.id.rl_my_job_FAR, R.id.rl_co_workers_FAB})
@@ -130,11 +123,6 @@ public class AddRecipientsFragment extends BaseFragmentView<AddRecipientsPresent
         return RxTextView.textChangeEvents(searchRecipientsEt).map(e -> e.text().toString());
     }
 
-    @Override
-    public void showBusiness(List<BusinessModel> business) {
-        showRecipients(business, businessRv, businessCountTv, RecipientType.Business);
-    }
-
     private void showRecipients(List<? extends RecipientModel> models, RecyclerView recyclerView, TextView itemsCountTv,
                                 final RecipientType type) {
         RecipientAdapter adapter = new RecipientAdapter(activity, models, R.layout.list_item_recipient, presenter, type);
@@ -144,18 +132,32 @@ public class AddRecipientsFragment extends BaseFragmentView<AddRecipientsPresent
     }
 
     @Override
-    public void showJobs(List<JobModel> jobs) {
-        showRecipients(jobs, jobsRv, jobCountTv, RecipientType.Job);
+    public void showRecipients(List<RecipientModel> recipients, RecipientType type) {
+        RecyclerView recyclerView = null;
+        TextView countRecipientsTv = null;
+        switch (type) {
+            case Business:
+                recyclerView = businessRv;
+                countRecipientsTv = businessCountTv;
+                break;
+            case Job:
+                recyclerView = jobsRv;
+                countRecipientsTv = jobCountTv;
+                break;
+            case Role:
+                recyclerView = rolesRv;
+                countRecipientsTv = roleCountTv;
+                break;
+            case Group:
+                recyclerView = groupsRv;
+                countRecipientsTv = groupCountTv;
+                break;
+            default:
+                return;
+        }
+        showRecipients(recipients, recyclerView, countRecipientsTv, type);
     }
 
-    @Override
-    public void showRoles(List<RoleModel> roles) {
-        showRecipients(roles, rolesRv, roleCountTv, RecipientType.Role);
-    }
-    @Override
-    public void showGroups(List<GroupModel> groups) {
-        showRecipients(groups, groupsRv, groupCountTv, RecipientType.Group);
-    }
 
     @Override
     public void showSelectedRecipientsCount(int count) {
@@ -163,8 +165,8 @@ public class AddRecipientsFragment extends BaseFragmentView<AddRecipientsPresent
     }
 
     @Override
-    public BehaviorSubject<RecipientsModel> getSelectedRecipientsSubj() {
-        return activity.getSelectedRecipientsSubj();
+    public MessageStorage getMessageStorage() {
+        return activity;
     }
 
     @Override

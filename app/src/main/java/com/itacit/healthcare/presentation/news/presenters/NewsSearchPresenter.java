@@ -6,13 +6,13 @@ import com.itacit.healthcare.data.entries.Author;
 import com.itacit.healthcare.data.entries.Category;
 import com.itacit.healthcare.domain.interactor.news.GetAuthorsUseCase;
 import com.itacit.healthcare.domain.interactor.news.GetCategoriesUseCase;
+import com.itacit.healthcare.domain.models.NewsSearch;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.news.mappers.AuthorMapper;
 import com.itacit.healthcare.presentation.news.mappers.CategoryMapper;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
 import com.itacit.healthcare.presentation.news.models.CategoryModel;
-import com.itacit.healthcare.presentation.news.models.NewsSearch;
 import com.itacit.healthcare.presentation.news.views.NewsSearchView;
 
 import java.util.ArrayList;

@@ -12,12 +12,12 @@ import android.widget.ArrayAdapter;
 
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.news.GetNewsUseCase;
+import com.itacit.healthcare.domain.models.NewsSearch;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
 import com.itacit.healthcare.presentation.news.mappers.NewsMapper;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
-import com.itacit.healthcare.presentation.news.models.NewsSearch;
 import com.itacit.healthcare.presentation.news.presenters.NewsFeedPresenter;
 import com.itacit.healthcare.presentation.news.views.NewsFeedView;
 import com.itacit.healthcare.presentation.news.views.activity.NewsActivity;
@@ -70,7 +70,7 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsAc
 
 	@Override
 	protected NewsFeedPresenter createPresenter() {
-		return new NewsFeedPresenter(new GetNewsUseCase(0, 100), new NewsMapper());
+		return new NewsFeedPresenter(new GetNewsUseCase(), new NewsMapper());
 	}
 
 	@Override

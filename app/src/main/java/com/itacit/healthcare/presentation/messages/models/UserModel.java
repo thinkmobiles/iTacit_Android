@@ -6,7 +6,6 @@ import android.net.Uri;
  * Created by root on 12.11.15.
  */
 public class UserModel {
-
 	private String id;
 	private String fullName;
 	private String firstName;

@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.news.GetAuthorsUseCase;
 import com.itacit.healthcare.domain.interactor.news.GetCategoriesUseCase;
+import com.itacit.healthcare.domain.models.NewsSearch;
 import com.itacit.healthcare.global.utils.AndroidUtils;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
@@ -21,7 +22,6 @@ import com.itacit.healthcare.presentation.news.mappers.AuthorMapper;
 import com.itacit.healthcare.presentation.news.mappers.CategoryMapper;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
 import com.itacit.healthcare.presentation.news.models.CategoryModel;
-import com.itacit.healthcare.presentation.news.models.NewsSearch;
 import com.itacit.healthcare.presentation.news.presenters.NewsSearchPresenter;
 import com.itacit.healthcare.presentation.news.views.NewsSearchView;
 import com.itacit.healthcare.presentation.news.views.activity.NewsActivity;
@@ -135,7 +135,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
 
     @Override
     protected NewsSearchPresenter createPresenter() {
-        return new NewsSearchPresenter(new GetAuthorsUseCase(0, 10), new GetCategoriesUseCase(0, 10), new AuthorMapper(), new CategoryMapper());
+        return new NewsSearchPresenter(new GetAuthorsUseCase(), new GetCategoriesUseCase(), new AuthorMapper(), new CategoryMapper());
     }
 
     @Override

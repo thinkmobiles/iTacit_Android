@@ -18,27 +18,25 @@ import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
 import com.itacit.healthcare.presentation.base.widgets.datePicker.DatePickerFragment;
 import com.itacit.healthcare.presentation.messages.mappers.UserMapper;
-import com.itacit.healthcare.presentation.messages.models.RecipientsModel;
 import com.itacit.healthcare.presentation.messages.models.UserModel;
 import com.itacit.healthcare.presentation.messages.presenters.NewMessagePresenter;
+import com.itacit.healthcare.presentation.messages.views.MessageStorage;
 import com.itacit.healthcare.presentation.messages.views.NewMessageView;
 import com.itacit.healthcare.presentation.messages.views.activity.MessagesActivity;
 import com.itacit.healthcare.presentation.messages.views.adapters.UsersAdapter;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 import rx.Observable;
-import rx.subjects.BehaviorSubject;
 
 /**
  * Created by root on 11.11.15.
  */
 public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, MessagesActivity>
-        implements NewMessageView, UsersAdapter.OnUsersItemSelectedListener {
+        implements NewMessageView {
     @Bind(R.id.ib_add_FMN)          ImageButton ibAddRecipient;
     @Bind(R.id.et_recipients_FMN)   FiltersEditText etRecipientsView;
     @Bind(R.id.et_topic_FMN)        EditText etTopic;
@@ -55,9 +53,7 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
     }
 
     @Override
-    protected void setUpView() {
-
-    }
+    protected void setUpView() {}
 
     @Override
     protected void setUpActionBar(ActionBar actionBar) {
@@ -80,7 +76,7 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 
     @Override
     protected NewMessagePresenter createPresenter() {
-        return new NewMessagePresenter(new GetUsersUseCase(0, 100), new CreateMessageUseCase(), new UserMapper());
+        return new NewMessagePresenter(new GetUsersUseCase(), new CreateMessageUseCase(), new UserMapper());
     }
 
     @Override
@@ -116,8 +112,8 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 
     void showDatePicker() {
         DatePickerFragment fromDatePicker = new DatePickerFragment((datePicker, year, monthOfYear, dayOfMonth) ->
-                presenter.onDateSelected(),
-                () -> presenter.onDateClear());
+                presenter.onDateSelected(year, monthOfYear, dayOfMonth),
+                presenter::onDateClear);
         fromDatePicker.show(getFragmentManager(), "DatePicker");
     }
 
@@ -128,27 +124,23 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 
     @Override
     public void showUsers(List<UserModel> users) {
-        ArrayList<String> names = new ArrayList<>(users.size());
-        for (UserModel userModel : users) {
-            names.add(userModel.getFullName());
-        }
-
-        usersAdapter = new UsersAdapter(getActivity(), users);
-        for (Filter filter : etRecipientsView.getSelectedFilters()) {
-            usersAdapter.getSelectedUsersIds().add(filter.getId());
-        }
+        usersAdapter = new UsersAdapter(getActivity(), users, presenter);
         etRecipientsView.setAdapter(usersAdapter);
         if (etRecipientsView.getDropDownHeight() <= 0) {
             etRecipientsView.showDropDown();
         }
         usersAdapter.getFilter().filter(etRecipientsView.getInputText());
-        usersAdapter.setOnUsersItemSelectedListener(this);
     }
 
     @Override
     public void showDate(String date) {
         rlConfirmationDate.setVisibility(View.VISIBLE);
         etConfirmationDate.setText(date);
+    }
+
+    @Override
+    public void showDateError() {
+        Toast.makeText(activity, R.string.message_date_require_error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -169,12 +161,6 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
     }
 
     @Override
-    public void unselectUser(String id) {
-        usersAdapter.getSelectedUsersIds().remove(id);
-        usersAdapter.notifyDataSetChanged();
-    }
-
-    @Override
     public Observable<String> getUsersSearchTextObs() {
         return RxTextView.textChangeEvents(etRecipientsView).map(e -> etRecipientsView.getInputText());
     }
@@ -185,17 +171,7 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
     }
 
     @Override
-    public BehaviorSubject<RecipientsModel> getSelectedRecipientsSubj() {
-        return activity.getSelectedRecipientsSubj();
-    }
-
-    @Override
-    public void onUsersSelected(String userId) {
-        presenter.selectRecipient(userId);
-    }
-
-    @Override
-    public void onUsersDeselected(String userId) {
-        presenter.unselectRecipient(userId);
+    public MessageStorage getMessageStorage() {
+        return activity;
     }
 }
