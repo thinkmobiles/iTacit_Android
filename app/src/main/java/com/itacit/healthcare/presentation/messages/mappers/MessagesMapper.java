@@ -4,7 +4,7 @@ import android.net.Uri;
 
 import com.itacit.healthcare.data.entries.Message;
 import com.itacit.healthcare.presentation.base.mappers.ModelMapper;
-import com.itacit.healthcare.presentation.messages.models.MessagesModel;
+import com.itacit.healthcare.presentation.messages.models.MessageModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,10 +16,10 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by Den on 13.11.15.
  */
-public class MessagesMapper extends ModelMapper<MessagesModel, Message> {
+public class MessagesMapper extends ModelMapper<MessageModel, Message> {
     @Override
-    public MessagesModel transform(Message dataEntry) {
-        MessagesModel messagesModel = new MessagesModel();
+    public MessageModel transform(Message dataEntry) {
+        MessageModel messageModel = new MessageModel();
         try {
             if (dataEntry.getId() == null || dataEntry.getId().isEmpty()) {
                 return null;

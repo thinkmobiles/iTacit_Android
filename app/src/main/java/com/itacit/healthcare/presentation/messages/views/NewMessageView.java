@@ -21,6 +21,7 @@ public interface NewMessageView extends View {
 	void showMessageInvalid();
 	String getMessageBody();
 	void showDate(String date);
+	void showDateError();
 	void resetDate();
 	void addFilter(Filter filter);
 	void removeFilter(Filter filter);

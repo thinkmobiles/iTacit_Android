@@ -76,7 +76,7 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 
     @Override
     protected NewMessagePresenter createPresenter() {
-        return new NewMessagePresenter(new GetUsersUseCase(0, 100), new CreateMessageUseCase(), new UserMapper());
+        return new NewMessagePresenter(new GetUsersUseCase(), new CreateMessageUseCase(), new UserMapper());
     }
 
     @Override
@@ -134,6 +134,11 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
     public void showDate(String date) {
         rlConfirmationDate.setVisibility(View.VISIBLE);
         etConfirmationDate.setText(date);
+    }
+
+    @Override
+    public void showDateError() {
+        Toast.makeText(activity, R.string.message_date_require_error, Toast.LENGTH_SHORT).show();
     }
 
     @Override

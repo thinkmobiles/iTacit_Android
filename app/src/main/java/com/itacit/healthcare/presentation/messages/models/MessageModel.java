@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Den on 13.11.15.
  */
-public class MessagesModel {
+public class MessageModel {
 
     private String id;
     private Uri headlineUri;

@@ -3,12 +3,13 @@ package com.itacit.healthcare.data.network.services;
 import com.itacit.healthcare.data.entries.Message;
 import com.itacit.healthcare.data.entries.Reply;
 import com.itacit.healthcare.data.network.request.CreateMessageRequest;
-import com.itacit.healthcare.data.network.request.ItemRequest;
 import com.itacit.healthcare.data.network.request.ListRequest;
 import com.itacit.healthcare.data.network.response.ListResponse;
 
 import retrofit.http.Body;
 import retrofit.http.POST;
+import retrofit.http.PUT;
+import retrofit.http.Path;
 import rx.Observable;
 
 /**
@@ -34,6 +35,9 @@ public class MessagesService {
 
         @POST("/mobile/1.0/messaging/reply")
         Observable<ListResponse<Reply>> getListReplies(@Body ListRequest request);
+
+        @PUT("/mobile/1.0/messaging/archive/{MessageId}")
+        Observable<Object> archiveMessage(@Path("MessageId") String messageId);
 
         @POST("/mobile/1.0/messaging/message")
         Observable<Message> getHeaderReplies(@Body ItemRequest request);

@@ -6,29 +6,15 @@ import com.itacit.healthcare.data.network.response.ListResponse;
 import java.util.List;
 
 import rx.Observable;
-import rx.Subscriber;
 
 /**
  * Created by Nerevar on 10/29/2015.
  */
-public abstract class GetListUseCase<T> extends UseCase<List<T>> {
-    protected ListRequest requestBody;
-
+public abstract class GetListUseCase<T, P> extends UseCase<List<T>, P, ListRequest> {
     protected static final String DEFAULT_FIELDS = "DEFAULT";
     private static final String COMBINE_CHAR = "|";
 
-    public GetListUseCase(Integer startIndex, Integer rowCounts) {
-        requestBody = new ListRequest();
-        requestBody.setStartIndex(startIndex);
-        requestBody.setRowCount(rowCounts);
-    }
-
-    public void execute(Subscriber<List<T>> useCaseSubscriber, String query) {
-        requestBody.setQuery(query);
-        super.execute(useCaseSubscriber);
-    }
-
-    protected void setRequestFields(String... fields) {
+    protected void setRequestFields(ListRequest requestBody, String... fields) {
         String requestFields = "";
         for (String field : fields) {
             if (!requestFields.isEmpty()) {
@@ -40,23 +26,11 @@ public abstract class GetListUseCase<T> extends UseCase<List<T>> {
         requestBody.setFields(requestFields);
     }
 
-    protected void setSortField(String sortField){
-        if(sortField != null){
-            requestBody.setSort(sortField);
-        }
-    }
+    protected abstract Observable<ListResponse<T>> request(ListRequest requestBody);
 
     @Override
-    public void execute(Subscriber<List<T>> useCaseSubscriber) {
-        requestBody.setQuery(null);
-        super.execute(useCaseSubscriber);
-    }
-
-    protected abstract Observable<ListResponse<T>> request();
-
-    @Override
-    protected Observable<List<T>> buildUseCaseObservable() {
-        return request()
+    protected Observable<List<T>> buildUseCaseObservable(ListRequest requestBody) {
+        return request(requestBody)
                 .map(r -> {
                     if (r != null) {
                         return r.getResponseRows();

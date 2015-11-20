@@ -15,6 +15,7 @@ import com.itacit.healthcare.presentation.messages.views.MessageStorage;
 import com.itacit.healthcare.presentation.messages.views.NewMessageView;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -107,8 +108,12 @@ public class NewMessagePresenter extends BasePresenter<NewMessageView> {
 		Calendar calendar = new GregorianCalendar(year, month, day);
 		messageModel.setReadRequired(true);
 		messageModel.setReadRequiredDate(calendar.getTime());
-		String date = NewMessageView.dateFormat.format(calendar.getTime());
-		actOnView(v -> v.showDate(date));
+		if (isDateValid()) {
+			String date = NewMessageView.dateFormat.format(calendar.getTime());
+			actOnView(v -> v.showDate(date));
+		} else {
+			actOnView(NewMessageView::showDateError);
+		}
 	}
 
 	public void onDateClear() {
@@ -152,6 +157,10 @@ public class NewMessagePresenter extends BasePresenter<NewMessageView> {
 				!(messageModel.getRecipients().getGroupedRecipients().isEmpty() &&
 						messageModel.getRecipients().getPredefined().isEmpty()) &&
 				!body.isEmpty();
+	}
+
+	private boolean isDateValid() {
+		return !messageModel.isReadRequired() || messageModel.getReadRequiredDate().after(new Date());
 	}
 
 	private final class UsersListSubscriber extends Subscriber<List<User>> {
