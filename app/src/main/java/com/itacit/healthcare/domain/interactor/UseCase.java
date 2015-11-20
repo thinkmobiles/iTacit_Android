@@ -56,15 +56,12 @@ public abstract class UseCase<T, P, A> {
    */
   @SuppressWarnings("unchecked")
   public final void execute(Subscriber<T> useCaseSubscriber, Scheduler subscribeOn, Scheduler observeOn) {
-    this.subscription = this.buildUseCaseObservable(null)
+    this.subscription = this.buildUseCaseObservable(initArgs(null))
         .subscribeOn(subscribeOn)
         .observeOn(observeOn)
         .subscribe(useCaseSubscriber);
   }
 
-  public final void execute (Subscriber<T> useCaseSubscriber) {
-    execute(useCaseSubscriber, Schedulers.io(), AndroidSchedulers.mainThread());
-  }
 
   /**
    * Unsubscribes from current {@link Subscription}.

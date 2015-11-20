@@ -10,15 +10,9 @@ import rx.Observable;
 /**
  * Created by root on 29.10.15.
  */
-public class GetNewsDetailsUseCase extends GetItemUseCase<News, Void> {
+public class GetNewsDetailsUseCase extends GetItemUseCase<News, String> {
     private static final String BODY_FIELD = "body";
     private static final String AUTHOR_FIELD = "author";
-    private final String newsId;
-
-    public GetNewsDetailsUseCase(String userId) {
-        this.newsId = userId;
-    }
-
 
     @Override
     protected Observable<News> buildUseCaseObservable(ItemRequest requestBody) {
@@ -28,9 +22,9 @@ public class GetNewsDetailsUseCase extends GetItemUseCase<News, Void> {
     }
 
     @Override
-    protected ItemRequest initArgs(Void args) {
+    protected ItemRequest initArgs(String args) {
         ItemRequest requestBody = new ItemRequest();
-        requestBody.setId(newsId);
+        requestBody.setId(args);
         setRequestFields(requestBody, DEFAULT_FIELDS, BODY_FIELD, AUTHOR_FIELD);
         return requestBody;
     }

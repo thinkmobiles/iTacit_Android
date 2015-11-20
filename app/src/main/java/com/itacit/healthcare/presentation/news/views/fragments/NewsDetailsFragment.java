@@ -71,7 +71,7 @@ public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter, 
     @Override
     protected NewsDetailsPresenter createPresenter() {
         String newsId = getArguments().getString("newsId");
-        return new NewsDetailsPresenter(new GetNewsDetailsUseCase(newsId), new NewsDetailsMapper());
+        return new NewsDetailsPresenter(new GetNewsDetailsUseCase(), new NewsDetailsMapper(), newsId);
     }
 
     @Override
