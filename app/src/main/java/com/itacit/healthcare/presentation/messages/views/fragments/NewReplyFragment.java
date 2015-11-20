@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.itacit.healthcare.R;
+import com.itacit.healthcare.domain.interactor.messages.CreateReplyUseCase;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.messages.presenters.NewReplyPresenter;
 import com.itacit.healthcare.presentation.messages.views.activity.MessagesActivity;
@@ -65,7 +66,7 @@ public class NewReplyFragment extends BaseFragmentView<NewReplyPresenter, Messag
 
 	@Override
 	protected NewReplyPresenter createPresenter() {
-		return new NewReplyPresenter();
+		return new NewReplyPresenter(new CreateReplyUseCase());
 	}
 
 	@Override
@@ -79,7 +80,7 @@ public class NewReplyFragment extends BaseFragmentView<NewReplyPresenter, Messag
 			case android.R.id.home:
 				return true;
 			case R.id.action_send:
-
+				presenter.sendReply(etBody.getText().toString());
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
