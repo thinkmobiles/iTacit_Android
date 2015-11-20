@@ -44,21 +44,17 @@ public class MessagesFeedPresenter extends BasePresenter<MessagesFeedView> {
     }
     
     public void onMessageArchiveSeleced(String messageId) {
-        archiveMessageUseCase.execute(new Subscriber<Object>() {
+        archiveMessageUseCase.execute(new Subscriber<Void>() {
             @Override
             public void onCompleted() {
                 actOnView(view -> view.removeMessage(messageId));
             }
 
             @Override
-            public void onError(Throwable e) {
-
-            }
+            public void onError(Throwable e) {}
 
             @Override
-            public void onNext(Object o) {
-
-            }
+            public void onNext(Void o) {}
         }, messageId);
     }
 
