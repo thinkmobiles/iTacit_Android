@@ -17,10 +17,12 @@ import rx.Subscriber;
 public class NewsDetailsPresenter extends BasePresenter<NewsDetailsView> {
     private GetNewsDetailsUseCase newsDetailsUseCase;
     private NewsDetailsMapper dataMapper;
+    private String newsId;
 
-    public NewsDetailsPresenter(GetNewsDetailsUseCase newsDetailsUseCase, NewsDetailsMapper dataMapper) {
+    public NewsDetailsPresenter(GetNewsDetailsUseCase newsDetailsUseCase, NewsDetailsMapper dataMapper, String newsId) {
         this.newsDetailsUseCase = newsDetailsUseCase;
         this.dataMapper = dataMapper;
+        this.newsId = newsId;
     }
 
     @Override
@@ -37,7 +39,7 @@ public class NewsDetailsPresenter extends BasePresenter<NewsDetailsView> {
     }
 
     public void loadNewsDetails() {
-        newsDetailsUseCase.execute(new NewDetailsSubscriber());
+        newsDetailsUseCase.execute(new NewDetailsSubscriber(), newsId);
     }
 
     private final class NewDetailsSubscriber extends Subscriber<News> {
