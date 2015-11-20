@@ -1,11 +1,10 @@
 package com.itacit.healthcare.presentation.messages.mappers;
 
 import android.net.Uri;
-import android.util.Log;
 
 import com.itacit.healthcare.data.entries.Message;
 import com.itacit.healthcare.presentation.base.mappers.ModelMapper;
-import com.itacit.healthcare.presentation.messages.models.MessagesModel;
+import com.itacit.healthcare.presentation.messages.models.MessageModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,26 +16,26 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by Den on 13.11.15.
  */
-public class MessagesMapper extends ModelMapper<MessagesModel, Message> {
+public class MessagesMapper extends ModelMapper<MessageModel, Message> {
     @Override
-    public MessagesModel transform(Message dataEntry) {
-        MessagesModel messagesModel = new MessagesModel();
+    public MessageModel transform(Message dataEntry) {
+        MessageModel messageModel = new MessageModel();
         try {
             if (dataEntry.getId() == null || dataEntry.getId().isEmpty()) {
                 return null;
             }
-            messagesModel.setId(dataEntry.getId());
-            messagesModel.setHeadlineUri(Uri.parse(dataEntry.getSenderImageUrl() != null ? dataEntry.getSenderImageUrl() : ""));
-            messagesModel.setSenderName(dataEntry.getSenderNameFull() != null ? dataEntry.getSenderNameFull() : "");
-            messagesModel.setNumberOfResponse(dataEntry.getReplyCountNew() != null ? dataEntry.getReplyCountNew() : 0);
-            messagesModel.setSenderRoleName(dataEntry.getSenderRoleName() != null ? dataEntry.getSenderRoleName() : "");
-            messagesModel.setSubject(dataEntry.getSubject() != null ? dataEntry.getSubject() : "");
-            messagesModel.setBody(dataEntry.getBody() != null ? dataEntry.getBody() : "");
-            messagesModel.setReadRequiredYn(dataEntry.getReadRequiredYn().equals("Y") ? true : false);
-            messagesModel.setLastTimeResponse(dataEntry.getSendDateTime() != null ? getLastTimeResponse(dataEntry.getSendDateTime()) : "");
-            messagesModel.setReadRequiredDate(dataEntry.getReadRequiredDate() != null ? convertData(dataEntry.getReadRequiredDate()) : "");
+            messageModel.setId(dataEntry.getId());
+            messageModel.setHeadlineUri(Uri.parse(dataEntry.getSenderImageUrl() != null ? dataEntry.getSenderImageUrl() : ""));
+            messageModel.setSenderName(dataEntry.getSenderNameFull() != null ? dataEntry.getSenderNameFull() : "");
+            messageModel.setNumberOfResponse(dataEntry.getReplyCountNew() != null ? dataEntry.getReplyCountNew() : 0);
+            messageModel.setSenderRoleName(dataEntry.getSenderRoleName() != null ? dataEntry.getSenderRoleName() : "");
+            messageModel.setSubject(dataEntry.getSubject() != null ? dataEntry.getSubject() : "");
+            messageModel.setBody(dataEntry.getBody() != null ? dataEntry.getBody() : "");
+            messageModel.setReadRequiredYn(dataEntry.getReadRequiredYn().equals("Y") ? true : false);
+            messageModel.setLastTimeResponse(dataEntry.getSendDateTime() != null ? getLastTimeResponse(dataEntry.getSendDateTime()) : "");
+            messageModel.setReadRequiredDate(dataEntry.getReadRequiredDate() != null ? convertData(dataEntry.getReadRequiredDate()) : "");
 
-            return messagesModel;
+            return messageModel;
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }        return null;

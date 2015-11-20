@@ -1,10 +1,11 @@
 package com.itacit.healthcare.presentation.messages.presenters;
 
 import com.itacit.healthcare.data.entries.Message;
+import com.itacit.healthcare.domain.interactor.messages.ArchiveMessageUseCase;
 import com.itacit.healthcare.domain.interactor.messages.GetMessagesUseCase;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
 import com.itacit.healthcare.presentation.messages.mappers.MessagesMapper;
-import com.itacit.healthcare.presentation.messages.models.MessagesModel;
+import com.itacit.healthcare.presentation.messages.models.MessageModel;
 import com.itacit.healthcare.presentation.messages.views.MessagesFeedView;
 
 import java.util.List;
@@ -16,24 +17,49 @@ import rx.Subscriber;
  */
 public class MessagesFeedPresenter extends BasePresenter<MessagesFeedView> {
 
-    public List<MessagesModel> messagesModels;
+    public List<MessageModel> messageModels;
 
     private GetMessagesUseCase getMessagesUseCase;
+    private ArchiveMessageUseCase archiveMessageUseCase;
     private MessagesMapper dataMapper;
 
-    public MessagesFeedPresenter(GetMessagesUseCase messagesUseCase, MessagesMapper messagesMapper) {
+    public MessagesFeedPresenter(GetMessagesUseCase messagesUseCase, MessagesMapper messagesMapper, ArchiveMessageUseCase archiveMessageUseCase) {
         getMessagesUseCase = messagesUseCase;
         dataMapper = messagesMapper;
+        this.archiveMessageUseCase = archiveMessageUseCase;
     }
 
     private void showMessagesOnView(List<Message> messages) {
-        messagesModels = dataMapper.transform(messages);
-        actOnView(v -> v.showMessages(messagesModels));
+        messageModels = dataMapper.transform(messages);
+        actOnView(v -> v.showMessages(messageModels));
     }
 
     public void getMessages(MessagesFilter filter) {
         actOnView(MessagesFeedView::showProgress);
         getMessagesUseCase.execute(new MessagesListSubscriber(), filter.toString());
+    }
+
+    public void onMessageSelected(String messageId) {
+        actOnView(view -> view.showMessageDetails(messageId));
+    }
+    
+    public void onMessageArchiveSeleced(String messageId) {
+        archiveMessageUseCase.execute(new Subscriber<Object>() {
+            @Override
+            public void onCompleted() {
+                actOnView(view -> view.removeMessage(messageId));
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Object o) {
+
+            }
+        }, messageId);
     }
 
     private final class MessagesListSubscriber extends Subscriber<List<Message>> {
