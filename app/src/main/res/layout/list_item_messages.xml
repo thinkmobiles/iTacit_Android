@@ -43,6 +43,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/rl_messageItem_FIM"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="14dp">

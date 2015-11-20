@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.daimajia.swipe.SimpleSwipeListener;
@@ -59,7 +60,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         MessageModel messageModel = messages.get(position);
 
-        holder.view.setOnClickListener(e -> {
+        holder.messageRl.setOnClickListener(e -> {
             presenter.onMessageSelected(messageModel.getId());
         });
 
@@ -131,6 +132,8 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         @Bind(R.id.tv_read_required_date_LIM)   TextView readRequiredDateTv;
         @Bind(R.id.swipe_LIM)                   SwipeLayout swipeLayout;
         @Bind(R.id.ll_archive_LIM)              LinearLayout archiveLl;
+        @Bind(R.id.rl_messageItem_FIM)
+        RelativeLayout messageRl;
         View view;
 
         public ViewHolder(View itemView) {
