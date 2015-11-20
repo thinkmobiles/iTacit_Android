@@ -9,7 +9,7 @@ import com.itacit.healthcare.domain.interactor.messages.GetListRepliesUseCase;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
 import com.itacit.healthcare.presentation.messages.mappers.ListRepliesMapper;
 import com.itacit.healthcare.presentation.messages.mappers.MessagesMapper;
-import com.itacit.healthcare.presentation.messages.models.MessagesModel;
+import com.itacit.healthcare.presentation.messages.models.MessageModel;
 import com.itacit.healthcare.presentation.messages.models.RepliesModel;
 import com.itacit.healthcare.presentation.messages.views.MessageRepliesView;
 
@@ -22,7 +22,7 @@ import rx.Subscriber;
  */
 public class MessageRepliesPresenter extends BasePresenter<MessageRepliesView> {
     public List<RepliesModel> repliesModels;
-    public MessagesModel messagesModel;
+    public MessageModel messageModel;
 
     private GetListRepliesUseCase getListRepliesUseCase;
     private GetHeaderUseCase getHeaderUseCase;
@@ -54,7 +54,7 @@ public class MessageRepliesPresenter extends BasePresenter<MessageRepliesView> {
         actOnView(v -> v.showListReplies(repliesModels));
     }
 
-    private void showHeaderRepliesOnView(){actOnView(v -> v.showHeaderReplies(messagesModel));}
+    private void showHeaderRepliesOnView(){actOnView(v -> v.showHeaderReplies(messageModel));}
 
     private final class RepliesListSubscriber extends Subscriber<List<Reply>> {
         @Override
@@ -84,7 +84,7 @@ public class MessageRepliesPresenter extends BasePresenter<MessageRepliesView> {
 
         @Override
         public void onNext(Message message) {
-            messagesModel = messagesMapper.transform(message);
+            messageModel = messagesMapper.transform(message);
         }
     }
 

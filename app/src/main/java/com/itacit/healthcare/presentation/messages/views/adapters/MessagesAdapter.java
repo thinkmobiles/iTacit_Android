@@ -99,7 +99,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
             holder.readRequiredDateTv.setVisibility(View.GONE);
         }
 
-        holder.lastTimeResponseTv.setText(messageModel.getLastTimeResponse());
+        holder.lastTimeResponseTv.setText(messageModel.getTimeSendMessage());
     }
 
     public int getMessagePosition(String messageId) {

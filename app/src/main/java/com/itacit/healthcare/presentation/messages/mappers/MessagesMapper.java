@@ -24,31 +24,31 @@ public class MessagesMapper extends ModelMapper<MessageModel, Message> {
             if (dataEntry.getId() == null || dataEntry.getId().isEmpty()) {
                 return null;
             }
-            messagesModel.setId(dataEntry.getId());
-            messagesModel.setHeadlineUri(Uri.parse(dataEntry.getSenderImageUrl() != null ? dataEntry.getSenderImageUrl() : ""));
-            messagesModel.setSenderRoleName(dataEntry.getSenderRoleName() != null ? dataEntry.getSenderRoleName() : "");
-            messagesModel.setNumberOfResponse(dataEntry.getReplyCountNew() != null ? dataEntry.getReplyCountNew() : 0);
-            messagesModel.setSubject(dataEntry.getSubject() != null ? dataEntry.getSubject() : "");
-            messagesModel.setBody(dataEntry.getBody() != null ? dataEntry.getBody() : "");
-            messagesModel.setReadRequiredYn(dataEntry.getReadRequiredYn().equals("Y") ? true : false);
-            messagesModel.setTimeSendMessage(dataEntry.getSendDateTime() != null ? getLastTimeResponse(dataEntry.getSendDateTime()) : "");
+            messageModel.setId(dataEntry.getId());
+            messageModel.setHeadlineUri(Uri.parse(dataEntry.getSenderImageUrl() != null ? dataEntry.getSenderImageUrl() : ""));
+            messageModel.setSenderRoleName(dataEntry.getSenderRoleName() != null ? dataEntry.getSenderRoleName() : "");
+            messageModel.setNumberOfResponse(dataEntry.getReplyCountNew() != null ? dataEntry.getReplyCountNew() : 0);
+            messageModel.setSubject(dataEntry.getSubject() != null ? dataEntry.getSubject() : "");
+            messageModel.setBody(dataEntry.getBody() != null ? dataEntry.getBody() : "");
+            messageModel.setReadRequiredYn(dataEntry.getReadRequiredYn().equals("Y") ? true : false);
+            messageModel.setTimeSendMessage(dataEntry.getSendDateTime() != null ? getLastTimeResponse(dataEntry.getSendDateTime()) : "");
 
             if (dataEntry.getSender() != null){
-                messagesModel.setRecipientsList(dataEntry.getGroupRecipients().getRecipients() != null ? dataEntry.getGroupRecipients().getRecipients() : null);
-                messagesModel.setResponseCount(dataEntry.getGroupRecipients().getResponseCount() != null ? dataEntry.getGroupRecipients().getResponseCount() : 0);
-                messagesModel.setFirstName(dataEntry.getSender().getNameFirst() != null ? dataEntry.getSender().getNameFirst() : "");
-                messagesModel.setLastName(dataEntry.getSender().getNameLast() != null ? dataEntry.getSender().getNameLast() : "");
-                messagesModel.setReadRequiredDate(dataEntry.getReadRequiredDate() != null ?
+                messageModel.setRecipientsList(dataEntry.getGroupRecipients().getRecipients() != null ? dataEntry.getGroupRecipients().getRecipients() : null);
+                messageModel.setResponseCount(dataEntry.getGroupRecipients().getResponseCount() != null ? dataEntry.getGroupRecipients().getResponseCount() : 0);
+                messageModel.setFirstName(dataEntry.getSender().getNameFirst() != null ? dataEntry.getSender().getNameFirst() : "");
+                messageModel.setLastName(dataEntry.getSender().getNameLast() != null ? dataEntry.getSender().getNameLast() : "");
+                messageModel.setReadRequiredDate(dataEntry.getReadRequiredDate() != null ?
                         convertData(dataEntry.getReadRequiredDate(), "yyyy-MM-dd'T'HH:mm:ss", "MMM.dd", Locale.CANADA) : "");
 
             } else{
-                messagesModel.setSenderName(dataEntry.getSenderNameFull() != null ? dataEntry.getSenderNameFull() : "");
-                messagesModel.setReadRequiredDate(dataEntry.getReadRequiredDate() != null ?
+                messageModel.setSenderName(dataEntry.getSenderNameFull() != null ? dataEntry.getSenderNameFull() : "");
+                messageModel.setReadRequiredDate(dataEntry.getReadRequiredDate() != null ?
                         convertData(dataEntry.getReadRequiredDate(), "yyyy-MM-dd'T'HH:mm:ss", "MMM.dd,yyyy", Locale.CANADA) : "");
 
             }
 
-            return messagesModel;
+            return messageModel;
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }        return null;
