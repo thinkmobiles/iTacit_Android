@@ -126,7 +126,9 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
     public void showUsers(List<UserModel> users) {
         usersAdapter = new UsersAdapter(getActivity(), users, presenter);
         etRecipientsView.setAdapter(usersAdapter);
-        etRecipientsView.showDropDown();
+        if (etRecipientsView.getDropDownHeight() <= 0) {
+            etRecipientsView.showDropDown();
+        }
         usersAdapter.getFilter().filter(etRecipientsView.getInputText());
     }
 
