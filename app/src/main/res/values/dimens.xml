@@ -23,6 +23,7 @@
     <dimen name="margin_news_details">28dp</dimen>
     <dimen name="news_thumb_size">100dp</dimen>
     <dimen name="news_item_category_margin_top">56dp</dimen>
+    <dimen name="et_height">56dp</dimen>
 
     <!-- Add margins and padding for navigation drawer-->
     <!-- Default screen margins, per the Android Design guidelines. -->
@@ -31,4 +32,5 @@
     <dimen name="header_horizontal_margin">16dp</dimen>
     <dimen name="header_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
 </resources>

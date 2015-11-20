@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/rl_header_FMNR"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/et_height"
+        android:background="@color/bg_grey">
+
+
+        <ImageView
+            android:layout_width="@dimen/check_icon_size"
+            android:layout_height="wrap_content"
+            android:id="@+id/iv_icon_FMNR"
+            android:src="@drawable/ic_search"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_sides"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_sides"
+            android:id="@+id/tv_header_FMNR"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/iv_icon_FMNR"/>
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/line_separator_FMNR"
+        style="@style/line_separator"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/et_body_FMNR"
+        android:textAlignment="gravity"
+        android:gravity="top"
+        android:padding="16dp"/>
+
+</LinearLayout>

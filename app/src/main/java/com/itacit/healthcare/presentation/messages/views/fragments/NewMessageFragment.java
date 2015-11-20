@@ -138,7 +138,9 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
             usersAdapter.getSelectedUsersIds().add(filter.getId());
         }
         etRecipientsView.setAdapter(usersAdapter);
-        etRecipientsView.showDropDown();
+        if (etRecipientsView.getDropDownHeight() <= 0) {
+            etRecipientsView.showDropDown();
+        }
         usersAdapter.getFilter().filter(etRecipientsView.getInputText());
         usersAdapter.setOnUsersItemSelectedListener(this);
     }

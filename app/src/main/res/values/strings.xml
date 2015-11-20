@@ -15,6 +15,10 @@
     <string name="message_hint">Enter your message here</string>
     <string name="message_date_request">Request Confirmation by:</string>
     <string name="message_send_warning">Please, insert recipients and subject of message!</string>
+    <string name="all">All</string>
+    <string name="reply_to">Reply to</string>
+    <string name="reply_to_all">This reply will be seen by all recipients</string>
+    <string name="private_reply">This is private reply to</string>
 
     <!-- Titles -->
     <string name="title_news_feed">News</string>
