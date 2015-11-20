@@ -42,7 +42,10 @@ public class MessagesService {
         Observable<ListResponse<Reply>> getListReplies(@Body ListRequest request);
 
         @PUT("/mobile/1.0/messaging/archive/{MessageId}")
-        Observable<Object> archiveMessage(@Path("MessageId") String messageId);
+        Observable<Void> archiveMessage(@Path("MessageId") String messageId);
+
+        @PUT("/mobile/1.0/message/readConfirm/{MessageId}")
+        Observable<Void> confirmMessageRead(@Path("MessageId") String messageId);
 
         @POST("/mobile/1.0/messaging/message")
         Observable<Message> getHeaderReplies(@Body ItemRequest request);

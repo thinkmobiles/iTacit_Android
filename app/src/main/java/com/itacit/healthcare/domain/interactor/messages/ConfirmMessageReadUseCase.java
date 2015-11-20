@@ -6,13 +6,12 @@ import com.itacit.healthcare.domain.interactor.UseCase;
 import rx.Observable;
 
 /**
- * Created by root on 19.11.15.
+ * Created by root on 20.11.15.
  */
-public class ArchiveMessageUseCase extends UseCase<Void, String, String> {
-
+public class ConfirmMessageReadUseCase extends UseCase<Void, String, String> {
     @Override
     protected Observable<Void> buildUseCaseObservable(String messageId) {
-        return MessagesService.getApi().archiveMessage(messageId);
+        return MessagesService.getApi().confirmMessageRead(messageId);
     }
 
     @Override
