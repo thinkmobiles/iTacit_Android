@@ -79,7 +79,7 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
 
     private void getRecipientsCount() {
         getRecipientsSummaryUseCase.execute(s ->
-                actOnView(view -> view.showRecipientsCount(s.getTotalRecipients())),
+                        actOnView(view -> view.showRecipientsCount(s.getTotalRecipients())),
                 createMessageModel.getRecipients());
     }
 
@@ -93,6 +93,12 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
 
     public void selectRecipients() {
         messageStorage.pushCreateMessage(createMessageModel);
+        actOnView(view -> view.navigateToNewMessage());
+    }
+
+    public void editRecipients() {
+        messageStorage.pushCreateMessage(createMessageModel);
+        actOnView(view -> view.navigateToRecipients());
     }
 
     public void predefinedClicked(PredefinedRecipients predefined) {

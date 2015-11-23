@@ -90,7 +90,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
         if (presenter.isDateValid()) {
             NewsSearch search = presenter.getNewsSearch();
             activity.getNewsSearchSubj().onNext(search);
-            activity.switchContent(NewsFeedFragment.class, false);
+            activity.switchContent(NewsFeedFragment.class);
         }
     }
 
@@ -116,7 +116,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
 
     @Override
     protected void setUpActionBar(ActionBar actionBar) {
-        switchToolbarIndicator(false, v -> activity.switchContent(NewsFeedFragment.class, false));
+        switchToolbarIndicator(false, v -> activity.switchContent(NewsFeedFragment.class));
 
         actionBar.setHomeAsUpIndicator(null);
         activity.setActionBarShadowVisible(true);

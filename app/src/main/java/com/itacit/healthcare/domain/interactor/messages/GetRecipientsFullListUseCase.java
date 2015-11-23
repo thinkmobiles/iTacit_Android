@@ -1,7 +1,8 @@
 package com.itacit.healthcare.domain.interactor.messages;
 
+import com.itacit.healthcare.data.entries.RecipientInfo;
 import com.itacit.healthcare.data.network.request.RecipientsInfoRequest;
-import com.itacit.healthcare.data.network.response.RecipientsSummaryResponse;
+import com.itacit.healthcare.data.network.response.ListResponse;
 import com.itacit.healthcare.data.network.services.MessagesService;
 import com.itacit.healthcare.domain.interactor.UseCase;
 import com.itacit.healthcare.domain.models.RecipientsGroupedModel;
@@ -15,10 +16,11 @@ import rx.Observable;
 /**
  * Created by root on 23.11.15.
  */
-public class GetRecipientsSummaryUseCase extends UseCase<RecipientsSummaryResponse, RecipientsGroupedModel, RecipientsInfoRequest> {
+public class GetRecipientsFullListUseCase extends UseCase<List<RecipientInfo>, RecipientsGroupedModel, RecipientsInfoRequest> {
     @Override
-    protected Observable<RecipientsSummaryResponse> buildUseCaseObservable(RecipientsInfoRequest requestBody) {
-        return MessagesService.getApi().getRecipientsSummary(requestBody);
+    protected Observable<List<RecipientInfo>> buildUseCaseObservable(RecipientsInfoRequest requestBody) {
+        return MessagesService.getApi().getRecipientsFullList(requestBody)
+                .map(ListResponse::getResponseRows);
     }
 
     @Override

@@ -47,7 +47,7 @@ public class NewMessagePresenter extends BasePresenter<NewMessageView> {
 	@Override
 	protected void onAttachedView(@NonNull NewMessageView view) {
 		messageStorage = view.getMessageStorage();
-		messageModel = messageStorage.getMessage();
+		messageModel = messageStorage.popMessage();
 		compositeSubscription.add(view.getUsersSearchTextObs()
 				.filter(text -> text.length() >= SEARCH_TEXT_MIN_LENGTH)
 				.debounce(1, TimeUnit.SECONDS)

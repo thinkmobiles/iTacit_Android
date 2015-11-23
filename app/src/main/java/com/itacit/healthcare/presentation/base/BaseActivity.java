@@ -90,7 +90,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         inputManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 
-    public void switchContent(Class<?> fragmentClass, boolean addToBackStack, Bundle args) {
+    public void switchContent(Class<?> fragmentClass, Bundle args) {
         hideKeyboard(this);
         FragmentManager fragmentManager = getFragmentManager();
         Fragment currentFragment = fragmentManager.findFragmentById(R.id.content);
@@ -130,8 +130,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         transaction.commit();
     }
 
-    public void switchContent(Class<?> fragmentClass, boolean addToBackStack) {
-        switchContent(fragmentClass, addToBackStack, null);
+    public void switchContent(Class<?> fragmentClass) {
+        switchContent(fragmentClass,  null);
     }
 
     @Override

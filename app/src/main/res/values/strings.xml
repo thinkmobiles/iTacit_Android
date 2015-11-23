@@ -42,4 +42,5 @@
     <string name="add_recipients">Add Recipients</string>
     <string name="message_date_requeire_read_error">Historical date cant be set</string>
     <string name="message_date_require_error">Historical date cant be set</string>
+    <string name="recipients">Recipients</string>
 </resources>

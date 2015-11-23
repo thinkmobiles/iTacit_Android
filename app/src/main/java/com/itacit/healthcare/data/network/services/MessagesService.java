@@ -1,7 +1,7 @@
 package com.itacit.healthcare.data.network.services;
 
 import com.itacit.healthcare.data.entries.Message;
-import com.itacit.healthcare.data.entries.RecipientsSummary;
+import com.itacit.healthcare.data.entries.RecipientInfo;
 import com.itacit.healthcare.data.entries.Reply;
 import com.itacit.healthcare.data.network.request.CreateMessageRequest;
 import com.itacit.healthcare.data.network.request.CreateReplyRequest;
@@ -9,6 +9,7 @@ import com.itacit.healthcare.data.network.request.ItemRequest;
 import com.itacit.healthcare.data.network.request.ListRequest;
 import com.itacit.healthcare.data.network.request.RecipientsInfoRequest;
 import com.itacit.healthcare.data.network.response.ListResponse;
+import com.itacit.healthcare.data.network.response.RecipientsSummaryResponse;
 
 import retrofit.http.Body;
 import retrofit.http.POST;
@@ -46,13 +47,17 @@ public class MessagesService {
         @PUT("/mobile/1.0/messaging/archive/{MessageId}")
         Observable<Void> archiveMessage(@Path("MessageId") String messageId);
 
-        @PUT("/mobile/1.0/message/readConfirm/{MessageId}")
+        @PUT("/mobile/1.0/messaging/readConfirm/{MessageId}")
         Observable<Void> confirmMessageRead(@Path("MessageId") String messageId);
 
         @POST("/mobile/1.0/messaging/message")
-        Observable<Message> getHeaderReplies(@Body ItemRequest requestBody);
+        Observable<Message> getMessageDetailsReplies(@Body ItemRequest requestBody);
 
         @POST("/mobile/1.0/employee/advanced/summary")
-        Observable<RecipientsSummary> getRecipientsSummary(@Body RecipientsInfoRequest requestBody);
+        Observable<RecipientsSummaryResponse> getRecipientsSummary(@Body RecipientsInfoRequest requestBody);
+
+        @POST("/mobile/1.0/employee/advanced/fullList")
+        Observable<ListResponse<RecipientInfo>> getRecipientsFullList(@Body RecipientsInfoRequest requestBody);
+
     }
 }

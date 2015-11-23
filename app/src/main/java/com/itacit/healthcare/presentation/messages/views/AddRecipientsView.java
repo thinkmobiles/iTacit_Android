@@ -15,7 +15,14 @@ import static com.itacit.healthcare.domain.models.RecipientsGroupedModel.Recipie
  */
 public interface AddRecipientsView extends View {
     Observable<String> getSearchRecipientsInput();
+
     void showRecipients(List<RecipientModel> recipients, RecipientType type);
+
     void showRecipientsCount(int count);
+
     MessageStorage getMessageStorage();
+
+    void navigateToNewMessage();
+
+    void navigateToRecipients();
 }

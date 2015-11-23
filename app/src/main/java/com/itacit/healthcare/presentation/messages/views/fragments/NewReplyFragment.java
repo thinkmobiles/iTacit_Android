@@ -37,7 +37,7 @@ public class NewReplyFragment extends BaseFragmentView<NewReplyPresenter, Messag
 
 	@Override
 	protected void setUpActionBar(ActionBar actionBar) {
-		switchToolbarIndicator(false, v -> activity.switchContent(MessageRepliesFragment.class, false));
+		switchToolbarIndicator(false, v -> activity.switchContent(MessageRepliesFragment.class));
 
 		privacyState = ReplyPrivacy.All;
 

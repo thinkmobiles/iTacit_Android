@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.itacit.healthcare.R;
-import com.itacit.healthcare.domain.interactor.messages.GetHeaderUseCase;
 import com.itacit.healthcare.domain.interactor.messages.GetListRepliesUseCase;
+import com.itacit.healthcare.domain.interactor.messages.GetMessageDetailsUseCase;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.expandableTextView.ExpandableTextView;
 import com.itacit.healthcare.presentation.messages.mappers.ListRepliesMapper;
@@ -59,7 +59,7 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
 
     @Override
     protected void setUpActionBar(ActionBar actionBar) {
-        switchToolbarIndicator(false, v -> activity.switchContent(MessagesFeedFragment.class, false));
+        switchToolbarIndicator(false, v -> activity.switchContent(MessagesFeedFragment.class));
 
         aBar = actionBar;
         actionBar.setHomeAsUpIndicator(null);
@@ -78,7 +78,7 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
         return new MessageRepliesPresenter(new ListRepliesMapper(),
                 new GetListRepliesUseCase(),
                 new MessagesMapper(),
-                new GetHeaderUseCase(),
+                new GetMessageDetailsUseCase(),
                 messageId);
     }
 

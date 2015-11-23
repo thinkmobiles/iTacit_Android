@@ -69,6 +69,11 @@ public class RecipientsGroupedModel {
         }
     }
 
+    public void clearAllRecipients() {
+        predefined.clear();
+        recipientGrouped.clear();
+    }
+
     public HashMap<RecipientType, List<RecipientModel>> getGroupedRecipients() {
         return recipientGrouped;
     }
