@@ -43,10 +43,12 @@ public class CreateMessageUseCase extends UseCase<Integer, CreateMessageModel, C
 			}
 		}
 
-		for (PredefinedRecipients predefinedRecipients : PredefinedRecipients.values()) {
-			Map<String, String> row = new HashMap<>();
-			row.put(predefinedRecipients.toString(), "Y");
-			recipients.add(row);
+		for (PredefinedRecipients type : PredefinedRecipients.values()) {
+			if (recipientsGroupedModel.getPredefined().contains(type)) {
+				Map<String, String> row = new HashMap<>();
+				row.put(type.toString(), "Y");
+				recipients.add(row);
+			}
 		}
 
 		if (model.isReadRequired()) {

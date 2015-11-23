@@ -16,6 +16,7 @@ import com.itacit.healthcare.domain.interactor.groups.GetBusinessUseCase;
 import com.itacit.healthcare.domain.interactor.groups.GetGroupsUseCase;
 import com.itacit.healthcare.domain.interactor.groups.GetJobsUseCase;
 import com.itacit.healthcare.domain.interactor.groups.GetRolesUseCase;
+import com.itacit.healthcare.domain.interactor.messages.GetRecipientsSummaryUseCase;
 import com.itacit.healthcare.domain.models.RecipientModel;
 import com.itacit.healthcare.global.utils.AndroidUtils;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
@@ -160,7 +161,7 @@ public class AddRecipientsFragment extends BaseFragmentView<AddRecipientsPresent
 
 
     @Override
-    public void showSelectedRecipientsCount(int count) {
+    public void showRecipientsCount(int count) {
         selectRecipientsCountTv.setText(String.valueOf(count));
     }
 
@@ -215,7 +216,7 @@ public class AddRecipientsFragment extends BaseFragmentView<AddRecipientsPresent
     protected AddRecipientsPresenter createPresenter() {
         return new AddRecipientsPresenter(new GetBusinessUseCase(),new GetJobsUseCase(),
                 new GetGroupsUseCase(), new GetRolesUseCase(), new GroupMapper(), new RoleMapper(),
-		        new BusinessMapper(),new JobMapper());
+		        new BusinessMapper(),new JobMapper(), new GetRecipientsSummaryUseCase());
     }
 
     private void showSelectedRecipients() {

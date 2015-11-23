@@ -1,11 +1,13 @@
 package com.itacit.healthcare.data.network.services;
 
 import com.itacit.healthcare.data.entries.Message;
+import com.itacit.healthcare.data.entries.RecipientsSummary;
 import com.itacit.healthcare.data.entries.Reply;
 import com.itacit.healthcare.data.network.request.CreateMessageRequest;
 import com.itacit.healthcare.data.network.request.CreateReplyRequest;
 import com.itacit.healthcare.data.network.request.ItemRequest;
 import com.itacit.healthcare.data.network.request.ListRequest;
+import com.itacit.healthcare.data.network.request.RecipientsInfoRequest;
 import com.itacit.healthcare.data.network.response.ListResponse;
 
 import retrofit.http.Body;
@@ -30,16 +32,16 @@ public class MessagesService {
 
     public interface MessagesApi {
         @POST("/mobile/1.0/messaging/message")
-        Observable<ListResponse<Message>> getMessages(@Body ListRequest request);
+        Observable<ListResponse<Message>> getMessages(@Body ListRequest requestBody);
 
         @POST("/mobile/1.0/messaging/message/new")
-        Observable<Integer> createMessage(@Body CreateMessageRequest request);
+        Observable<Integer> createMessage(@Body CreateMessageRequest requestBody);
 
         @POST("/mobile/1.0/messaging/message/sendReply ")
-        Observable<Reply> createReply(@Body CreateReplyRequest request);
+        Observable<Reply> createReply(@Body CreateReplyRequest requestBody);
 
         @POST("/mobile/1.0/messaging/reply")
-        Observable<ListResponse<Reply>> getListReplies(@Body ListRequest request);
+        Observable<ListResponse<Reply>> getListReplies(@Body ListRequest requestBody);
 
         @PUT("/mobile/1.0/messaging/archive/{MessageId}")
         Observable<Void> archiveMessage(@Path("MessageId") String messageId);
@@ -48,6 +50,9 @@ public class MessagesService {
         Observable<Void> confirmMessageRead(@Path("MessageId") String messageId);
 
         @POST("/mobile/1.0/messaging/message")
-        Observable<Message> getHeaderReplies(@Body ItemRequest request);
+        Observable<Message> getHeaderReplies(@Body ItemRequest requestBody);
+
+        @POST("/mobile/1.0/employee/advanced/summary")
+        Observable<RecipientsSummary> getRecipientsSummary(@Body RecipientsInfoRequest requestBody);
     }
 }

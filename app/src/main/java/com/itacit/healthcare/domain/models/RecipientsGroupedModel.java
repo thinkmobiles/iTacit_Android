@@ -58,10 +58,10 @@ public class RecipientsGroupedModel {
         }
     }
 
-    public void removeRecipient(RecipientModel recipient, RecipientType type) {
+    public void removeRecipient(String id, RecipientType type) {
         if (recipientGrouped.containsKey(type)) {
             for (RecipientModel recipientModel : recipientGrouped.get(type)){
-                if (recipient.getId().equals(recipientModel.getId())) {
+                if (id.equals(recipientModel.getId())) {
                     recipientGrouped.get(type).remove(recipientModel);
                     break;
                 }
@@ -86,15 +86,5 @@ public class RecipientsGroupedModel {
             if (recipient.getId().equals(id)) return true;
         }
         return false;
-    }
-
-    public int getRecipientsCount() {
-        int sum = 0;
-        for (RecipientType type : recipientGrouped.keySet()) {
-            sum += recipientGrouped.get(type).size();
-        }
-
-        sum += predefined.size();
-        return sum;
     }
 }

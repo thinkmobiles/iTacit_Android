@@ -20,6 +20,7 @@ import rx.Scheduler;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.Subscriptions;
 
@@ -34,41 +35,50 @@ import rx.subscriptions.Subscriptions;
 public abstract class UseCase<T, P, A> {
 
 
-  private Subscription subscription = Subscriptions.empty();
+    private Subscription subscription = Subscriptions.empty();
 
-  /**
-   * Builds an {@link Observable} which will be used when executing the current {@link UseCase}.
-   */
-  protected abstract Observable<T> buildUseCaseObservable(A obsArgs);
-  protected abstract A initArgs(P args);
-
-  public final void execute(Subscriber<T> subscriber, P args) {
-    this.subscription = this.buildUseCaseObservable(initArgs(args))
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(subscriber);
-  }
-
-  /**
-   * Executes the current use case.
-   *
-   * @param useCaseSubscriber The guy who will be listen to the observable build with {@link #buildUseCaseObservable(A obsArgs)}.
-   */
-  @SuppressWarnings("unchecked")
-  public final void execute(Subscriber<T> useCaseSubscriber, Scheduler subscribeOn, Scheduler observeOn) {
-    this.subscription = this.buildUseCaseObservable(initArgs(null))
-        .subscribeOn(subscribeOn)
-        .observeOn(observeOn)
-        .subscribe(useCaseSubscriber);
-  }
+    /**
+     * Builds an {@link Observable} which will be used when executing the current {@link UseCase}.
+     */
+    protected abstract Observable<T> buildUseCaseObservable(A obsArgs);
+    protected abstract A initArgs(P args);
 
 
-  /**
-   * Unsubscribes from current {@link Subscription}.
-   */
-  public void unsubscribe() {
-    if (!subscription.isUnsubscribed()) {
-      subscription.unsubscribe();
+    public final void execute(Subscriber<T> subscriber, P args) {
+      this.subscription = this.buildUseCaseObservable(initArgs(args))
+              .subscribeOn(Schedulers.io())
+              .observeOn(AndroidSchedulers.mainThread())
+              .subscribe(subscriber);
     }
-  }
+
+    public final void execute(Action1<T> action, P args) {
+        this.subscription = this.buildUseCaseObservable(initArgs(args))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(action);
+    }
+
+
+    /**
+     * Executes the current use case.
+     *
+     * @param useCaseSubscriber The guy who will be listen to the observable build with {@link #buildUseCaseObservable(A obsArgs)}.
+     */
+    @SuppressWarnings("unchecked")
+    protected final void execute(Subscriber<T> useCaseSubscriber, Scheduler subscribeOn, Scheduler observeOn) {
+      this.subscription = this.buildUseCaseObservable(initArgs(null))
+          .subscribeOn(subscribeOn)
+          .observeOn(observeOn)
+          .subscribe(useCaseSubscriber);
+    }
+
+
+    /**
+     * Unsubscribes from current {@link Subscription}.
+     */
+    public void unsubscribe() {
+      if (!subscription.isUnsubscribed()) {
+        subscription.unsubscribe();
+      }
+    }
 }
