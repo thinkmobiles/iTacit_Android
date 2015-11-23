@@ -27,7 +27,7 @@ public class RecipientsPresenter extends BasePresenter<RecipientsView> {
     private MessageStorage messageStorage;
     private RecipientsGroupedModel recipients;
     private GetRecipientsFullListUseCase getRecipientsFullList;
-    List<UserRecipientModel> usersRecipients = new ArrayList<>();
+    private List<UserRecipientModel> usersRecipients = new ArrayList<>();
 
     public RecipientsPresenter(GetRecipientsFullListUseCase getRecipientsFullList) {
         this.getRecipientsFullList = getRecipientsFullList;
