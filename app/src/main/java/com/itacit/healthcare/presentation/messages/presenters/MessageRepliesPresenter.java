@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import com.itacit.healthcare.data.entries.Message;
 import com.itacit.healthcare.data.entries.Reply;
 import com.itacit.healthcare.domain.interactor.messages.ConfirmMessageReadUseCase;
-import com.itacit.healthcare.domain.interactor.messages.GetHeaderUseCase;
 import com.itacit.healthcare.domain.interactor.messages.GetListRepliesUseCase;
 import com.itacit.healthcare.domain.interactor.messages.GetMessageDetailsUseCase;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;

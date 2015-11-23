@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.messages.ConfirmMessageReadUseCase;
-import com.itacit.healthcare.domain.interactor.messages.GetHeaderUseCase;
 import com.itacit.healthcare.domain.interactor.messages.GetListRepliesUseCase;
 import com.itacit.healthcare.domain.interactor.messages.GetMessageDetailsUseCase;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
