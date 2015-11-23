@@ -22,7 +22,7 @@
             android:layout_centerHorizontal="true"/>
 
         <ImageView
-            android:id="@+id/iv_confirmation_icon_LIMR"
+            android:id="@+id/iv_confirmation_LIMR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
@@ -102,12 +102,11 @@
             android:layout_below="@+id/tv_sender_name_LIMR"
             android:layout_alignParentStart="true"/>
 
-        <TextView
+        <com.itacit.healthcare.presentation.base.widgets.expandableTextView.ExpandableTextView
             android:id="@+id/tv_body_LIMR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_sender_role_LIMR"
-            android:maxLines="2"
             android:ellipsize="marquee"
             android:layout_marginBottom="4dp"
             tools:text="Lorem ipsum dolor sit amet, nam cu paulo utamur voluptua, mei id phaedrum reprimique. Cum postulant consequuntur in. Id magna recteque sea, usu te aperiri scriptorem"
@@ -121,6 +120,7 @@
             android:gravity="bottom"
             android:textColor="@color/btn_blue"
             android:drawableLeft="@drawable/ic_reply"
+            android:drawablePadding="5dp"
             android:textSize="10sp"
             android:layout_below="@+id/tv_body_LIMR"/>
 

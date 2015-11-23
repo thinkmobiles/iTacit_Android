@@ -54,7 +54,6 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
 
     @Override
     protected int getLayoutRes() {
-
         return R.layout.fragment_message_replies;
     }
 
@@ -87,7 +86,7 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
     public void showHeaderReplies(MessageModel messageModel) {
         aBar.setTitle(messageModel.getFirstName() + " " + messageModel.getLastName());
         aBar.setSubtitle(messageModel.getTimeSendMessage());
-
+        tvBody.setVisibility(View.INVISIBLE);
         tvSubject.setText(Html.fromHtml(messageModel.getSubject()));
         tvBody.setText(Html.fromHtml(messageModel.getBody()));
 
@@ -104,14 +103,9 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
         tvNumberPeopleShared.setText(" " + messageModel.getResponseCount());
         tvReplySender.setText(" to " + messageModel.getFirstName());
 
-        tvBody.post(truncated);
+        tvBody.post(() -> tvBody.makeExpandable(3, tvBody.getLayout().getLineEnd(2), tvBody.getLineCount()));
+        tvBody.setVisibility(View.VISIBLE);
     }
-
-    Runnable truncated = new Runnable() {
-        public void run() {
-            tvBody.makeExpandable(3, tvBody.getLayout().getLineEnd(2), tvBody.getLineCount());
-        }
-    };
 
     @Override
     public void showListReplies(List<RepliesModel> replies) {

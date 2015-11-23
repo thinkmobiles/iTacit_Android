@@ -8,7 +8,6 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 /**
@@ -16,7 +15,8 @@ import android.widget.TextView;
  */
 public class ExpandableTextView extends TextView {
 
-    private static final String ELLIPSIZE = "...";
+    private static final String ELLIPSIZE_MORE = " ...";
+    private static final String SHOW_LESS = " (show less)";
 
     private String mFullText;
     private int mMaxLines;
@@ -41,50 +41,41 @@ public class ExpandableTextView extends TextView {
     }
 
     public void makeExpandable(int maxLines, int index, int lineCount) {
-        makeExpandable(getText().toString(), maxLines, index, lineCount);
-    }
-
-    public void makeExpandable(String fullText, int maxLines, int index, int lineCount) {
-        mFullText = fullText;
+        mFullText = getText().toString();
         mMaxLines = maxLines;
         mIndex = index;
         mLineCount = lineCount;
-        ViewTreeObserver vto = this.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                ViewTreeObserver obs = getViewTreeObserver();
-                obs.removeOnGlobalLayoutListener(this);
-                if (mLineCount <= mMaxLines) {
-                    setText(mFullText);
-                } else {
-                    setMovementMethod(LinkMovementMethod.getInstance());
-                    showLess();
-                }
+        getHandler().post(() -> {
+            if (mLineCount <= mMaxLines) {
+                setText(mFullText);
+            } else {
+                setMovementMethod(LinkMovementMethod.getInstance());
+                showLess();
             }
         });
     }
 
     private void showLess() {
-        String newText = mFullText.substring(0, mIndex - (ELLIPSIZE.length() + 1)) + " " + ELLIPSIZE;
+        String substring = mFullText.substring(0, mIndex - ELLIPSIZE_MORE.length() + 1);
+        String newText = substring + ELLIPSIZE_MORE;
         SpannableStringBuilder builder = new SpannableStringBuilder(newText);
         builder.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
                 showMore();
             }
-        }, newText.length() - ELLIPSIZE.length(), (newText.length()), 0);
+        }, newText.length() - ELLIPSIZE_MORE.length(), (newText.length()), 0);
         setText(builder, BufferType.SPANNABLE);
     }
 
     private void showMore() {
-        SpannableStringBuilder builder = new SpannableStringBuilder(mFullText + ELLIPSIZE);
+        SpannableStringBuilder builder = new SpannableStringBuilder(mFullText + SHOW_LESS);
         builder.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
                 showLess();
             }
-        }, builder.length() - ELLIPSIZE.length(), builder.length(), 0);
+        }, builder.length() - SHOW_LESS.length(), builder.length(), 0);
         setText(builder, BufferType.SPANNABLE);
     }
 

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.data.network.interceptors.AuthInterceptor;
+import com.itacit.healthcare.presentation.base.widgets.expandableTextView.ExpandableTextView;
 import com.itacit.healthcare.presentation.base.widgets.picasso.CircleTransformation;
 import com.itacit.healthcare.presentation.messages.models.RepliesModel;
 import com.squareup.okhttp.OkHttpClient;
@@ -61,27 +62,23 @@ public class RepliesAdapter extends RecyclerView.Adapter<RepliesAdapter.ViewHold
         holder.senderNameTv.setText(repliesModel.getSenderNameFull());
         holder.senderRoleNameTv.setText(repliesModel.getSenderRoleName());
         holder.bodyTv.setText(Html.fromHtml(repliesModel.getBody()));
-
+        holder.bodyTv.post(() -> holder.bodyTv.makeExpandable(2, holder.bodyTv.getLayout().getLineEnd(1), holder.bodyTv.getLineCount()));
         holder.lastTimeResponseTv.setText(repliesModel.getSendDateTime());
 
-        if(repliesModel.isReplyPrivateYn()) {
-            holder.privateIv.setVisibility(View.VISIBLE);
-        }else {
-            holder.privateIv.setVisibility(View.GONE);
-        }
+        holder.privateIv.setVisibility(repliesModel.isReplyPrivateYn() ? View.VISIBLE : View.GONE);
+        holder.readConfirmedIv.setVisibility(repliesModel.isReadConfirmedYn() ? View.VISIBLE : View.GONE);
 
         if(repliesModel.isReplyMethodEmailYn() && !repliesModel.isReplyMethodSMSYn()) {
             holder.methodSendingIv.setImageResource(R.drawable.ic_mail);
             holder.privateIv.setVisibility(View.VISIBLE);
             holder.viaTv.setVisibility(View.VISIBLE);
-        }else if(repliesModel.isReplyMethodSMSYn() && !repliesModel.isReplyMethodEmailYn()) {
+        } else if(repliesModel.isReplyMethodSMSYn() && !repliesModel.isReplyMethodEmailYn()) {
             holder.methodSendingIv.setImageResource(R.drawable.ic_phone);
             holder.privateIv.setVisibility(View.VISIBLE);
             holder.viaTv.setVisibility(View.VISIBLE);
         } else {
             holder.privateIv.setVisibility(View.GONE);
             holder.viaTv.setVisibility(View.GONE);
-
         }
 
     }
@@ -92,26 +89,17 @@ public class RepliesAdapter extends RecyclerView.Adapter<RepliesAdapter.ViewHold
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        @Bind(R.id.iv_headline_LIMR)
-        ImageView headlineIv;
-        @Bind(R.id.tv_sender_name_LIMR)
-        TextView senderNameTv;
-        @Bind(R.id.tv_last_time_response_LIMR)
-        TextView lastTimeResponseTv;
-        @Bind(R.id.tv_sender_role_LIMR)
-        TextView senderRoleNameTv;
-        @Bind(R.id.tv_body_LIMR)
-        TextView bodyTv;
-
-        @Bind(R.id.iv_private_LIMR)
-        ImageView privateIv;
-        @Bind(R.id.iv_method_sending_LIMR)
-        ImageView methodSendingIv;
-        @Bind(R.id.tv_via_LIMR)
-        TextView viaTv;
+        @Bind(R.id.iv_headline_LIMR)            ImageView headlineIv;
+        @Bind(R.id.tv_sender_name_LIMR)         TextView senderNameTv;
+        @Bind(R.id.tv_last_time_response_LIMR)  TextView lastTimeResponseTv;
+        @Bind(R.id.tv_sender_role_LIMR)         TextView senderRoleNameTv;
+        @Bind(R.id.tv_body_LIMR)                ExpandableTextView bodyTv;
+        @Bind(R.id.iv_private_LIMR)             ImageView privateIv;
+        @Bind(R.id.iv_method_sending_LIMR)      ImageView methodSendingIv;
+        @Bind(R.id.tv_via_LIMR)                 TextView viaTv;
+        @Bind(R.id.iv_confirmation_LIMR)        ImageView readConfirmedIv;
 
         View view;
-
         public ViewHolder(View itemView) {
             super(itemView);
             view = itemView;

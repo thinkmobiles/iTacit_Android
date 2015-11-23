@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                xmlns:tools="http://schemas.android.com/tools"
                 android:background="@android:color/white">
 
     <RelativeLayout
+        android:id="@+id/rl_messages_replies_header_FMR"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/rl_messages_replies_header_FMR"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
         android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:focusableInTouchMode="true"
+        android:paddingBottom="10dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
 
         <TextView
             android:id="@+id/tv_subject_FMR"
@@ -32,117 +32,120 @@
 
             <com.itacit.healthcare.presentation.base.widgets.expandableTextView.ExpandableTextView
                 android:id="@+id/tv_body_FMR"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:textColorLink="@color/btn_blue"
                 tools:text="Hi make this a very long string that wraps at least 4 lines, seriously make it really really long so it gets cut off at the fourth line not joke.  Just do it! Hi make this a very long string that wraps at least 4 lines, seriously make it really really long so it gets cut off at the fourth line not joke.  Just do it!"/>
 
         </RelativeLayout>
-
 
 
         <TextView
             android:id="@+id/tv_request_for_confirmation_FMR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/btn_blue"
-            android:visibility="gone"
-            android:layout_marginBottom="8dp"
-            tools:text="Please confirm this"
             android:layout_below="@+id/rl_body_FMR"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/btn_blue"
+            android:visibility="visible"
+            tools:text="Please confirm this"/>
 
         <CheckBox
             android:id="@+id/tv_response_for_confirmation_FMR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_request_for_confirmation_FMR"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/frame_checkbox_confirm"
+            android:button="@drawable/circle_checkbox_confirm"
+            android:paddingBottom="4dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="4dp"
             android:text="I HAVE READ THIS"
             android:textColor="@color/btn_blue"
-            android:visibility="gone"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_centerHorizontal="true"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            android:paddingRight="8dp"
-            android:paddingLeft="8dp"
-            android:background="@drawable/frame_checkbox_confirm"
-            android:button="@drawable/circle_checkbox_confirm"/>
+            android:visibility="visible"/>
 
-        <TextView
-            android:id="@+id/tv_number_people_shared_FMR"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_user"
-            tools:text=" 13"
-            android:gravity="bottom"
-            android:textColor="@color/btn_blue"
-            android:layout_below="@+id/tv_response_for_confirmation_FMR"/>
-
-        <TextView
-            android:id="@+id/tv_number_people_read_FMR"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_user_compl"
-            android:text=" 15"
-            android:gravity="bottom"
-            android:textColor="@color/btn_blue"
-            android:layout_marginLeft="8dp"
-            android:layout_alignTop="@+id/tv_number_people_shared_FMR"
-            android:layout_toEndOf="@+id/tv_number_people_shared_FMR"/>
-
-        <TextView
-            android:id="@+id/tv_number_attachment_FMR"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:drawableLeft="@drawable/ic_attach"
-            tools:text=" 17"
-            android:gravity="bottom"
-            android:textColor="@color/btn_blue"
-            android:layout_marginLeft="8dp"
-            android:layout_alignTop="@+id/tv_number_people_read_FMR"
-            android:layout_toEndOf="@+id/tv_number_people_read_FMR"/>
-
-        <TextView
-            android:id="@+id/tv_reply_to_sender_FMR"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_reply"
-            tools:text=" to Author"
-            android:gravity="bottom"
-            android:textColor="@color/btn_blue"
-            android:layout_marginLeft="8dp"
             android:layout_below="@+id/tv_response_for_confirmation_FMR"
-            android:layout_alignParentEnd="true"
-            />
+            android:layout_marginTop="5dp">
 
-        <TextView
-            android:id="@+id/ib_reply_all_FMR"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_reply"
-            android:text=" All"
-            android:gravity="bottom"
-            android:textColor="@color/btn_blue"
-            android:layout_marginLeft="8dp"
-            android:layout_below="@+id/tv_response_for_confirmation_FMR"
-            android:layout_toStartOf="@+id/tv_reply_to_sender_FMR"/>
+            <TextView
+                android:id="@+id/tv_number_people_shared_FMR"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_user"
+                android:gravity="bottom"
+                android:textColor="@color/btn_blue"
+                tools:text=" 13"/>
 
+            <TextView
+                android:id="@+id/tv_number_people_read_FMR"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/tv_number_people_shared_FMR"
+                android:layout_marginLeft="8dp"
+                android:layout_toEndOf="@+id/tv_number_people_shared_FMR"
+                android:drawableLeft="@drawable/ic_user_compl"
+                android:gravity="bottom"
+                android:text=" 15"
+                android:textColor="@color/btn_blue"/>
+
+            <TextView
+                android:id="@+id/tv_number_attachment_FMR"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/tv_number_people_read_FMR"
+                android:layout_marginLeft="8dp"
+                android:layout_toEndOf="@+id/tv_number_people_read_FMR"
+                android:gravity="bottom"
+                android:textColor="@color/btn_blue"
+                tools:drawableLeft="@drawable/ic_attach"
+                tools:text=" 17"/>
+
+            <TextView
+                android:id="@+id/tv_reply_to_sender_FMR"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginLeft="8dp"
+                android:drawableLeft="@drawable/ic_reply"
+                android:gravity="bottom"
+                android:textColor="@color/btn_blue"
+                tools:text=" to Author"
+                />
+
+            <TextView
+                android:id="@+id/ib_reply_all_FMR"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_toStartOf="@+id/tv_reply_to_sender_FMR"
+                android:drawableLeft="@drawable/ic_reply"
+                android:gravity="bottom"
+                android:text=" All"
+                android:textColor="@color/btn_blue"/>
+        </RelativeLayout>
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_FMR"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/rl_messages_replies_header_FMR"
         android:background="@android:color/white"
-        android:scrollbars="vertical"
-        android:layout_below="@+id/rl_messages_replies_header_FMR"/>
+        android:scrollbars="vertical"/>
 
     <View
         android:id="@+id/shadow_line_FMR"
         style="@style/shadow_bottom"
-        android:layout_below="@+id/rl_messages_replies_header_FMR"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/rl_messages_replies_header_FMR"/>
 </RelativeLayout>

@@ -118,6 +118,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/tv_sender_role_LIM"
                     android:layout_marginTop="8dp"
+                    android:textStyle="bold"
                     tools:text="Lorem ipsum dolor"/>
 
                 <TextView
