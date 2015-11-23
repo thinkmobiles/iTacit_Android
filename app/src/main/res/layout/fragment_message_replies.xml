@@ -96,7 +96,7 @@
                 android:layout_toEndOf="@+id/tv_number_people_shared_FMR"
                 android:drawableLeft="@drawable/ic_user_compl"
                 android:gravity="bottom"
-                android:text=" 15"
+                tools:text=" 15"
                 android:textColor="@color/btn_blue"/>
 
             <TextView

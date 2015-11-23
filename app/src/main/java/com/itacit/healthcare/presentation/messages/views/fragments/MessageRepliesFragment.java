@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.itacit.healthcare.R;
+import com.itacit.healthcare.data.entries.Recipient;
 import com.itacit.healthcare.domain.interactor.messages.ConfirmMessageReadUseCase;
 import com.itacit.healthcare.domain.interactor.messages.GetListRepliesUseCase;
 import com.itacit.healthcare.domain.interactor.messages.GetMessageDetailsUseCase;
@@ -52,6 +53,8 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
 
     private RepliesAdapter repliesAdapter;
     private ActionBar aBar;
+
+    private List<Recipient> recipientsList;
 
     @Override
     protected void setUpView() {
@@ -114,12 +117,26 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
         tvBody.post(() -> tvBody.makeExpandable(3, tvBody.getLayout().getLineEnd(2), tvBody.getLineCount()));
         tvBody.setVisibility(View.VISIBLE);
 
+        recipientsList = messageModel.getRecipientsList();
+        int count = 0;
+        for (Recipient r : recipientsList) {
+            if(r.getReadConfirmedYn().equals("Y")){
+                count++;
+            }
+        }
+        if(count <= 0){
+            tvNumberPeopleRead.setVisibility(View.GONE);
+        }else{
+            tvNumberPeopleRead.setVisibility(View.VISIBLE);
+            tvNumberPeopleRead.setText(" " + count);
+        }
+
         tvResponseConfirmation.setOnClickListener(e -> presenter.sendResponseConfirm());
     }
 
     @Override
     public void showListReplies(List<RepliesModel> replies) {
-        repliesAdapter = new RepliesAdapter(getActivity(),replies);
+        repliesAdapter = new RepliesAdapter(getActivity(), replies);
         repliesRecyclerView.setAdapter(repliesAdapter);
     }
 
