@@ -39,6 +39,7 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
 
     private MessagesAdapter messagesAdapter;
     private ProgressDialog progressDialog;
+    private Boolean isArchive = false;
 
     @OnClick(R.id.fab_button_FMF)
     void addNewMessage() {
@@ -52,6 +53,7 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
         tabLayout.addTab(tabLayout.newTab().setText("Waiting \n3").setTag(MessagesFilter.WAITING));
         tabLayout.addTab(tabLayout.newTab().setText("To my \n4").setTag(MessagesFilter.SENT));
         tabLayout.addTab(tabLayout.newTab().setText("For me \n5").setTag(MessagesFilter.INBOX));
+        tabLayout.addTab(tabLayout.newTab().setText("Archive \n6").setTag(MessagesFilter.ARCHIVE));
 
         tabLayout.setOnTabSelectedListener(this);
 
@@ -83,7 +85,7 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
 
     @Override
     public void showMessages(List<MessageModel> messages) {
-        messagesAdapter = new MessagesAdapter(getActivity(), messages, presenter);
+        messagesAdapter = new MessagesAdapter(getActivity(), messages, presenter, isArchive);
         messagesRecyclerView.setAdapter(messagesAdapter);
     }
 
@@ -136,6 +138,7 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
     }
 
     private void checkTabSelected(TabLayout.Tab tab) {
+        isArchive = MessagesFilter.ARCHIVE.equals((MessagesFilter) tab.getTag());
         presenter.getMessages((MessagesFilter) tab.getTag());
     }
 }

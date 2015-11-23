@@ -35,13 +35,15 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     private final MessagesFeedPresenter presenter;
     private Context context;
     private List<MessageModel> messages;
+    private Boolean isArchive = false;
     private Picasso picasso;
 
 
-    public MessagesAdapter(Context context, List<MessageModel> messages, MessagesFeedPresenter presenter) {
+    public MessagesAdapter(Context context, List<MessageModel> messages, MessagesFeedPresenter presenter, Boolean isArchive) {
         this.context = context;
         this.messages = messages;
         this.presenter = presenter;
+        this.isArchive = isArchive;
         OkHttpClient picassoClient = new OkHttpClient();
         picassoClient.interceptors().add(new AuthInterceptor());
         picasso = new Picasso.Builder(context)
@@ -101,6 +103,10 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         }
 
         holder.lastTimeResponseTv.setText(messageModel.getTimeSendMessage());
+
+        if (isArchive) {
+	        holder.swipeLayout.setRightSwipeEnabled(false);
+        }
     }
 
     public int getMessagePosition(String messageId) {
