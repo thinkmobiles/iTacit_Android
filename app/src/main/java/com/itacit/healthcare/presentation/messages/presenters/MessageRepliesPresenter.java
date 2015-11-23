@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.itacit.healthcare.data.entries.Message;
 import com.itacit.healthcare.data.entries.Reply;
+import com.itacit.healthcare.domain.interactor.messages.ConfirmMessageReadUseCase;
 import com.itacit.healthcare.domain.interactor.messages.GetListRepliesUseCase;
 import com.itacit.healthcare.domain.interactor.messages.GetMessageDetailsUseCase;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
@@ -30,17 +31,21 @@ public class MessageRepliesPresenter extends BasePresenter<MessageRepliesView> {
     private ListRepliesMapper repliesMapper;
     private MessagesMapper messagesMapper;
 
+    private ConfirmMessageReadUseCase confirmMessageReadUseCase;
+
     private String messageId;
 
     public MessageRepliesPresenter(ListRepliesMapper listRepliesMapper,
                                    GetListRepliesUseCase getListRepliesUseCase,
                                    MessagesMapper messagesMapper,
                                    GetMessageDetailsUseCase getMessageDetailsUseCase,
+                                   ConfirmMessageReadUseCase confirmMessageReadUseCase,
                                    String messageId) {
         this.repliesMapper = listRepliesMapper;
         this.getListRepliesUseCase = getListRepliesUseCase;
         this.messagesMapper = messagesMapper;
         this.getMessageDetailsUseCase = getMessageDetailsUseCase;
+        this.confirmMessageReadUseCase = confirmMessageReadUseCase;
         this.messageId = messageId;
     }
 
@@ -48,6 +53,24 @@ public class MessageRepliesPresenter extends BasePresenter<MessageRepliesView> {
     protected void onAttachedView(@NonNull MessageRepliesView view) {
         getMessageDetailsUseCase.execute(new HeaderRepliesSubscriber(),messageId);
         getListRepliesUseCase.execute(new RepliesListSubscriber(), messageId);
+    }
+
+    public  void sendResponseConfirm(){
+        confirmMessageReadUseCase.execute(new Subscriber<Void>() {
+            @Override
+            public void onCompleted() {
+                actOnView(view -> view.showConfirmed());
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                actOnView(view -> view.showErrorToast(e.toString()));
+            }
+
+            @Override
+            public void onNext(Void t) {
+            }
+        }, messageId);
     }
 
     private void showRepliesOnView() {
