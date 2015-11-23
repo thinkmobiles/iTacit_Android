@@ -7,6 +7,7 @@ import com.itacit.healthcare.data.entries.Reply;
 import com.itacit.healthcare.domain.interactor.messages.ConfirmMessageReadUseCase;
 import com.itacit.healthcare.domain.interactor.messages.GetHeaderUseCase;
 import com.itacit.healthcare.domain.interactor.messages.GetListRepliesUseCase;
+import com.itacit.healthcare.domain.interactor.messages.GetMessageDetailsUseCase;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
 import com.itacit.healthcare.presentation.messages.mappers.ListRepliesMapper;
 import com.itacit.healthcare.presentation.messages.mappers.MessagesMapper;
@@ -26,7 +27,7 @@ public class MessageRepliesPresenter extends BasePresenter<MessageRepliesView> {
     public MessageModel messageModel;
 
     private GetListRepliesUseCase getListRepliesUseCase;
-    private GetHeaderUseCase getHeaderUseCase;
+    private GetMessageDetailsUseCase getMessageDetailsUseCase;
 
     private ListRepliesMapper repliesMapper;
     private MessagesMapper messagesMapper;
@@ -38,20 +39,20 @@ public class MessageRepliesPresenter extends BasePresenter<MessageRepliesView> {
     public MessageRepliesPresenter(ListRepliesMapper listRepliesMapper,
                                    GetListRepliesUseCase getListRepliesUseCase,
                                    MessagesMapper messagesMapper,
-                                   GetHeaderUseCase getHeaderUseCase,
+                                   GetMessageDetailsUseCase getMessageDetailsUseCase,
                                    ConfirmMessageReadUseCase confirmMessageReadUseCase,
                                    String messageId) {
         this.repliesMapper = listRepliesMapper;
         this.getListRepliesUseCase = getListRepliesUseCase;
         this.messagesMapper = messagesMapper;
-        this.getHeaderUseCase = getHeaderUseCase;
+        this.getMessageDetailsUseCase = getMessageDetailsUseCase;
         this.confirmMessageReadUseCase = confirmMessageReadUseCase;
         this.messageId = messageId;
     }
 
     @Override
     protected void onAttachedView(@NonNull MessageRepliesView view) {
-        getHeaderUseCase.execute(new HeaderRepliesSubscriber(),messageId);
+        getMessageDetailsUseCase.execute(new HeaderRepliesSubscriber(),messageId);
         getListRepliesUseCase.execute(new RepliesListSubscriber(), messageId);
     }
 

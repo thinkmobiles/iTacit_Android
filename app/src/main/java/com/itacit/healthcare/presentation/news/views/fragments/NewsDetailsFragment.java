@@ -50,7 +50,7 @@ public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter, 
 
     @Override
     protected void setUpActionBar(ActionBar actionBar) {
-        switchToolbarIndicator(false, v -> activity.switchContent(NewsFeedFragment.class, false));
+        switchToolbarIndicator(false, v -> activity.switchContent(NewsFeedFragment.class));
 
         actionBar.setHomeAsUpIndicator(null);
         activity.setActionBarShadowVisible(true);

@@ -47,7 +47,7 @@ public class NewMessagePresenter extends BasePresenter<NewMessageView> {
 	@Override
 	protected void onAttachedView(@NonNull NewMessageView view) {
 		messageStorage = view.getMessageStorage();
-		messageModel = messageStorage.getMessage();
+		messageModel = messageStorage.popMessage();
 		compositeSubscription.add(view.getUsersSearchTextObs()
 				.filter(text -> text.length() >= SEARCH_TEXT_MIN_LENGTH)
 				.debounce(1, TimeUnit.SECONDS)
@@ -71,9 +71,7 @@ public class NewMessagePresenter extends BasePresenter<NewMessageView> {
 	}
 
 	private void onChipRemoved(Filter filter) {
-		RecipientModel recipient = new RecipientModel();
-		recipient.setId(filter.getId());
-		messageModel.getRecipients().removeRecipient(recipient, RecipientType.User);
+		messageModel.getRecipients().removeRecipient(filter.getId(), RecipientType.User);
 	}
 
 	public void searchUsers(String query) {
@@ -91,16 +89,15 @@ public class NewMessagePresenter extends BasePresenter<NewMessageView> {
 
 	public void onUserClicked(UserModel user) {
 		Filter filter = new Filter(user.getId(), user.getFullName(), Filter.FilterType.Author);
-		RecipientModel recipient = new RecipientModel();
-		recipient.setId(user.getId());
-		recipient.setName(user.getFullName());
-
 		if (isUserSelected(user.getId())) {
-			messageModel.getRecipients().removeRecipient(recipient, RecipientType.User);
+			messageModel.getRecipients().removeRecipient(user.getId(), RecipientType.User);
 			actOnView(view -> view.removeFilter(filter));
 		} else {
-			actOnView(view -> view.addFilter(filter));
+			RecipientModel recipient = new RecipientModel();
+			recipient.setId(user.getId());
+			recipient.setName(user.getFullName());
 			messageModel.getRecipients().addRecipient(recipient, RecipientType.User);
+			actOnView(view -> view.addFilter(filter));
 		}
 	}
 
