@@ -44,7 +44,7 @@ public class MessagesService {
         @PUT("/mobile/1.0/messaging/archive/{MessageId}")
         Observable<Void> archiveMessage(@Path("MessageId") String messageId);
 
-        @PUT("/mobile/1.0/message/readConfirm/{MessageId}")
+        @PUT("/mobile/1.0/messaging/readConfirm/{MessageId}")
         Observable<Void> confirmMessageRead(@Path("MessageId") String messageId);
 
         @POST("/mobile/1.0/messaging/message")

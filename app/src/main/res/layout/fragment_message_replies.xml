@@ -53,28 +53,29 @@
             android:visibility="visible"
             tools:text="Please confirm this"/>
 
-        <CheckBox
-            android:id="@+id/tv_response_for_confirmation_FMR"
+        <TextView
+            android:id="@+id/cb_response_for_confirmation_FMR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_request_for_confirmation_FMR"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/frame_checkbox_confirm"
-            android:button="@drawable/circle_checkbox_confirm"
+            android:background="@drawable/frame_confirm_request"
+            android:drawableLeft="@drawable/circle_confirm_request"
+            android:gravity="bottom"
             android:paddingBottom="4dp"
-            android:paddingLeft="8dp"
+            android:paddingLeft="4dp"
             android:paddingRight="8dp"
             android:paddingTop="4dp"
-            android:text="I HAVE READ THIS"
+            android:text=" I HAVE READ THIS"
             android:textColor="@color/btn_blue"
             android:visibility="visible"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_response_for_confirmation_FMR"
+            android:layout_below="@+id/cb_response_for_confirmation_FMR"
             android:layout_marginTop="5dp">
 
             <TextView
