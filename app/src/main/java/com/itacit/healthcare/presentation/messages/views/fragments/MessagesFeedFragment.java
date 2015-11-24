@@ -6,10 +6,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.messages.ArchiveMessageUseCase;
@@ -43,7 +39,7 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
 
     @OnClick(R.id.fab_button_FMF)
     void addNewMessage() {
-        activity.switchContent(NewMessageFragment.class, false);
+        activity.switchContent(NewMessageFragment.class);
     }
 
     @Override
@@ -110,7 +106,7 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
     public void showMessageDetails(String messageId) {
         Bundle args = new Bundle(1);
         args.putString(MessageRepliesFragment.Message_ID, messageId);
-        activity.switchContent(MessageRepliesFragment.class, true, args);
+        activity.switchContent(MessageRepliesFragment.class, args);
     }
 
     @Override
@@ -138,7 +134,7 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
     }
 
     private void checkTabSelected(TabLayout.Tab tab) {
-        isArchive = MessagesFilter.ARCHIVE.equals((MessagesFilter) tab.getTag());
+        isArchive = MessagesFilter.ARCHIVE.equals(tab.getTag());
         presenter.getMessages((MessagesFilter) tab.getTag());
     }
 }

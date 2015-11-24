@@ -107,8 +107,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_sender_role_LIMR"
-            android:ellipsize="marquee"
             android:layout_marginBottom="4dp"
+            android:textColorLink="@color/btn_blue"
             tools:text="Lorem ipsum dolor sit amet, nam cu paulo utamur voluptua, mei id phaedrum reprimique. Cum postulant consequuntur in. Id magna recteque sea, usu te aperiri scriptorem"
             style="@style/textContent"/>
 

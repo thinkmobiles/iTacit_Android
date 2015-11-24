@@ -10,6 +10,7 @@ import com.itacit.healthcare.domain.interactor.groups.GetBusinessUseCase;
 import com.itacit.healthcare.domain.interactor.groups.GetGroupsUseCase;
 import com.itacit.healthcare.domain.interactor.groups.GetJobsUseCase;
 import com.itacit.healthcare.domain.interactor.groups.GetRolesUseCase;
+import com.itacit.healthcare.domain.interactor.messages.GetRecipientsSummaryUseCase;
 import com.itacit.healthcare.domain.models.CreateMessageModel;
 import com.itacit.healthcare.domain.models.RecipientModel;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
@@ -34,6 +35,7 @@ import static com.itacit.healthcare.domain.models.RecipientsGroupedModel.Recipie
  */
 public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
     public static final int TIMEOUT = 1;
+    private final GetRecipientsSummaryUseCase getRecipientsSummaryUseCase;
     private GetBusinessUseCase getBusinessUseCase;
     private GetJobsUseCase getJobsUseCase;
     private GetGroupsUseCase getGroupsUseCase;
@@ -50,7 +52,8 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
     public AddRecipientsPresenter(GetBusinessUseCase getBusinessUseCase, GetJobsUseCase getJobsUseCase,
                                   GetGroupsUseCase getGroupsUseCase, GetRolesUseCase getRolesUseCase,
                                   GroupMapper groupMapper, RoleMapper roleMapper,
-                                  BusinessMapper businessMapper, JobMapper jobMapper) {
+                                  BusinessMapper businessMapper, JobMapper jobMapper,
+                                  GetRecipientsSummaryUseCase getRecipientsSummaryUseCase) {
         this.getBusinessUseCase = getBusinessUseCase;
         this.getJobsUseCase = getJobsUseCase;
         this.getGroupsUseCase = getGroupsUseCase;
@@ -59,6 +62,7 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
         this.businessMapper = businessMapper;
         this.jobMapper = jobMapper;
         this.roleMapper = roleMapper;
+        this.getRecipientsSummaryUseCase = getRecipientsSummaryUseCase;
     }
 
     @Override
@@ -70,19 +74,31 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
 
         messageStorage = view.getMessageStorage();
         createMessageModel = messageStorage.getMessage();
-        view.showSelectedRecipientsCount(createMessageModel.getRecipients().getRecipientsCount());
+        getRecipientsCount();
+    }
+
+    private void getRecipientsCount() {
+        getRecipientsSummaryUseCase.execute(s ->
+                        actOnView(view -> view.showRecipientsCount(s.getTotalRecipients())),
+                createMessageModel.getRecipients());
     }
 
     public boolean isRecipientSelected(PredefinedRecipients predefined) {
         return createMessageModel.getRecipients().getPredefined().contains(predefined);
     }
 
-    public boolean isRecipientSelected(RecipientModel recipient, RecipientType type) {
-        return createMessageModel.getRecipients().containsRecipient(recipient.getId(), type);
+    public boolean isRecipientSelected(String id, RecipientType type) {
+        return createMessageModel.getRecipients().containsRecipient(id, type);
     }
 
     public void selectRecipients() {
         messageStorage.pushCreateMessage(createMessageModel);
+        actOnView(view -> view.navigateToNewMessage());
+    }
+
+    public void editRecipients() {
+        messageStorage.pushCreateMessage(createMessageModel);
+        actOnView(view -> view.navigateToRecipients());
     }
 
     public void predefinedClicked(PredefinedRecipients predefined) {
@@ -91,6 +107,7 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
         } else {
             createMessageModel.getRecipients().selectRecipients(predefined);
         }
+        getRecipientsCount();
     }
 
     private void showRecipientsOnView(List<RecipientModel> recipients, RecipientType type) {
@@ -98,13 +115,13 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
     }
 
     public void onRecipientClick(RecipientModel recipient, RecipientType type) {
-        if (isRecipientSelected(recipient, type)) {
-            createMessageModel.getRecipients().removeRecipient(recipient, type);
+        if (isRecipientSelected(recipient.getId(), type)) {
+            createMessageModel.getRecipients().removeRecipient(recipient.getId(), type);
         } else {
             createMessageModel.getRecipients().addRecipient(recipient, type);
         }
 
-        actOnView(view -> view.showSelectedRecipientsCount(createMessageModel.getRecipients().getRecipientsCount()));
+        getRecipientsCount();
     }
 
     private void getRecipients(String query) {

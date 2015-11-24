@@ -10,14 +10,14 @@ import rx.Observable;
 /**
  * Created by Den on 19.11.15.
  */
-public class GetHeaderUseCase extends GetItemUseCase<Message,String> {
+public class GetMessageDetailsUseCase extends GetItemUseCase<Message,String> {
 
     private static final String SENDER_FIELD = "sender";
     public static final String RECIPIENTS_MESSAGE = "recipients";
 
     @Override
     protected Observable<Message> buildUseCaseObservable(ItemRequest requestBody) {
-        return MessagesService.getApi().getHeaderReplies(requestBody);
+        return MessagesService.getApi().getMessageDetailsReplies(requestBody);
     }
 
     @Override
@@ -25,5 +25,6 @@ public class GetHeaderUseCase extends GetItemUseCase<Message,String> {
         ItemRequest requestBody = new ItemRequest();
         requestBody.setId(args);
         setRequestFields(requestBody, DEFAULT_FIELDS, SENDER_FIELD, RECIPIENTS_MESSAGE);
-        return requestBody;    }
+        return requestBody;
+    }
 }

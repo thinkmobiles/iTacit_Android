@@ -83,7 +83,7 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsAc
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.filter:
-				activity.switchContent(NewsSearchFragment.class, true);
+				activity.switchContent(NewsSearchFragment.class);
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -144,7 +144,7 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsAc
 	public void showNewsItemDetails(String newsId) {
 		Bundle args = new Bundle(1);
 		args.putString(NewsDetailsFragment.NEWS_ID, newsId);
-		activity.switchContent(NewsDetailsFragment.class, true, args);
+		activity.switchContent(NewsDetailsFragment.class, args);
 	}
 
     @Override

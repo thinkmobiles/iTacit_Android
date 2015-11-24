@@ -14,4 +14,6 @@ public interface MessageRepliesView extends View {
     void showListReplies(List<RepliesModel> replies);
     void replyToAll();
     void privateReply();
+    void showConfirmed();
+    void showErrorToast(String error);
 }

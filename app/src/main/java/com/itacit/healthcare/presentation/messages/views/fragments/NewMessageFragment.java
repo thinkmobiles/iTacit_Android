@@ -57,7 +57,7 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 
     @Override
     protected void setUpActionBar(ActionBar actionBar) {
-        switchToolbarIndicator(false, v -> activity.switchContent(MessagesFeedFragment.class, false));
+        switchToolbarIndicator(false, v -> activity.switchContent(MessagesFeedFragment.class));
 
         actionBar.setHomeAsUpIndicator(null);
         activity.setActionBarShadowVisible(true);
@@ -119,7 +119,7 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
 
     @Override
     public void navigateToAddRecipients() {
-        activity.switchContent(AddRecipientsFragment.class, false);
+        activity.switchContent(AddRecipientsFragment.class);
     }
 
     @Override

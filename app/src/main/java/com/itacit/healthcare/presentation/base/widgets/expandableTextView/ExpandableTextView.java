@@ -23,6 +23,8 @@ public class ExpandableTextView extends TextView {
     private int mIndex;
     private int mLineCount;
 
+    private boolean expandable = true;
+
     public ExpandableTextView(Context context) {
         super(context);
     }
@@ -45,17 +47,19 @@ public class ExpandableTextView extends TextView {
         mMaxLines = maxLines;
         mIndex = index;
         mLineCount = lineCount;
-        getHandler().post(() -> {
-            if (mLineCount <= mMaxLines) {
-                setText(mFullText);
-            } else {
-                setMovementMethod(LinkMovementMethod.getInstance());
-                showLess();
-            }
-        });
+        if(getHandler() != null){
+            getHandler().post(() -> {
+                if (mLineCount <= mMaxLines) {
+                    setText(mFullText);
+                } else {
+                    setMovementMethod(LinkMovementMethod.getInstance());
+                    showLess();
+                }
+            });
+        }
     }
 
-    private void showLess() {
+    public void showLess() {
         String substring = mFullText.substring(0, mIndex - ELLIPSIZE_MORE.length() + 1);
         String newText = substring + ELLIPSIZE_MORE;
         SpannableStringBuilder builder = new SpannableStringBuilder(newText);
@@ -66,9 +70,11 @@ public class ExpandableTextView extends TextView {
             }
         }, newText.length() - ELLIPSIZE_MORE.length(), (newText.length()), 0);
         setText(builder, BufferType.SPANNABLE);
+
+        expandable = false;
     }
 
-    private void showMore() {
+    public void showMore() {
         SpannableStringBuilder builder = new SpannableStringBuilder(mFullText + SHOW_LESS);
         builder.setSpan(new ClickableSpan() {
             @Override
@@ -77,6 +83,12 @@ public class ExpandableTextView extends TextView {
             }
         }, builder.length() - SHOW_LESS.length(), builder.length(), 0);
         setText(builder, BufferType.SPANNABLE);
+
+        expandable = true;
+    }
+
+    public boolean isExpandable(){
+        return expandable;
     }
 
 
