@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               android:orientation="horizontal"
               android:layout_width="match_parent"
@@ -7,12 +7,13 @@
 
     <ImageView
         android:id="@+id/iv_check"
-        android:layout_width="@dimen/margin_sides"
-        android:layout_height="@dimen/margin_sides"
+        android:layout_width="@dimen/check_icon_size"
+        android:layout_height="@dimen/check_icon_size"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/ic_check"
-        android:visibility="invisible"
-        android:layout_margin="@dimen/text_margin"/>
+        android:src="@drawable/ic_check_act"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/main_margin"
+        android:layout_marginBottom="@dimen/main_margin"/>
 
     <TextView
         android:id="@+id/tv_title"
@@ -21,7 +22,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="Care giving"
-        android:layout_gravity="center_vertical"
-        android:layout_margin="5dp"/>
+        android:layout_marginTop="@dimen/main_margin"
+        android:layout_marginBottom="@dimen/main_margin"
+        android:layout_gravity="center_vertical"/>
 
-</LinearLayout>
+</RelativeLayout>

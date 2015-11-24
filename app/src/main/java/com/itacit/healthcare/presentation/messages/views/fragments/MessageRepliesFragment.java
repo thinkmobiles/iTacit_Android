@@ -44,7 +44,6 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
     @Bind(R.id.cb_response_for_confirmation_FMR)    TextView tvResponseConfirmation;
     @Bind(R.id.tv_number_people_shared_FMR)         TextView tvNumberPeopleShared;
     @Bind(R.id.tv_number_people_read_FMR)           TextView tvNumberPeopleRead;
-    @Bind(R.id.tv_number_attachment_FMR)            TextView tvNumberAttachment;
     @Bind(R.id.tv_reply_to_sender_FMR)              TextView tvReplySender;
     @Bind(R.id.ib_reply_all_FMR)                    TextView tvReplyAll;
 

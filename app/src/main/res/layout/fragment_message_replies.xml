@@ -80,59 +80,38 @@
 
             <TextView
                 android:id="@+id/tv_number_people_shared_FMR"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_user"
-                android:gravity="bottom"
-                android:textColor="@color/btn_blue"
-                tools:text=" 13"/>
+                android:drawablePadding="@dimen/text_icon_padding"
+                style="@style/icon_message_info"
+                tools:text="13"/>
 
             <TextView
                 android:id="@+id/tv_number_people_read_FMR"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/tv_number_people_shared_FMR"
                 android:layout_marginLeft="8dp"
                 android:layout_toEndOf="@+id/tv_number_people_shared_FMR"
                 android:drawableLeft="@drawable/ic_user_compl"
-                android:gravity="bottom"
-                android:text=" 15"
-                android:textColor="@color/btn_blue"/>
-
-            <TextView
-                android:id="@+id/tv_number_attachment_FMR"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/tv_number_people_read_FMR"
-                android:layout_marginLeft="8dp"
-                android:layout_toEndOf="@+id/tv_number_people_read_FMR"
-                android:gravity="bottom"
-                android:textColor="@color/btn_blue"
-                tools:drawableLeft="@drawable/ic_attach"
-                tools:text=" 17"/>
+                tools:text=" 15"
+                style="@style/icon_message_info"/>
 
             <TextView
                 android:id="@+id/tv_reply_to_sender_FMR"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginLeft="8dp"
                 android:drawableLeft="@drawable/ic_reply"
-                android:gravity="bottom"
-                android:textColor="@color/btn_blue"
-                tools:text=" to Author"
+                tools:text="to Author"
+                style="@style/icon_message_info"
                 />
 
             <TextView
                 android:id="@+id/ib_reply_all_FMR"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_toStartOf="@+id/tv_reply_to_sender_FMR"
                 android:drawableLeft="@drawable/ic_reply"
-                android:gravity="bottom"
-                android:text=" All"
-                android:textColor="@color/btn_blue"/>
+                android:text="All"
+                style="@style/icon_message_info"
+                />
+
         </RelativeLayout>
     </RelativeLayout>
 

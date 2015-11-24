@@ -39,7 +39,7 @@ public class AuthActivity extends BaseActivity {
             public void onNext(Boolean success) {
                 startActivity(new Intent(AuthActivity.this, MessagesActivity.class));
             }
-        }, new AuthParams("ph", "ph"));
+        }, new AuthParams("testandroid", "test"));
     }
 
     @Override
