@@ -104,8 +104,7 @@
                 />
 
             <TextView
-                android:id="@+id/ib_reply_all_FMR"
-                android:layout_marginLeft="8dp"
+                android:id="@+id/tv_reply_all_FMR"
                 android:layout_toStartOf="@+id/tv_reply_to_sender_FMR"
                 android:drawableLeft="@drawable/ic_reply"
                 android:text="All"

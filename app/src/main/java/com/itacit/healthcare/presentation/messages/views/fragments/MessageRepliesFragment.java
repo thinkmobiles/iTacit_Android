@@ -1,7 +1,7 @@
 package com.itacit.healthcare.presentation.messages.views.fragments;
 
-import android.os.Bundle;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -192,6 +192,6 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
             args.putString(MessageRepliesFragment.Reply_Recipient, userName);
         }
 		args.putBoolean(MessageRepliesFragment.IS_PRIVATE, isPrivate);
-		activity.switchContent(NewReplyFragment.class, true, args);
+		activity.switchContent(NewReplyFragment.class, args);
 	}
 }
