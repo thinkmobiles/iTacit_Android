@@ -1,6 +1,7 @@
 package com.itacit.healthcare.presentation.messages.presenters;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.itacit.healthcare.data.entries.Reply;
 import com.itacit.healthcare.domain.interactor.messages.CreateReplyUseCase;
@@ -16,7 +17,6 @@ import rx.Subscriber;
 public class NewReplyPresenter extends BasePresenter<NewReplyView> {
 
 	private CreateReplyUseCase createReplyUseCase;
-	private CreateReplyModel replyModel;
 
 	public NewReplyPresenter (CreateReplyUseCase createReplyUseCase) {
 		this.createReplyUseCase = createReplyUseCase;
@@ -27,8 +27,10 @@ public class NewReplyPresenter extends BasePresenter<NewReplyView> {
 
 	}
 
-	public void sendReply(String body) {
-
+	public void sendReply(String messageId, Boolean isPrivate, String body) {
+		CreateReplyModel replyModel = new CreateReplyModel();
+		replyModel.setId(messageId);
+		replyModel.setIsPrivate(isPrivate);
 		replyModel.setBody(body);
 
 		createReplyUseCase.execute(new Subscriber<Reply>() {
@@ -44,7 +46,7 @@ public class NewReplyPresenter extends BasePresenter<NewReplyView> {
 
 			@Override
 			public void onNext(Reply reply) {
-
+				Log.v("My Log", "Reply sended with id: " + replyModel.getId());
 			}
 		}, replyModel);
 	}
