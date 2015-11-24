@@ -47,14 +47,16 @@ public class ExpandableTextView extends TextView {
         mMaxLines = maxLines;
         mIndex = index;
         mLineCount = lineCount;
-        getHandler().post(() -> {
-            if (mLineCount <= mMaxLines) {
-                setText(mFullText);
-            } else {
-                setMovementMethod(LinkMovementMethod.getInstance());
-                showLess();
-            }
-        });
+        if(getHandler() != null){
+            getHandler().post(() -> {
+                if (mLineCount <= mMaxLines) {
+                    setText(mFullText);
+                } else {
+                    setMovementMethod(LinkMovementMethod.getInstance());
+                    showLess();
+                }
+            });
+        }
     }
 
     public void showLess() {

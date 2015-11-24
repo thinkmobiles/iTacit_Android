@@ -135,12 +135,6 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
     }
 
     @Override
-    public void showListReplies(List<RepliesModel> replies) {
-        repliesAdapter = new RepliesAdapter(getActivity(), replies);
-        repliesRecyclerView.setAdapter(repliesAdapter);
-    }
-
-    @Override
     public void showConfirmed() {
         sendResponse();
     }
@@ -148,6 +142,12 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
     @Override
     public void showErrorToast(String error) {
         Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showListReplies(List<RepliesModel> replies) {
+        repliesAdapter = new RepliesAdapter(getActivity(), replies);
+        repliesRecyclerView.setAdapter(repliesAdapter);
     }
 
     private void sendResponse(){
