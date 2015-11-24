@@ -14,6 +14,7 @@
         android:layout_alignParentTop="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
+        android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin">
@@ -28,14 +29,14 @@
             android:id="@+id/rl_body_FMR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
             android:layout_below="@+id/tv_subject_FMR">
 
             <com.itacit.healthcare.presentation.base.widgets.expandableTextView.ExpandableTextView
                 android:id="@+id/tv_body_FMR"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
                 android:textColorLink="@color/btn_blue"
                 tools:text="Hi make this a very long string that wraps at least 4 lines, seriously make it really really long so it gets cut off at the fourth line not joke.  Just do it! Hi make this a very long string that wraps at least 4 lines, seriously make it really really long so it gets cut off at the fourth line not joke.  Just do it!"/>
 
@@ -60,7 +61,6 @@
             android:layout_below="@+id/tv_request_for_confirmation_FMR"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
             android:background="@drawable/frame_confirm_request"
             android:drawableLeft="@drawable/circle_confirm_request"
             android:gravity="bottom"
@@ -124,7 +124,7 @@
                 />
 
             <TextView
-                android:id="@+id/ib_reply_all_FMR"
+                android:id="@+id/tv_reply_all_FMR"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -136,6 +136,9 @@
         </RelativeLayout>
     </RelativeLayout>
 
+    <include
+        layout="@layout/layout_recycler_view_is_empty"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_FMR"
         android:layout_width="match_parent"
@@ -145,7 +148,7 @@
         android:scrollbars="vertical"/>
 
     <View
-        android:id="@+id/shadow_line_FMR"
+        android:id="@+id/shadow_line"
         style="@style/shadow_bottom"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/rl_messages_replies_header_FMR"/>

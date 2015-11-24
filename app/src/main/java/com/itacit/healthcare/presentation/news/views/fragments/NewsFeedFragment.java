@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.news.GetNewsUseCase;
 import com.itacit.healthcare.domain.models.NewsSearch;
+import com.itacit.healthcare.global.utils.AndroidUtils;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
@@ -93,6 +94,7 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsAc
 	@Override
 	public void showNews(List<NewsModel> news) {
 		newsAdapter = new NewsAdapter(getActivity(), news);
+		AndroidUtils.checkRecyclerViewIsEmpty(news, newsRecyclerView, tvIsEmpty);
 		newsRecyclerView.setAdapter(newsAdapter);
 		newsAdapter.setOnNewsItemSelectedListener(this::showNewsItemDetails);
 

@@ -11,13 +11,17 @@ import android.view.animation.Transformation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.itacit.healthcare.R;
+
+import java.util.List;
 
 /**
  * Created by root on 26.10.15.
  */
 public final class AndroidUtils {
+
         /**
          * This method converts dp unit to equivalent pixels, depending on device density.
          *
@@ -120,5 +124,15 @@ public final class AndroidUtils {
         // 1dp/ms
         a.setDuration((int)(initialHeight / v.getContext().getResources().getDisplayMetrics().density));
         v.startAnimation(a);
+    }
+
+    public static void checkRecyclerViewIsEmpty(List<?> list, RecyclerView recyclerView, TextView textView) {
+        if (list.isEmpty()) {
+            recyclerView.setVisibility(View.GONE);
+            textView.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            textView.setVisibility(View.GONE);
+        }
     }
 }

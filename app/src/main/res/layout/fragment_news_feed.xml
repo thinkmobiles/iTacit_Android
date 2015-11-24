@@ -56,6 +56,9 @@
 
     </RelativeLayout>
 
+    <include
+        layout="@layout/layout_recycler_view_is_empty"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_FNF"
         android:layout_width="match_parent"
@@ -65,7 +68,7 @@
         android:scrollbars="vertical"/>
 
     <View
-        android:id="@+id/shadow_line_FNF"
+        android:id="@+id/shadow_line"
         android:layout_below="@id/rl_news_header_FNF"
         style="@style/shadow_bottom" />
 </RelativeLayout>

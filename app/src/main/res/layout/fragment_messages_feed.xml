@@ -27,6 +27,9 @@
 
     </RelativeLayout>
 
+    <include
+        layout="@layout/layout_recycler_view_is_empty"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_FMF"
         android:layout_width="match_parent"
@@ -51,7 +54,7 @@
         app:rippleColor="@android:color/white"/>
 
     <View
-        android:id="@+id/shadow_line_FMF"
+        android:id="@+id/shadow_line"
         style="@style/shadow_bottom"
         android:layout_below="@+id/rl_messages_header_FMF"
         android:layout_alignParentStart="true"/>
