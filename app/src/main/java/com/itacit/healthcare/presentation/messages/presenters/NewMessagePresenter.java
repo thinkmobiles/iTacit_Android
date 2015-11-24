@@ -1,6 +1,7 @@
 package com.itacit.healthcare.presentation.messages.presenters;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.itacit.healthcare.data.entries.User;
 import com.itacit.healthcare.domain.interactor.messages.CreateMessageUseCase;
@@ -148,6 +149,7 @@ public class NewMessagePresenter extends BasePresenter<NewMessageView> {
 
 			@Override
 			public void onNext(Integer integer) {
+				Log.v("My Log", "Message sended with topic: " + messageModel.getSubject());
 			}
 		}, messageModel);
 	}

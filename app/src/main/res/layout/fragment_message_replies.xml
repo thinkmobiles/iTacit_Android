@@ -123,7 +123,7 @@
                 />
 
             <TextView
-                android:id="@+id/ib_reply_all_FMR"
+                android:id="@+id/tv_reply_all_FMR"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"

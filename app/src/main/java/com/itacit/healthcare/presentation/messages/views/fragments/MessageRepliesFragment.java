@@ -1,5 +1,6 @@
 package com.itacit.healthcare.presentation.messages.views.fragments;
 
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +25,7 @@ import com.itacit.healthcare.presentation.messages.views.adapters.RepliesAdapter
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * Created by Den on 17.11.15.
@@ -39,10 +41,13 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
     @Bind(R.id.tv_number_people_read_FMR)           TextView tvNumberPeopleRead;
     @Bind(R.id.tv_number_attachment_FMR)            TextView tvNumberAttachment;
     @Bind(R.id.tv_reply_to_sender_FMR)              TextView tvReplySender;
-    @Bind(R.id.ib_reply_all_FMR)                    TextView tvReplyAll;
+    @Bind(R.id.tv_reply_all_FMR)                    TextView tvReplyAll;
 
     public static final String Message_ID = "messageId";
-
+    public static final String Reply_Recipient = "replyRecipient";
+    public static final String IS_PRIVATE = "isPrivate";
+	private String messageId = "";
+	private String userName = "";
     private RepliesAdapter repliesAdapter;
     private ActionBar aBar;
 
@@ -74,7 +79,7 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
 
     @Override
     protected MessageRepliesPresenter createPresenter() {
-        String messageId = getArguments().getString(Message_ID);
+        messageId = getArguments().getString(Message_ID);
         return new MessageRepliesPresenter(new ListRepliesMapper(),
                 new GetListRepliesUseCase(),
                 new MessagesMapper(),
@@ -84,7 +89,8 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
 
     @Override
     public void showHeaderReplies(MessageModel messageModel) {
-        aBar.setTitle(messageModel.getFirstName() + " " + messageModel.getLastName());
+        userName = messageModel.getFirstName() + " " + messageModel.getLastName();
+        aBar.setTitle(userName);
         aBar.setSubtitle(messageModel.getTimeSendMessage());
         tvBody.setVisibility(View.INVISIBLE);
         tvSubject.setText(Html.fromHtml(messageModel.getSubject()));
@@ -112,4 +118,26 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
         repliesAdapter = new RepliesAdapter(getActivity(),replies);
         repliesRecyclerView.setAdapter(repliesAdapter);
     }
+
+    @Override
+    @OnClick(R.id.tv_reply_all_FMR)
+    public void replyToAll() {
+		createReply(false);
+    }
+
+    @Override
+    @OnClick(R.id.tv_reply_to_sender_FMR)
+    public void privateReply() {
+	    createReply(true);
+    }
+
+	private void createReply(Boolean isPrivate) {
+		Bundle args = new Bundle(3);
+		args.putString(MessageRepliesFragment.Message_ID, messageId);
+        if (isPrivate) {
+            args.putString(MessageRepliesFragment.Reply_Recipient, userName);
+        }
+		args.putBoolean(MessageRepliesFragment.IS_PRIVATE, isPrivate);
+		activity.switchContent(NewReplyFragment.class, true, args);
+	}
 }

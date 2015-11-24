@@ -13,6 +13,7 @@ import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.messages.CreateReplyUseCase;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.messages.presenters.NewReplyPresenter;
+import com.itacit.healthcare.presentation.messages.views.NewReplyView;
 import com.itacit.healthcare.presentation.messages.views.activity.MessagesActivity;
 
 import butterknife.Bind;
@@ -20,13 +21,15 @@ import butterknife.Bind;
 /**
  * Created by root on 19.11.15.
  */
-public class NewReplyFragment extends BaseFragmentView<NewReplyPresenter, MessagesActivity> {
+public class NewReplyFragment extends BaseFragmentView<NewReplyPresenter, MessagesActivity> implements NewReplyView {
 	@Bind(R.id.iv_icon_FMNR)        ImageView ivIcon;
 	@Bind(R.id.tv_header_FMNR)      TextView tvHeader;
 	@Bind(R.id.et_body_FMNR)        EditText etBody;
 
 	private enum ReplyPrivacy {All, Private}
 	private ReplyPrivacy privacyState;
+	private String messageId = "";
+	private Boolean isPrivate = false;
 	private String recipient = "";
 
 	@Override
@@ -38,8 +41,6 @@ public class NewReplyFragment extends BaseFragmentView<NewReplyPresenter, Messag
 	@Override
 	protected void setUpActionBar(ActionBar actionBar) {
 		switchToolbarIndicator(false, v -> activity.switchContent(MessageRepliesFragment.class, false));
-
-		privacyState = ReplyPrivacy.All;
 
 		if (privacyState.equals(ReplyPrivacy.All)) {
 			recipient = getString(R.string.all);
@@ -53,7 +54,7 @@ public class NewReplyFragment extends BaseFragmentView<NewReplyPresenter, Messag
 		activity.setActionBarShadowVisible(true);
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setTitle(getString(R.string.reply_to) + " " + recipient);
-
+		actionBar.setSubtitle("");
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setDefaultDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -66,6 +67,12 @@ public class NewReplyFragment extends BaseFragmentView<NewReplyPresenter, Messag
 
 	@Override
 	protected NewReplyPresenter createPresenter() {
+		messageId = getArguments().getString(MessageRepliesFragment.Message_ID);
+		isPrivate = getArguments().getBoolean(MessageRepliesFragment.IS_PRIVATE);
+		if (isPrivate) {
+			recipient = getArguments().getString(MessageRepliesFragment.Reply_Recipient);
+		}
+		privacyState = isPrivate ? ReplyPrivacy.Private : ReplyPrivacy.All;
 		return new NewReplyPresenter(new CreateReplyUseCase());
 	}
 
@@ -80,7 +87,7 @@ public class NewReplyFragment extends BaseFragmentView<NewReplyPresenter, Messag
 			case android.R.id.home:
 				return true;
 			case R.id.action_send:
-				presenter.sendReply(etBody.getText().toString());
+				presenter.sendReply(messageId, isPrivate, etBody.getText().toString());
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);

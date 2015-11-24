@@ -12,4 +12,6 @@ import java.util.List;
 public interface MessageRepliesView extends View {
     void showHeaderReplies(MessageModel messageModel);
     void showListReplies(List<RepliesModel> replies);
+    void replyToAll();
+    void privateReply();
 }
