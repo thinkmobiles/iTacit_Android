@@ -91,7 +91,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_toEndOf="@+id/tv_number_people_shared_FMR"
                 android:drawableLeft="@drawable/ic_user_compl"
-                tools:text=" 15"
+                tools:text="15"
                 style="@style/icon_message_info"/>
 
             <TextView

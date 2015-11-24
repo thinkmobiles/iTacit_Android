@@ -1,5 +1,6 @@
 package com.itacit.healthcare.presentation.messages.views.fragments;
 
+import android.os.Bundle;
 import android.graphics.Color;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.itacit.healthcare.R;
+import com.itacit.healthcare.data.entries.Recipient;
 import com.itacit.healthcare.domain.interactor.messages.ConfirmMessageReadUseCase;
 import com.itacit.healthcare.domain.interactor.messages.GetListRepliesUseCase;
 import com.itacit.healthcare.domain.interactor.messages.GetMessageDetailsUseCase;
@@ -31,6 +33,7 @@ import java.util.List;
 import java.util.Locale;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * Created by Den on 17.11.15.
@@ -45,12 +48,17 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
     @Bind(R.id.tv_number_people_shared_FMR)         TextView tvNumberPeopleShared;
     @Bind(R.id.tv_number_people_read_FMR)           TextView tvNumberPeopleRead;
     @Bind(R.id.tv_reply_to_sender_FMR)              TextView tvReplySender;
-    @Bind(R.id.ib_reply_all_FMR)                    TextView tvReplyAll;
+    @Bind(R.id.tv_reply_all_FMR)                    TextView tvReplyAll;
 
     public static final String Message_ID = "messageId";
-
+    public static final String Reply_Recipient = "replyRecipient";
+    public static final String IS_PRIVATE = "isPrivate";
+	private String messageId = "";
+	private String userName = "";
     private RepliesAdapter repliesAdapter;
     private ActionBar aBar;
+
+    private List<Recipient> recipientsList;
 
     @Override
     protected void setUpView() {
@@ -80,7 +88,7 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
 
     @Override
     protected MessageRepliesPresenter createPresenter() {
-        String messageId = getArguments().getString(Message_ID);
+        messageId = getArguments().getString(Message_ID);
         return new MessageRepliesPresenter(new ListRepliesMapper(),
                 new GetListRepliesUseCase(),
                 new MessagesMapper(),
@@ -91,7 +99,8 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
 
     @Override
     public void showHeaderReplies(MessageModel messageModel) {
-        aBar.setTitle(messageModel.getFirstName() + " " + messageModel.getLastName());
+        userName = messageModel.getFirstName() + " " + messageModel.getLastName();
+        aBar.setTitle(userName);
         aBar.setSubtitle(messageModel.getTimeSendMessage());
         tvBody.setVisibility(View.INVISIBLE);
         tvSubject.setText(Html.fromHtml(messageModel.getSubject()));
@@ -113,13 +122,21 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
         tvBody.post(() -> tvBody.makeExpandable(3, tvBody.getLayout().getLineEnd(2), tvBody.getLineCount()));
         tvBody.setVisibility(View.VISIBLE);
 
-        tvResponseConfirmation.setOnClickListener(e -> presenter.sendResponseConfirm());
-    }
+        recipientsList = messageModel.getRecipientsList();
+        int count = 0;
+        for (Recipient r : recipientsList) {
+            if(r.getReadConfirmedYn().equals("Y")){
+                count++;
+            }
+        }
+        if(count <= 0){
+            tvNumberPeopleRead.setVisibility(View.GONE);
+        }else{
+            tvNumberPeopleRead.setVisibility(View.VISIBLE);
+            tvNumberPeopleRead.setText(" " + count);
+        }
 
-    @Override
-    public void showListReplies(List<RepliesModel> replies) {
-        repliesAdapter = new RepliesAdapter(getActivity(),replies);
-        repliesRecyclerView.setAdapter(repliesAdapter);
+        tvResponseConfirmation.setOnClickListener(e -> presenter.sendResponseConfirm());
     }
 
     @Override
@@ -130,6 +147,12 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
     @Override
     public void showErrorToast(String error) {
         Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showListReplies(List<RepliesModel> replies) {
+        repliesAdapter = new RepliesAdapter(getActivity(), replies);
+        repliesRecyclerView.setAdapter(repliesAdapter);
     }
 
     private void sendResponse(){
@@ -149,4 +172,26 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
             tvBody.showMore();
         }
     }
+
+    @Override
+    @OnClick(R.id.tv_reply_all_FMR)
+    public void replyToAll() {
+		createReply(false);
+    }
+
+    @Override
+    @OnClick(R.id.tv_reply_to_sender_FMR)
+    public void privateReply() {
+	    createReply(true);
+    }
+
+	private void createReply(Boolean isPrivate) {
+		Bundle args = new Bundle(3);
+		args.putString(MessageRepliesFragment.Message_ID, messageId);
+        if (isPrivate) {
+            args.putString(MessageRepliesFragment.Reply_Recipient, userName);
+        }
+		args.putBoolean(MessageRepliesFragment.IS_PRIVATE, isPrivate);
+		activity.switchContent(NewReplyFragment.class, true, args);
+	}
 }
