@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,27 +39,49 @@ import butterknife.OnClick;
 /**
  * Created by Den on 17.11.15.
  */
-public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPresenter,MessagesActivity> implements MessageRepliesView{
-
-    @Bind(R.id.recycler_view_FMR)                   RecyclerView repliesRecyclerView;
-    @Bind(R.id.tv_subject_FMR)                      TextView tvSubject;
-    @Bind(R.id.tv_body_FMR)                         ExpandableTextView tvBody;
-    @Bind(R.id.tv_request_for_confirmation_FMR)     TextView tvRequestConfirmation;
-    @Bind(R.id.cb_response_for_confirmation_FMR)    TextView tvResponseConfirmation;
-    @Bind(R.id.tv_number_people_shared_FMR)         TextView tvNumberPeopleShared;
-    @Bind(R.id.tv_number_people_read_FMR)           TextView tvNumberPeopleRead;
-    @Bind(R.id.tv_reply_to_sender_FMR)              TextView tvReplySender;
-    @Bind(R.id.tv_reply_all_FMR)                    TextView tvReplyAll;
+public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPresenter, MessagesActivity> implements MessageRepliesView {
+    @Bind(R.id.rl_messages_replies_header_FMR)
+    RelativeLayout mesageDetailsRl;
+    @Bind(R.id.recycler_view_FMR)
+    RecyclerView repliesRecyclerView;
+    @Bind(R.id.tv_subject_FMR)
+    TextView tvSubject;
+    @Bind(R.id.tv_body_FMR)
+    ExpandableTextView tvBody;
+    @Bind(R.id.tv_request_for_confirmation_FMR)
+    TextView tvRequestConfirmation;
+    @Bind(R.id.cb_response_for_confirmation_FMR)
+    TextView tvResponseConfirmation;
+    @Bind(R.id.tv_number_people_shared_FMR)
+    TextView tvNumberPeopleShared;
+    @Bind(R.id.tv_number_people_read_FMR)
+    TextView tvNumberPeopleRead;
+    @Bind(R.id.tv_reply_to_sender_FMR)
+    TextView tvReplySender;
+    @Bind(R.id.tv_reply_all_FMR)
+    TextView tvReplyAll;
 
     public static final String Message_ID = "messageId";
     public static final String Reply_Recipient = "replyRecipient";
     public static final String IS_PRIVATE = "isPrivate";
-	private String messageId = "";
-	private String userName = "";
+    private String messageId = "";
+    private String userName = "";
     private RepliesAdapter repliesAdapter;
     private ActionBar aBar;
 
     private List<Recipient> recipientsList;
+
+    @Override
+    @OnClick(R.id.tv_reply_all_FMR)
+    public void replyToAll() {
+        createReply(false);
+    }
+
+    @Override
+    @OnClick(R.id.tv_reply_to_sender_FMR)
+    public void privateReply() {
+        createReply(true);
+    }
 
     @Override
     protected void setUpView() {
@@ -106,10 +129,9 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
         tvSubject.setText(Html.fromHtml(messageModel.getSubject()));
         tvBody.setText(Html.fromHtml(messageModel.getBody()));
 
-        if (messageModel.isReadRequiredYn()) {
+        if (messageModel.isReadRequiredYn() && !messageModel.isUserMarksRead()) {
             tvRequestConfirmation.setVisibility(View.VISIBLE);
             tvResponseConfirmation.setVisibility(View.VISIBLE);
-
             tvRequestConfirmation.setText("Please confirm by " + messageModel.getReadRequiredDate());
         } else {
             tvRequestConfirmation.setVisibility(View.GONE);
@@ -125,18 +147,19 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
         recipientsList = messageModel.getRecipientsList();
         int count = 0;
         for (Recipient r : recipientsList) {
-            if(r.getReadConfirmedYn().equals("Y")){
+            if (r.getReadConfirmedYn().equals("Y")) {
                 count++;
             }
         }
-        if(count <= 0){
+        if (count <= 0) {
             tvNumberPeopleRead.setVisibility(View.GONE);
-        }else{
+        } else {
             tvNumberPeopleRead.setVisibility(View.VISIBLE);
             tvNumberPeopleRead.setText(" " + count);
         }
 
         tvResponseConfirmation.setOnClickListener(e -> presenter.sendResponseConfirm());
+        mesageDetailsRl.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -145,7 +168,7 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
     }
 
     @Override
-    public void showErrorToast(String error) {
+    public void showError(String error) {
         Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
     }
 
@@ -155,9 +178,8 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
         repliesRecyclerView.setAdapter(repliesAdapter);
     }
 
-    private void sendResponse(){
-        if(tvBody.isExpandable()) {
-
+    private void sendResponse() {
+        if (tvBody.isExpandable()) {
             presenter.sendResponseConfirm();
             tvRequestConfirmation.setVisibility(View.GONE);
             tvResponseConfirmation.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_user_compl, 0, 0, 0);
@@ -173,25 +195,13 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
         }
     }
 
-    @Override
-    @OnClick(R.id.tv_reply_all_FMR)
-    public void replyToAll() {
-		createReply(false);
-    }
-
-    @Override
-    @OnClick(R.id.tv_reply_to_sender_FMR)
-    public void privateReply() {
-	    createReply(true);
-    }
-
-	private void createReply(Boolean isPrivate) {
-		Bundle args = new Bundle(3);
-		args.putString(MessageRepliesFragment.Message_ID, messageId);
+    private void createReply(Boolean isPrivate) {
+        Bundle args = new Bundle(3);
+        args.putString(MessageRepliesFragment.Message_ID, messageId);
         if (isPrivate) {
             args.putString(MessageRepliesFragment.Reply_Recipient, userName);
         }
-		args.putBoolean(MessageRepliesFragment.IS_PRIVATE, isPrivate);
-		activity.switchContent(NewReplyFragment.class, args);
-	}
+        args.putBoolean(MessageRepliesFragment.IS_PRIVATE, isPrivate);
+        activity.switchContent(NewReplyFragment.class, args);
+    }
 }

@@ -51,6 +51,7 @@ public class MessageRepliesPresenter extends BasePresenter<MessageRepliesView> {
 
     @Override
     protected void onAttachedView(@NonNull MessageRepliesView view) {
+        view.showProgress();
         getMessageDetailsUseCase.execute(new HeaderRepliesSubscriber(),messageId);
         getListRepliesUseCase.execute(new RepliesListSubscriber(), messageId);
     }
@@ -64,7 +65,7 @@ public class MessageRepliesPresenter extends BasePresenter<MessageRepliesView> {
 
             @Override
             public void onError(Throwable e) {
-                actOnView(view -> view.showErrorToast(e.toString()));
+                actOnView(view -> view.showError(e.toString()));
             }
 
             @Override
@@ -77,7 +78,12 @@ public class MessageRepliesPresenter extends BasePresenter<MessageRepliesView> {
         actOnView(v -> v.showListReplies(repliesModels));
     }
 
-    private void showHeaderRepliesOnView(){actOnView(v -> v.showHeaderReplies(messageModel));}
+    private void showHeaderRepliesOnView() {
+        actOnView(v -> {
+            v.showHeaderReplies(messageModel);
+            v.hideProgress();
+        });
+    }
 
     private final class RepliesListSubscriber extends Subscriber<List<Reply>> {
         @Override

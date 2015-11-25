@@ -25,6 +25,7 @@ public class MessageModel {
     private List<Recipient> recipientsList;
     private String firstName;
     private String lastName;
+    private boolean userMarksRead;
 
     public String getId() {
         return id;
@@ -138,4 +139,11 @@ public class MessageModel {
         lastName = _lastName;
     }
 
+    public boolean isUserMarksRead() {
+        return userMarksRead;
+    }
+
+    public void setUserMarksRead(boolean userMarksRead) {
+        this.userMarksRead = userMarksRead;
+    }
 }

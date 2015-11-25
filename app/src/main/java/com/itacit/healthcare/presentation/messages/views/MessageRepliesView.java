@@ -15,5 +15,7 @@ public interface MessageRepliesView extends View {
     void replyToAll();
     void privateReply();
     void showConfirmed();
-    void showErrorToast(String error);
+    void showError(String error);
+    void showProgress();
+    void hideProgress();
 }

@@ -33,7 +33,7 @@ public class MessagesMapper extends ModelMapper<MessageModel, Message> {
             messageModel.setReadRequiredYn(dataEntry.getReadRequiredYn().equals("Y") ? true : false);
             messageModel.setTimeSendMessage(dataEntry.getSendDateTime() != null ? getLastTimeResponse(dataEntry.getSendDateTime()) : "");
 
-            if (dataEntry.getSender() != null){
+            if (dataEntry.getSender() != null) {
                 messageModel.setRecipientsList(dataEntry.getGroupRecipients().getRecipients() != null ? dataEntry.getGroupRecipients().getRecipients() : null);
                 messageModel.setResponseCount(dataEntry.getGroupRecipients().getResponseCount() != null ? dataEntry.getGroupRecipients().getResponseCount() : 0);
                 messageModel.setFirstName(dataEntry.getSender().getNameFirst() != null ? dataEntry.getSender().getNameFirst() : "");
@@ -41,21 +41,22 @@ public class MessagesMapper extends ModelMapper<MessageModel, Message> {
                 messageModel.setReadRequiredDate(dataEntry.getReadRequiredDate() != null ?
                         convertData(dataEntry.getReadRequiredDate(), "yyyy-MM-dd'T'HH:mm:ss", "MMM.dd", Locale.CANADA) : "");
 
-            } else{
+            } else {
                 messageModel.setSenderName(dataEntry.getSenderNameFull() != null ? dataEntry.getSenderNameFull() : "");
                 messageModel.setReadRequiredDate(dataEntry.getReadRequiredDate() != null ?
                         convertData(dataEntry.getReadRequiredDate(), "yyyy-MM-dd'T'HH:mm:ss", "MMM.dd,yyyy", Locale.CANADA) : "");
 
             }
-
+            messageModel.setUserMarksRead(dataEntry.getMarkedAsRead().equals("Y"));
             return messageModel;
         } catch (NumberFormatException e) {
             e.printStackTrace();
-        }        return null;
+        }
+        return null;
 
     }
 
-    private String getLastTimeResponse(String inputTime){
+    private String getLastTimeResponse(String inputTime) {
         Calendar saveData = Calendar.getInstance();
         Calendar currentData = Calendar.getInstance();
         Calendar calculate = Calendar.getInstance();
@@ -69,11 +70,11 @@ public class MessagesMapper extends ModelMapper<MessageModel, Message> {
 
             calculate.setTimeInMillis(calculateTime);
 
-            if(TimeUnit.MILLISECONDS.toDays(calculateTime) > 1){
+            if (TimeUnit.MILLISECONDS.toDays(calculateTime) > 1) {
                 return String.valueOf(TimeUnit.MILLISECONDS.toDays(calculateTime) + " days ago");
-            }else if(TimeUnit.MILLISECONDS.toDays(calculateTime) == 1){
+            } else if (TimeUnit.MILLISECONDS.toDays(calculateTime) == 1) {
                 return String.valueOf(TimeUnit.MILLISECONDS.toDays(calculateTime) + " day ago");
-            }else {
+            } else {
                 return String.valueOf(TimeUnit.MILLISECONDS.toHours(calculateTime) + " hours ago");
             }
         } catch (ParseException e) {

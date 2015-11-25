@@ -53,6 +53,9 @@ public class Message {
     @SerializedName("resultSetRowId")
     @Expose
     private Integer resultSetRowId;
+    @SerializedName("markedAsRead")
+    @Expose
+    private String markedAsRead;
     //Additional Fields
     @SerializedName("sender")
     @Expose
@@ -171,6 +174,14 @@ public class Message {
 
     public void setReplyCountNew(Integer replyCountNew) {
         this.replyCountNew = replyCountNew;
+    }
+
+    public String getMarkedAsRead() {
+        return markedAsRead;
+    }
+
+    public void setMarkedAsRead(String markedAsRead) {
+        this.markedAsRead = markedAsRead;
     }
 
     public Integer getResultSetRowId() {
