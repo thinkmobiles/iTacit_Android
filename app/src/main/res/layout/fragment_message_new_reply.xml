@@ -14,7 +14,7 @@
             android:layout_width="@dimen/check_icon_size"
             android:layout_height="wrap_content"
             android:id="@+id/iv_icon_FMNR"
-            android:src="@drawable/ic_search"
+            android:src="@drawable/ic_private"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin_sides"/>
 

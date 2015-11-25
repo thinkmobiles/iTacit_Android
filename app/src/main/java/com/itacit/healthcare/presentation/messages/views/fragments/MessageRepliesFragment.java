@@ -193,6 +193,6 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
             args.putString(MessageRepliesFragment.Reply_Recipient, userName);
         }
 		args.putBoolean(MessageRepliesFragment.IS_PRIVATE, isPrivate);
-		activity.switchContent(NewReplyFragment.class, true, args);
+		activity.switchContent(NewReplyFragment.class, args);
 	}
 }

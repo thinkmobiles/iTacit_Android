@@ -23,6 +23,7 @@ public class NewsFeedPresenter extends BasePresenter<NewsFeedView> {
     public static final int SEARCH_TEXT_MIN_LENGTH = 3;
     private GetNewsUseCase getNewsUseCase;
     private NewsMapper newsMapper;
+    private NewsSearch lastSearch = new NewsSearch();
     public List<NewsModel> newsModels;
 
     public NewsFeedPresenter(GetNewsUseCase newsUseCase, NewsMapper newsMapper) {
@@ -31,9 +32,10 @@ public class NewsFeedPresenter extends BasePresenter<NewsFeedView> {
     }
 
     public void clearNewsSearch() {
-        actOnView(view -> {
+        lastSearch = new NewsSearch();
+            actOnView(view -> {
             view.hideFilters();
-            view.getNewsSearch().onNext(new NewsSearch());
+            view.getNewsSearch().onNext(lastSearch);
         });
     }
 
@@ -54,6 +56,7 @@ public class NewsFeedPresenter extends BasePresenter<NewsFeedView> {
         }
 
         actOnView(NewsFeedView::showProgress);
+        lastSearch = search;
         getNewsUseCase.execute(new NewsListSubscriber(), search);
     }
 
@@ -64,9 +67,13 @@ public class NewsFeedPresenter extends BasePresenter<NewsFeedView> {
 
     public void searchNews(String query) {
         actOnView(NewsFeedView::showProgress);
-        NewsSearch newsSearch = new NewsSearch();
-        newsSearch.setSearch(query);
-        getNewsUseCase.execute(new NewsListSubscriber(), newsSearch);
+        lastSearch = new NewsSearch();
+        lastSearch.setSearch(query);
+        getNewsUseCase.execute(new NewsListSubscriber(), lastSearch);
+    }
+
+    public void refreshNews() {
+            getNewsUseCase.execute(new NewsListSubscriber(), lastSearch);
     }
 
     private final class NewsListSubscriber extends Subscriber<List<News>> {

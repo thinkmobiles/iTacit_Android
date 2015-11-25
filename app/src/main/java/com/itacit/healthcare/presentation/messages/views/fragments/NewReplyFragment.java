@@ -1,5 +1,6 @@
 package com.itacit.healthcare.presentation.messages.views.fragments;
 
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -40,7 +41,8 @@ public class NewReplyFragment extends BaseFragmentView<NewReplyPresenter, Messag
 
 	@Override
 	protected void setUpActionBar(ActionBar actionBar) {
-		switchToolbarIndicator(false, v -> activity.switchContent(MessageRepliesFragment.class));
+		Bundle args = getArguments();
+		switchToolbarIndicator(false, v -> activity.switchContent(MessageRepliesFragment.class, args));
 
 		if (privacyState.equals(ReplyPrivacy.All)) {
 			recipient = getString(R.string.all);

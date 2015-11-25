@@ -3,6 +3,7 @@ package com.itacit.healthcare.presentation.messages.views.fragments;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,13 +30,15 @@ import static com.itacit.healthcare.presentation.messages.presenters.MessagesFee
  * Created by Den on 12.11.15.
  */
 public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter, MessagesActivity>
-        implements MessagesFeedView, TabLayout.OnTabSelectedListener {
+        implements MessagesFeedView, TabLayout.OnTabSelectedListener, SwipeRefreshLayout.OnRefreshListener {
     @Bind(R.id.recycler_view_FMF)   RecyclerView messagesRecyclerView;
     @Bind(R.id.tab_layout_FMF)      TabLayout tabLayout;
+    @Bind(R.id.swipe_container_FMF)      SwipeRefreshLayout swipeRefreshLayout;
 
     private MessagesAdapter messagesAdapter;
     private ProgressDialog progressDialog;
     private Boolean isArchive = false;
+    private MessagesFilter currentFilter;
 
     @OnClick(R.id.fab_button_FMF)
     void addNewMessage() {
@@ -52,6 +55,7 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
         tabLayout.addTab(tabLayout.newTab().setText("Archive \n6").setTag(MessagesFilter.ARCHIVE));
 
         tabLayout.setOnTabSelectedListener(this);
+        swipeRefreshLayout.setOnRefreshListener(this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         messagesRecyclerView.setLayoutManager(layoutManager);
@@ -76,6 +80,7 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
 
     @Override
     protected MessagesFeedPresenter createPresenter() {
+	    currentFilter = MessagesFilter.ALL;
         return new MessagesFeedPresenter(new GetMessagesUseCase(), new MessagesMapper(), new ArchiveMessageUseCase());
     }
 
@@ -87,19 +92,21 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
 
     @Override
     public void showProgress() {
-        if (progressDialog == null) {
-            progressDialog = new ProgressDialog(getActivity());
-            progressDialog.setMessage("Loading...");
-            progressDialog.setCancelable(true);
-        }
-        progressDialog.show();
+//        if (progressDialog == null) {
+//            progressDialog = new ProgressDialog(getActivity());
+//            progressDialog.setMessage("Loading...");
+//            progressDialog.setCancelable(true);
+//        }
+//        progressDialog.show();
+		swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
     public void hideProgress() {
-        if (progressDialog != null && progressDialog.isShowing()) {
-            progressDialog.hide();
-        }
+//        if (progressDialog != null && progressDialog.isShowing()) {
+//            progressDialog.hide();
+//        }
+	    swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -135,6 +142,12 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
 
     private void checkTabSelected(TabLayout.Tab tab) {
         isArchive = MessagesFilter.ARCHIVE.equals(tab.getTag());
-        presenter.getMessages((MessagesFilter) tab.getTag());
+        currentFilter = (MessagesFilter) tab.getTag();
+        presenter.getMessages(currentFilter);
+    }
+
+    @Override
+    public void onRefresh() {
+        presenter.getMessages(currentFilter);
     }
 }
