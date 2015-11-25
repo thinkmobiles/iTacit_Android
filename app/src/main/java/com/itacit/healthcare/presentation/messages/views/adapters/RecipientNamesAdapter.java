@@ -55,10 +55,12 @@ public class RecipientNamesAdapter extends RecyclerView.Adapter<RecipientNamesAd
             }
 
             recipientListener.onRecipientClick(model, recipientType);
-            holder.checkIv.setVisibility(presenter.isRecipientSelected(model.getId(), recipientType) ? View.VISIBLE : View.INVISIBLE);
+            holder.checkIv.setImageResource(presenter.isRecipientSelected(model.getId(), recipientType) ?
+                    R.drawable.ic_check_act : R.drawable.ic_unselect);
         });
 
-        holder.checkIv.setVisibility(presenter.isRecipientSelected(model.getId(), recipientType) ? View.VISIBLE : View.INVISIBLE);
+        holder.checkIv.setImageResource(presenter.isRecipientSelected(model.getId(), recipientType) ?
+                R.drawable.ic_check_act : R.drawable.ic_unselect);
         holder.titleTv.setText(model.getName());
     }
 

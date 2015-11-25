@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.messages.ArchiveMessageUseCase;
 import com.itacit.healthcare.domain.interactor.messages.GetMessagesUseCase;
+import com.itacit.healthcare.global.utils.AndroidUtils;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.messages.mappers.MessagesMapper;
 import com.itacit.healthcare.presentation.messages.models.MessageModel;
@@ -87,6 +88,7 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
     @Override
     public void showMessages(List<MessageModel> messages) {
         messagesAdapter = new MessagesAdapter(getActivity(), messages, presenter, isArchive);
+        AndroidUtils.checkRecyclerViewIsEmpty(messages, messagesRecyclerView, tvIsEmpty);
         messagesRecyclerView.setAdapter(messagesAdapter);
     }
 

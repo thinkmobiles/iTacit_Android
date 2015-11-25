@@ -1,7 +1,7 @@
 package com.itacit.healthcare.presentation.messages.views.fragments;
 
-import android.os.Bundle;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +15,7 @@ import com.itacit.healthcare.data.entries.Recipient;
 import com.itacit.healthcare.domain.interactor.messages.ConfirmMessageReadUseCase;
 import com.itacit.healthcare.domain.interactor.messages.GetListRepliesUseCase;
 import com.itacit.healthcare.domain.interactor.messages.GetMessageDetailsUseCase;
+import com.itacit.healthcare.global.utils.AndroidUtils;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.expandableTextView.ExpandableTextView;
 import com.itacit.healthcare.presentation.messages.mappers.ListRepliesMapper;
@@ -47,7 +48,6 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
     @Bind(R.id.cb_response_for_confirmation_FMR)    TextView tvResponseConfirmation;
     @Bind(R.id.tv_number_people_shared_FMR)         TextView tvNumberPeopleShared;
     @Bind(R.id.tv_number_people_read_FMR)           TextView tvNumberPeopleRead;
-    @Bind(R.id.tv_number_attachment_FMR)            TextView tvNumberAttachment;
     @Bind(R.id.tv_reply_to_sender_FMR)              TextView tvReplySender;
     @Bind(R.id.tv_reply_all_FMR)                    TextView tvReplyAll;
 
@@ -153,7 +153,9 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
     @Override
     public void showListReplies(List<RepliesModel> replies) {
         repliesAdapter = new RepliesAdapter(getActivity(), replies);
+        AndroidUtils.checkRecyclerViewIsEmpty(replies, repliesRecyclerView, tvIsEmpty);
         repliesRecyclerView.setAdapter(repliesAdapter);
+
     }
 
     private void sendResponse(){
