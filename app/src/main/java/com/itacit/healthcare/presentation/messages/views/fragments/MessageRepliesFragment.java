@@ -16,6 +16,7 @@ import com.itacit.healthcare.data.entries.Recipient;
 import com.itacit.healthcare.domain.interactor.messages.ConfirmMessageReadUseCase;
 import com.itacit.healthcare.domain.interactor.messages.GetListRepliesUseCase;
 import com.itacit.healthcare.domain.interactor.messages.GetMessageDetailsUseCase;
+import com.itacit.healthcare.global.utils.AndroidUtils;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.expandableTextView.ExpandableTextView;
 import com.itacit.healthcare.presentation.messages.mappers.ListRepliesMapper;
@@ -175,7 +176,9 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
     @Override
     public void showListReplies(List<RepliesModel> replies) {
         repliesAdapter = new RepliesAdapter(getActivity(), replies);
+        AndroidUtils.checkRecyclerViewIsEmpty(replies, repliesRecyclerView, tvIsEmpty);
         repliesRecyclerView.setAdapter(repliesAdapter);
+
     }
 
     private void sendResponse() {

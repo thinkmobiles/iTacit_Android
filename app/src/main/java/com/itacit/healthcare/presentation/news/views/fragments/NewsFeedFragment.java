@@ -2,6 +2,7 @@ package com.itacit.healthcare.presentation.news.views.fragments;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter;
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.news.GetNewsUseCase;
 import com.itacit.healthcare.domain.models.NewsSearch;
+import com.itacit.healthcare.global.utils.AndroidUtils;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
@@ -35,9 +37,10 @@ import rx.subjects.BehaviorSubject;
 /**
  * Created by root on 13.10.15.
  */
-public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsActivity> implements NewsFeedView {
+public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsActivity> implements NewsFeedView, SwipeRefreshLayout.OnRefreshListener {
 	@Bind(R.id.et_search_FNF)				FiltersEditText searchNewsView;
 	@Bind(R.id.recycler_view_FNF)			RecyclerView newsRecyclerView;
+	@Bind(R.id.swipe_container_FNF)         SwipeRefreshLayout swipeRefreshLayout;
 
 	private NewsAdapter newsAdapter;
 	private ProgressDialog progressDialog;
@@ -52,6 +55,8 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsAc
 		LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
 		newsRecyclerView.setLayoutManager(layoutManager);
 		searchNewsView.setShowMore(true);
+
+		swipeRefreshLayout.setOnRefreshListener(this);
 	}
 
 	@Override
@@ -93,6 +98,7 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsAc
 	@Override
 	public void showNews(List<NewsModel> news) {
 		newsAdapter = new NewsAdapter(getActivity(), news);
+		AndroidUtils.checkRecyclerViewIsEmpty(news, newsRecyclerView, tvIsEmpty);
 		newsRecyclerView.setAdapter(newsAdapter);
 		newsAdapter.setOnNewsItemSelectedListener(this::showNewsItemDetails);
 
@@ -125,19 +131,21 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsAc
 
 	@Override
     public void showProgress() {
-        if (progressDialog == null) {
-            progressDialog = new ProgressDialog(getActivity());
-            progressDialog.setMessage("Loading...");
-            progressDialog.setCancelable(true);
-        }
-        progressDialog.show();
+//        if (progressDialog == null) {
+//            progressDialog = new ProgressDialog(getActivity());
+//            progressDialog.setMessage("Loading...");
+//            progressDialog.setCancelable(true);
+//        }
+//        progressDialog.show();
+		swipeRefreshLayout.setRefreshing(true);
     }
 
 	@Override
 	public void hideProgress() {
-		if (progressDialog != null && progressDialog.isShowing()) {
-			progressDialog.hide();
-		}
+//		if (progressDialog != null && progressDialog.isShowing()) {
+//			progressDialog.hide();
+//		}
+		swipeRefreshLayout.setRefreshing(false);
 	}
 
 	@Override
@@ -156,4 +164,9 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsAc
     public BehaviorSubject<NewsSearch> getNewsSearch() {
         return activity.getNewsSearchSubj();
     }
+
+	@Override
+	public void onRefresh() {
+		presenter.refreshNews();
+	}
 }
