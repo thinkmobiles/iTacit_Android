@@ -4,11 +4,11 @@
 	<item android:id="@+id/action_send"
 	      android:title="@string/send"
 	      android:icon="@drawable/btn_send"
-	      android:orderInCategory="1"
+	      android:orderInCategory="2"
 	      app:showAsAction="always"/>
 	<item android:id="@+id/action_set_date"
 	      android:title="@string/set_date"
 	      android:icon="@drawable/ic_calendar"
-	      android:orderInCategory="2"
+	      android:orderInCategory="1"
 	      app:showAsAction="always"/>
 </menu>

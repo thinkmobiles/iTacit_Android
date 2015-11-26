@@ -69,7 +69,7 @@ public class NewReplyFragment extends BaseFragmentView<NewReplyPresenter, Messag
 
 	@Override
 	protected NewReplyPresenter createPresenter() {
-		messageId = getArguments().getString(MessageDetailsFragment.Message_ID);
+		messageId = getArguments().getString(MessageDetailsFragment.MESSAGE_ID);
 		isPrivate = getArguments().getBoolean(MessageDetailsFragment.IS_PRIVATE);
 		if (isPrivate) {
 			recipient = getArguments().getString(MessageDetailsFragment.Reply_Recipient);

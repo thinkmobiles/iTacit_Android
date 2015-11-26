@@ -57,8 +57,7 @@
         android:scaleType="centerCrop"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:src="@drawable/abc_btn_radio_to_on_mtrl_000"/>
+        android:layout_centerVertical="true"/>
 
 	<View
 		android:id="@+id/line_separator_FMN"

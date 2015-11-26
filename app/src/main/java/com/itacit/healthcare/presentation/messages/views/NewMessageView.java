@@ -28,4 +28,6 @@ public interface NewMessageView extends View {
 	Observable<String> getUsersSearchTextObs();
 	Observable<Chip> getFilterRemovedObs();
 	MessageStorage getMessageStorage();
+
+	void showMessage(String message);
 }

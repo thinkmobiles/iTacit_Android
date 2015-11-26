@@ -15,6 +15,8 @@
  */
 package com.itacit.healthcare.domain.interactor;
 
+import android.support.annotation.NonNull;
+
 import rx.Observable;
 import rx.Scheduler;
 import rx.Subscriber;
@@ -41,7 +43,7 @@ public abstract class UseCase<T, P, A> {
      * Builds an {@link Observable} which will be used when executing the current {@link UseCase}.
      */
     protected abstract Observable<T> buildUseCaseObservable(A obsArgs);
-    protected abstract A initArgs(P args);
+    protected abstract @NonNull A initArgs(P args);
 
 
     public final void execute(Subscriber<T> subscriber, P args) {

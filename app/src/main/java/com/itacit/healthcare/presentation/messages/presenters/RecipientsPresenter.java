@@ -3,8 +3,10 @@ package com.itacit.healthcare.presentation.messages.presenters;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
+import com.itacit.healthcare.data.entries.Recipient;
 import com.itacit.healthcare.data.entries.RecipientInfo;
 import com.itacit.healthcare.domain.interactor.messages.GetRecipientsFullListUseCase;
+import com.itacit.healthcare.domain.interactor.messages.GetRecipientsUseCase;
 import com.itacit.healthcare.domain.models.CreateMessageModel;
 import com.itacit.healthcare.domain.models.RecipientModel;
 import com.itacit.healthcare.domain.models.RecipientsGroupedModel;
@@ -28,43 +30,87 @@ public class RecipientsPresenter extends BasePresenter<RecipientsView> {
     private RecipientsGroupedModel recipients;
     private GetRecipientsFullListUseCase getRecipientsFullList;
     private List<UserRecipientModel> usersRecipients = new ArrayList<>();
+    private GetRecipientsUseCase getRecipientsUseCase;
+    private String messageId;
+    private boolean showReadConfirmed;
 
-    public RecipientsPresenter(GetRecipientsFullListUseCase getRecipientsFullList) {
+    public RecipientsPresenter(GetRecipientsFullListUseCase getRecipientsFullList,
+                               GetRecipientsUseCase getRecipientsUseCase, String messageId,
+                               boolean showReadConfirmed) {
         this.getRecipientsFullList = getRecipientsFullList;
+        this.getRecipientsUseCase = getRecipientsUseCase;
+        this.messageId = messageId;
+        this.showReadConfirmed = showReadConfirmed;
     }
 
     @Override
     protected void onAttachedView(@NonNull RecipientsView view) {
         messageStorage = view.getMessageStorage();
         recipients = messageStorage.getMessage().getRecipients();
-        getRecipientsFullList.execute(new Subscriber<List<RecipientInfo>>() {
-            @Override
-            public void onCompleted() {
-            }
+        if (messageId != null) {
+            getRecipientsUseCase.execute(new Subscriber<List<Recipient>>() {
+                @Override
+                public void onCompleted() {
 
-            @Override
-            public void onError(Throwable e) {
-            }
-
-            @Override
-            public void onNext(List<RecipientInfo> recipientInfos) {
-                usersRecipients = new ArrayList<>();
-                for (RecipientInfo recipientInfo : recipientInfos) {
-                    if (recipientInfo.getNameFull() != null) {
-                        UserRecipientModel user = new UserRecipientModel();
-                        user.setId(recipientInfo.getId());
-                        user.setFullName(recipientInfo.getNameFull());
-                        user.setParent(recipientInfo.getParentName());
-                        user.setRole(recipientInfo.getRoleName());
-                        user.setBusiness(recipientInfo.getBusinessUnitName());
-                        user.setImageUri(Uri.parse(recipientInfo.getImageUrl()));
-                        usersRecipients.add(user);
-                    }
                 }
 
-                actOnView(view1 -> view.showRecipients(usersRecipients));
-            }
-        }, recipients);
+                @Override
+                public void onError(Throwable e) {
+
+                }
+
+                @Override
+                public void onNext(List<Recipient> recipients) {
+                    usersRecipients = new ArrayList<>();
+                    for (Recipient recipient : recipients) {
+                        if (showReadConfirmed && !recipient.getReadConfirmedYn().equals("Y")) {
+                            continue;
+                        }
+
+                        if (recipient.getNameFull() != null) {
+                            UserRecipientModel user = new UserRecipientModel();
+                            user.setId(recipient.getId());
+                            user.setFullName(recipient.getNameFull());
+                            user.setRole(recipient.getRoleName());
+                            user.setImageUri(Uri.parse(recipient.getImageUrl()));
+                            usersRecipients.add(user);
+                        }
+                    }
+
+                    actOnView(view -> view.showRecipients(usersRecipients, false));
+                }
+            }, messageId);
+        }
+            else {
+            getRecipientsFullList.execute(new Subscriber<List<RecipientInfo>>() {
+                @Override
+                public void onCompleted() {
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                }
+
+                @Override
+                public void onNext(List<RecipientInfo> recipientInfos) {
+                    usersRecipients = new ArrayList<>();
+                    for (RecipientInfo recipientInfo : recipientInfos) {
+                        if (recipientInfo.getNameFull() != null) {
+                            UserRecipientModel user = new UserRecipientModel();
+                            user.setId(recipientInfo.getId());
+                            user.setFullName(recipientInfo.getNameFull());
+                            user.setParent(recipientInfo.getParentName());
+                            user.setRole(recipientInfo.getRoleName());
+                            user.setBusiness(recipientInfo.getBusinessUnitName());
+                            user.setImageUri(Uri.parse(recipientInfo.getImageUrl()));
+                            usersRecipients.add(user);
+                        }
+                    }
+
+                    actOnView(view -> view.showRecipients(usersRecipients, true));
+                }
+            }, recipients);
+        }
     }
 
     public void onUserRecipientClick(String id) {

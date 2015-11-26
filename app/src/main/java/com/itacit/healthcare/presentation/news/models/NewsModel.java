@@ -2,23 +2,16 @@ package com.itacit.healthcare.presentation.news.models;
 
 import android.net.Uri;
 
+import com.itacit.healthcare.presentation.base.model.BaseModel;
+
 /**
  * Created by root on 20.10.15.
  */
-public class NewsModel {
-    private String id;
+public class NewsModel extends BaseModel {
     private Uri headlineUri;
     private String startDate;
     private String categoryName;
     private String headline;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public Uri getHeadlineUri() {
         return headlineUri;

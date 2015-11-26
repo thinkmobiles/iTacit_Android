@@ -27,17 +27,15 @@ public class UsersRecipientAdapter extends RecyclerView.Adapter<UsersRecipientAd
     private final RecipientsPresenter presenter;
     private Context context;
     private Picasso picasso;
-
-    public List<UserRecipientModel> getUsersRecipients() {
-        return users;
-    }
+    private boolean showDeleteIcon;
 
     private List<UserRecipientModel> users;
 
-    public UsersRecipientAdapter(Context context, List<UserRecipientModel> users, RecipientsPresenter presenter) {
+    public UsersRecipientAdapter(Context context, List<UserRecipientModel> users, RecipientsPresenter presenter, boolean showDeleteIcon) {
         this.context = context;
         this.users = users;
         this.presenter = presenter;
+        this.showDeleteIcon = showDeleteIcon;
         picasso = AndroidUtils.createPicassoWithAuth(context);
     }
 
@@ -57,10 +55,12 @@ public class UsersRecipientAdapter extends RecyclerView.Adapter<UsersRecipientAd
         holder.tvName.setText(userModel.getFullName());
         String role = userModel.getRole() + ", " + userModel.getBusiness();
         holder.tvRole.setText(role);
-        holder.ivCheck.setImageResource(R.drawable.btn_del_circle);
-        holder.view.setOnClickListener(v -> {
-            presenter.onUserRecipientClick(userModel.getId());
-        });
+        if (showDeleteIcon) {
+            holder.ivCheck.setImageResource(R.drawable.btn_del_circle);
+            holder.view.setOnClickListener(v -> {
+                presenter.onUserRecipientClick(userModel.getId());
+            });
+        }
     }
 
     @Override

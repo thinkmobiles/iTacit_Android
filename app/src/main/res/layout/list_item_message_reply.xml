@@ -4,6 +4,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:background="@color/bg_light"
                 android:paddingTop="14dp">
 
     <RelativeLayout
@@ -58,6 +59,8 @@
             android:background="@null"
             android:visibility="gone"
             android:layout_marginLeft="8dp"
+            android:scaleType="fitCenter"
+            android:layout_alignTop="@+id/tv_last_time_response_LIMR"
             android:layout_alignBottom="@+id/tv_last_time_response_LIMR"
             android:layout_toEndOf="@+id/tv_sender_name_LIMR"/>
 

@@ -1,7 +1,5 @@
 package com.itacit.healthcare.presentation.messages.mappers;
 
-import android.net.Uri;
-
 import com.itacit.healthcare.data.entries.Reply;
 import com.itacit.healthcare.presentation.base.mappers.ModelMapper;
 import com.itacit.healthcare.presentation.messages.models.RepliesModel;
@@ -16,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by Den on 16.11.15.
  */
-public class ListRepliesMapper extends ModelMapper<RepliesModel, Reply> {
+public class ReplyMapper extends ModelMapper<RepliesModel, Reply> {
     @Override
     public RepliesModel transform(Reply dataEntry) {
 
@@ -28,23 +26,23 @@ public class ListRepliesMapper extends ModelMapper<RepliesModel, Reply> {
             repliesModel.setId(dataEntry.getId());
 
             if(dataEntry.getSender() == null){
-                repliesModel.setSenderImageUri(Uri.parse(dataEntry.getSenderImageUrl() != null ? dataEntry.getSenderImageUrl() : ""));
-                repliesModel.setSenderNameFull(dataEntry.getSenderNameFull() != null ? dataEntry.getSenderNameFull() : "");
-                repliesModel.setSenderRoleName(dataEntry.getSenderRoleName() != null ? dataEntry.getSenderRoleName() : "");
+                repliesModel.setSenderImageUri(convertUri(dataEntry.getSenderImageUrl()));
+                repliesModel.setSenderNameFull(convertString(dataEntry.getSenderNameFull()));
+                repliesModel.setSenderRoleName(convertString(dataEntry.getSenderRoleName()));
 //                repliesModel.setResponseCount(dataEntry.getResponseCount() != null ? dataEntry.getResponseCount() : 0);
             } else {
-                repliesModel.setSenderImageUri(Uri.parse(dataEntry.getSender().getImageUrl() != null ? dataEntry.getSender().getImageUrl() : ""));
-                repliesModel.setSenderNameFull(dataEntry.getSender().getNameFull() != null ? dataEntry.getSender().getNameFull() : "");
-                repliesModel.setSenderRoleName(dataEntry.getSender().getRoleName() != null ? dataEntry.getSender().getRoleName() : "");
+                repliesModel.setSenderImageUri(convertUri(dataEntry.getSender().getImageUrl()));
+                repliesModel.setSenderNameFull(convertString(dataEntry.getSender().getNameFull()));
+                repliesModel.setSenderRoleName(convertString(dataEntry.getSender().getRoleName()));
             }
 
-            repliesModel.setBody(dataEntry.getBody() != null ? dataEntry.getBody() : "");
-            repliesModel.setReplyMethodEmailYn(dataEntry.getReplyMethodEmailYn().equals("Y") ? true : false);
-            repliesModel.setReadConfirmedYn(dataEntry.getReadConfirmedYn().equals("Y") ? true : false);
-            repliesModel.setReplyMethodSMSYn(dataEntry.getReplyMethodSMSYn().equals("Y") ? true : false);
-            repliesModel.setReplyPrivateYn(dataEntry.getReplyPrivateYn().equals("Y") ? true : false);
+            repliesModel.setBody(convertString(dataEntry.getBody()));
+            repliesModel.setReplyMethodEmailYn(convertYn(dataEntry.getReplyMethodEmailYn()));
+            repliesModel.setReadConfirmedYn(convertYn(dataEntry.getReadConfirmedYn()));
+            repliesModel.setReplyMethodSMSYn(convertYn(dataEntry.getReplyMethodSMSYn()));
+            repliesModel.setReplyPrivateYn(convertYn(dataEntry.getReplyPrivateYn()));
 
-            repliesModel.setSendDateTime(dataEntry.getSendDateTime() != null ? getLastTimeResponse(dataEntry.getSendDateTime()) : "");
+            repliesModel.setSendDateTime(getLastTimeResponse(convertString(dataEntry.getSendDateTime())));
 
             return repliesModel;
         } catch (NumberFormatException e) {

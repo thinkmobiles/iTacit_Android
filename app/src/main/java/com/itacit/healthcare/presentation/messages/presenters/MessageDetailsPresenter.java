@@ -5,11 +5,11 @@ import android.support.annotation.NonNull;
 import com.itacit.healthcare.data.entries.Message;
 import com.itacit.healthcare.data.entries.Reply;
 import com.itacit.healthcare.domain.interactor.messages.ConfirmMessageReadUseCase;
-import com.itacit.healthcare.domain.interactor.messages.GetListRepliesUseCase;
 import com.itacit.healthcare.domain.interactor.messages.GetMessageDetailsUseCase;
+import com.itacit.healthcare.domain.interactor.messages.GetRepliesUseCase;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
-import com.itacit.healthcare.presentation.messages.mappers.ListRepliesMapper;
 import com.itacit.healthcare.presentation.messages.mappers.MessagesMapper;
+import com.itacit.healthcare.presentation.messages.mappers.ReplyMapper;
 import com.itacit.healthcare.presentation.messages.models.MessageModel;
 import com.itacit.healthcare.presentation.messages.models.RepliesModel;
 import com.itacit.healthcare.presentation.messages.views.MessageDetailsView;
@@ -25,24 +25,24 @@ public class MessageDetailsPresenter extends BasePresenter<MessageDetailsView> {
     public List<RepliesModel> repliesModels;
     public MessageModel messageModel;
 
-    private GetListRepliesUseCase getListRepliesUseCase;
+    private GetRepliesUseCase getRepliesUseCase;
     private GetMessageDetailsUseCase getMessageDetailsUseCase;
 
-    private ListRepliesMapper repliesMapper;
+    private ReplyMapper repliesMapper;
     private MessagesMapper messagesMapper;
 
     private ConfirmMessageReadUseCase confirmMessageReadUseCase;
 
     private String messageId;
 
-    public MessageDetailsPresenter(ListRepliesMapper listRepliesMapper,
-                                   GetListRepliesUseCase getListRepliesUseCase,
+    public MessageDetailsPresenter(ReplyMapper replyMapper,
+                                   GetRepliesUseCase getRepliesUseCase,
                                    MessagesMapper messagesMapper,
                                    GetMessageDetailsUseCase getMessageDetailsUseCase,
                                    ConfirmMessageReadUseCase confirmMessageReadUseCase,
                                    String messageId) {
-        this.repliesMapper = listRepliesMapper;
-        this.getListRepliesUseCase = getListRepliesUseCase;
+        this.repliesMapper = replyMapper;
+        this.getRepliesUseCase = getRepliesUseCase;
         this.messagesMapper = messagesMapper;
         this.getMessageDetailsUseCase = getMessageDetailsUseCase;
         this.confirmMessageReadUseCase = confirmMessageReadUseCase;
@@ -53,7 +53,7 @@ public class MessageDetailsPresenter extends BasePresenter<MessageDetailsView> {
     protected void onAttachedView(@NonNull MessageDetailsView view) {
         view.showProgress();
         getMessageDetailsUseCase.execute(new HeaderRepliesSubscriber(),messageId);
-        getListRepliesUseCase.execute(new RepliesListSubscriber(), messageId);
+        getRepliesUseCase.execute(new RepliesListSubscriber(), messageId);
     }
 
     public  void sendResponseConfirm(){
