@@ -1,5 +1,6 @@
 package com.itacit.healthcare.presentation.messages.presenters;
 
+import com.itacit.healthcare.data.entries.Index;
 import com.itacit.healthcare.data.entries.Message;
 import com.itacit.healthcare.domain.interactor.messages.ArchiveMessageUseCase;
 import com.itacit.healthcare.domain.interactor.messages.GetMessagesUseCase;
@@ -23,7 +24,9 @@ public class MessagesFeedPresenter extends BasePresenter<MessagesFeedView> {
     private ArchiveMessageUseCase archiveMessageUseCase;
     private MessagesMapper dataMapper;
 
-    public MessagesFeedPresenter(GetMessagesUseCase messagesUseCase, MessagesMapper messagesMapper, ArchiveMessageUseCase archiveMessageUseCase) {
+    public MessagesFeedPresenter(GetMessagesUseCase messagesUseCase,
+                                 MessagesMapper messagesMapper,
+                                 ArchiveMessageUseCase archiveMessageUseCase) {
         getMessagesUseCase = messagesUseCase;
         dataMapper = messagesMapper;
         this.archiveMessageUseCase = archiveMessageUseCase;
@@ -34,16 +37,20 @@ public class MessagesFeedPresenter extends BasePresenter<MessagesFeedView> {
         actOnView(v -> v.showMessages(messageModels));
     }
 
-    public void getMessages(MessagesFilter filter) {
+    public void getMessages(Index index) {
         actOnView(MessagesFeedView::showProgress);
-        getMessagesUseCase.execute(new MessagesListSubscriber(), filter.toString());
+        getMessagesUseCase.execute(new MessagesListSubscriber(), index);
     }
 
     public void onMessageSelected(String messageId) {
         actOnView(view -> view.showMessageDetails(messageId));
     }
-    
-    public void onMessageArchiveSeleced(String messageId) {
+
+    public List<MessageModel> getMessageModels() {
+        return messageModels;
+    }
+
+    public void onMessageArchiveSelected(String messageId) {
         archiveMessageUseCase.execute(new Subscriber<Void>() {
             @Override
             public void onCompleted() {
@@ -59,11 +66,9 @@ public class MessagesFeedPresenter extends BasePresenter<MessagesFeedView> {
     }
 
     private final class MessagesListSubscriber extends Subscriber<List<Message>> {
-
         @Override
         public void onCompleted() {
             actOnView(MessagesFeedView::hideProgress);
-
         }
 
         @Override

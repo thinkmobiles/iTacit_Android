@@ -22,6 +22,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -32,23 +33,51 @@ import butterknife.ButterKnife;
  */
 public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHolder> {
 
-    private final MessagesFeedPresenter presenter;
+    private MessagesFeedPresenter presenter;
     private Context context;
     private List<MessageModel> messages;
     private Boolean isArchive = false;
     private Picasso picasso;
 
+    public MessagesFeedPresenter getPresenter() {
+        return presenter;
+    }
 
-    public MessagesAdapter(Context context, List<MessageModel> messages, MessagesFeedPresenter presenter, Boolean isArchive) {
-        this.context = context;
-        this.messages = messages;
-        this.presenter = presenter;
-        this.isArchive = isArchive;
-        OkHttpClient picassoClient = new OkHttpClient();
-        picassoClient.interceptors().add(new AuthInterceptor());
-        picasso = new Picasso.Builder(context)
-                .downloader(new OkHttpDownloader(picassoClient))
-                .build();
+    public void setPresenter(MessagesFeedPresenter _presenter) {
+        presenter = _presenter;
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context _context) {
+        context = _context;
+    }
+
+    public Boolean getIsArchive() {
+        return isArchive;
+    }
+
+    public void setIsArchive(Boolean _isArchive) {
+        isArchive = _isArchive;
+    }
+
+    public void setMessages(List<MessageModel> _messages) {
+        if(messages.size() > 0){
+//            messages = joinLists(messages, _messages);
+            messages.addAll(_messages);
+        }else
+            messages = _messages;
+    }
+
+    public List<MessageModel> joinLists(List<MessageModel> a, List<MessageModel> b) {
+        int aSize = a.size();
+        int bSize = b.size();
+        ArrayList<MessageModel> result = new ArrayList(aSize + bSize);
+        result.addAll(a);
+        result.addAll(b);
+        return result;
     }
 
     @Override
@@ -60,6 +89,13 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+
+        OkHttpClient picassoClient = new OkHttpClient();
+        picassoClient.interceptors().add(new AuthInterceptor());
+        picasso = new Picasso.Builder(context)
+                .downloader(new OkHttpDownloader(picassoClient))
+                .build();
+
         MessageModel messageModel = messages.get(position);
 
         holder.messageRl.setOnClickListener(e -> {
@@ -69,7 +105,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         holder.swipeLayout.addSwipeListener(new SimpleSwipeListener() {
             @Override
             public void onOpen(SwipeLayout layout) {
-                holder.archiveLl.setOnClickListener(e -> presenter.onMessageArchiveSeleced(messageModel.getId()));
+                holder.archiveLl.setOnClickListener(e -> presenter.onMessageArchiveSelected(messageModel.getId()));
             }
 
             @Override
