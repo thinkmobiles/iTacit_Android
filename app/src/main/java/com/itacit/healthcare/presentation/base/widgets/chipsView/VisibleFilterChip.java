@@ -24,12 +24,12 @@ import android.text.style.ImageSpan;
 
 
 public class VisibleFilterChip extends ImageSpan {
-    private final Filter filter;
+    private final Chip chip;
 
 
-    public VisibleFilterChip(final Drawable drawable, Filter filter) {
+    public VisibleFilterChip(final Drawable drawable, Chip chip) {
         super(drawable, DynamicDrawableSpan.ALIGN_BOTTOM);
-        this.filter = filter;
+        this.chip = chip;
     }
 
     public Rect getBounds() {
@@ -42,11 +42,10 @@ public class VisibleFilterChip extends ImageSpan {
 
     @Override
     public String toString() {
-        return filter.getVisibleText() + " <" + filter.getFilterType().toString() + " " + String.valueOf(filter.getId()) + ">";
+        return chip.getVisibleText() + " <" + chip.getFilterType().toString() + " " + String.valueOf(chip.getId()) + ">";
     }
 
-
-    public Filter getFilter() {
-        return filter;
+    public Chip getChip() {
+        return chip;
     }
 }

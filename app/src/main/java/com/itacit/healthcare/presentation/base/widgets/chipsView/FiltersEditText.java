@@ -9,14 +9,20 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.Editable;
 import android.text.Spannable;
-import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.global.utils.AndroidUtils;
@@ -24,7 +30,6 @@ import com.itacit.healthcare.global.utils.AndroidUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import rx.subjects.PublishSubject;
@@ -36,7 +41,7 @@ import rx.subjects.Subject;
 public class FiltersEditText extends AutoCompleteTextView {
 
     public static final String MORE_CHIP = "moreChip";
-    private final Subject<Filter, Filter> mChipRemovedSubject = PublishSubject.create();
+    private final Subject<Chip, Chip> mChipRemovedSubject = PublishSubject.create();
     private final float mChipHeightDp = 32;
     private final float mBgPaddingLeftDp = 12;
     private final float mBgPaddingRightDp = 8;
@@ -45,6 +50,13 @@ public class FiltersEditText extends AutoCompleteTextView {
     private FiltersTextWatcher mTextWatcher;
     private int moreChips;
     private boolean showMore;
+    private boolean isDirtyTouch;
+    private int chipLayoutId;
+    private LayoutInflater inflater;
+
+    public void setChipLayoutId(int chipLayoutId) {
+        this.chipLayoutId = chipLayoutId;
+    }
 
     public FiltersEditText(Context context) {
         super(context);
@@ -53,6 +65,7 @@ public class FiltersEditText extends AutoCompleteTextView {
     public FiltersEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
         mTextWatcher = new FiltersTextWatcher();
+        inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         addTextChangedListener(mTextWatcher);
     }
 
@@ -62,37 +75,86 @@ public class FiltersEditText extends AutoCompleteTextView {
         return -1;
     }
 
-    public Subject<Filter, Filter> getChipRemovedSubject() {
+    private static float getTextYOffset(final String text, final TextPaint paint, final int height) {
+        final Rect bounds = new Rect();
+        paint.getTextBounds(text, 0, text.length(), bounds);
+        final int textHeight = bounds.bottom - bounds.top;
+        return height - (height - textHeight) / 2 - (int) paint.descent();
+    }
+
+    public Subject<Chip, Chip> getChipRemovedSubject() {
         return mChipRemovedSubject;
     }
 
-    public void addFilter(Filter filter, boolean showDelete) {
-        getHandler().post(new Runnable() {
-            @Override
-            public void run() {
-                float width = 0;
-                for (VisibleFilterChip chip : getSortedChips()) {
-                    width += getPaint().measureText(chip.getFilter().getVisibleText());
-                    if (chip.getFilter().equals(filter)) return;
-                }
-
-
-                removeInputText();
-                final Editable editable = getText();
-                width += getPaint().measureText(filter.getVisibleText());
-                CharSequence chip;
-                if (width > getWidth() && showMore) {
-                    //Todo create more chips
-                    removeFilter(new Filter(MORE_CHIP, "+" + String.valueOf(moreChips) + "...", Filter.FilterType.Author));
-                    chip = createChip(new Filter(MORE_CHIP, "+" + String.valueOf(++moreChips) + "...", Filter.FilterType.Author), false);
-                } else {
-                    chip = createChip(filter, showDelete);
-                }
-                editable.append(chip);
+    public void addFilter(Chip filter, boolean showDelete) {
+        getHandler().post(() -> {
+            float width = 0;
+            for (VisibleFilterChip chip : getSortedChips()) {
+                width += getPaint().measureText(chip.getChip().getVisibleText());
+                if (chip.getChip().equals(filter)) return;
             }
+
+            removeInputText();
+            final Editable editable = getText();
+            width += getPaint().measureText(filter.getVisibleText());
+            CharSequence chip;
+            if (width > getWidth() && showMore) {
+                //Todo create more chips
+                removeFilter(new Chip(MORE_CHIP, "+" + String.valueOf(moreChips) + "...", Chip.FilterType.Author));
+                chip = createChip(new Chip(MORE_CHIP, "+" + String.valueOf(++moreChips) + "...", Chip.FilterType.Author), false);
+            } else {
+                chip = createChipFromView(filter);
+            }
+            editable.append(chip);
         });
     }
 
+    private CharSequence createChipFromView(Chip filter) {
+        LinearLayout chipLayout = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.chip_user, null, false);
+        ImageView usetImage = (ImageView) chipLayout.findViewById(R.id.iv_userAvatar_CU);
+        TextView userName = (TextView) chipLayout.findViewById(R.id.tv_userName_CU);
+        if (filter.getImage() != null) {
+            usetImage.setImageBitmap(filter.getImage());
+        }
+
+        userName.setText(filter.getVisibleText());
+        int spec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
+        chipLayout.measure(spec, spec);
+        chipLayout.layout(0, 0, chipLayout.getMeasuredWidth(), chipLayout.getMeasuredHeight());
+        Bitmap b = Bitmap.createBitmap(chipLayout.getMeasuredWidth(), chipLayout.getMeasuredHeight(),
+                Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(b);
+        c.translate(-chipLayout.getScrollX(), -chipLayout.getScrollY());
+        chipLayout.draw(c);
+        chipLayout.setDrawingCacheEnabled(true);
+        Bitmap cacheBmp = chipLayout.getDrawingCache();
+        Bitmap viewBmp = cacheBmp.copy(Bitmap.Config.ARGB_8888, true);
+        chipLayout.destroyDrawingCache();
+        final Drawable result = new BitmapDrawable(getResources(), viewBmp);
+        result.setBounds(0, 0, viewBmp.getWidth(), viewBmp.getHeight());
+        VisibleFilterChip chip = new VisibleFilterChip(result, filter);
+
+
+        String text = filter.getVisibleText();
+        if (!text.endsWith(" ")) {
+            text += " ";
+        }
+
+        final int textLength = text.length() - 1;
+
+        SpannableStringBuilder builder = new SpannableStringBuilder(text);
+        builder.setSpan(chip, 0, textLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                removeFilter(filter);
+            }
+        };
+
+        builder.setSpan(clickableSpan , 0, textLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        setMovementMethod(LinkMovementMethod.getInstance());
+        return builder;
+    }
 
     private void removeInputText() {
         if (getInputText().isEmpty()) {
@@ -110,11 +172,9 @@ public class FiltersEditText extends AutoCompleteTextView {
         if (chipEnd >= 0 && getText().length() > chipEnd) {
             getText().delete(chipEnd, getText().length());
         }
-
     }
 
-
-    private CharSequence createChip(Filter filter, boolean showDelete) {
+    private CharSequence createChip(Chip filter, boolean showDelete) {
         int paddingTopPx = (int) AndroidUtils.convertDpToPixel(mBgPaddingTop, getContext());
         int paddingRightPx = (int) AndroidUtils.convertDpToPixel(mBgPaddingRightDp, getContext());
         int paddingLeftPx = (int) AndroidUtils.convertDpToPixel(mBgPaddingLeftDp, getContext());
@@ -123,25 +183,23 @@ public class FiltersEditText extends AutoCompleteTextView {
 
         String text = filter.getVisibleText();
         if (!text.endsWith(" ")) {
-           text += " ";
+            text += " ";
         }
 
 
-        SpannableString chipText = new SpannableString(text);
         final int textLength = text.length() - 1;
         TextPaint paint = getPaint();
         int width;
 
-        Drawable delete= null;
+        Drawable delete = null;
         if (showDelete) {
-             delete = getContext().getResources().getDrawable(R.drawable.btn_chip_del);
+            delete = getContext().getResources().getDrawable(R.drawable.btn_chip_del);
             width = (int) (Math.floor(paint.measureText(text, 0, text.length())) + paddingLeftPx + 2 * paddingRightPx + delete.getMinimumWidth());
             delete.setBounds(width - (deleteSizePx + paddingRightPx), paddingTopPx, width - paddingRightPx, heightPx - paddingTopPx);
 
         } else {
             width = (int) (Math.floor(paint.measureText(text, 0, text.length())) + paddingLeftPx + paddingRightPx);
         }
-
 
         Bitmap tmpBitmap = Bitmap.createBitmap(width, heightPx, Bitmap.Config.ARGB_8888);
         float maxWidth = calculateAvailableWidth(paddingRightPx + paddingLeftPx);
@@ -154,7 +212,7 @@ public class FiltersEditText extends AutoCompleteTextView {
         paint.setColor(getContext().getResources().getColor(R.color.gray_dark));
         // Vertically center the text in the chip.
         canvas.drawText(ellipsizedText, 0, ellipsizedText.length(), paddingLeftPx, getTextYOffset((String) ellipsizedText, paint, heightPx) + 4, paint);
-        if(showDelete){
+        if (showDelete) {
             delete.draw(canvas);
         }
 
@@ -162,8 +220,19 @@ public class FiltersEditText extends AutoCompleteTextView {
         final Drawable result = new BitmapDrawable(getResources(), tmpBitmap);
         result.setBounds(0, 0, tmpBitmap.getWidth(), tmpBitmap.getHeight());
         VisibleFilterChip chip = new VisibleFilterChip(result, filter);
-        chipText.setSpan(chip, 0, textLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        return chipText;
+
+        SpannableStringBuilder builder = new SpannableStringBuilder(text);
+        builder.setSpan(chip, 0, textLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                removeFilter(filter);
+            }
+        };
+
+        builder.setSpan(clickableSpan , 0, textLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        setMovementMethod(LinkMovementMethod.getInstance());
+        return builder;
     }
 
     private void sanitizeBetween() {
@@ -189,17 +258,6 @@ public class FiltersEditText extends AutoCompleteTextView {
         }
     }
 
-    private float calculateAvailableWidth(float paddingChips) {
-        return getWidth() - getPaddingLeft() - getPaddingRight() - paddingChips;
-    }
-
-    private static float getTextYOffset(final String text, final TextPaint paint, final int height) {
-        final Rect bounds = new Rect();
-        paint.getTextBounds(text, 0, text.length(), bounds);
-        final int textHeight = bounds.bottom - bounds.top;
-        return height - (height - textHeight) / 2 - (int) paint.descent();
-    }
-
     private VisibleFilterChip[] getSortedChips() {
         final Spannable spannable = getText();
         VisibleFilterChip[] chips = spannable
@@ -207,22 +265,22 @@ public class FiltersEditText extends AutoCompleteTextView {
         ArrayList<VisibleFilterChip> chipsList = new ArrayList<VisibleFilterChip>(
                 Arrays.asList(chips));
 
-        Collections.sort(chipsList, new Comparator<VisibleFilterChip>() {
-
-            @Override
-            public int compare(VisibleFilterChip first, VisibleFilterChip second) {
-                int firstStart = spannable.getSpanStart(first);
-                int secondStart = spannable.getSpanStart(second);
-                if (firstStart < secondStart) {
-                    return -1;
-                } else if (firstStart > secondStart) {
-                    return 1;
-                } else {
-                    return 0;
-                }
+        Collections.sort(chipsList, (first, second) -> {
+            int firstStart = spannable.getSpanStart(first);
+            int secondStart = spannable.getSpanStart(second);
+            if (firstStart < secondStart) {
+                return -1;
+            } else if (firstStart > secondStart) {
+                return 1;
+            } else {
+                return 0;
             }
         });
         return chipsList.toArray(new VisibleFilterChip[chipsList.size()]);
+    }
+
+    private float calculateAvailableWidth(float paddingChips) {
+        return getWidth() - getPaddingLeft() - getPaddingRight() - paddingChips;
     }
 
     public void removeFilters() {
@@ -231,6 +289,24 @@ public class FiltersEditText extends AutoCompleteTextView {
         }
 
         getText().clear();
+    }
+
+    private void removeChip(VisibleFilterChip chip) {
+        Spannable spannable = getText();
+        int spanStart = spannable.getSpanStart(chip);
+        int spanEnd = spannable.getSpanEnd(chip);
+        Editable text = getText();
+        int toDelete = spanEnd;
+        // Always remove trailing spaces when removing a chip.
+        while (toDelete >= 0 && toDelete < text.length() && text.charAt(toDelete) == ' ') {
+            toDelete++;
+        }
+        spannable.removeSpan(chip);
+        if (spanStart >= 0 && toDelete > 0) {
+            text.delete(spanStart, toDelete);
+        }
+
+        mChipRemovedSubject.onNext(chip.getChip());
     }
 
     public String getInputText() {
@@ -256,32 +332,6 @@ public class FiltersEditText extends AutoCompleteTextView {
         return last;
     }
 
-    public void removeFilter(Filter filter) {
-        for (VisibleFilterChip chip : getSortedChips()) {
-            if (chip.getFilter().equals(filter)) {
-                removeChip(chip);
-            }
-        }
-    }
-
-    private void removeChip(VisibleFilterChip chip) {
-        Spannable spannable = getText();
-        int spanStart = spannable.getSpanStart(chip);
-        int spanEnd = spannable.getSpanEnd(chip);
-        Editable text = getText();
-        int toDelete = spanEnd;
-        // Always remove trailing spaces when removing a chip.
-        while (toDelete >= 0 && toDelete < text.length() && text.charAt(toDelete) == ' ') {
-            toDelete++;
-        }
-        spannable.removeSpan(chip);
-        if (spanStart >= 0 && toDelete > 0) {
-            text.delete(spanStart, toDelete);
-        }
-
-        mChipRemovedSubject.onNext(chip.getFilter());
-    }
-
 //    @Override
 //    protected void onSelectionChanged(int start, int end) {
 //        VisibleFilterChip last = getLastChip();
@@ -293,36 +343,43 @@ public class FiltersEditText extends AutoCompleteTextView {
 //
 //    }
 
-    private boolean isDirtyTouch;
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (!isFocused()) {
-            return super.onTouchEvent(event);
+    public void removeFilter(Chip filter) {
+        for (VisibleFilterChip chip : getSortedChips()) {
+            if (chip.getChip().equals(filter)) {
+                removeChip(chip);
+            }
         }
-        boolean handled = super.onTouchEvent(event);
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                break;
-            case MotionEvent.ACTION_MOVE:
-                isDirtyTouch = true;
-                break;
-            case MotionEvent.ACTION_UP:
-                final float x = event.getX();
-                final float y = event.getY();
-                final int offset = putOffsetInRange(x, y);
-                final VisibleFilterChip currentChip = findChip(offset);
-                if (currentChip != null && getChipEnd(currentChip) == offset) {
-                    if (!isDirtyTouch) {
-                        removeChip(currentChip);
-                        handled = true;
-                    }
-                }
-                isDirtyTouch = false;
-                break;
-        }
-
-        return handled;
     }
+
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        if (!isFocused()) {
+//            return super.onTouchEvent(event);
+//        }
+//        boolean handled = super.onTouchEvent(event);
+//        switch (event.getAction()) {
+//            case MotionEvent.ACTION_DOWN:
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                isDirtyTouch = true;
+//                break;
+//            case MotionEvent.ACTION_UP:
+//                final float x = event.getX();
+//                final float y = event.getY();
+//                final int offset = putOffsetInRange(x, y);
+//                final VisibleFilterChip currentChip = findChip(offset);
+//                if (currentChip != null && getChipEnd(currentChip) == offset) {
+//                    if (!isDirtyTouch) {
+//                        removeChip(currentChip);
+//                        handled = true;
+//                    }
+//                }
+//                isDirtyTouch = false;
+//                break;
+//        }
+//
+//        return handled;
+//    }
 
     private int putOffsetInRange(final float x, final float y) {
         final int offset;
@@ -405,12 +462,18 @@ public class FiltersEditText extends AutoCompleteTextView {
         return x;
     }
 
-    public List<Filter> getSelectedFilters() {
-        ArrayList<Filter> filters = new ArrayList<>();
+    @Override
+    protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
+        super.onFocusChanged(focused, direction, previouslyFocusedRect);
+
+    }
+
+    public List<Chip> getSelectedFilters() {
+        ArrayList<Chip> chips = new ArrayList<>();
         for (VisibleFilterChip chip : getSortedChips()) {
-            filters.add(chip.getFilter());
+            chips.add(chip.getChip());
         }
-        return filters;
+        return chips;
     }
 
     public void setShowMore(boolean showMore) {
@@ -421,6 +484,7 @@ public class FiltersEditText extends AutoCompleteTextView {
     private class FiltersTextWatcher implements TextWatcher {
         private boolean remove;
         private int chipStart;
+
         @Override
         public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
             remove = getInputText().isEmpty() && count - after == 1;
