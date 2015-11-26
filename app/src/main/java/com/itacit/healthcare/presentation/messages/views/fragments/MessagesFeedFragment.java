@@ -34,8 +34,9 @@ import static com.itacit.healthcare.presentation.messages.presenters.MessagesFee
  */
 public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter, MessagesActivity>
         implements MessagesFeedView, TabLayout.OnTabSelectedListener, SwipeRefreshLayout.OnRefreshListener {
-    @Bind(R.id.recycler_view_FMF)   RecyclerView messagesRecyclerView;
-    @Bind(R.id.tab_layout_FMF)      TabLayout tabLayout;
+
+    @Bind(R.id.recycler_view_FMF)        RecyclerView       messagesRecyclerView;
+    @Bind(R.id.tab_layout_FMF)           TabLayout          tabLayout;
     @Bind(R.id.swipe_container_FMF)      SwipeRefreshLayout swipeRefreshLayout;
 
     private MessagesAdapter messagesAdapter = new MessagesAdapter();
@@ -78,12 +79,14 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
         messagesAdapter.setContext(getActivity());
         messagesAdapter.setPresenter(presenter);
         messagesAdapter.setIsArchive(isArchive);
-        messagesRecyclerView.setAdapter(messagesAdapter);
 
         index.setStartIndex(START_INDEX);
         index.setRowCount(ROW_COUNT);
         index.setFilter(String.valueOf(tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).getTag()));
         presenter.getMessages(index);
+
+        messagesRecyclerView.setAdapter(messagesAdapter);
+
     }
 
     @Override
@@ -103,18 +106,16 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
 
     @Override
     protected MessagesFeedPresenter createPresenter() {
-	    currentFilter = MessagesFilter.ALL;
-        return new MessagesFeedPresenter(new GetMessagesUseCase(), new MessagesMapper(), new ArchiveMessageUseCase());
+//	    currentFilter = MessagesFilter.ALL;
+        return new MessagesFeedPresenter(new GetMessagesUseCase(),
+                new MessagesMapper(), new ArchiveMessageUseCase());
     }
 
     @Override
     public void showMessages(List<MessageModel> messages) {
         if(!messages.isEmpty()){
-
             AndroidUtils.checkRecyclerViewIsEmpty(messages, messagesRecyclerView, tvIsEmpty);
-
             isLoading = false;
-
             messagesRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -128,7 +129,6 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
                     }
                 }
             });
-
             messagesAdapter.setMessages(messages);
         }
    }
@@ -187,13 +187,11 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
         isArchive = MessagesFilter.ARCHIVE.equals(tab.getTag());
         currentFilter = (MessagesFilter) tab.getTag();
         index.setFilter(String.valueOf(currentFilter));
-//        presenter.getMessages(index);
+        presenter.getMessages(index);
     }
 
     @Override
     public void onRefresh() {
-//        presenter.getMessages(currentFilter);
         presenter.getMessages(index);
-
     }
 }

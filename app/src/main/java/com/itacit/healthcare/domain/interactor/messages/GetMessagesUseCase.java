@@ -1,5 +1,7 @@
 package com.itacit.healthcare.domain.interactor.messages;
 
+import android.util.Log;
+
 import com.itacit.healthcare.data.entries.Index;
 import com.itacit.healthcare.data.entries.Message;
 import com.itacit.healthcare.data.network.request.ListRequest;
@@ -28,6 +30,8 @@ public class GetMessagesUseCase extends GetListUseCase<Message, Index> {
         requestBody.setStartIndex(index.getStartIndex());
         requestBody.setRowCount(index.getRowCount());
         requestBody.setQuery(FILTER_GROUP + index.getFilter());
+        Log.d("WWW", "111" + index.getFilter());
+
         requestBody.setSort(SORT_FIELD_MESSAGES);
         return requestBody;
     }
