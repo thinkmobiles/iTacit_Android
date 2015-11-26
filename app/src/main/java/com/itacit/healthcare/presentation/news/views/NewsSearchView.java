@@ -5,6 +5,7 @@ import com.itacit.healthcare.presentation.base.views.View;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.Chip;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
 import com.itacit.healthcare.presentation.news.models.CategoryModel;
+import com.itacit.healthcare.presentation.news.views.activity.NewsActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -30,8 +31,9 @@ public interface NewsSearchView extends View {
 	void showSelectDateWarning();
 	void unselectAuthor(String id);
 	void unselectCategory(String id);
+	void navigateToNewsFeed();
 	Observable<String> getSearchTextObs();
 	Observable<Chip> getFilterRemovedObs();
-	BehaviorSubject<NewsSearch> getNewsSearchSubj();
+	NewsStorage getNewsSearch();
 	List<Chip> getFilters();
 }

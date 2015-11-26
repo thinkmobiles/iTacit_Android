@@ -22,6 +22,7 @@ import com.itacit.healthcare.presentation.news.mappers.NewsMapper;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
 import com.itacit.healthcare.presentation.news.presenters.NewsFeedPresenter;
 import com.itacit.healthcare.presentation.news.views.NewsFeedView;
+import com.itacit.healthcare.presentation.news.views.NewsStorage;
 import com.itacit.healthcare.presentation.news.views.activity.NewsActivity;
 import com.itacit.healthcare.presentation.news.views.adapters.NewsAdapter;
 import com.jakewharton.rxbinding.widget.RxTextView;
@@ -161,8 +162,8 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsAc
     }
 
     @Override
-    public BehaviorSubject<NewsSearch> getNewsSearch() {
-        return activity.getNewsSearchSubj();
+    public NewsStorage getNewsSearch() {
+        return activity;
     }
 
 	@Override
