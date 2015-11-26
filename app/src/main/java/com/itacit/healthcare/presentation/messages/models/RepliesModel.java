@@ -2,10 +2,12 @@ package com.itacit.healthcare.presentation.messages.models;
 
 import android.net.Uri;
 
+import com.itacit.healthcare.presentation.base.model.BaseModel;
+
 /**
  * Created by Den on 16.11.15.
  */
-public class RepliesModel {
+public class RepliesModel extends BaseModel {
     private String sendDateTime;
     private boolean readConfirmedYn;
     private Uri senderImageUri;
@@ -17,7 +19,6 @@ public class RepliesModel {
     private String parentMessageId;
     private boolean replyMethodEmailYn;
     private boolean replyMethodSMSYn;
-    private String id;
     private String senderImageAssetId;
     private Integer responseCount;
 
@@ -75,14 +76,6 @@ public class RepliesModel {
 
     public void setParentMessageId(String _parentMessageId) {
         parentMessageId = _parentMessageId;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String _id) {
-        id = _id;
     }
 
     public String getSenderImageAssetId() {

@@ -13,7 +13,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:focusable="true"
-        android:visibility="invisible"
+        android:visibility="visible"
         android:focusableInTouchMode="true"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"

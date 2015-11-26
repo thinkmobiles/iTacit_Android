@@ -3,15 +3,15 @@ package com.itacit.healthcare.presentation.messages.models;
 import android.net.Uri;
 
 import com.itacit.healthcare.data.entries.Recipient;
+import com.itacit.healthcare.presentation.base.model.BaseModel;
 
 import java.util.List;
 
 /**
  * Created by Den on 13.11.15.
  */
-public class MessageModel {
+public class MessageModel extends BaseModel {
 
-    private String id;
     private Uri headlineUri;
     private String senderName;
     private String timeSendMessage;
@@ -26,14 +26,6 @@ public class MessageModel {
     private String firstName;
     private String lastName;
     private boolean userMarksRead;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String _id) {
-        id = _id;
-    }
 
     public Uri getHeadlineUri() {
         return headlineUri;

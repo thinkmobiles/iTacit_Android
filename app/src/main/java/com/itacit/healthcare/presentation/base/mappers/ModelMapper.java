@@ -1,5 +1,9 @@
 package com.itacit.healthcare.presentation.base.mappers;
 
+import android.net.Uri;
+
+import com.itacit.healthcare.presentation.base.model.BaseModel;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,7 +17,7 @@ import java.util.TimeZone;
 /**
  * Created by root on 23.10.15.
  */
-public abstract class ModelMapper<M, D> {
+public abstract class ModelMapper<M extends BaseModel, D> {
     public abstract M transform(D dataEntry);
     public List<M> transform(Collection<D> dataCollection) {
         List<M> modelsCollection;
@@ -22,7 +26,7 @@ public abstract class ModelMapper<M, D> {
             modelsCollection = new ArrayList<>();
             for (D data : dataCollection) {
                 M model = transform(data);
-                if (model != null)  modelsCollection.add(model);
+                if (model != null && !modelsCollection.contains(model))  modelsCollection.add(model);
             }
         } else {
             modelsCollection = Collections.emptyList();
@@ -31,7 +35,7 @@ public abstract class ModelMapper<M, D> {
         return modelsCollection;
     }
 
-    public String convertData(String inputData, String inputFormat, String outputFormat, Locale locale){
+    protected String convertData(String inputData, String inputFormat, String outputFormat, Locale locale){
         SimpleDateFormat sdf = new SimpleDateFormat(inputFormat);
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         SimpleDateFormat output = new SimpleDateFormat(outputFormat, locale);
@@ -45,5 +49,17 @@ public abstract class ModelMapper<M, D> {
                 return null;
             }
         } else return null;
+    }
+
+    protected boolean convertYn(String Yn) {
+        return Yn.equals("Y");
+    }
+
+    protected Uri convertUri(String stringUri) {
+        return Uri.parse(stringUri != null ? stringUri : "");
+    }
+
+    protected String convertString(String string) {
+        return string != null ? string : "";
     }
 }

@@ -1,19 +1,12 @@
 package com.itacit.healthcare.domain.models;
 
+import com.itacit.healthcare.presentation.base.model.BaseModel;
+
 /**
  * Created by root on 16.11.15.
  */
-public class RecipientModel {
-    private String id;
+public class RecipientModel extends BaseModel {
     private String name;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

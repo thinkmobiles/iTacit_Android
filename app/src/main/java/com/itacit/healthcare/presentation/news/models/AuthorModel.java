@@ -2,23 +2,16 @@ package com.itacit.healthcare.presentation.news.models;
 
 import android.net.Uri;
 
+import com.itacit.healthcare.presentation.base.model.BaseModel;
+
 /**
  * Created by root on 02.11.15.
  */
-public class AuthorModel {
+public class AuthorModel extends BaseModel {
 
-	private String id;
 	private String fullName;
 	private String role;
 	private Uri imageUri;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public String getFullName() {
 		return fullName;
