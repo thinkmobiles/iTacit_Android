@@ -21,6 +21,7 @@ import rx.Subscriber;
  */
 public class NewsFeedPresenter extends BasePresenter<NewsFeedView> {
     public static final int SEARCH_TEXT_MIN_LENGTH = 3;
+    public static final int REQUEST_DELAY = 1;
     private GetNewsUseCase getNewsUseCase;
     private NewsMapper newsMapper;
     private NewsSearch lastSearch = new NewsSearch();
@@ -43,7 +44,7 @@ public class NewsFeedPresenter extends BasePresenter<NewsFeedView> {
     protected void onAttachedView(@NonNull NewsFeedView view) {
         compositeSubscription.add(view.getNewsSearchTextObs()
                 .filter(text -> text.length() >= SEARCH_TEXT_MIN_LENGTH)
-                .debounce(1, TimeUnit.SECONDS)
+                .debounce(REQUEST_DELAY, TimeUnit.SECONDS)
                 .observeOn(view.getUiThreadScheduler())
                 .subscribe(this::searchNews));
 
@@ -51,8 +52,8 @@ public class NewsFeedPresenter extends BasePresenter<NewsFeedView> {
     }
 
     private void searchNews(NewsSearch search) {
-        if (search.getFilters() != null) {
-            actOnView(view -> view.showFilters(search.getFilters()));
+        if (search.getChips() != null && !search.getChips().isEmpty()) {
+            actOnView(view -> view.showFilters(search.getChips()));
         }
 
         actOnView(NewsFeedView::showProgress);

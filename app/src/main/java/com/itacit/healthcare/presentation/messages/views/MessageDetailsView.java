@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Den on 17.11.15.
  */
-public interface MessageRepliesView extends View {
+public interface MessageDetailsView extends View {
     void showHeaderReplies(MessageModel messageModel);
     void showListReplies(List<RepliesModel> replies);
     void replyToAll();

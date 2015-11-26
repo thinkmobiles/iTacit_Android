@@ -6,8 +6,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.itacit.healthcare.R;
-import com.itacit.healthcare.data.network.interceptors.AuthInterceptor;
 import com.itacit.healthcare.domain.interactor.news.GetNewsDetailsUseCase;
+import com.itacit.healthcare.global.utils.AndroidUtils;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.base.widgets.picasso.CircleTransformation;
 import com.itacit.healthcare.presentation.messages.models.UserModel;
@@ -16,8 +16,6 @@ import com.itacit.healthcare.presentation.news.models.NewsDetailsModel;
 import com.itacit.healthcare.presentation.news.presenters.NewsDetailsPresenter;
 import com.itacit.healthcare.presentation.news.views.NewsDetailsView;
 import com.itacit.healthcare.presentation.news.views.activity.NewsActivity;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
@@ -41,11 +39,7 @@ public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter, 
 
     @Override
     protected void setUpView() {
-        OkHttpClient picassoClient = new OkHttpClient();
-        picassoClient.interceptors().add(new AuthInterceptor());
-        picasso = new Picasso.Builder(activity)
-                .downloader(new OkHttpDownloader(picassoClient))
-                .build();
+        picasso = AndroidUtils.createPicassoWithAuth(activity);
     }
 
     @Override

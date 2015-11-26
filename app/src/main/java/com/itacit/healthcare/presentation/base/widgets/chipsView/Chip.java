@@ -1,47 +1,63 @@
-/*
- * Copyright (C) 2013 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.itacit.healthcare.presentation.base.widgets.chipsView;
 
-import android.graphics.Canvas;
-import android.graphics.Rect;
+import android.graphics.Bitmap;
 
 /**
- * BaseRecipientChip defines an object that containsRecipient information relevant to a particular recipient.
+ * Created by root on 03.11.15.
  */
-public interface Chip {
-	/**
-	 * Get the text displayed in the chip.
-	 */
-	CharSequence getDisplay();
+public class Chip {
+    public enum FilterType {Author, Category}
+    private final String id;
+    private final String visibleText;
+    private final FilterType filterType;
+    private Bitmap image;
 
-	/**
-	 * Get the text value this chip represents.
-	 */
-	CharSequence getValue();
+    public Chip(String id, String visibleText, FilterType filterType) {
+        this.id = id;
+        this.visibleText = visibleText;
+        this.filterType = filterType;
+    }
 
-	/**
-	 * Get the bounds of the chip; may be 0,0 if it is not visibly rendered.
-	 */
-	Rect getBounds();
+    public Bitmap getImage() {
+        return image;
+    }
 
-	/**
-	 * Draw the chip.
-	 */
-	void draw(Canvas canvas);
+    public void setImage(Bitmap image) {
+        this.image = image;
+    }
 
+    public String getId() {
+        return id;
+    }
 
+    public String getVisibleText() {
+        return visibleText;
+    }
+
+    public FilterType getFilterType() {
+        return filterType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Chip) {
+            Chip other = (Chip) o;
+            if (other.getFilterType() != filterType) {
+                return false;
+            }
+
+            if (!other.getId().equals(id)) {
+                return false;
+            }
+
+            if (!other.getVisibleText().equals(visibleText)) {
+                return false;
+            }
+
+        } else {
+            return false;
+        }
+
+        return true;
+    }
 }

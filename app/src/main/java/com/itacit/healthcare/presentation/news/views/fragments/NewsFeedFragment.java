@@ -16,7 +16,7 @@ import com.itacit.healthcare.domain.interactor.news.GetNewsUseCase;
 import com.itacit.healthcare.domain.models.NewsSearch;
 import com.itacit.healthcare.global.utils.AndroidUtils;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
-import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
+import com.itacit.healthcare.presentation.base.widgets.chipsView.Chip;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
 import com.itacit.healthcare.presentation.news.mappers.NewsMapper;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
@@ -111,13 +111,13 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsAc
 	}
 
     @Override
-    public void showFilters(List<Filter> filters) {
+    public void showFilters(List<Chip> chips) {
 		searchNewsView.post(() -> {
 			// disable touch
             searchNewsView.setOnTouchListener((v, event) -> true);
 
-            for (Filter filter : filters) {
-                searchNewsView.addFilter(filter, false);
+            for (Chip chip : chips) {
+                searchNewsView.addFilter(chip, false);
             }
             searchNewsView.scrollTo(0,0);
         });

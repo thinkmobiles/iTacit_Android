@@ -114,8 +114,8 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
     @Override
     public void showMessageDetails(String messageId) {
         Bundle args = new Bundle(1);
-        args.putString(MessageRepliesFragment.Message_ID, messageId);
-        activity.switchContent(MessageRepliesFragment.class, args);
+        args.putString(MessageDetailsFragment.Message_ID, messageId);
+        activity.switchContent(MessageDetailsFragment.class, args);
     }
 
     @Override

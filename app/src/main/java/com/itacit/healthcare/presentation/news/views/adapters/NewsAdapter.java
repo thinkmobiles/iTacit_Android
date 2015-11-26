@@ -9,11 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.itacit.healthcare.R;
-import com.itacit.healthcare.data.network.interceptors.AuthInterceptor;
+import com.itacit.healthcare.global.utils.AndroidUtils;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
-import com.squareup.okhttp.OkHttpClient;
 import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -33,12 +31,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     public NewsAdapter(Context context, List<NewsModel> news) {
         this.context = context;
         this.news = news;
-        OkHttpClient picassoClient = new OkHttpClient();
-        picassoClient.interceptors().add(new AuthInterceptor());
-        picasso = new Picasso.Builder(context)
-                .downloader(new OkHttpDownloader(picassoClient))
-                .build();
-        setHasStableIds(true);
+        picasso = AndroidUtils.createPicassoWithAuth(context);
     }
 
     @Override

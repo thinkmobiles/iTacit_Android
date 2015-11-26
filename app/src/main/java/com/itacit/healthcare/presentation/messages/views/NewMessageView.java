@@ -1,7 +1,7 @@
 package com.itacit.healthcare.presentation.messages.views;
 
 import com.itacit.healthcare.presentation.base.views.View;
-import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
+import com.itacit.healthcare.presentation.base.widgets.chipsView.Chip;
 import com.itacit.healthcare.presentation.messages.models.UserModel;
 
 import java.text.SimpleDateFormat;
@@ -23,9 +23,9 @@ public interface NewMessageView extends View {
 	void showDate(String date);
 	void showDateError();
 	void resetDate();
-	void addFilter(Filter filter);
-	void removeFilter(Filter filter);
+	void addFilter(Chip chip);
+	void removeFilter(Chip chip);
 	Observable<String> getUsersSearchTextObs();
-	Observable<Filter> getFilterRemovedObs();
+	Observable<Chip> getFilterRemovedObs();
 	MessageStorage getMessageStorage();
 }

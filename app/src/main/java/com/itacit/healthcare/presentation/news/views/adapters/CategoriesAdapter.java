@@ -17,7 +17,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-import static com.itacit.healthcare.presentation.base.widgets.chipsView.Filter.FilterType;
+import static com.itacit.healthcare.presentation.base.widgets.chipsView.Chip.FilterType;
 
 /**
  * Created by root on 02.11.15.

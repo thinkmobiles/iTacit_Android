@@ -8,7 +8,7 @@ import com.itacit.healthcare.domain.interactor.news.GetAuthorsUseCase;
 import com.itacit.healthcare.domain.interactor.news.GetCategoriesUseCase;
 import com.itacit.healthcare.domain.models.NewsSearch;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
-import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
+import com.itacit.healthcare.presentation.base.widgets.chipsView.Chip;
 import com.itacit.healthcare.presentation.news.mappers.AuthorMapper;
 import com.itacit.healthcare.presentation.news.mappers.CategoryMapper;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 import rx.Observable;
 import rx.Subscriber;
 
-import static com.itacit.healthcare.presentation.base.widgets.chipsView.Filter.FilterType;
+import static com.itacit.healthcare.presentation.base.widgets.chipsView.Chip.FilterType;
 
 /**
  * Created by root on 26.10.15.
@@ -62,13 +62,13 @@ public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
     }
 
     private void showLastData(NewsSearch search) {
-        List<Filter> filters = search.getFilters();
+        List<Chip> chips = search.getChips();
 	    fromDate = search.getDateFrom();
 	    toDate = search.getDateTo();
 
-	    if (!filters.isEmpty()) {
-			for (Filter filter : filters) {
-				actOnView(v -> v.showFilter(filter));
+	    if (!chips.isEmpty()) {
+			for (Chip chip : chips) {
+				actOnView(v -> v.showFilter(chip));
 			}
 	    }
 
@@ -93,24 +93,24 @@ public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
     }
 
     public NewsSearch getNewsSearch() {
-        List<Filter> filters = new ArrayList<>();
-        if (getView() != null) filters = getView().getFilters();
+        List<Chip> chips = new ArrayList<>();
+        if (getView() != null) chips = getView().getFilters();
 
-        return new NewsSearch(filters, fromDate, toDate);
+        return new NewsSearch(chips, fromDate, toDate);
     }
 
-	public void removeFilter(Filter filter) {
-		switch (filter.getFilterType()) {
+	public void removeFilter(Chip chip) {
+		switch (chip.getFilterType()) {
 			case Author:
-                actOnView(v -> v.unselectAuthor(filter.getId()));
+                actOnView(v -> v.unselectAuthor(chip.getId()));
 				break;
 			case Category:
-                actOnView(v -> v.unselectCategory(filter.getId()));
+                actOnView(v -> v.unselectCategory(chip.getId()));
 				break;
 		}
 	}
 
-    private Filter createFilter(String filterId, FilterType filterType) {
+    private Chip createFilter(String filterId, FilterType filterType) {
         String filterText = "";
         switch (filterType) {
             case Author:
@@ -130,7 +130,7 @@ public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
                 }
                 break;
         }
-        return new Filter(filterId, filterText, filterType);
+        return new Chip(filterId, filterText, filterType);
     }
 
     public void selectFilter(String id, FilterType filterType) {

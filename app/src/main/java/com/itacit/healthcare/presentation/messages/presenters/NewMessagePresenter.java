@@ -1,5 +1,6 @@
 package com.itacit.healthcare.presentation.messages.presenters;
 
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -9,7 +10,7 @@ import com.itacit.healthcare.domain.interactor.users.GetUsersUseCase;
 import com.itacit.healthcare.domain.models.CreateMessageModel;
 import com.itacit.healthcare.domain.models.RecipientModel;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
-import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
+import com.itacit.healthcare.presentation.base.widgets.chipsView.Chip;
 import com.itacit.healthcare.presentation.messages.mappers.UserMapper;
 import com.itacit.healthcare.presentation.messages.models.UserModel;
 import com.itacit.healthcare.presentation.messages.views.MessageStorage;
@@ -65,14 +66,14 @@ public class NewMessagePresenter extends BasePresenter<NewMessageView> {
 				.getGroupedRecipients().get(RecipientType.User);
 		if (userRecipients != null && !userRecipients.isEmpty()) {
 			for (RecipientModel recipient : userRecipients) {
-				actOnView(view -> view.addFilter(new Filter(recipient.getId(), recipient.getName(),
-						Filter.FilterType.Author)));
+				actOnView(view -> view.addFilter(new Chip(recipient.getId(), recipient.getName(),
+						Chip.FilterType.Author)));
 			}
 		}
 	}
 
-	private void onChipRemoved(Filter filter) {
-		messageModel.getRecipients().removeRecipient(filter.getId(), RecipientType.User);
+	private void onChipRemoved(Chip chip) {
+		messageModel.getRecipients().removeRecipient(chip.getId(), RecipientType.User);
 	}
 
 	public void searchUsers(String query) {
@@ -88,17 +89,18 @@ public class NewMessagePresenter extends BasePresenter<NewMessageView> {
 		return messageModel.getRecipients().containsRecipient(id, RecipientType.User);
 	}
 
-	public void onUserClicked(UserModel user) {
-		Filter filter = new Filter(user.getId(), user.getFullName(), Filter.FilterType.Author);
+	public void onUserClicked(UserModel user, Bitmap userImage) {
+		Chip chip = new Chip(user.getId(), user.getFullName(), Chip.FilterType.Author);
+		chip.setImage(userImage);
 		if (isUserSelected(user.getId())) {
 			messageModel.getRecipients().removeRecipient(user.getId(), RecipientType.User);
-			actOnView(view -> view.removeFilter(filter));
+			actOnView(view -> view.removeFilter(chip));
 		} else {
 			RecipientModel recipient = new RecipientModel();
 			recipient.setId(user.getId());
 			recipient.setName(user.getFullName());
 			messageModel.getRecipients().addRecipient(recipient, RecipientType.User);
-			actOnView(view -> view.addFilter(filter));
+			actOnView(view -> view.addFilter(chip));
 		}
 	}
 

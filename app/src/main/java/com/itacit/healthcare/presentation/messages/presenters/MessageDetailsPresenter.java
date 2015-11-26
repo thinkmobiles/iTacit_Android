@@ -12,7 +12,7 @@ import com.itacit.healthcare.presentation.messages.mappers.ListRepliesMapper;
 import com.itacit.healthcare.presentation.messages.mappers.MessagesMapper;
 import com.itacit.healthcare.presentation.messages.models.MessageModel;
 import com.itacit.healthcare.presentation.messages.models.RepliesModel;
-import com.itacit.healthcare.presentation.messages.views.MessageRepliesView;
+import com.itacit.healthcare.presentation.messages.views.MessageDetailsView;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ import rx.Subscriber;
 /**
  * Created by Den on 17.11.15.
  */
-public class MessageRepliesPresenter extends BasePresenter<MessageRepliesView> {
+public class MessageDetailsPresenter extends BasePresenter<MessageDetailsView> {
     public List<RepliesModel> repliesModels;
     public MessageModel messageModel;
 
@@ -35,7 +35,7 @@ public class MessageRepliesPresenter extends BasePresenter<MessageRepliesView> {
 
     private String messageId;
 
-    public MessageRepliesPresenter(ListRepliesMapper listRepliesMapper,
+    public MessageDetailsPresenter(ListRepliesMapper listRepliesMapper,
                                    GetListRepliesUseCase getListRepliesUseCase,
                                    MessagesMapper messagesMapper,
                                    GetMessageDetailsUseCase getMessageDetailsUseCase,
@@ -50,7 +50,7 @@ public class MessageRepliesPresenter extends BasePresenter<MessageRepliesView> {
     }
 
     @Override
-    protected void onAttachedView(@NonNull MessageRepliesView view) {
+    protected void onAttachedView(@NonNull MessageDetailsView view) {
         view.showProgress();
         getMessageDetailsUseCase.execute(new HeaderRepliesSubscriber(),messageId);
         getListRepliesUseCase.execute(new RepliesListSubscriber(), messageId);

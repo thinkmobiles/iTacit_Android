@@ -2,7 +2,7 @@ package com.itacit.healthcare.presentation.news.views;
 
 import com.itacit.healthcare.domain.models.NewsSearch;
 import com.itacit.healthcare.presentation.base.views.View;
-import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
+import com.itacit.healthcare.presentation.base.widgets.chipsView.Chip;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
 import com.itacit.healthcare.presentation.news.models.CategoryModel;
 
@@ -23,15 +23,15 @@ public interface NewsSearchView extends View {
 	void showDate(DateType dateType, String toDate);
 	void showAuthors(List<AuthorModel> authors);
 	void showCategories(List<CategoryModel> categories);
-	void showFilter(Filter filter);
-	void hideFilter(Filter filter);
+	void showFilter(Chip chip);
+	void hideFilter(Chip chip);
 	void resetDate(DateType dateType);
 	void showInvalidDateWarning();
 	void showSelectDateWarning();
 	void unselectAuthor(String id);
 	void unselectCategory(String id);
 	Observable<String> getSearchTextObs();
-	Observable<Filter> getFilterRemovedObs();
+	Observable<Chip> getFilterRemovedObs();
 	BehaviorSubject<NewsSearch> getNewsSearchSubj();
-	List<Filter> getFilters();
+	List<Chip> getFilters();
 }

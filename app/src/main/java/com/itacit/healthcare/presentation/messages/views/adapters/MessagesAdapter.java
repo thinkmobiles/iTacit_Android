@@ -14,12 +14,10 @@ import android.widget.TextView;
 import com.daimajia.swipe.SimpleSwipeListener;
 import com.daimajia.swipe.SwipeLayout;
 import com.itacit.healthcare.R;
-import com.itacit.healthcare.data.network.interceptors.AuthInterceptor;
+import com.itacit.healthcare.global.utils.AndroidUtils;
 import com.itacit.healthcare.presentation.base.widgets.picasso.CircleTransformation;
 import com.itacit.healthcare.presentation.messages.models.MessageModel;
 import com.itacit.healthcare.presentation.messages.presenters.MessagesFeedPresenter;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -44,11 +42,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         this.messages = messages;
         this.presenter = presenter;
         this.isArchive = isArchive;
-        OkHttpClient picassoClient = new OkHttpClient();
-        picassoClient.interceptors().add(new AuthInterceptor());
-        picasso = new Picasso.Builder(context)
-                .downloader(new OkHttpDownloader(picassoClient))
-                .build();
+        picasso = AndroidUtils.createPicassoWithAuth(context);
     }
 
     @Override

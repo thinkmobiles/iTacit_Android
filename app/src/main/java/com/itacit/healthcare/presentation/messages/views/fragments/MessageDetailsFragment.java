@@ -23,8 +23,8 @@ import com.itacit.healthcare.presentation.messages.mappers.ListRepliesMapper;
 import com.itacit.healthcare.presentation.messages.mappers.MessagesMapper;
 import com.itacit.healthcare.presentation.messages.models.MessageModel;
 import com.itacit.healthcare.presentation.messages.models.RepliesModel;
-import com.itacit.healthcare.presentation.messages.presenters.MessageRepliesPresenter;
-import com.itacit.healthcare.presentation.messages.views.MessageRepliesView;
+import com.itacit.healthcare.presentation.messages.presenters.MessageDetailsPresenter;
+import com.itacit.healthcare.presentation.messages.views.MessageDetailsView;
 import com.itacit.healthcare.presentation.messages.views.activity.MessagesActivity;
 import com.itacit.healthcare.presentation.messages.views.adapters.RepliesAdapter;
 
@@ -40,27 +40,17 @@ import butterknife.OnClick;
 /**
  * Created by Den on 17.11.15.
  */
-public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPresenter, MessagesActivity> implements MessageRepliesView {
-    @Bind(R.id.rl_messages_replies_header_FMR)
-    RelativeLayout mesageDetailsRl;
-    @Bind(R.id.recycler_view_FMR)
-    RecyclerView repliesRecyclerView;
-    @Bind(R.id.tv_subject_FMR)
-    TextView tvSubject;
-    @Bind(R.id.tv_body_FMR)
-    ExpandableTextView tvBody;
-    @Bind(R.id.tv_request_for_confirmation_FMR)
-    TextView tvRequestConfirmation;
-    @Bind(R.id.cb_response_for_confirmation_FMR)
-    TextView tvResponseConfirmation;
-    @Bind(R.id.tv_number_people_shared_FMR)
-    TextView tvNumberPeopleShared;
-    @Bind(R.id.tv_number_people_read_FMR)
-    TextView tvNumberPeopleRead;
-    @Bind(R.id.tv_reply_to_sender_FMR)
-    TextView tvReplySender;
-    @Bind(R.id.tv_reply_all_FMR)
-    TextView tvReplyAll;
+public class MessageDetailsFragment extends BaseFragmentView<MessageDetailsPresenter, MessagesActivity> implements MessageDetailsView {
+    @Bind(R.id.rl_messages_replies_header_FMD)      RelativeLayout mesageDetailsRl;
+    @Bind(R.id.recycler_view_FMD)                   RecyclerView repliesRecyclerView;
+    @Bind(R.id.tv_subject_FMD)                      TextView tvSubject;
+    @Bind(R.id.tv_body_FMD)                         ExpandableTextView tvBody;
+    @Bind(R.id.tv_request_for_confirmation_FMD)     TextView tvRequestConfirmation;
+    @Bind(R.id.cb_response_for_confirmation_FMD)    TextView tvResponseConfirmation;
+    @Bind(R.id.tv_number_people_shared_FMD)         TextView tvNumberPeopleShared;
+    @Bind(R.id.tv_number_people_read_FMD)           TextView tvNumberPeopleRead;
+    @Bind(R.id.tv_reply_to_sender_FMD)              TextView tvReplySender;
+    @Bind(R.id.tv_reply_all_FMD)                    TextView tvReplyAll;
 
     public static final String Message_ID = "messageId";
     public static final String Reply_Recipient = "replyRecipient";
@@ -73,13 +63,13 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
     private List<Recipient> recipientsList;
 
     @Override
-    @OnClick(R.id.tv_reply_all_FMR)
+    @OnClick(R.id.tv_reply_all_FMD)
     public void replyToAll() {
         createReply(false);
     }
 
     @Override
-    @OnClick(R.id.tv_reply_to_sender_FMR)
+    @OnClick(R.id.tv_reply_to_sender_FMD)
     public void privateReply() {
         createReply(true);
     }
@@ -92,7 +82,7 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
 
     @Override
     protected int getLayoutRes() {
-        return R.layout.fragment_message_replies;
+        return R.layout.fragment_message_details;
     }
 
     @Override
@@ -111,9 +101,9 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
     }
 
     @Override
-    protected MessageRepliesPresenter createPresenter() {
+    protected MessageDetailsPresenter createPresenter() {
         messageId = getArguments().getString(Message_ID);
-        return new MessageRepliesPresenter(new ListRepliesMapper(),
+        return new MessageDetailsPresenter(new ListRepliesMapper(),
                 new GetListRepliesUseCase(),
                 new MessagesMapper(),
                 new GetMessageDetailsUseCase(),
@@ -200,11 +190,11 @@ public class MessageRepliesFragment extends BaseFragmentView<MessageRepliesPrese
 
     private void createReply(Boolean isPrivate) {
         Bundle args = new Bundle(3);
-        args.putString(MessageRepliesFragment.Message_ID, messageId);
+        args.putString(MessageDetailsFragment.Message_ID, messageId);
         if (isPrivate) {
-            args.putString(MessageRepliesFragment.Reply_Recipient, userName);
+            args.putString(MessageDetailsFragment.Reply_Recipient, userName);
         }
-        args.putBoolean(MessageRepliesFragment.IS_PRIVATE, isPrivate);
+        args.putBoolean(MessageDetailsFragment.IS_PRIVATE, isPrivate);
         activity.switchContent(NewReplyFragment.class, args);
     }
 }

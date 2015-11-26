@@ -1,6 +1,6 @@
 package com.itacit.healthcare.domain.models;
 
-import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
+import com.itacit.healthcare.presentation.base.widgets.chipsView.Chip;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -10,25 +10,25 @@ import java.util.List;
  * Created by root on 06.11.15.
  */
 public class NewsSearch extends GetListParams {
-    private List<Filter> filters;
+    private List<Chip> chips;
     private Calendar dateFrom;
     private Calendar dateTo;
     private String search = "";
 
 
-    public NewsSearch(List<Filter> filters, Calendar dateFrom, Calendar dateTo) {
-        this.filters = filters;
+    public NewsSearch(List<Chip> chips, Calendar dateFrom, Calendar dateTo) {
+        this.chips = chips;
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
     }
 
     public NewsSearch() {
-        filters = new ArrayList<>();
+        chips = new ArrayList<>();
     }
 
 
-    public void setFilters(List<Filter> filters) {
-        this.filters = filters;
+    public void setChips(List<Chip> chips) {
+        this.chips = chips;
     }
 
     public void setDateFrom(Calendar dateFrom) {
@@ -43,8 +43,8 @@ public class NewsSearch extends GetListParams {
         this.search = search;
     }
 
-    public List<Filter> getFilters() {
-        return filters;
+    public List<Chip> getChips() {
+        return chips;
     }
 
     public Calendar getDateFrom() {

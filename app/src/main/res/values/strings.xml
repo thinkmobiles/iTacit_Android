@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Healthcare</string>
 
-    <string name="search_hint">Search contacts &amp; places</string>
+    <string name="search_hint">Search</string>
     <string name="search">search</string>
     <string name="done">DONE</string>
     <string name="cancel">CANCEL</string>
@@ -35,12 +35,14 @@
     <!-- Menu -->
     <string name="send">Send</string>
     <string name="set_date">Set Date</string>
+
+    <!--Messages -->
     <string name="job_class">Job Classification</string>
     <string name="business_unit">Business Unit</string>
     <string name="role">Role</string>
     <string name="group">Group</string>
     <string name="add_recipients">Add Recipients</string>
-    <string name="message_date_requeire_read_error">Historical date cant be set</string>
+    <string name="message_date_require_read_error">Historical date cant be set</string>
     <string name="message_date_require_error">Historical date cant be set</string>
     <string name="recipients">Recipients</string>
 </resources>

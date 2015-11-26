@@ -15,7 +15,7 @@ import com.itacit.healthcare.domain.interactor.news.GetCategoriesUseCase;
 import com.itacit.healthcare.domain.models.NewsSearch;
 import com.itacit.healthcare.global.utils.AndroidUtils;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
-import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
+import com.itacit.healthcare.presentation.base.widgets.chipsView.Chip;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
 import com.itacit.healthcare.presentation.base.widgets.datePicker.DatePickerFragment;
 import com.itacit.healthcare.presentation.news.mappers.AuthorMapper;
@@ -166,7 +166,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
     }
 
 	@Override
-	public Observable<Filter> getFilterRemovedObs() {
+	public Observable<Chip> getFilterRemovedObs() {
 		return searchFiltersEt.getChipRemovedSubject();
 	}
 
@@ -176,7 +176,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
     }
 
     @Override
-    public List<Filter> getFilters() {
+    public List<Chip> getFilters() {
         return searchFiltersEt.getSelectedFilters();
     }
 
@@ -213,8 +213,8 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
     @Override
     public void showAuthors(List<AuthorModel> authors) {
         authorsAdapter = new AuthorsAdapter(getActivity(), authors);
-        for (Filter filter : searchFiltersEt.getSelectedFilters()) {
-            authorsAdapter.getSelectedAuthorsIds().add(filter.getId());
+        for (Chip chip : searchFiltersEt.getSelectedFilters()) {
+            authorsAdapter.getSelectedAuthorsIds().add(chip.getId());
         }
         authorsRv.setAdapter(authorsAdapter);
         authorsAdapter.setItemSelectionListener(this);
@@ -224,8 +224,8 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
     @Override
     public void showCategories(List<CategoryModel> categories) {
         categoriesAdapter = new CategoriesAdapter(getActivity(), categories);
-        for (Filter filter : searchFiltersEt.getSelectedFilters()) {
-            categoriesAdapter.getSelectedCategoriesIds().add(filter.getId());
+        for (Chip chip : searchFiltersEt.getSelectedFilters()) {
+            categoriesAdapter.getSelectedCategoriesIds().add(chip.getId());
         }
         categoriesRv.setAdapter(categoriesAdapter);
         categoriesAdapter.setItemSelectionListener(this);
@@ -233,22 +233,22 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
     }
 
     @Override
-    public void showFilter(Filter filter) {
-        searchFiltersEt.addFilter(filter, true);
+    public void showFilter(Chip chip) {
+        searchFiltersEt.addFilter(chip, true);
     }
 
     @Override
-    public void hideFilter(Filter filter) {
-        searchFiltersEt.removeFilter(filter);
+    public void hideFilter(Chip chip) {
+        searchFiltersEt.removeFilter(chip);
     }
 
     @Override
-    public void onFilterSelected(String filterId, Filter.FilterType type) {
+    public void onFilterSelected(String filterId, Chip.FilterType type) {
         presenter.selectFilter(filterId, type);
     }
 
     @Override
-    public void onFilterDeselected(String filterId, Filter.FilterType type) {
+    public void onFilterDeselected(String filterId, Chip.FilterType type) {
         presenter.unselectFilter(filterId, type);
     }
 }

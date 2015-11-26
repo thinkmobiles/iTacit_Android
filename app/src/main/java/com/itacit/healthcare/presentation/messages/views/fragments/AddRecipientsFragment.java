@@ -46,46 +46,26 @@ import static com.itacit.healthcare.domain.models.RecipientsGroupedModel.Recipie
  * Created by root on 16.11.15.
  */
 public class AddRecipientsFragment extends BaseFragmentView<AddRecipientsPresenter, MessagesActivity> implements AddRecipientsView {
-    @Bind(R.id.sv_content_FAR)
-    ScrollView contentSv;
-    @Bind(R.id.et_search_FAR)
-    EditText searchRecipientsEt;
-    @Bind(R.id.rv_jobs_FAR)
-    RecyclerView jobsRv;
-    @Bind(R.id.rv_business_FAR)
-    RecyclerView businessRv;
-    @Bind(R.id.rv_role_FAR)
-    RecyclerView rolesRv;
-    @Bind(R.id.rv_group_FAR)
-    RecyclerView groupsRv;
-    @Bind(R.id.tv_job_count_FAR)
-    TextView jobCountTv;
-    @Bind(R.id.tv_business_count_FAR)
-    TextView businessCountTv;
-    @Bind(R.id.tv_role_count_FAR)
-    TextView roleCountTv;
-    @Bind(R.id.tv_group_count_FAR)
-    TextView groupCountTv;
-    @Bind(R.id.iv_jobs_expand_FAR)
-    ImageView jobsExpandIv;
-    @Bind(R.id.iv_business_expand_FAR)
-    ImageView businessExpandIv;
-    @Bind(R.id.iv_role_expand_FAR)
-    ImageView roleExpandIv;
-    @Bind(R.id.iv_group_expand_FAR)
-    ImageView groupExpandIv;
-    @Bind(R.id.tv_count_recipients_FAR)
-    TextView selectRecipientsCountTv;
-    @Bind(R.id.iv_direct_rep_FAR)
-    ImageView directReportsIv;
-    @Bind(R.id.iv_indirect_rep_FAR)
-    ImageView indirectReportsIv;
-    @Bind(R.id.iv_coworkers_FAR)
-    ImageView coworkersIv;
-    @Bind(R.id.iv_my_business_FAR)
-    ImageView myBusinessIv;
-    @Bind(R.id.iv_my_job_FAR)
-    ImageView myJobsIv;
+    @Bind(R.id.sv_content_FAR)          ScrollView contentSv;
+    @Bind(R.id.et_search_FAR)           EditText searchRecipientsEt;
+    @Bind(R.id.rv_jobs_FAR)             RecyclerView jobsRv;
+    @Bind(R.id.rv_business_FAR)         RecyclerView businessRv;
+    @Bind(R.id.rv_role_FAR)             RecyclerView rolesRv;
+    @Bind(R.id.rv_group_FAR)            RecyclerView groupsRv;
+    @Bind(R.id.tv_job_count_FAR)        TextView jobCountTv;
+    @Bind(R.id.tv_business_count_FAR)   TextView businessCountTv;
+    @Bind(R.id.tv_role_count_FAR)       TextView roleCountTv;
+    @Bind(R.id.tv_group_count_FAR)      TextView groupCountTv;
+    @Bind(R.id.iv_jobs_expand_FAR)      ImageView jobsExpandIv;
+    @Bind(R.id.iv_business_expand_FAR)  ImageView businessExpandIv;
+    @Bind(R.id.iv_role_expand_FAR)      ImageView roleExpandIv;
+    @Bind(R.id.iv_group_expand_FAR)     ImageView groupExpandIv;
+    @Bind(R.id.tv_count_recipients_FAR) TextView selectRecipientsCountTv;
+    @Bind(R.id.iv_direct_rep_FAR)       ImageView directReportsIv;
+    @Bind(R.id.iv_indirect_rep_FAR)     ImageView indirectReportsIv;
+    @Bind(R.id.iv_coworkers_FAR)        ImageView coworkersIv;
+    @Bind(R.id.iv_my_business_FAR)      ImageView myBusinessIv;
+    @Bind(R.id.iv_my_job_FAR)           ImageView myJobsIv;
 
     @OnClick({R.id.rl_direct_reports_FAR, R.id.rl_indirect_reports_FAR, R.id.rl_my_business_FAR,
             R.id.rl_my_job_FAR, R.id.rl_co_workers_FAB})
