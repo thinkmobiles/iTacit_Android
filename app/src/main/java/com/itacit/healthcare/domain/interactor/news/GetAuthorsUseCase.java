@@ -23,6 +23,6 @@ public class GetAuthorsUseCase extends GetListUseCase<Author, String> {
     protected ListRequest initArgs(String query) {
         ListRequest requestBody = new ListRequest();
         requestBody.setQuery(QUERY_PREFIX + query);
-        return null;
+        return requestBody;
     }
 }

@@ -18,6 +18,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
@@ -52,7 +53,6 @@ public class FiltersEditText extends AutoCompleteTextView {
     private boolean showMore;
     private boolean isDirtyTouch;
     private int chipLayoutId;
-    private LayoutInflater inflater;
 
     public void setChipLayoutId(int chipLayoutId) {
         this.chipLayoutId = chipLayoutId;
@@ -65,7 +65,6 @@ public class FiltersEditText extends AutoCompleteTextView {
     public FiltersEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
         mTextWatcher = new FiltersTextWatcher();
-        inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         addTextChangedListener(mTextWatcher);
     }
 
@@ -144,15 +143,6 @@ public class FiltersEditText extends AutoCompleteTextView {
 
         SpannableStringBuilder builder = new SpannableStringBuilder(text);
         builder.setSpan(chip, 0, textLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ClickableSpan clickableSpan = new ClickableSpan() {
-            @Override
-            public void onClick(View widget) {
-                removeFilter(filter);
-            }
-        };
-
-        builder.setSpan(clickableSpan , 0, textLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        setMovementMethod(LinkMovementMethod.getInstance());
         return builder;
     }
 
@@ -351,35 +341,35 @@ public class FiltersEditText extends AutoCompleteTextView {
         }
     }
 
-//    @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//        if (!isFocused()) {
-//            return super.onTouchEvent(event);
-//        }
-//        boolean handled = super.onTouchEvent(event);
-//        switch (event.getAction()) {
-//            case MotionEvent.ACTION_DOWN:
-//                break;
-//            case MotionEvent.ACTION_MOVE:
-//                isDirtyTouch = true;
-//                break;
-//            case MotionEvent.ACTION_UP:
-//                final float x = event.getX();
-//                final float y = event.getY();
-//                final int offset = putOffsetInRange(x, y);
-//                final VisibleFilterChip currentChip = findChip(offset);
-//                if (currentChip != null && getChipEnd(currentChip) == offset) {
-//                    if (!isDirtyTouch) {
-//                        removeChip(currentChip);
-//                        handled = true;
-//                    }
-//                }
-//                isDirtyTouch = false;
-//                break;
-//        }
-//
-//        return handled;
-//    }
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (!isFocused()) {
+            return super.onTouchEvent(event);
+        }
+        boolean handled = super.onTouchEvent(event);
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                break;
+            case MotionEvent.ACTION_MOVE:
+                isDirtyTouch = true;
+                break;
+            case MotionEvent.ACTION_UP:
+                final float x = event.getX();
+                final float y = event.getY();
+                final int offset = putOffsetInRange(x, y);
+                final VisibleFilterChip currentChip = findChip(offset);
+                if (currentChip != null && getChipEnd(currentChip) == offset) {
+                    if (!isDirtyTouch) {
+                        removeChip(currentChip);
+                        handled = true;
+                    }
+                }
+                isDirtyTouch = false;
+                break;
+        }
+
+        return handled;
+    }
 
     private int putOffsetInRange(final float x, final float y) {
         final int offset;

@@ -22,6 +22,7 @@ import com.itacit.healthcare.presentation.news.mappers.NewsMapper;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
 import com.itacit.healthcare.presentation.news.presenters.NewsFeedPresenter;
 import com.itacit.healthcare.presentation.news.views.NewsFeedView;
+import com.itacit.healthcare.presentation.news.views.NewsStorage;
 import com.itacit.healthcare.presentation.news.views.activity.NewsActivity;
 import com.itacit.healthcare.presentation.news.views.adapters.NewsAdapter;
 import com.jakewharton.rxbinding.widget.RxTextView;
@@ -108,6 +109,7 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsAc
 		}
 
 		searchNewsView.setAdapter(new ArrayAdapter<>(activity, R.layout.list_item_search_news, headers));
+		swipeRefreshLayout.setRefreshing(false);
 	}
 
     @Override
@@ -137,7 +139,7 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsAc
 //            progressDialog.setCancelable(true);
 //        }
 //        progressDialog.show();
-		swipeRefreshLayout.setRefreshing(true);
+
     }
 
 	@Override
@@ -145,7 +147,6 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsAc
 //		if (progressDialog != null && progressDialog.isShowing()) {
 //			progressDialog.hide();
 //		}
-		swipeRefreshLayout.setRefreshing(false);
 	}
 
 	@Override
@@ -161,12 +162,13 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsAc
     }
 
     @Override
-    public BehaviorSubject<NewsSearch> getNewsSearch() {
-        return activity.getNewsSearchSubj();
+    public NewsStorage getNewsSearch() {
+        return activity;
     }
 
 	@Override
 	public void onRefresh() {
+		swipeRefreshLayout.setRefreshing(true);
 		presenter.refreshNews();
 	}
 }

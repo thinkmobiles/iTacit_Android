@@ -24,6 +24,7 @@ import com.itacit.healthcare.presentation.news.models.AuthorModel;
 import com.itacit.healthcare.presentation.news.models.CategoryModel;
 import com.itacit.healthcare.presentation.news.presenters.NewsSearchPresenter;
 import com.itacit.healthcare.presentation.news.views.NewsSearchView;
+import com.itacit.healthcare.presentation.news.views.NewsStorage;
 import com.itacit.healthcare.presentation.news.views.activity.NewsActivity;
 import com.itacit.healthcare.presentation.news.views.adapters.AuthorsAdapter;
 import com.itacit.healthcare.presentation.news.views.adapters.CategoriesAdapter;
@@ -37,7 +38,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 import rx.Observable;
-import rx.subjects.BehaviorSubject;
 
 import static com.itacit.healthcare.presentation.news.presenters.NewsSearchPresenter.DateType;
 
@@ -87,11 +87,7 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
 
     @OnClick(R.id.btn_search_FNS)
     void searchNews() {
-        if (presenter.isDateValid()) {
-            NewsSearch search = presenter.getNewsSearch();
-            activity.getNewsSearchSubj().onNext(search);
-            activity.switchContent(NewsFeedFragment.class);
-        }
+            presenter.getNewsSearch();
     }
 
     @OnClick({R.id.iv_expand_author_FNS, R.id.iv_expand_category_FNS})
@@ -160,7 +156,12 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
 		categoriesAdapter.notifyDataSetChanged();
 	}
 
-	@Override
+    @Override
+    public void navigateToNewsFeed() {
+        activity.switchContent(NewsFeedFragment.class);
+    }
+
+    @Override
     public Observable<String> getSearchTextObs() {
         return RxTextView.textChangeEvents(searchFiltersEt).map(e -> searchFiltersEt.getInputText());
     }
@@ -171,8 +172,8 @@ public class NewsSearchFragment extends BaseFragmentView<NewsSearchPresenter, Ne
 	}
 
     @Override
-    public BehaviorSubject<NewsSearch> getNewsSearchSubj() {
-        return activity.getNewsSearchSubj();
+    public NewsStorage getNewsSearch() {
+        return activity;
     }
 
     @Override

@@ -130,6 +130,7 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
                 }
             });
             messagesAdapter.setMessages(messages);
+            swipeRefreshLayout.setRefreshing(false);
         }
    }
 
@@ -141,7 +142,6 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
 //            progressDialog.setCancelable(true);
 //        }
 //        progressDialog.show();
-		swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
@@ -149,7 +149,6 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
 //        if (progressDialog != null && progressDialog.isShowing()) {
 //            progressDialog.hide();
 //        }
-	    swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -192,6 +191,7 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
 
     @Override
     public void onRefresh() {
+        swipeRefreshLayout.setRefreshing(true);
         presenter.getMessages(index);
     }
 }
