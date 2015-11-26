@@ -18,7 +18,7 @@ public class GetCategoriesUseCase extends GetListUseCase<Category, String> {
     protected ListRequest initArgs(String query) {
         ListRequest requestBody = new ListRequest();
         requestBody.setQuery(QUERY_PREFIX + query);
-        return null;
+        return requestBody;
     }
 
     @Override

@@ -19,7 +19,7 @@ public class CreateReplyUseCase extends UseCase<Reply, CreateReplyModel, CreateR
 		requestBody.setBody(model.getBody());
 		requestBody.setSenderID(model.getSenderId());
 		requestBody.setPrivateYn(model.getIsPrivate() ? "Y" : "N");
-		return  requestBody;
+		return requestBody;
 	}
 
 	@Override
