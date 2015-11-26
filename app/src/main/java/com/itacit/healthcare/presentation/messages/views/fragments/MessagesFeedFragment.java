@@ -186,13 +186,14 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
     private void checkTabSelected(TabLayout.Tab tab) {
         isArchive = MessagesFilter.ARCHIVE.equals(tab.getTag());
         currentFilter = (MessagesFilter) tab.getTag();
-//        presenter.getMessages(currentFilter);
-        index.setFilter(String.valueOf(tab.getTag()));
-        presenter.getMessages(index);    
+        index.setFilter(String.valueOf(currentFilter));
+//        presenter.getMessages(index);
     }
 
     @Override
     public void onRefresh() {
-        presenter.getMessages(currentFilter);
+//        presenter.getMessages(currentFilter);
+        presenter.getMessages(index);
+
     }
 }
