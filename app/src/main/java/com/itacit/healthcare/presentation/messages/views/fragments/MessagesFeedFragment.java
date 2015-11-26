@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -42,11 +43,9 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
     private Index index = new Index();
 
     private static final int START_INDEX = 1;
-    private static final int END_INDEX = 10;
+    private static final int ROW_COUNT = 10;
 
     private boolean isLoading = false;
-
-    private List<MessageModel> list;
 
     private LinearLayoutManager layoutManager;
 
@@ -69,11 +68,18 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
         layoutManager = new LinearLayoutManager(getActivity());
         messagesRecyclerView.setLayoutManager(layoutManager);
 
-        index.setStartIndex(1);
-        index.setRowCount(8);
+        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        messagesRecyclerView.setItemAnimator(itemAnimator);
+
+        messagesAdapter.setContext(getActivity());
+        messagesAdapter.setPresenter(presenter);
+        messagesAdapter.setIsArchive(isArchive);
+        messagesRecyclerView.setAdapter(messagesAdapter);
+
+        index.setStartIndex(START_INDEX);
+        index.setRowCount(ROW_COUNT);
         index.setFilter(String.valueOf(tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).getTag()));
         presenter.getMessages(index);
-//        presenter.getMessages((MessagesFilter)tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).getTag());
     }
 
     @Override
@@ -98,48 +104,28 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
 
     @Override
     public void showMessages(List<MessageModel> messages) {
-        list = presenter.getMessageModels();
+        if(!messages.isEmpty()){
 
-        messagesAdapter.setContext(getActivity());
-        messagesAdapter.setMessages(messages);
-        messagesAdapter.setPresenter(presenter);
-        messagesAdapter.setIsArchive(isArchive);
-        AndroidUtils.checkRecyclerViewIsEmpty(messages, messagesRecyclerView, tvIsEmpty);
-        messagesRecyclerView.setAdapter(messagesAdapter);
+            AndroidUtils.checkRecyclerViewIsEmpty(messages, messagesRecyclerView, tvIsEmpty);
 
-        isLoading = false;
+            isLoading = false;
 
-        messagesRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-//                Log.d("WWW", layoutManager.findFirstVisibleItemPosition() + " / " +
-//                        layoutManager.findFirstCompletelyVisibleItemPosition() + " / " +
-//                        layoutManager.findLastVisibleItemPosition() + " / " +
-//                        layoutManager.findLastCompletelyVisibleItemPosition() + " / " +
-//                        layoutManager.getItemCount() + " / " +
-//                        layoutManager.getChildCount() + " / " +
-//                        index.getStartIndex());
-
-                if (!isLoading) {
-                    if (layoutManager.findFirstVisibleItemPosition() ==
-                            layoutManager.getItemCount() - layoutManager.getChildCount()) {
-
-                        index.setStartIndex(index.getStartIndex() + 6);
-                        index.setRowCount(8);
-
-                        presenter.getMessages(index);
-
-                        isLoading = true;
+            messagesRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);                    if (!isLoading) {
+                        if (layoutManager.findFirstVisibleItemPosition() ==
+                                layoutManager.getItemCount() - layoutManager.getChildCount()) {
+                            index.setStartIndex(index.getStartIndex() + ROW_COUNT);
+                            presenter.getMessages(index);
+                            isLoading = true;
+                        }
                     }
                 }
-            }
-        });
+            });
 
-        messagesAdapter.setMessages(presenter.getMessageModels());
-        messagesRecyclerView.setAdapter(messagesAdapter);
-//        messagesAdapter.notifyDataSetChanged();
+            messagesAdapter.setMessages(messages);
+        }
    }
 
     @Override
@@ -192,9 +178,7 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
 
     private void checkTabSelected(TabLayout.Tab tab) {
         isArchive = MessagesFilter.ARCHIVE.equals(tab.getTag());
-//        presenter.getMessages((MessagesFilter) tab.getTag());
         index.setFilter(String.valueOf(tab.getTag()));
         presenter.getMessages(index);
-//
     }
 }

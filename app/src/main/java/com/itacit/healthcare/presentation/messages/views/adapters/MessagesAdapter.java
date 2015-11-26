@@ -35,7 +35,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
 
     private MessagesFeedPresenter presenter;
     private Context context;
-    private List<MessageModel> messages;
+    private List<MessageModel> messages = new ArrayList<>();
     private Boolean isArchive = false;
     private Picasso picasso;
 
@@ -64,20 +64,13 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     }
 
     public void setMessages(List<MessageModel> _messages) {
-        if(messages.size() > 0){
-//            messages = joinLists(messages, _messages);
+        if(messages != null){
+            int startIndex = messages.size();
             messages.addAll(_messages);
-        }else
+            notifyItemRangeInserted(startIndex, _messages.size());
+        }else {
             messages = _messages;
-    }
-
-    public List<MessageModel> joinLists(List<MessageModel> a, List<MessageModel> b) {
-        int aSize = a.size();
-        int bSize = b.size();
-        ArrayList<MessageModel> result = new ArrayList(aSize + bSize);
-        result.addAll(a);
-        result.addAll(b);
-        return result;
+        }
     }
 
     @Override
