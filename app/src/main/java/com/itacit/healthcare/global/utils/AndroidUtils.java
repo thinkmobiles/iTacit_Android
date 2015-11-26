@@ -14,6 +14,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.itacit.healthcare.R;
+import com.itacit.healthcare.data.network.interceptors.AuthInterceptor;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.picasso.OkHttpDownloader;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -134,5 +138,13 @@ public final class AndroidUtils {
             recyclerView.setVisibility(View.VISIBLE);
             textView.setVisibility(View.GONE);
         }
+    }
+
+    public static Picasso createPicassoWithAuth(Context context) {
+        OkHttpClient picassoClient = new OkHttpClient();
+        picassoClient.interceptors().add(new AuthInterceptor());
+        return new Picasso.Builder(context)
+                .downloader(new OkHttpDownloader(picassoClient))
+                .build();
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
  * Created by root on 23.11.15.
  */
 public interface RecipientsView extends View {
-    void showRecipients(List<UserRecipientModel> models);
+    void showRecipients(List<UserRecipientModel> models, boolean showDeleteIcon);
     void removeRecipient(int position);
     MessageStorage getMessageStorage();
 

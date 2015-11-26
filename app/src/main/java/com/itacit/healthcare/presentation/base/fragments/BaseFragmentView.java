@@ -1,6 +1,7 @@
 package com.itacit.healthcare.presentation.base.fragments;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -32,6 +33,7 @@ public abstract class BaseFragmentView<P extends Presenter, A extends BaseActivi
     protected P presenter;
     private ActionBarDrawerToggle toggle;
     protected A activity;
+    private ProgressDialog progressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,6 +70,21 @@ public abstract class BaseFragmentView<P extends Presenter, A extends BaseActivi
         }
         setUpActionBar(actionBar);
         setUpView();
+    }
+
+    public void showProgress() {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setMessage("Loading...");
+            progressDialog.setCancelable(true);
+        }
+        progressDialog.show();
+    }
+
+    public void hideProgress() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.hide();
+        }
     }
 
 

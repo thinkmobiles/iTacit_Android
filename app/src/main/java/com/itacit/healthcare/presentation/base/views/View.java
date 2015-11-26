@@ -7,4 +7,6 @@ import rx.Scheduler;
  */
 public interface View {
     Scheduler getUiThreadScheduler();
+    void hideProgress();
+    void showProgress();
 }

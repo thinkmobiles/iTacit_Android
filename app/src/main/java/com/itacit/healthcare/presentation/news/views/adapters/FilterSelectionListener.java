@@ -1,6 +1,6 @@
 package com.itacit.healthcare.presentation.news.views.adapters;
 
-import static com.itacit.healthcare.presentation.base.widgets.chipsView.Filter.FilterType;
+import static com.itacit.healthcare.presentation.base.widgets.chipsView.Chip.FilterType;
 
 /**
  * Created by root on 16.11.15.

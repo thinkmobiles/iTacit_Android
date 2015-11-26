@@ -14,7 +14,7 @@ import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.messages.CreateMessageUseCase;
 import com.itacit.healthcare.domain.interactor.users.GetUsersUseCase;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
-import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
+import com.itacit.healthcare.presentation.base.widgets.chipsView.Chip;
 import com.itacit.healthcare.presentation.base.widgets.chipsView.FiltersEditText;
 import com.itacit.healthcare.presentation.base.widgets.datePicker.DatePickerFragment;
 import com.itacit.healthcare.presentation.messages.mappers.UserMapper;
@@ -53,7 +53,14 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
     }
 
     @Override
-    protected void setUpView() {}
+    protected void setUpView() {
+
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
+    }
 
     @Override
     protected void setUpActionBar(ActionBar actionBar) {
@@ -151,13 +158,13 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
     }
 
     @Override
-    public void addFilter(Filter filter) {
-        etRecipientsView.addFilter(filter, true);
+    public void addFilter(Chip chip) {
+        etRecipientsView.addFilter(chip, true);
     }
 
     @Override
-    public void removeFilter(Filter filter) {
-        etRecipientsView.removeFilter(filter);
+    public void removeFilter(Chip chip) {
+        etRecipientsView.removeFilter(chip);
     }
 
     @Override
@@ -166,7 +173,7 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
     }
 
     @Override
-    public Observable<Filter> getFilterRemovedObs() {
+    public Observable<Chip> getFilterRemovedObs() {
         return etRecipientsView.getChipRemovedSubject();
     }
 

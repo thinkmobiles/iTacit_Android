@@ -1,5 +1,6 @@
 package com.itacit.healthcare.presentation.messages.views.fragments;
 
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -40,7 +41,8 @@ public class NewReplyFragment extends BaseFragmentView<NewReplyPresenter, Messag
 
 	@Override
 	protected void setUpActionBar(ActionBar actionBar) {
-		switchToolbarIndicator(false, v -> activity.switchContent(MessageRepliesFragment.class));
+		Bundle args = getArguments();
+		switchToolbarIndicator(false, v -> activity.switchContent(MessageDetailsFragment.class, args));
 
 		if (privacyState.equals(ReplyPrivacy.All)) {
 			recipient = getString(R.string.all);
@@ -67,10 +69,10 @@ public class NewReplyFragment extends BaseFragmentView<NewReplyPresenter, Messag
 
 	@Override
 	protected NewReplyPresenter createPresenter() {
-		messageId = getArguments().getString(MessageRepliesFragment.Message_ID);
-		isPrivate = getArguments().getBoolean(MessageRepliesFragment.IS_PRIVATE);
+		messageId = getArguments().getString(MessageDetailsFragment.MESSAGE_ID);
+		isPrivate = getArguments().getBoolean(MessageDetailsFragment.IS_PRIVATE);
 		if (isPrivate) {
-			recipient = getArguments().getString(MessageRepliesFragment.Reply_Recipient);
+			recipient = getArguments().getString(MessageDetailsFragment.Reply_Recipient);
 		}
 		privacyState = isPrivate ? ReplyPrivacy.Private : ReplyPrivacy.All;
 		return new NewReplyPresenter(new CreateReplyUseCase());

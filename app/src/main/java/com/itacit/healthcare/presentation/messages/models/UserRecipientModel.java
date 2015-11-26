@@ -2,24 +2,17 @@ package com.itacit.healthcare.presentation.messages.models;
 
 import android.net.Uri;
 
+import com.itacit.healthcare.presentation.base.model.BaseModel;
+
 /**
  * Created by root on 23.11.15.
  */
-public class UserRecipientModel {
-    private String id;
+public class UserRecipientModel extends BaseModel {
     private String parent;
     private String role;
     private String fullName;
     private Uri imageUri;
     private String business;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getParent() {
         return parent;

@@ -6,13 +6,14 @@
                 android:background="@android:color/white">
 
     <RelativeLayout
-        android:id="@+id/rl_messages_replies_header_FMR"
+        android:id="@+id/rl_messages_replies_header_FMD"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:focusable="true"
+        android:visibility="visible"
         android:focusableInTouchMode="true"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
@@ -20,23 +21,27 @@
         android:paddingRight="@dimen/activity_horizontal_margin">
 
         <TextView
-            android:id="@+id/tv_subject_FMR"
+            android:id="@+id/tv_subject_FMD"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/text_dark_grey"
+            android:textSize="16sp"
             tools:text="Subject"/>
 
         <RelativeLayout
-            android:id="@+id/rl_body_FMR"
+            android:id="@+id/rl_body_FMD"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:layout_below="@+id/tv_subject_FMR">
+            android:layout_below="@+id/tv_subject_FMD">
 
             <com.itacit.healthcare.presentation.base.widgets.expandableTextView.ExpandableTextView
-                android:id="@+id/tv_body_FMR"
+                android:id="@+id/tv_body_FMD"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="@color/text_dark_grey"
                 android:textColorLink="@color/btn_blue"
                 tools:text="Hi make this a very long string that wraps at least 4 lines, seriously make it really really long so it gets cut off at the fourth line not joke.  Just do it! Hi make this a very long string that wraps at least 4 lines, seriously make it really really long so it gets cut off at the fourth line not joke.  Just do it!"/>
 
@@ -44,10 +49,10 @@
 
 
         <TextView
-            android:id="@+id/tv_request_for_confirmation_FMR"
+            android:id="@+id/tv_request_for_confirmation_FMD"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rl_body_FMR"
+            android:layout_below="@+id/rl_body_FMD"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="8dp"
             android:textColor="@color/btn_blue"
@@ -55,10 +60,10 @@
             tools:text="Please confirm this"/>
 
         <TextView
-            android:id="@+id/cb_response_for_confirmation_FMR"
+            android:id="@+id/cb_response_for_confirmation_FMD"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_request_for_confirmation_FMR"
+            android:layout_below="@+id/tv_request_for_confirmation_FMD"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="8dp"
             android:background="@drawable/frame_confirm_request"
@@ -75,27 +80,27 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/cb_response_for_confirmation_FMR"
+            android:layout_below="@+id/cb_response_for_confirmation_FMD"
             android:layout_marginTop="5dp">
 
             <TextView
-                android:id="@+id/tv_number_people_shared_FMR"
+                android:id="@+id/tv_number_people_shared_FMD"
                 android:drawableLeft="@drawable/ic_user"
                 android:drawablePadding="@dimen/text_icon_padding"
                 style="@style/icon_message_info"
                 tools:text="13"/>
 
             <TextView
-                android:id="@+id/tv_number_people_read_FMR"
-                android:layout_alignTop="@+id/tv_number_people_shared_FMR"
-                android:layout_marginLeft="8dp"
-                android:layout_toEndOf="@+id/tv_number_people_shared_FMR"
+                android:id="@+id/tv_number_people_read_FMD"
+                android:layout_alignTop="@+id/tv_number_people_shared_FMD"
+                android:layout_marginLeft="10dp"
+                android:layout_toEndOf="@+id/tv_number_people_shared_FMD"
                 android:drawableLeft="@drawable/ic_user_compl"
                 tools:text="15"
                 style="@style/icon_message_info"/>
 
             <TextView
-                android:id="@+id/tv_reply_to_sender_FMR"
+                android:id="@+id/tv_reply_to_sender_FMD"
                 android:layout_alignParentEnd="true"
                 android:layout_marginLeft="8dp"
                 android:drawableLeft="@drawable/ic_reply"
@@ -104,8 +109,8 @@
                 />
 
             <TextView
-                android:id="@+id/tv_reply_all_FMR"
-                android:layout_toStartOf="@+id/tv_reply_to_sender_FMR"
+                android:id="@+id/tv_reply_all_FMD"
+                android:layout_toStartOf="@+id/tv_reply_to_sender_FMD"
                 android:drawableLeft="@drawable/ic_reply"
                 android:text="All"
                 style="@style/icon_message_info"
@@ -118,10 +123,10 @@
         layout="@layout/layout_recycler_view_is_empty"/>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_FMR"
+        android:id="@+id/recycler_view_FMD"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/rl_messages_replies_header_FMR"
+        android:layout_below="@+id/rl_messages_replies_header_FMD"
         android:background="@android:color/white"
         android:scrollbars="vertical"/>
 
@@ -129,5 +134,5 @@
         android:id="@+id/shadow_line"
         style="@style/shadow_bottom"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/rl_messages_replies_header_FMR"/>
+        android:layout_below="@+id/rl_messages_replies_header_FMD"/>
 </RelativeLayout>

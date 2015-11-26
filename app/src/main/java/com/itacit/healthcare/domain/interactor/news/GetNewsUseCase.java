@@ -6,7 +6,7 @@ import com.itacit.healthcare.data.network.response.ListResponse;
 import com.itacit.healthcare.data.network.services.NewsService;
 import com.itacit.healthcare.domain.interactor.GetListUseCase;
 import com.itacit.healthcare.domain.models.NewsSearch;
-import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
+import com.itacit.healthcare.presentation.base.widgets.chipsView.Chip;
 
 import java.text.SimpleDateFormat;
 
@@ -41,22 +41,22 @@ public class GetNewsUseCase extends GetListUseCase<News, NewsSearch> {
             query = SEARCH_PREFIX + search.getSearch();
         }
 
-        if (search.getFilters() != null) {
+        if (search.getChips() != null) {
             String authorsIds = "";
             String categoriesIds = "";
-            for (Filter filter : search.getFilters()) {
-                switch (filter.getFilterType()) {
+            for (Chip chip : search.getChips()) {
+                switch (chip.getFilterType()) {
                     case Author:
                         if (!authorsIds.isEmpty()) {
                             authorsIds += ",";
                         }
-                        authorsIds += String.valueOf(filter.getId());
+                        authorsIds += String.valueOf(chip.getId());
                         break;
                     case Category:
                         if (!categoriesIds.isEmpty()) {
                             categoriesIds += ",";
                         }
-                        categoriesIds += String.valueOf(filter.getId());
+                        categoriesIds += String.valueOf(chip.getId());
                         break;
                 }
             }

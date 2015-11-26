@@ -2,6 +2,7 @@ package com.itacit.healthcare.presentation.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.auth.LoginUseCase;
@@ -32,7 +33,7 @@ public class AuthActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable e) {
-
+                Toast.makeText(getApplicationContext(), "Server connection error", Toast.LENGTH_LONG).show();
             }
 
             @Override

@@ -2,7 +2,7 @@ package com.itacit.healthcare.presentation.news.views;
 
 import com.itacit.healthcare.domain.models.NewsSearch;
 import com.itacit.healthcare.presentation.base.views.View;
-import com.itacit.healthcare.presentation.base.widgets.chipsView.Filter;
+import com.itacit.healthcare.presentation.base.widgets.chipsView.Chip;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
 
 import java.util.List;
@@ -15,7 +15,7 @@ import rx.subjects.BehaviorSubject;
  */
 public interface NewsFeedView extends View {
     void showNews(List<NewsModel> news);
-    void showFilters(List<Filter> filters);
+    void showFilters(List<Chip> chips);
     void hideFilters();
     void showProgress();
     void hideProgress();

@@ -2,11 +2,12 @@ package com.itacit.healthcare.presentation.messages.models;
 
 import android.net.Uri;
 
+import com.itacit.healthcare.presentation.base.model.BaseModel;
+
 /**
  * Created by root on 12.11.15.
  */
-public class UserModel {
-	private String id;
+public class UserModel extends BaseModel{
 	private String fullName;
 	private String firstName;
 	private String lastName;
@@ -18,15 +19,6 @@ public class UserModel {
 	private Uri imageUri;
 	private String email;
 	private String phoneNumber;
-
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public String getFullName() {
 		return fullName;

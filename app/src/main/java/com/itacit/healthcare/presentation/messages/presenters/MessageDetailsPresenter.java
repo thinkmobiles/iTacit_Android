@@ -5,14 +5,14 @@ import android.support.annotation.NonNull;
 import com.itacit.healthcare.data.entries.Message;
 import com.itacit.healthcare.data.entries.Reply;
 import com.itacit.healthcare.domain.interactor.messages.ConfirmMessageReadUseCase;
-import com.itacit.healthcare.domain.interactor.messages.GetListRepliesUseCase;
 import com.itacit.healthcare.domain.interactor.messages.GetMessageDetailsUseCase;
+import com.itacit.healthcare.domain.interactor.messages.GetRepliesUseCase;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
-import com.itacit.healthcare.presentation.messages.mappers.ListRepliesMapper;
 import com.itacit.healthcare.presentation.messages.mappers.MessagesMapper;
+import com.itacit.healthcare.presentation.messages.mappers.ReplyMapper;
 import com.itacit.healthcare.presentation.messages.models.MessageModel;
 import com.itacit.healthcare.presentation.messages.models.RepliesModel;
-import com.itacit.healthcare.presentation.messages.views.MessageRepliesView;
+import com.itacit.healthcare.presentation.messages.views.MessageDetailsView;
 
 import java.util.List;
 
@@ -21,28 +21,28 @@ import rx.Subscriber;
 /**
  * Created by Den on 17.11.15.
  */
-public class MessageRepliesPresenter extends BasePresenter<MessageRepliesView> {
+public class MessageDetailsPresenter extends BasePresenter<MessageDetailsView> {
     public List<RepliesModel> repliesModels;
     public MessageModel messageModel;
 
-    private GetListRepliesUseCase getListRepliesUseCase;
+    private GetRepliesUseCase getRepliesUseCase;
     private GetMessageDetailsUseCase getMessageDetailsUseCase;
 
-    private ListRepliesMapper repliesMapper;
+    private ReplyMapper repliesMapper;
     private MessagesMapper messagesMapper;
 
     private ConfirmMessageReadUseCase confirmMessageReadUseCase;
 
     private String messageId;
 
-    public MessageRepliesPresenter(ListRepliesMapper listRepliesMapper,
-                                   GetListRepliesUseCase getListRepliesUseCase,
+    public MessageDetailsPresenter(ReplyMapper replyMapper,
+                                   GetRepliesUseCase getRepliesUseCase,
                                    MessagesMapper messagesMapper,
                                    GetMessageDetailsUseCase getMessageDetailsUseCase,
                                    ConfirmMessageReadUseCase confirmMessageReadUseCase,
                                    String messageId) {
-        this.repliesMapper = listRepliesMapper;
-        this.getListRepliesUseCase = getListRepliesUseCase;
+        this.repliesMapper = replyMapper;
+        this.getRepliesUseCase = getRepliesUseCase;
         this.messagesMapper = messagesMapper;
         this.getMessageDetailsUseCase = getMessageDetailsUseCase;
         this.confirmMessageReadUseCase = confirmMessageReadUseCase;
@@ -50,9 +50,10 @@ public class MessageRepliesPresenter extends BasePresenter<MessageRepliesView> {
     }
 
     @Override
-    protected void onAttachedView(@NonNull MessageRepliesView view) {
+    protected void onAttachedView(@NonNull MessageDetailsView view) {
+        view.showProgress();
         getMessageDetailsUseCase.execute(new HeaderRepliesSubscriber(),messageId);
-        getListRepliesUseCase.execute(new RepliesListSubscriber(), messageId);
+        getRepliesUseCase.execute(new RepliesListSubscriber(), messageId);
     }
 
     public  void sendResponseConfirm(){
@@ -64,7 +65,7 @@ public class MessageRepliesPresenter extends BasePresenter<MessageRepliesView> {
 
             @Override
             public void onError(Throwable e) {
-                actOnView(view -> view.showErrorToast(e.toString()));
+                actOnView(view -> view.showError(e.toString()));
             }
 
             @Override
@@ -77,7 +78,12 @@ public class MessageRepliesPresenter extends BasePresenter<MessageRepliesView> {
         actOnView(v -> v.showListReplies(repliesModels));
     }
 
-    private void showHeaderRepliesOnView(){actOnView(v -> v.showHeaderReplies(messageModel));}
+    private void showHeaderRepliesOnView() {
+        actOnView(v -> {
+            v.showHeaderReplies(messageModel);
+            v.hideProgress();
+        });
+    }
 
     private final class RepliesListSubscriber extends Subscriber<List<Reply>> {
         @Override

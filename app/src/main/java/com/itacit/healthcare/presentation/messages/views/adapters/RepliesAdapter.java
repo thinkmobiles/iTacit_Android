@@ -10,12 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.itacit.healthcare.R;
-import com.itacit.healthcare.data.network.interceptors.AuthInterceptor;
+import com.itacit.healthcare.global.utils.AndroidUtils;
 import com.itacit.healthcare.presentation.base.widgets.expandableTextView.ExpandableTextView;
 import com.itacit.healthcare.presentation.base.widgets.picasso.CircleTransformation;
 import com.itacit.healthcare.presentation.messages.models.RepliesModel;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -35,12 +33,7 @@ public class RepliesAdapter extends RecyclerView.Adapter<RepliesAdapter.ViewHold
     public RepliesAdapter(Context _context, List<RepliesModel> _replies) {
         context = _context;
         replies = _replies;
-
-        OkHttpClient picassoClient = new OkHttpClient();
-        picassoClient.interceptors().add(new AuthInterceptor());
-        picasso = new Picasso.Builder(context)
-                .downloader(new OkHttpDownloader(picassoClient))
-                .build();
+        picasso = AndroidUtils.createPicassoWithAuth(context);
     }
 
     @Override

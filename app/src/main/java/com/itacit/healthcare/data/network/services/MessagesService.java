@@ -1,6 +1,7 @@
 package com.itacit.healthcare.data.network.services;
 
 import com.itacit.healthcare.data.entries.Message;
+import com.itacit.healthcare.data.entries.Recipient;
 import com.itacit.healthcare.data.entries.RecipientInfo;
 import com.itacit.healthcare.data.entries.Reply;
 import com.itacit.healthcare.data.network.request.CreateMessageRequest;
@@ -58,6 +59,9 @@ public class MessagesService {
 
         @POST("/mobile/1.0/employee/advanced/fullList")
         Observable<ListResponse<RecipientInfo>> getRecipientsFullList(@Body RecipientsInfoRequest requestBody);
+
+        @POST("/mobile/1.0/messaging/recipient")
+        Observable<ListResponse<Recipient>> getMessageRecipients(@Body ListRequest requestBody);
 
     }
 }

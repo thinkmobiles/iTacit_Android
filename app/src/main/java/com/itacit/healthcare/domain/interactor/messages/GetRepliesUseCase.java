@@ -11,7 +11,7 @@ import rx.Observable;
 /**
  * Created by Den on 16.11.15.
  */
-public class GetListRepliesUseCase extends GetListUseCase<Reply, String> {
+public class GetRepliesUseCase extends GetListUseCase<Reply, String> {
 
     private static final String RECIPIENTS_FIELD = "recipients";
     private static final String SENDER = "sender";

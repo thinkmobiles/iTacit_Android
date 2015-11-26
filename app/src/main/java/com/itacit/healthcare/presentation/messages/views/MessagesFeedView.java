@@ -10,8 +10,7 @@ import java.util.List;
  */
 public interface MessagesFeedView extends View {
     void showMessages(List<MessageModel> messages);
-    void showProgress();
+
     void showMessageDetails(String id);
     void removeMessage(String id);
-    void hideProgress();
 }

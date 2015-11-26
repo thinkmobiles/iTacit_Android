@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="horizontal"
+              android:layout_width="wrap_content"
+              android:layout_height="32dp"
+              android:background="@drawable/bg_chips">
+    <ImageView
+        android:id="@+id/iv_userAvatar_CU"
+        android:layout_width="30dp"
+        android:layout_height="32dp"
+        android:src="@drawable/ic_check_act"
+        android:layout_marginRight="9dp"/>
+    <TextView
+        android:id="@+id/tv_userName_CU"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="@color/gray_dark"
+        android:layout_marginRight="10dp"
+        tools:text="Joth Doe"/>
+</LinearLayout>
