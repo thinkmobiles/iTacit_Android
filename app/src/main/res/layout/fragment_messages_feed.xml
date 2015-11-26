@@ -23,6 +23,8 @@
             android:layout_height="wrap_content"
             app:tabMode="scrollable"
             app:tabIndicatorColor="@color/btn_blue"
+            android:overScrollMode="ifContentScrolls"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
             card_view:tabGravity="fill|bottom"/>
 
     </RelativeLayout>

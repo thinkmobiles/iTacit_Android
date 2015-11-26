@@ -82,22 +82,25 @@
                     android:layout_alignTop="@+id/tv_number_response_LIM"
                     android:layout_toStartOf="@+id/tv_number_response_LIM"
                     android:gravity="center_horizontal"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     tools:text="12 min ago"/>
 
                 <TextView
                     android:id="@+id/tv_number_response_LIM"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_above="@+id/tv_sender_role_LIM"
                     android:layout_alignParentEnd="true"
                     android:layout_marginLeft="5dp"
-                    android:background="@drawable/bg_tv_number_response"
+                    android:paddingLeft="6dp"
+                    android:paddingRight="6dp"
                     android:gravity="center"
-                    android:textColor="@color/btn_blue"
+                    android:textColor="@android:color/white"
                     android:textSize="12sp"
-                    android:visibility="invisible"
-                    tools:text="11"/>
+                    android:visibility="visible"
+                    android:minWidth="22dp"
+                    android:background="@drawable/bg_blue_corners"
+                    tools:text="1"/>
 
                 <TextView
                     android:id="@+id/tv_sender_role_LIM"
@@ -138,10 +141,11 @@
                     android:layout_below="@+id/tv_body_LIM"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
-                    android:background="@color/btn_blue"
+                    android:background="@drawable/bg_blue_corners"
                     android:gravity="center"
+                    android:padding="2dp"
                     android:textColor="@android:color/white"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:visibility="visible"
                     tools:text="The must be read by Oct.15,2015"/>
 

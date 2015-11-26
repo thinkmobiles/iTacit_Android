@@ -24,6 +24,8 @@
             android:id="@+id/tv_subject_FMD"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/text_dark_grey"
+            android:textSize="16sp"
             tools:text="Subject"/>
 
         <RelativeLayout
@@ -38,6 +40,8 @@
                 android:id="@+id/tv_body_FMD"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="@color/text_dark_grey"
                 android:textColorLink="@color/btn_blue"
                 tools:text="Hi make this a very long string that wraps at least 4 lines, seriously make it really really long so it gets cut off at the fourth line not joke.  Just do it! Hi make this a very long string that wraps at least 4 lines, seriously make it really really long so it gets cut off at the fourth line not joke.  Just do it!"/>
 
@@ -89,7 +93,7 @@
             <TextView
                 android:id="@+id/tv_number_people_read_FMD"
                 android:layout_alignTop="@+id/tv_number_people_shared_FMD"
-                android:layout_marginLeft="8dp"
+                android:layout_marginLeft="10dp"
                 android:layout_toEndOf="@+id/tv_number_people_shared_FMD"
                 android:drawableLeft="@drawable/ic_user_compl"
                 tools:text="15"

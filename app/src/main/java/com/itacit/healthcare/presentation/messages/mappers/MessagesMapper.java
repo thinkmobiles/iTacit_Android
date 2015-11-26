@@ -44,7 +44,7 @@ public class MessagesMapper extends ModelMapper<MessageModel, Message> {
             } else {
                 messageModel.setSenderName(dataEntry.getSenderNameFull() != null ? dataEntry.getSenderNameFull() : "");
                 messageModel.setReadRequiredDate(dataEntry.getReadRequiredDate() != null ?
-                        convertData(dataEntry.getReadRequiredDate(), "yyyy-MM-dd'T'HH:mm:ss", "MMM.dd,yyyy", Locale.CANADA) : "");
+                        convertData(dataEntry.getReadRequiredDate(), "yyyy-MM-dd'T'HH:mm:ss", "MMM.dd, yyyy", Locale.CANADA) : "");
 
             }
             messageModel.setUserMarksRead(dataEntry.getMarkedAsRead().equals("Y"));
