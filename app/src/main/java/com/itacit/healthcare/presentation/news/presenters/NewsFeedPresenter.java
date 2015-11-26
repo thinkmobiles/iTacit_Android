@@ -38,6 +38,7 @@ public class NewsFeedPresenter extends BasePresenter<NewsFeedView> {
         newsSearch = new NewsSearch();
         actOnView(view -> view.hideFilters());
         newsStorage.pushNews(newsSearch);
+	    searchNews(newsSearch);
     }
 
     @Override
@@ -57,8 +58,6 @@ public class NewsFeedPresenter extends BasePresenter<NewsFeedView> {
         if (search.getChips() != null && !search.getChips().isEmpty()) {
             actOnView(view -> view.showFilters(search.getChips()));
         }
-	    newsSearch = search;
-	    newsStorage.pushNews(newsSearch);
         actOnView(NewsFeedView::showProgress);
         getNewsUseCase.execute(new NewsListSubscriber(), search);
     }
@@ -72,7 +71,6 @@ public class NewsFeedPresenter extends BasePresenter<NewsFeedView> {
         actOnView(NewsFeedView::showProgress);
         newsSearch = new NewsSearch();
         newsSearch.setSearch(query);
-	    newsStorage.pushNews(newsSearch);
         getNewsUseCase.execute(new NewsListSubscriber(), newsSearch);
     }
 

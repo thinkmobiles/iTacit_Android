@@ -90,6 +90,7 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
         messagesAdapter = new MessagesAdapter(getActivity(), messages, presenter, isArchive);
         AndroidUtils.checkRecyclerViewIsEmpty(messages, messagesRecyclerView, tvIsEmpty);
         messagesRecyclerView.setAdapter(messagesAdapter);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -100,7 +101,6 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
 //            progressDialog.setCancelable(true);
 //        }
 //        progressDialog.show();
-		swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
@@ -108,7 +108,6 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
 //        if (progressDialog != null && progressDialog.isShowing()) {
 //            progressDialog.hide();
 //        }
-	    swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -150,6 +149,7 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
 
     @Override
     public void onRefresh() {
+        swipeRefreshLayout.setRefreshing(true);
         presenter.getMessages(currentFilter);
     }
 }

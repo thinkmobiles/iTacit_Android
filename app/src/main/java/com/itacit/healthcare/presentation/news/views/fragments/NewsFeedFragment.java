@@ -109,6 +109,7 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsAc
 		}
 
 		searchNewsView.setAdapter(new ArrayAdapter<>(activity, R.layout.list_item_search_news, headers));
+		swipeRefreshLayout.setRefreshing(false);
 	}
 
     @Override
@@ -138,7 +139,7 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsAc
 //            progressDialog.setCancelable(true);
 //        }
 //        progressDialog.show();
-		swipeRefreshLayout.setRefreshing(true);
+
     }
 
 	@Override
@@ -146,7 +147,6 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsAc
 //		if (progressDialog != null && progressDialog.isShowing()) {
 //			progressDialog.hide();
 //		}
-		swipeRefreshLayout.setRefreshing(false);
 	}
 
 	@Override
@@ -168,6 +168,7 @@ public class NewsFeedFragment extends BaseFragmentView<NewsFeedPresenter, NewsAc
 
 	@Override
 	public void onRefresh() {
+		swipeRefreshLayout.setRefreshing(true);
 		presenter.refreshNews();
 	}
 }
