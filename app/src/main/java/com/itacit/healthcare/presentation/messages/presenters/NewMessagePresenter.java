@@ -149,6 +149,7 @@ public class NewMessagePresenter extends BasePresenter<NewMessageView> {
 			@Override
 			public void onNext(Integer integer) {
 				Log.v("My Log", "Message sended with topic: " + messageModel.getSubject());
+				actOnView(view -> view.showMessage("Message created successfully"));
 			}
 		}, messageModel);
 	}
@@ -161,7 +162,9 @@ public class NewMessagePresenter extends BasePresenter<NewMessageView> {
 	}
 
 	private boolean isDateValid() {
-		return !messageModel.isReadRequired() || messageModel.getReadRequiredDate().after(new Date());
+		final Date now = new Date();
+		return !messageModel.isReadRequired() || (messageModel.getReadRequiredDate().before(now) ||
+				messageModel.getReadRequiredDate().equals(now));
 	}
 
 	private final class UsersListSubscriber extends Subscriber<List<User>> {

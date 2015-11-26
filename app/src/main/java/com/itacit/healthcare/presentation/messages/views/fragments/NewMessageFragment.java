@@ -53,7 +53,14 @@ public class NewMessageFragment extends BaseFragmentView<NewMessagePresenter, Me
     }
 
     @Override
-    protected void setUpView() {}
+    protected void setUpView() {
+
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
+    }
 
     @Override
     protected void setUpActionBar(ActionBar actionBar) {
