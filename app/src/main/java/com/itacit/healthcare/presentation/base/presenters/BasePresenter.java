@@ -7,6 +7,7 @@ import com.itacit.healthcare.presentation.base.views.View;
 
 import java.lang.ref.WeakReference;
 
+import rx.functions.Action1;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -15,6 +16,7 @@ import rx.subscriptions.CompositeSubscription;
 public abstract class BasePresenter<V extends View> implements Presenter<V> {
     private WeakReference<V> viewRef;
     protected CompositeSubscription compositeSubscription;
+    protected Action1<Throwable> errorHandler = throwable -> actOnView(view -> view.showError(throwable.getMessage()));
 
     @Override
     public final void attachView(@NonNull V view) {

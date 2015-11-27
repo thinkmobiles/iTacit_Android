@@ -16,8 +16,6 @@ import com.itacit.healthcare.presentation.messages.views.MessageDetailsView;
 
 import java.util.List;
 
-import rx.Subscriber;
-
 /**
  * Created by Den on 17.11.15.
  */
@@ -32,7 +30,6 @@ public class MessageDetailsPresenter extends BasePresenter<MessageDetailsView> {
     private MessagesMapper messagesMapper;
 
     private ConfirmMessageReadUseCase confirmMessageReadUseCase;
-
     private String messageId;
 
     public MessageDetailsPresenter(ReplyMapper replyMapper,
@@ -52,69 +49,24 @@ public class MessageDetailsPresenter extends BasePresenter<MessageDetailsView> {
     @Override
     protected void onAttachedView(@NonNull MessageDetailsView view) {
         view.showProgress();
-        getMessageDetailsUseCase.execute(new HeaderRepliesSubscriber(),messageId);
-        getRepliesUseCase.execute(new RepliesListSubscriber(), messageId);
+        getMessageDetailsUseCase.execute(this::showHeaderRepliesOnView, errorHandler, messageId);
+        getRepliesUseCase.execute(this::showRepliesOnView, errorHandler, messageId);
     }
 
-    public  void sendResponseConfirm(){
-        confirmMessageReadUseCase.execute(new Subscriber<Void>() {
-            @Override
-            public void onCompleted() {
-                actOnView(view -> view.showConfirmed());
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                actOnView(view -> view.showError(e.toString()));
-            }
-
-            @Override
-            public void onNext(Void t) {
-            }
-        }, messageId);
+    public void sendResponseConfirm() {
+        confirmMessageReadUseCase.execute(o -> actOnView(MessageDetailsView::showConfirmed), errorHandler, messageId);
     }
 
-    private void showRepliesOnView() {
+    private void showRepliesOnView(List<Reply> replies) {
+        repliesModels = repliesMapper.transform(replies);
         actOnView(v -> v.showListReplies(repliesModels));
     }
 
-    private void showHeaderRepliesOnView() {
+    private void showHeaderRepliesOnView(Message message) {
+        messageModel = messagesMapper.transform(message);
         actOnView(v -> {
             v.showHeaderReplies(messageModel);
             v.hideProgress();
         });
     }
-
-    private final class RepliesListSubscriber extends Subscriber<List<Reply>> {
-        @Override
-        public void onCompleted() {
-            showRepliesOnView();
-        }
-
-        @Override
-        public void onError(Throwable e) {
-        }
-
-        @Override
-        public void onNext(List<Reply> replies) {
-            repliesModels = repliesMapper.transform(replies);
-        }
-    }
-
-    private final class HeaderRepliesSubscriber extends Subscriber<Message> {
-        @Override
-        public void onCompleted() {
-            showHeaderRepliesOnView();
-        }
-
-        @Override
-        public void onError(Throwable e) {
-        }
-
-        @Override
-        public void onNext(Message message) {
-            messageModel = messagesMapper.transform(message);
-        }
-    }
-
 }

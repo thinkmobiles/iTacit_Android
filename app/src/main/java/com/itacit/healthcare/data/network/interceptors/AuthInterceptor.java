@@ -1,9 +1,8 @@
 package com.itacit.healthcare.data.network.interceptors;
 
+import com.itacit.healthcare.data.entries.AccessToken;
 import com.itacit.healthcare.data.network.AccessTokenHandler;
 import com.itacit.healthcare.data.network.services.AuthService;
-import com.itacit.healthcare.global.bus.RxBus;
-import com.itacit.healthcare.global.errors.AuthError;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -35,10 +34,15 @@ public class AuthInterceptor implements Interceptor {
 
     private Request addTokenHeader(Request original) {
         Request.Builder builder = original.newBuilder();
+        AccessToken accessToken = AccessTokenHandler.getAccessToken();
+        if (accessToken != null) {
 
-        return builder
-                .header(AUTH_HEADER, AccessTokenHandler.getAccessToken().getTokenType() + " " + AccessTokenHandler.getAccessToken().getAccessToken())
-                .method(original.method(), original.body())
-                .build();
+            return builder
+                    .header(AUTH_HEADER, accessToken.getTokenType() + " " + accessToken.getAccessToken())
+                    .method(original.method(), original.body())
+                    .build();
+        } else {
+            return original;
+        }
     }
 }

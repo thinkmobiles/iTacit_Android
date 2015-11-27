@@ -16,6 +16,8 @@ import com.itacit.healthcare.presentation.news.models.NewsDetailsModel;
 import com.itacit.healthcare.presentation.news.presenters.NewsDetailsPresenter;
 import com.itacit.healthcare.presentation.news.views.NewsDetailsView;
 import com.itacit.healthcare.presentation.news.views.activity.NewsActivity;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
@@ -70,7 +72,10 @@ public class NewsDetailsFragment extends BaseFragmentView<NewsDetailsPresenter, 
 
     @Override
     public void showNewsDetails(NewsDetailsModel newsDetails) {
-        picasso.load(newsDetails.getHeadlineUri()).into(ivHeadline);
+        picasso.load(newsDetails.getHeadlineUri())
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .networkPolicy(NetworkPolicy.NO_CACHE)
+                .into(ivHeadline);
         tvTitle.setText(newsDetails.getHeadline());
         tvArticle.setText(Html.fromHtml(newsDetails.getBody()));
         tvCategory.setText(newsDetails.getCategoryName());

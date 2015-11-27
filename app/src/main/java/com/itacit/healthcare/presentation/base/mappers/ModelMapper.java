@@ -37,7 +37,7 @@ public abstract class ModelMapper<M extends BaseModel, D> {
 
     protected String convertData(String inputData, String inputFormat, String outputFormat, Locale locale){
         SimpleDateFormat sdf = new SimpleDateFormat(inputFormat);
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        sdf.setTimeZone(TimeZone.getDefault());
         SimpleDateFormat output = new SimpleDateFormat(outputFormat, locale);
         Date data;
         if (!inputData.equals("")){

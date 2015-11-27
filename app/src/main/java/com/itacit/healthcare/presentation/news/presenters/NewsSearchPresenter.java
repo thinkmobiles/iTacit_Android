@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
-import rx.Subscriber;
 
 import static com.itacit.healthcare.presentation.base.widgets.chipsView.Chip.FilterType;
 
@@ -87,8 +86,8 @@ public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
     }
 
     private void requestFilters(String query) {
-        getAuthorsUseCase.execute(new GetAuthorsSubscriber(), query);
-        getCategoriesUseCase.execute(new GetCategoriesSubscriber(), query);
+        getAuthorsUseCase.execute(this::showAuthorsOnView, errorHandler, query);
+        getCategoriesUseCase.execute(this::showCategoriesOnView, errorHandler, query);
     }
 
     private Observable<String> getSearchObs(NewsSearchView view) {
@@ -201,51 +200,17 @@ public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
         return true;
     }
 
-    private void showAuthorsOnView() {
+    private void showAuthorsOnView(List<Author> authors) {
+        authorModels.clear();
+        List<AuthorModel> authorModels = authorMapper.transform(authors);
+        NewsSearchPresenter.this.authorModels.addAll(authorModels);
         if (getView() != null) getView().showAuthors(authorModels);
     }
 
-    private void showCategoriesOnView() {
+    private void showCategoriesOnView(List<Category> categories) {
+        categoryModels.clear();
+        List<CategoryModel> categoryModels = categoryMapper.transform(categories);
+        NewsSearchPresenter.this.categoryModels.addAll(categoryModels);
         if (getView() != null) getView().showCategories(categoryModels);
-    }
-
-    private final class GetAuthorsSubscriber extends Subscriber<List<Author>> {
-
-        @Override
-        public void onCompleted() {
-            showAuthorsOnView();
-        }
-
-        @Override
-        public void onError(Throwable e) {
-
-        }
-
-        @Override
-        public void onNext(List<Author> authors) {
-            authorModels.clear();
-            List<AuthorModel> authorModels = authorMapper.transform(authors);
-            NewsSearchPresenter.this.authorModels.addAll(authorModels);
-        }
-    }
-
-    private final class GetCategoriesSubscriber extends Subscriber<List<Category>> {
-
-        @Override
-        public void onCompleted() {
-            showCategoriesOnView();
-        }
-
-        @Override
-        public void onError(Throwable e) {
-
-        }
-
-        @Override
-        public void onNext(List<Category> categories) {
-            categoryModels.clear();
-            List<CategoryModel> categoryModels = categoryMapper.transform(categories);
-            NewsSearchPresenter.this.categoryModels.addAll(categoryModels);
-        }
     }
 }

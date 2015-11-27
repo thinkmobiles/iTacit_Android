@@ -1,6 +1,7 @@
 package com.itacit.healthcare.domain.interactor.messages;
 
 import com.itacit.healthcare.data.entries.Message;
+import com.itacit.healthcare.data.entries.MessagesRequest;
 import com.itacit.healthcare.data.network.request.ListRequest;
 import com.itacit.healthcare.data.network.response.ListResponse;
 import com.itacit.healthcare.data.network.services.MessagesService;
@@ -11,7 +12,7 @@ import rx.Observable;
 /**
  * Created by root on 12.11.15.
  */
-public class GetMessagesUseCase extends GetListUseCase<Message, String> {
+public class GetMessagesUseCase extends GetListUseCase<Message, MessagesRequest> {
 
     public static final String FILTER_GROUP = "filterGroup:";
     public static final String SORT_FIELD_MESSAGES = "sendDateTime";
@@ -22,9 +23,11 @@ public class GetMessagesUseCase extends GetListUseCase<Message, String> {
     }
 
     @Override
-    protected ListRequest initArgs(String filter) {
+    protected ListRequest initArgs(MessagesRequest messagesRequest) {
         ListRequest requestBody = new ListRequest();
-        requestBody.setQuery(FILTER_GROUP + filter);
+        requestBody.setStartIndex(messagesRequest.getStartIndex());
+        requestBody.setRowCount(messagesRequest.getRowCount());
+        requestBody.setQuery(FILTER_GROUP + messagesRequest.getFilter());
         requestBody.setSort(SORT_FIELD_MESSAGES);
         return requestBody;
     }

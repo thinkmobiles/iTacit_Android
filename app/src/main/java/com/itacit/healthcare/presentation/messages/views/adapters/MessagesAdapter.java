@@ -18,6 +18,7 @@ import com.itacit.healthcare.global.utils.AndroidUtils;
 import com.itacit.healthcare.presentation.base.widgets.picasso.CircleTransformation;
 import com.itacit.healthcare.presentation.messages.models.MessageModel;
 import com.itacit.healthcare.presentation.messages.presenters.MessagesFeedPresenter;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -30,19 +31,39 @@ import butterknife.ButterKnife;
  */
 public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHolder> {
 
-    private final MessagesFeedPresenter presenter;
+    private MessagesFeedPresenter presenter;
     private Context context;
     private List<MessageModel> messages;
-    private Boolean isArchive = false;
+    private Boolean canSwipe;
     private Picasso picasso;
 
-
-    public MessagesAdapter(Context context, List<MessageModel> messages, MessagesFeedPresenter presenter, Boolean isArchive) {
+    public MessagesAdapter(Context context, MessagesFeedPresenter presenter, List<MessageModel> messages, Boolean canSwipe) {
         this.context = context;
-        this.messages = messages;
         this.presenter = presenter;
-        this.isArchive = isArchive;
+        this.messages = messages;
+        this.canSwipe = canSwipe;
         picasso = AndroidUtils.createPicassoWithAuth(context);
+    }
+
+    public MessagesFeedPresenter getPresenter() {
+        return presenter;
+    }
+
+    public void setPresenter(MessagesFeedPresenter _presenter) {
+        presenter = _presenter;
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context _context) {
+        context = _context;
+    }
+
+    public void addMessages(List<MessageModel> messages) {
+        messages.addAll(messages);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -63,7 +84,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         holder.swipeLayout.addSwipeListener(new SimpleSwipeListener() {
             @Override
             public void onOpen(SwipeLayout layout) {
-                holder.archiveLl.setOnClickListener(e -> presenter.onMessageArchiveSeleced(messageModel.getId()));
+                holder.archiveLl.setOnClickListener(e -> presenter.onMessageArchiveSelected(messageModel.getId()));
             }
 
             @Override
@@ -74,6 +95,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
 
         picasso.load(messageModel.getHeadlineUri())
                 .transform(new CircleTransformation())
+                .memoryPolicy(MemoryPolicy.NO_CACHE)
                 .fit()
                 .into(holder.headlineIv);
 
@@ -98,7 +120,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
 
         holder.lastTimeResponseTv.setText(messageModel.getTimeSendMessage());
 
-        if (isArchive) {
+        if (canSwipe) {
 	        holder.swipeLayout.setRightSwipeEnabled(false);
         }
     }

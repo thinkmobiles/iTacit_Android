@@ -12,6 +12,7 @@ import com.itacit.healthcare.R;
 import com.itacit.healthcare.global.utils.AndroidUtils;
 import com.itacit.healthcare.presentation.news.models.NewsModel;
 import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -42,6 +43,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     }
 
     @Override
+    public void onViewRecycled(ViewHolder holder) {
+        holder.headlineIv.setImageDrawable(null);
+        super.onViewRecycled(holder);
+    }
+
+    @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         NewsModel newsModel = news.get(position);
         if (newsItemSelectedListener != null) {
@@ -51,7 +58,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 }
             });
         }
-        picasso.load(newsModel.getHeadlineUri()).memoryPolicy(MemoryPolicy.NO_CACHE).into(holder.headlineIv);
+        picasso.load(newsModel.getHeadlineUri())
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .networkPolicy(NetworkPolicy.NO_CACHE)
+                .resize(400, 200)
+                .centerCrop()
+                .into(holder.headlineIv);
         holder.headlineTv.setText(newsModel.getHeadline());
         holder.categoryTv.setText(newsModel.getCategoryName());
         holder.timeTv.setText(newsModel.getStartDate());
