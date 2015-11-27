@@ -42,7 +42,19 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
     @Bind(R.id.swipe_container_FMF)      SwipeRefreshLayout swipeRefreshLayout;
 
     private MessagesAdapter messagesAdapter;
-    private boolean isLoading = false;
+
+    private RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+            if (layoutManager.findFirstVisibleItemPosition() ==
+                    layoutManager.getItemCount() - layoutManager.getChildCount()) {
+                messagesRecyclerView.removeOnScrollListener(this);
+                presenter.getMore();
+            }
+        }
+    };
 
     @OnClick(R.id.fab_button_FMF)
     void addNewMessage() {
@@ -114,34 +126,16 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
         messagesAdapter = new MessagesAdapter(activity, presenter, messages, canArchive);
         if(!messages.isEmpty()){
             AndroidUtils.checkRecyclerViewIsEmpty(messages, messagesRecyclerView, tvIsEmpty);
-            scrolledList();
             swipeRefreshLayout.setRefreshing(false);
         }
         messagesRecyclerView.setAdapter(messagesAdapter);
+        messagesRecyclerView.addOnScrollListener(scrollListener);
    }
 
     @Override
     public void addMessages(List<MessageModel> messages) {
         messagesAdapter.addMessages(messages);
-    }
-
-    private void scrolledList() {
-        isLoading = false;
-        messagesRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (!isLoading) {
-                    LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                    if (layoutManager.findFirstVisibleItemPosition() ==
-                            layoutManager.getItemCount() - layoutManager.getChildCount()) {
-
-                        presenter.getMore();
-                        isLoading = true;
-                    }
-                }
-            }
-        });
+        messagesRecyclerView.addOnScrollListener(scrollListener);
     }
 
     @Override

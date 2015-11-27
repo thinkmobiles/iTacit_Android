@@ -71,8 +71,9 @@ public class MessagesFeedPresenter extends BasePresenter<MessagesFeedView> {
     }
 
     private void showMoreMessagesOnView(List<Message> messages) {
-        messageModels.addAll(dataMapper.transform(messages));
-        actOnView(v -> v.addMessages(messageModels));
+        List<MessageModel> newMessages =  dataMapper.transform(messages);
+        messageModels.addAll(newMessages);
+        actOnView(v -> v.addMessages(newMessages));
     }
 
     public void onFilterSelected(MessagesFilter filter) {
@@ -90,7 +91,7 @@ public class MessagesFeedPresenter extends BasePresenter<MessagesFeedView> {
     }
 
     public void getMore() {
-        int startPosition = messagesRequest.getStartIndex() + ROW_COUNT;
+        int startPosition = messageModels.size() + 1;
         messagesRequest.setStartIndex(startPosition);
         getMessagesUseCase.execute(messages -> {
             showMoreMessagesOnView(messages);
