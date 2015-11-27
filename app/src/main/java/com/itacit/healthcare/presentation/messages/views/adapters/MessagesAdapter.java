@@ -61,11 +61,11 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         isArchive = _isArchive;
     }
 
-    public void setMessages(List<MessageModel> _messages) {
-        if(messages != null){
-            int startIndex = messages.size();
+    public void setMessages(List<MessageModel> _messages, boolean isFilter) {
+        if(!messages.isEmpty()){
+            if(isFilter) messages.clear();
             messages.addAll(_messages);
-            notifyItemRangeInserted(startIndex, _messages.size());
+            notifyDataSetChanged();
         }else {
             messages = _messages;
         }

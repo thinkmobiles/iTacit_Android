@@ -24,6 +24,10 @@ public class MessagesFeedPresenter extends BasePresenter<MessagesFeedView> {
     private ArchiveMessageUseCase archiveMessageUseCase;
     private MessagesMapper dataMapper;
 
+    public Index index = new Index();
+    public static final int START_POSITION = 1;
+    public static final int ROW_COUNT = 10;
+
     public MessagesFeedPresenter(GetMessagesUseCase messagesUseCase,
                                  MessagesMapper messagesMapper,
                                  ArchiveMessageUseCase archiveMessageUseCase) {
@@ -37,17 +41,21 @@ public class MessagesFeedPresenter extends BasePresenter<MessagesFeedView> {
         actOnView(v -> v.showMessages(messageModels));
     }
 
-    public void getMessages(Index index) {
+    public void getMessagesWithFilter(MessagesFilter filter) {
+        index.setStartIndex(START_POSITION);
+        index.setRowCount(ROW_COUNT);
+        index.setFilter(filter.toString());
         actOnView(MessagesFeedView::showProgress);
+        getMessagesUseCase.execute(new MessagesListSubscriber(), index);
+    }
+
+    public void getMore(int newStartPosition){
+        index.setStartIndex(newStartPosition);
         getMessagesUseCase.execute(new MessagesListSubscriber(), index);
     }
 
     public void onMessageSelected(String messageId) {
         actOnView(view -> view.showMessageDetails(messageId));
-    }
-
-    public List<MessageModel> getMessageModels() {
-        return messageModels;
     }
 
     public void onMessageArchiveSelected(String messageId) {

@@ -10,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.itacit.healthcare.R;
-import com.itacit.healthcare.data.entries.Index;
 import com.itacit.healthcare.domain.interactor.messages.ArchiveMessageUseCase;
 import com.itacit.healthcare.domain.interactor.messages.GetMessagesUseCase;
 import com.itacit.healthcare.global.utils.AndroidUtils;
@@ -44,12 +43,9 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
     private Boolean isArchive = false;
     private MessagesFilter currentFilter;
 
-    private Index index = new Index();
-
-    private static final int START_INDEX = 1;
-    private static final int ROW_COUNT = 10;
-
     private boolean isLoading = false;
+
+    private boolean onPressedFilter = false;
 
     private LinearLayoutManager layoutManager;
 
@@ -80,10 +76,7 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
         messagesAdapter.setPresenter(presenter);
         messagesAdapter.setIsArchive(isArchive);
 
-        index.setStartIndex(START_INDEX);
-        index.setRowCount(ROW_COUNT);
-        index.setFilter(String.valueOf(tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).getTag()));
-        presenter.getMessages(index);
+        presenter.getMessagesWithFilter((MessagesFilter) tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).getTag());
 
         messagesRecyclerView.setAdapter(messagesAdapter);
 
@@ -106,7 +99,7 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
 
     @Override
     protected MessagesFeedPresenter createPresenter() {
-//	    currentFilter = MessagesFilter.ALL;
+	    currentFilter = MessagesFilter.ALL;
         return new MessagesFeedPresenter(new GetMessagesUseCase(),
                 new MessagesMapper(), new ArchiveMessageUseCase());
     }
@@ -115,24 +108,31 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
     public void showMessages(List<MessageModel> messages) {
         if(!messages.isEmpty()){
             AndroidUtils.checkRecyclerViewIsEmpty(messages, messagesRecyclerView, tvIsEmpty);
-            isLoading = false;
-            messagesRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                    super.onScrolled(recyclerView, dx, dy);                    if (!isLoading) {
-                        if (layoutManager.findFirstVisibleItemPosition() ==
-                                layoutManager.getItemCount() - layoutManager.getChildCount()) {
-                            index.setStartIndex(index.getStartIndex() + ROW_COUNT);
-                            presenter.getMessages(index);
-                            isLoading = true;
-                        }
-                    }
-                }
-            });
-            messagesAdapter.setMessages(messages);
+            scrolledList();
+            messagesAdapter.setMessages(messages, onPressedFilter);
+            onPressedFilter = false;
             swipeRefreshLayout.setRefreshing(false);
         }
    }
+
+    private void scrolledList() {
+        isLoading = false;
+        messagesRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (!isLoading) {
+                    if (layoutManager.findFirstVisibleItemPosition() ==
+                            layoutManager.getItemCount() - layoutManager.getChildCount()) {
+
+                        presenter.getMore(presenter.index.getStartIndex() + presenter.ROW_COUNT);
+
+                        isLoading = true;
+                    }
+                }
+            }
+        });
+    }
 
     @Override
     public void showProgress() {
@@ -183,15 +183,15 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
     }
 
     private void checkTabSelected(TabLayout.Tab tab) {
+        onPressedFilter = true;
         isArchive = MessagesFilter.ARCHIVE.equals(tab.getTag());
         currentFilter = (MessagesFilter) tab.getTag();
-        index.setFilter(String.valueOf(currentFilter));
-        presenter.getMessages(index);
+        presenter.getMessagesWithFilter(currentFilter);
     }
 
     @Override
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(true);
-        presenter.getMessages(index);
+        presenter.getMessagesWithFilter(currentFilter);
     }
 }
