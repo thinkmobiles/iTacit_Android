@@ -63,7 +63,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         holder.swipeLayout.addSwipeListener(new SimpleSwipeListener() {
             @Override
             public void onOpen(SwipeLayout layout) {
-                holder.archiveLl.setOnClickListener(e -> presenter.onMessageArchiveSeleced(messageModel.getId()));
+                holder.archiveLl.setOnClickListener(e -> presenter.onMessageArchiveSelected(messageModel.getId()));
             }
 
             @Override

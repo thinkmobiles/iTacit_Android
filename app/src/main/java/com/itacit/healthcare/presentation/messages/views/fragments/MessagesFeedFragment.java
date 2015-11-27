@@ -10,17 +10,22 @@ import android.support.v7.widget.RecyclerView;
 
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.messages.ArchiveMessageUseCase;
+import com.itacit.healthcare.domain.interactor.messages.GetMessagesSummaryUseCase;
 import com.itacit.healthcare.domain.interactor.messages.GetMessagesUseCase;
 import com.itacit.healthcare.global.utils.AndroidUtils;
 import com.itacit.healthcare.presentation.base.fragments.BaseFragmentView;
 import com.itacit.healthcare.presentation.messages.mappers.MessagesMapper;
+import com.itacit.healthcare.presentation.messages.mappers.MessagesSummaryMapper;
 import com.itacit.healthcare.presentation.messages.models.MessageModel;
 import com.itacit.healthcare.presentation.messages.presenters.MessagesFeedPresenter;
 import com.itacit.healthcare.presentation.messages.views.MessagesFeedView;
 import com.itacit.healthcare.presentation.messages.views.activity.MessagesActivity;
 import com.itacit.healthcare.presentation.messages.views.adapters.MessagesAdapter;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -46,22 +51,43 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
         activity.switchContent(NewMessageFragment.class);
     }
 
+    private Map<MessagesFilter, String> tabsNamesMap;
+    {
+        tabsNamesMap = new HashMap<>();
+        tabsNamesMap.put(MessagesFilter.ALL, "All \n");
+        tabsNamesMap.put(MessagesFilter.ACT, "Act on \n");
+        tabsNamesMap.put(MessagesFilter.WAITING, "Waiting \n");
+        tabsNamesMap.put(MessagesFilter.SENT, "To my \n");
+        tabsNamesMap.put(MessagesFilter.INBOX, "For me \n");
+        tabsNamesMap.put(MessagesFilter.ARCHIVE, "Archive \n");
+        tabsNamesMap.put(MessagesFilter.DONE, "Done \n");
+    }
+
     @Override
     protected void setUpView() {
-        tabLayout.addTab(tabLayout.newTab().setText("All \n1").setTag(MessagesFilter.ALL));
-        tabLayout.addTab(tabLayout.newTab().setText("Act on \n2").setTag(MessagesFilter.ACT));
-        tabLayout.addTab(tabLayout.newTab().setText("Waiting \n3").setTag(MessagesFilter.WAITING));
-        tabLayout.addTab(tabLayout.newTab().setText("To my \n4").setTag(MessagesFilter.SENT));
-        tabLayout.addTab(tabLayout.newTab().setText("For me \n5").setTag(MessagesFilter.INBOX));
-        tabLayout.addTab(tabLayout.newTab().setText("Archive \n6").setTag(MessagesFilter.ARCHIVE));
-
-        tabLayout.setOnTabSelectedListener(this);
         swipeRefreshLayout.setOnRefreshListener(this);
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         messagesRecyclerView.setLayoutManager(layoutManager);
-
+        for (MessagesFilter filter : MessagesFilter.values()) {
+            tabLayout.addTab(tabLayout.newTab().setText(tabsNamesMap.get(filter)).setTag(filter));
+        }
+        tabLayout.setOnTabSelectedListener(this);
         presenter.getMessages((MessagesFilter) tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).getTag());
+    }
+
+    @Override
+    public void showMessagesSummary(Map<MessagesFilter, String> summary) {
+        List<MessagesFilter> filters = Arrays.asList(MessagesFilter.values());
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
+            for (MessagesFilter filter : filters) {
+                if (tab.getTag().equals(filter)) {
+                    String tabText = tabsNamesMap.get(filter) + summary.get(filter);
+                    tab.setText(tabText).setTag(filter);
+                }
+            }
+        }
+
     }
 
     @Override
@@ -82,7 +108,8 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
     @Override
     protected MessagesFeedPresenter createPresenter() {
 	    currentFilter = MessagesFilter.ALL;
-        return new MessagesFeedPresenter(new GetMessagesUseCase(), new MessagesMapper(), new ArchiveMessageUseCase());
+        return new MessagesFeedPresenter(new GetMessagesUseCase(), new MessagesMapper(),
+                new ArchiveMessageUseCase(), new GetMessagesSummaryUseCase(), new MessagesSummaryMapper());
     }
 
     @Override

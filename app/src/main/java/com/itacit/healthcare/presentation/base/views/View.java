@@ -9,4 +9,5 @@ public interface View {
     Scheduler getUiThreadScheduler();
     void hideProgress();
     void showProgress();
+    void showError(String error);
 }

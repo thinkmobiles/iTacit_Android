@@ -81,7 +81,7 @@ public class NewsFeedPresenter extends BasePresenter<NewsFeedView> {
 
         @Override
         public void onCompleted() {
-            actOnView(NewsFeedView::hideProgress);
+
         }
         @Override
         public void onError(Throwable e) {
@@ -91,6 +91,7 @@ public class NewsFeedPresenter extends BasePresenter<NewsFeedView> {
         @Override
         public void onNext(List<News> newses) {
             showNewsOnView(newses);
+            actOnView(NewsFeedView::hideProgress);
         }
     }
 }

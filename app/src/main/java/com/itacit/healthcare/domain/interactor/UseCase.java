@@ -53,11 +53,30 @@ public abstract class UseCase<T, P, A> {
               .subscribe(subscriber);
     }
 
-    public final void execute(Action1<T> action, P args) {
+    public final void execute(Action1<T> action, Action1<Throwable> errorHandler, P args) {
         this.subscription = this.buildUseCaseObservable(initArgs(args))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(action);
+                .subscribe(new Subscriber<T>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        errorHandler.call(e);
+                    }
+
+                    @Override
+                    public void onNext(T t) {
+                        action.call(t);
+                    }
+                });
+    }
+
+    public final void execute(Action1<T> action, Action1<Throwable> errorHandler) {
+        execute(action, errorHandler, null);
     }
 
 

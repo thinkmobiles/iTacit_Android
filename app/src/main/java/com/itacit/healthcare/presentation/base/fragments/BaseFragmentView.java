@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.presentation.base.BaseActivity;
@@ -87,6 +88,10 @@ public abstract class BaseFragmentView<P extends Presenter, A extends BaseActivi
         }
     }
 
+    @Override
+    public void showError(String error) {
+        Toast.makeText(activity, error, Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     public void onDestroyView() {

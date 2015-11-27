@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.data.network.interceptors.AuthInterceptor;
 import com.squareup.okhttp.OkHttpClient;
+import com.squareup.picasso.Cache;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
@@ -145,6 +146,7 @@ public final class AndroidUtils {
         picassoClient.interceptors().add(new AuthInterceptor());
         return new Picasso.Builder(context)
                 .downloader(new OkHttpDownloader(picassoClient))
+                .memoryCache(Cache.NONE)
                 .build();
     }
 }

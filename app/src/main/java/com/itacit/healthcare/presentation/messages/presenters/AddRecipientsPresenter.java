@@ -78,8 +78,12 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
     }
 
     private void getRecipientsCount() {
-        getRecipientsSummaryUseCase.execute(s ->
-                        actOnView(view -> view.showRecipientsCount(s.getTotalRecipients())),
+        getRecipientsSummaryUseCase.execute(s -> {
+                    actOnView(view -> view.showRecipientsCount(s.getTotalRecipients()));
+                },
+                error -> {
+                    actOnView(view -> view.showError(error.getMessage()));
+                },
                 createMessageModel.getRecipients());
     }
 
@@ -93,12 +97,12 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
 
     public void selectRecipients() {
         messageStorage.pushCreateMessage(createMessageModel);
-        actOnView(view -> view.navigateToNewMessage());
+        actOnView(AddRecipientsView::navigateToNewMessage);
     }
 
     public void editRecipients() {
         messageStorage.pushCreateMessage(createMessageModel);
-        actOnView(view -> view.navigateToRecipients());
+        actOnView(AddRecipientsView::navigateToRecipients);
     }
 
     public void predefinedClicked(PredefinedRecipients predefined) {
@@ -180,18 +184,19 @@ public class AddRecipientsPresenter extends BasePresenter<AddRecipientsView> {
         }
     }
 
-	private final class GetRoleSubscriber extends Subscriber<List<Role>> {
+    private final class GetRoleSubscriber extends Subscriber<List<Role>> {
 
-		@Override
-		public void onCompleted() {}
+        @Override
+        public void onCompleted() {
+        }
 
-		@Override
-		public void onError(Throwable e) {
-		}
+        @Override
+        public void onError(Throwable e) {
+        }
 
-		@Override
-		public void onNext(List<Role> roles) {
+        @Override
+        public void onNext(List<Role> roles) {
             showRecipientsOnView(roleMapper.transform(roles), RecipientType.Role);
-		}
-	}
+        }
+    }
 }
