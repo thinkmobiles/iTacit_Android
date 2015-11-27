@@ -14,6 +14,7 @@ import com.itacit.healthcare.presentation.news.mappers.CategoryMapper;
 import com.itacit.healthcare.presentation.news.models.AuthorModel;
 import com.itacit.healthcare.presentation.news.models.CategoryModel;
 import com.itacit.healthcare.presentation.news.views.NewsSearchView;
+import com.itacit.healthcare.presentation.news.views.NewsStorage;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -40,6 +41,8 @@ public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
     //models
     private List<AuthorModel> authorModels = new ArrayList<>();
     private List<CategoryModel> categoryModels = new ArrayList<>();
+	private NewsStorage newsStorage;
+	private NewsSearch newsSearch;
 
     private Calendar fromDate;
     private Calendar toDate;
@@ -57,7 +60,9 @@ public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
     protected void onAttachedView(@NonNull NewsSearchView view) {
         compositeSubscription.add(getSearchObs(view).subscribe(this::requestFilters));
         compositeSubscription.add(view.getFilterRemovedObs().subscribe(this::removeFilter));
-        compositeSubscription.add(view.getNewsSearchSubj().subscribe(this::showLastData));
+	    newsStorage = view.getNewsSearch();
+	    newsSearch = newsStorage.getNews();
+	    showLastData(newsSearch);
     }
 
     private void showLastData(NewsSearch search) {
@@ -91,11 +96,15 @@ public class NewsSearchPresenter extends BasePresenter<NewsSearchView> {
                 .debounce(TIMEOUT, TimeUnit.SECONDS);
     }
 
-    public NewsSearch getNewsSearch() {
-        List<Chip> chips = new ArrayList<>();
-        if (getView() != null) chips = getView().getFilters();
-
-        return new NewsSearch(chips, fromDate, toDate);
+    public void getNewsSearch() {
+        if (isDateValid()) {
+            List<Chip> chips = new ArrayList<>();
+            if (getView() != null) {
+	            chips = getView().getFilters();
+            }
+	        newsStorage.pushNews(new NewsSearch(chips, fromDate, toDate));
+	        actOnView(view -> view.navigateToNewsFeed());
+        }
     }
 
 	public void removeFilter(Chip chip) {

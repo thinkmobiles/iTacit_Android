@@ -1,5 +1,6 @@
 package com.itacit.healthcare.presentation.messages.presenters;
 
+import com.itacit.healthcare.data.entries.Index;
 import android.support.annotation.NonNull;
 
 import com.itacit.healthcare.data.entries.Message;
@@ -28,6 +29,10 @@ public class MessagesFeedPresenter extends BasePresenter<MessagesFeedView> {
     private GetMessagesUseCase getMessagesUseCase;
     private ArchiveMessageUseCase archiveUseCase;
     private MessagesMapper dataMapper;
+
+    public Index index = new Index();
+    public static final int START_POSITION = 1;
+    public static final int ROW_COUNT = 10;
 
     public MessagesFeedPresenter(GetMessagesUseCase messagesUseCase,
                                  MessagesMapper messagesMapper,
@@ -61,8 +66,17 @@ public class MessagesFeedPresenter extends BasePresenter<MessagesFeedView> {
         actOnView(v -> v.showMessages(messageModels));
     }
 
-    public void getMessages(MessagesFilter filter) {
+    public void getMessagesWithFilter(MessagesFilter filter) {
+        index.setStartIndex(START_POSITION);
+        index.setRowCount(ROW_COUNT);
+        index.setFilter(filter.toString());
         actOnView(MessagesFeedView::showProgress);
+        getMessagesUseCase.execute(new MessagesListSubscriber(), index);
+    }
+
+    public void getMore(int newStartPosition){
+        index.setStartIndex(newStartPosition);
+        getMessagesUseCase.execute(new MessagesListSubscriber(), index);
         getMessagesUseCase.execute(messages -> {
                     showMessagesOnView(messages);
                     actOnView(MessagesFeedView::hideProgress);
@@ -78,6 +92,37 @@ public class MessagesFeedPresenter extends BasePresenter<MessagesFeedView> {
             actOnView(view -> view.removeMessage(messageId));
             getMessagesCounts();
         }, errorHandler, messageId);
+
+    public void onMessageArchiveSelected(String messageId) {
+        archiveMessageUseCase.execute(new Subscriber<Void>() {
+            @Override
+            public void onCompleted() {
+                actOnView(view -> view.removeMessage(messageId));
+            }
+
+            @Override
+            public void onError(Throwable e) {}
+
+            @Override
+            public void onNext(Void o) {}
+        }, messageId);
+    }
+
+    private final class MessagesListSubscriber extends Subscriber<List<Message>> {
+        @Override
+        public void onCompleted() {
+            actOnView(MessagesFeedView::hideProgress);
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            actOnView(MessagesFeedView::hideProgress);
+        }
+
+        @Override
+        public void onNext(List<Message> messages) {
+            showMessagesOnView(messages);
+        }
     }
 
     public enum MessagesFilter {

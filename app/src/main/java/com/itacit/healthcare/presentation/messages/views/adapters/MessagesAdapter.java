@@ -20,6 +20,7 @@ import com.itacit.healthcare.presentation.messages.models.MessageModel;
 import com.itacit.healthcare.presentation.messages.presenters.MessagesFeedPresenter;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -30,19 +31,44 @@ import butterknife.ButterKnife;
  */
 public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHolder> {
 
-    private final MessagesFeedPresenter presenter;
+    private MessagesFeedPresenter presenter;
     private Context context;
-    private List<MessageModel> messages;
+    private List<MessageModel> messages = new ArrayList<>();
     private Boolean isArchive = false;
     private Picasso picasso;
 
+    public MessagesFeedPresenter getPresenter() {
+        return presenter;
+    }
 
-    public MessagesAdapter(Context context, List<MessageModel> messages, MessagesFeedPresenter presenter, Boolean isArchive) {
-        this.context = context;
-        this.messages = messages;
-        this.presenter = presenter;
-        this.isArchive = isArchive;
-        picasso = AndroidUtils.createPicassoWithAuth(context);
+    public void setPresenter(MessagesFeedPresenter _presenter) {
+        presenter = _presenter;
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context _context) {
+        context = _context;
+    }
+
+    public Boolean getIsArchive() {
+        return isArchive;
+    }
+
+    public void setIsArchive(Boolean _isArchive) {
+        isArchive = _isArchive;
+    }
+
+    public void setMessages(List<MessageModel> _messages, boolean isFilter) {
+        if(!messages.isEmpty()){
+            if(isFilter) messages.clear();
+            messages.addAll(_messages);
+            notifyDataSetChanged();
+        }else {
+            messages = _messages;
+        }
     }
 
     @Override
@@ -54,6 +80,8 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        picasso = AndroidUtils.createPicassoWithAuth(context);
+        
         MessageModel messageModel = messages.get(position);
 
         holder.messageRl.setOnClickListener(e -> {

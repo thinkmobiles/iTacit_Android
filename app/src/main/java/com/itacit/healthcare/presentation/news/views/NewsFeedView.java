@@ -21,5 +21,5 @@ public interface NewsFeedView extends View {
     void hideProgress();
     void showNewsItemDetails(String newsId);
     Observable<String> getNewsSearchTextObs();
-    BehaviorSubject<NewsSearch> getNewsSearch();
+    NewsStorage getNewsSearch();
 }
