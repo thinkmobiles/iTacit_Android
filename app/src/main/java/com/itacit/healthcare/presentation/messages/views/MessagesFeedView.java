@@ -11,9 +11,10 @@ import java.util.Map;
  * Created by Den on 12.11.15.
  */
 public interface MessagesFeedView extends View {
-    void showMessages(List<MessageModel> messages);
+    void showMessages(List<MessageModel> messages, boolean canArchive);
 
     void showMessageDetails(String id);
+    void addMessages(List<MessageModel> messages);
     void removeMessage(String id);
     void showMessagesSummary(Map<MessagesFeedPresenter.MessagesFilter, String> summary);
 }

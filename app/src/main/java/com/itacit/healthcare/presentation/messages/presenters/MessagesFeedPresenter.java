@@ -1,14 +1,15 @@
 package com.itacit.healthcare.presentation.messages.presenters;
 
-import com.itacit.healthcare.data.entries.Index;
 import android.support.annotation.NonNull;
 
 import com.itacit.healthcare.data.entries.Message;
+import com.itacit.healthcare.data.entries.MessagesRequest;
 import com.itacit.healthcare.data.entries.MessagesSummary;
 import com.itacit.healthcare.domain.interactor.messages.ArchiveMessageUseCase;
 import com.itacit.healthcare.domain.interactor.messages.GetMessagesSummaryUseCase;
 import com.itacit.healthcare.domain.interactor.messages.GetMessagesUseCase;
 import com.itacit.healthcare.presentation.base.presenters.BasePresenter;
+import com.itacit.healthcare.presentation.base.views.View;
 import com.itacit.healthcare.presentation.messages.mappers.MessagesMapper;
 import com.itacit.healthcare.presentation.messages.mappers.MessagesSummaryMapper;
 import com.itacit.healthcare.presentation.messages.models.MessageModel;
@@ -30,9 +31,11 @@ public class MessagesFeedPresenter extends BasePresenter<MessagesFeedView> {
     private ArchiveMessageUseCase archiveUseCase;
     private MessagesMapper dataMapper;
 
-    public Index index = new Index();
-    public static final int START_POSITION = 1;
-    public static final int ROW_COUNT = 10;
+    private MessagesRequest messagesRequest = new MessagesRequest();
+    private static final int START_POSITION = 1;
+    private static final int ROW_COUNT = 10;
+
+    private MessagesFilter selectedFilter;
 
     public MessagesFeedPresenter(GetMessagesUseCase messagesUseCase,
                                  MessagesMapper messagesMapper,
@@ -63,24 +66,36 @@ public class MessagesFeedPresenter extends BasePresenter<MessagesFeedView> {
 
     private void showMessagesOnView(List<Message> messages) {
         messageModels = dataMapper.transform(messages);
-        actOnView(v -> v.showMessages(messageModels));
+        boolean canArchiveMessages = !selectedFilter.equals(MessagesFilter.ARCHIVE);
+        actOnView(v -> v.showMessages(messageModels, canArchiveMessages));
     }
 
-    public void getMessagesWithFilter(MessagesFilter filter) {
-        index.setStartIndex(START_POSITION);
-        index.setRowCount(ROW_COUNT);
-        index.setFilter(filter.toString());
+    private void showMoreMessagesOnView(List<Message> messages) {
+        messageModels.addAll(dataMapper.transform(messages));
+        actOnView(v -> v.addMessages(messageModels));
+    }
+
+    public void onFilterSelected(MessagesFilter filter) {
+        selectedFilter = filter;
+        messagesRequest.setStartIndex(START_POSITION);
+        messagesRequest.setRowCount(ROW_COUNT);
+        messagesRequest.setFilter(filter.toString());
+
         actOnView(MessagesFeedView::showProgress);
-        getMessagesUseCase.execute(new MessagesListSubscriber(), index);
+
+        getMessagesUseCase.execute(messages -> {
+            showMessagesOnView(messages);
+            actOnView(View::hideProgress);
+        }, errorHandler, messagesRequest);
     }
 
-    public void getMore(int newStartPosition){
-        index.setStartIndex(newStartPosition);
-        getMessagesUseCase.execute(new MessagesListSubscriber(), index);
+    public void getMore() {
+        int startPosition = messagesRequest.getStartIndex() + ROW_COUNT;
+        messagesRequest.setStartIndex(startPosition);
         getMessagesUseCase.execute(messages -> {
-                    showMessagesOnView(messages);
-                    actOnView(MessagesFeedView::hideProgress);
-        }, errorHandler, filter.toString());
+            showMoreMessagesOnView(messages);
+            actOnView(View::hideProgress);
+        }, errorHandler, messagesRequest);
     }
 
     public void onMessageSelected(String messageId) {
@@ -92,38 +107,8 @@ public class MessagesFeedPresenter extends BasePresenter<MessagesFeedView> {
             actOnView(view -> view.removeMessage(messageId));
             getMessagesCounts();
         }, errorHandler, messageId);
-
-    public void onMessageArchiveSelected(String messageId) {
-        archiveMessageUseCase.execute(new Subscriber<Void>() {
-            @Override
-            public void onCompleted() {
-                actOnView(view -> view.removeMessage(messageId));
-            }
-
-            @Override
-            public void onError(Throwable e) {}
-
-            @Override
-            public void onNext(Void o) {}
-        }, messageId);
     }
 
-    private final class MessagesListSubscriber extends Subscriber<List<Message>> {
-        @Override
-        public void onCompleted() {
-            actOnView(MessagesFeedView::hideProgress);
-        }
-
-        @Override
-        public void onError(Throwable e) {
-            actOnView(MessagesFeedView::hideProgress);
-        }
-
-        @Override
-        public void onNext(List<Message> messages) {
-            showMessagesOnView(messages);
-        }
-    }
 
     public enum MessagesFilter {
         ALL("ALL"),

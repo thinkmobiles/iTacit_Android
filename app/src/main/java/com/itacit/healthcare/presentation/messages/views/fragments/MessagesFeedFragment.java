@@ -1,11 +1,9 @@
 package com.itacit.healthcare.presentation.messages.views.fragments;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -43,16 +41,8 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
     @Bind(R.id.tab_layout_FMF)           TabLayout          tabLayout;
     @Bind(R.id.swipe_container_FMF)      SwipeRefreshLayout swipeRefreshLayout;
 
-    private MessagesAdapter messagesAdapter = new MessagesAdapter();
-    private ProgressDialog progressDialog;
-    private Boolean isArchive = false;
-    private MessagesFilter currentFilter;
-
+    private MessagesAdapter messagesAdapter;
     private boolean isLoading = false;
-
-    private boolean onPressedFilter = false;
-
-    private LinearLayoutManager layoutManager;
 
     @OnClick(R.id.fab_button_FMF)
     void addNewMessage() {
@@ -74,27 +64,13 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
     @Override
     protected void setUpView() {
         swipeRefreshLayout.setOnRefreshListener(this);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-
-        layoutManager = new LinearLayoutManager(getActivity());
-        messagesRecyclerView.setLayoutManager(layoutManager);
+        messagesRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
         for (MessagesFilter filter : MessagesFilter.values()) {
             tabLayout.addTab(tabLayout.newTab().setText(tabsNamesMap.get(filter)).setTag(filter));
         }
         tabLayout.setOnTabSelectedListener(this);
-        presenter.getMessages((MessagesFilter) tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).getTag());
 
-        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-        messagesRecyclerView.setItemAnimator(itemAnimator);
-
-        messagesAdapter.setContext(getActivity());
-        messagesAdapter.setPresenter(presenter);
-        messagesAdapter.setIsArchive(isArchive);
-
-        presenter.getMessagesWithFilter((MessagesFilter) tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).getTag());
-
-        messagesRecyclerView.setAdapter(messagesAdapter);
-
+        presenter.onFilterSelected((MessagesFilter) tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).getTag());
     }
 
     @Override
@@ -129,23 +105,25 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
 
     @Override
     protected MessagesFeedPresenter createPresenter() {
-	    currentFilter = MessagesFilter.ALL;
-        return new MessagesFeedPresenter(new GetMessagesUseCase(),
-                new MessagesMapper(), new ArchiveMessageUseCase());
         return new MessagesFeedPresenter(new GetMessagesUseCase(), new MessagesMapper(),
                 new ArchiveMessageUseCase(), new GetMessagesSummaryUseCase(), new MessagesSummaryMapper());
     }
 
     @Override
-    public void showMessages(List<MessageModel> messages) {
+    public void showMessages(List<MessageModel> messages, boolean canArchive) {
+        messagesAdapter = new MessagesAdapter(activity, presenter, messages, canArchive);
         if(!messages.isEmpty()){
             AndroidUtils.checkRecyclerViewIsEmpty(messages, messagesRecyclerView, tvIsEmpty);
             scrolledList();
-            messagesAdapter.setMessages(messages, onPressedFilter);
-            onPressedFilter = false;
             swipeRefreshLayout.setRefreshing(false);
         }
+        messagesRecyclerView.setAdapter(messagesAdapter);
    }
+
+    @Override
+    public void addMessages(List<MessageModel> messages) {
+        messagesAdapter.addMessages(messages);
+    }
 
     private void scrolledList() {
         isLoading = false;
@@ -154,33 +132,16 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (!isLoading) {
+                    LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
                     if (layoutManager.findFirstVisibleItemPosition() ==
                             layoutManager.getItemCount() - layoutManager.getChildCount()) {
 
-                        presenter.getMore(presenter.index.getStartIndex() + presenter.ROW_COUNT);
-
+                        presenter.getMore();
                         isLoading = true;
                     }
                 }
             }
         });
-    }
-
-    @Override
-    public void showProgress() {
-//        if (progressDialog == null) {
-//            progressDialog = new ProgressDialog(getActivity());
-//            progressDialog.setMessage("Loading...");
-//            progressDialog.setCancelable(true);
-//        }
-//        progressDialog.show();
-    }
-
-    @Override
-    public void hideProgress() {
-//        if (progressDialog != null && progressDialog.isShowing()) {
-//            progressDialog.hide();
-//        }
     }
 
     @Override
@@ -215,15 +176,14 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
     }
 
     private void checkTabSelected(TabLayout.Tab tab) {
-        onPressedFilter = true;
-        isArchive = MessagesFilter.ARCHIVE.equals(tab.getTag());
-        currentFilter = (MessagesFilter) tab.getTag();
-        presenter.getMessagesWithFilter(currentFilter);
+        messagesAdapter.getMessages().clear();
+        presenter.onFilterSelected((MessagesFilter) tab.getTag());
     }
 
     @Override
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(true);
-        presenter.getMessagesWithFilter(currentFilter);
+        int tabPosition = tabLayout.getSelectedTabPosition();
+        presenter.onFilterSelected((MessagesFilter) tabLayout.getTabAt(tabPosition).getTag());
     }
 }

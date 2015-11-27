@@ -3,7 +3,7 @@ package com.itacit.healthcare.data.entries;
 /**
  * Created by Den on 25.11.15.
  */
-public class Index {
+public class MessagesRequest {
     private int startIndex;
     private int rowCount;
     private String filter;
