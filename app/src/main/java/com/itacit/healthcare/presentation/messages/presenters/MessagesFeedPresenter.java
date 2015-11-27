@@ -33,7 +33,7 @@ public class MessagesFeedPresenter extends BasePresenter<MessagesFeedView> {
 
     private MessagesRequest messagesRequest = new MessagesRequest();
     private static final int START_POSITION = 1;
-    private static final int ROW_COUNT = 10;
+    private static final int ROW_COUNT = 50;
 
     private MessagesFilter selectedFilter;
 
