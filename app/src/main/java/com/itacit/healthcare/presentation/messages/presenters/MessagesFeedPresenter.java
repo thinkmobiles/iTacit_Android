@@ -66,7 +66,7 @@ public class MessagesFeedPresenter extends BasePresenter<MessagesFeedView> {
 
     private void showMessagesOnView(List<Message> messages) {
         messageModels = dataMapper.transform(messages);
-        boolean canArchiveMessages = !selectedFilter.equals(MessagesFilter.ARCHIVE);
+        boolean canArchiveMessages = selectedFilter.equals(MessagesFilter.ARCHIVE);
         actOnView(v -> v.showMessages(messageModels, canArchiveMessages));
     }
 
