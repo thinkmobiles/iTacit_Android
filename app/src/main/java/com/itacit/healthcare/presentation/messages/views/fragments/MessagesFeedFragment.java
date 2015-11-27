@@ -178,12 +178,14 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
     }
 
     private void checkTabSelected(TabLayout.Tab tab) {
+        handleScrolls = true;
         messagesAdapter.getMessages().clear();
         presenter.onFilterSelected((MessagesFilter) tab.getTag());
     }
 
     @Override
     public void onRefresh() {
+        handleScrolls = true;
         swipeRefreshLayout.setRefreshing(true);
         int tabPosition = tabLayout.getSelectedTabPosition();
         presenter.onFilterSelected((MessagesFilter) tabLayout.getTabAt(tabPosition).getTag());

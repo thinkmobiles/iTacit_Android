@@ -18,6 +18,7 @@ import com.itacit.healthcare.global.utils.AndroidUtils;
 import com.itacit.healthcare.presentation.base.widgets.picasso.CircleTransformation;
 import com.itacit.healthcare.presentation.messages.models.MessageModel;
 import com.itacit.healthcare.presentation.messages.presenters.MessagesFeedPresenter;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -94,6 +95,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
 
         picasso.load(messageModel.getHeadlineUri())
                 .transform(new CircleTransformation())
+                .memoryPolicy(MemoryPolicy.NO_CACHE)
                 .fit()
                 .into(holder.headlineIv);
 
