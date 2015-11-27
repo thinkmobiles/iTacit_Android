@@ -1,12 +1,21 @@
 package com.itacit.healthcare.presentation.messages.views.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.method.Touch;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.itacit.healthcare.R;
 import com.itacit.healthcare.domain.interactor.messages.ArchiveMessageUseCase;
@@ -32,14 +41,16 @@ import static com.itacit.healthcare.presentation.messages.presenters.MessagesFee
  */
 public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter, MessagesActivity>
         implements MessagesFeedView, TabLayout.OnTabSelectedListener, SwipeRefreshLayout.OnRefreshListener {
-    @Bind(R.id.recycler_view_FMF)   RecyclerView messagesRecyclerView;
-    @Bind(R.id.tab_layout_FMF)      TabLayout tabLayout;
-    @Bind(R.id.swipe_container_FMF)      SwipeRefreshLayout swipeRefreshLayout;
+    @Bind(R.id.recycler_view_FMF)       RecyclerView messagesRecyclerView;
+    @Bind(R.id.tab_layout_FMF)          TabLayout tabLayout;
+    @Bind(R.id.swipe_container_FMF)     SwipeRefreshLayout swipeRefreshLayout;
 
     private MessagesAdapter messagesAdapter;
     private ProgressDialog progressDialog;
     private Boolean isArchive = false;
     private MessagesFilter currentFilter;
+	private ActionBar mActionBar;
+	private EditText etSearch;
 
     @OnClick(R.id.fab_button_FMF)
     void addNewMessage() {
@@ -67,7 +78,7 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
     @Override
     protected void setUpActionBar(ActionBar actionBar) {
         switchToolbarIndicator(true, null);
-
+	    mActionBar = actionBar;
         activity.setActionBarShadowVisible(false);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(R.string.title_messages_feed);
@@ -152,4 +163,34 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
         swipeRefreshLayout.setRefreshing(true);
         presenter.getMessages(currentFilter);
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+	    inflater.inflate(R.menu.menu_feed_messages, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+		    case android.R.id.home:
+			    return true;
+		    case R.id.action_search:
+			    showSearchView();
+			    item.setVisible(false);
+			    return true;
+		    default:
+			    return super.onOptionsItemSelected(item);
+	    }
+    }
+
+	private void showSearchView() {
+		View localView = LayoutInflater.from(activity).inflate(R.layout.custom_actionbar, null);
+		etSearch = (EditText)localView.findViewById(R.id.et_search_CA);
+		mActionBar.setCustomView(localView);
+		mActionBar.setDisplayShowCustomEnabled(true);
+		mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		etSearch.requestFocus();
+		InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+	}
 }
