@@ -94,6 +94,10 @@ public class MessagesFeedPresenter extends BasePresenter<MessagesFeedView> {
         int startPosition = messageModels.size() + 1;
         messagesRequest.setStartIndex(startPosition);
         getMessagesUseCase.execute(messages -> {
+            if (messages.isEmpty()) {
+                actOnView(MessagesFeedView::disableLoadMore);
+                return;
+            }
             showMoreMessagesOnView(messages);
             actOnView(View::hideProgress);
         }, errorHandler, messagesRequest);

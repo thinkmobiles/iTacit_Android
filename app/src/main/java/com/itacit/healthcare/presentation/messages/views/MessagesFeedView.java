@@ -14,6 +14,7 @@ public interface MessagesFeedView extends View {
     void showMessages(List<MessageModel> messages, boolean canArchive);
 
     void showMessageDetails(String id);
+    void disableLoadMore();
     void addMessages(List<MessageModel> messages);
     void removeMessage(String id);
     void showMessagesSummary(Map<MessagesFeedPresenter.MessagesFilter, String> summary);

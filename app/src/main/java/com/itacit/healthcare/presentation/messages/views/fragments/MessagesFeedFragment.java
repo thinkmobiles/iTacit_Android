@@ -42,6 +42,7 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
     @Bind(R.id.swipe_container_FMF)      SwipeRefreshLayout swipeRefreshLayout;
 
     private MessagesAdapter messagesAdapter;
+    private boolean handleScrolls = true;
 
     private RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
         @Override
@@ -51,7 +52,8 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
             if (layoutManager.findFirstVisibleItemPosition() ==
                     layoutManager.getItemCount() - layoutManager.getChildCount()) {
                 messagesRecyclerView.removeOnScrollListener(this);
-                presenter.getMore();
+                if (handleScrolls)  presenter.getMore();
+                handleScrolls = false;
             }
         }
     };
@@ -135,6 +137,7 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
     @Override
     public void addMessages(List<MessageModel> messages) {
         messagesAdapter.addMessages(messages);
+        handleScrolls = true;
         messagesRecyclerView.addOnScrollListener(scrollListener);
     }
 
@@ -152,6 +155,11 @@ public class MessagesFeedFragment extends BaseFragmentView<MessagesFeedPresenter
             messagesAdapter.getMessages().remove(position);
             messagesAdapter.notifyItemRemoved(position);
         }
+    }
+
+    @Override
+    public void disableLoadMore() {
+        messagesRecyclerView.removeOnScrollListener(scrollListener);
     }
 
     @Override
